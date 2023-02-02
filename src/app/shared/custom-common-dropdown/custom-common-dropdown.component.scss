@@ -1,0 +1,26 @@
+:host {
+    display: inline-block;
+  }
+  
+  .data-panel {
+  
+    .ibox-content {
+      max-height: 850px;
+      overflow: auto;
+    }
+  
+    &.docked {
+      margin: 0;
+  
+      .ibox {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+  
+        .ibox-content {
+          overflow: auto;
+        }
+      }
+    }
+  }
+  

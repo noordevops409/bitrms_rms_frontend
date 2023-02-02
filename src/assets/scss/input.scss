@@ -1,0 +1,38 @@
+input {
+    border-style: solid;
+    border-width: 1px;
+    font-family: Open Sans,sans-serif;
+    -webkit-appearance: none;
+    &.nb-transition {
+        transition-duration: .15s;
+        transition-property: border,background-color,color,box-shadow;
+        transition-timing-function: ease-in;
+    }
+
+    &.input-full-width {
+        width: 100%;
+    }
+
+    &.status-basic {
+        background-color: #192038;
+        border-color: #101426;
+        color: #fff;
+    }
+
+    &.size-medium {
+        font-size: .9375rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+        padding: .4375rem 1rem;
+    }
+
+    &.shape-rectangle {
+        border-radius: .25rem;
+    }
+
+    &[type=checkbox],
+    &[type=radio] {
+        box-sizing: border-box;
+        padding: 0;
+    }
+}

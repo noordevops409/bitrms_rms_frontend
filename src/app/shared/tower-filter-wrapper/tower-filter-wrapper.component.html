@@ -1,0 +1,45 @@
+<div class="filter-wrapper" [ngClass]="{'open': isReqToOpenFilter}">
+    <h4>Filters</h4>
+    <div class="filter-criteria">
+        <div class="dropdown-container">
+            <app-filter-wrapper class="filter-container fit-to-parent" [defaultFilterList]="defaultFilterList"
+                [listingType]="1" (onSelectionChange)="onFilterChange($event)"
+                (onFilterChange)="onFilterChange($event)">
+            </app-filter-wrapper>
+        </div>
+        <div class="checkbox-container">
+            <div class="elem-row">
+                <label>Site Type</label>
+                <ul>
+                    <li *ngFor="let item of siteType">
+                        <app-checkbox class="status-basic nb-transition" [inputData]="item">
+                        </app-checkbox>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="elem-row">
+                <label>Site Status</label>
+                <ul>
+                    <li *ngFor="let item of siteStatus">
+                        <app-checkbox class="status-basic nb-transition" [inputData]="item">
+                        </app-checkbox>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="elem-row">
+                <label>Customer</label>
+                <ul>
+                    <li *ngFor="let item of customer">
+                        <app-checkbox class="status-basic nb-transition" [inputData]="item">
+                        </app-checkbox>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="apply-btn">
+        <button class="btn btn-primary" (click)="applyFilter($event);">APPLY</button>
+    </div>
+</div>

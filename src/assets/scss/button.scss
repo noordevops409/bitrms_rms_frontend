@@ -1,0 +1,44 @@
+button {
+    &.nb-button {
+        cursor: pointer;
+        font-family: Open Sans,sans-serif;
+        font-weight: 700;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.375rem #2e3a59;
+        }
+    }
+
+    &.size-medium {
+        font-size: .875rem;
+        line-height: 1rem;
+    }
+
+    &.shape-rectangle {
+        border-radius: .25rem;
+    }
+
+    &.appearance-filled {
+        border-style: solid;
+        border-width: .0625rem;
+        text-transform: uppercase;
+
+        &.size-medium {
+            padding: .6875rem 1.125rem;
+        }
+
+        &.status-danger {
+            background-color: #ff3d71;
+            border-color: #ff3d71;
+            color: #fff;
+            &:hover {
+                background-color: #ff708d;
+                border-color: #ff708d;
+            }
+            &:focus {
+                background-color: #db2c66;
+                border-color: #b81d5b;
+            }
+        }
+    }
+}

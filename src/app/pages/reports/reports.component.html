@@ -1,0 +1,12 @@
+<div class="selection">
+    <label>Report</label>
+    <select class="mini" [(ngModel)]="selectReport" (change)="changeReportType($event);">
+        <option value="/pages/reports/raw-data-report">Raw Data Report</option>
+        <option value="/pages/reports/tee-power-tracker">(TEE) Power Tracker</option>
+        <option value="/pages/reports/hybrid-power-tracker">(Hybrid) Power Tracker</option>
+        <option value="/pages/reports/tee-energy-run-hours">(TEE) Energy and Run Hours</option>
+        <option value="/pages/reports/hybrid-energy-run-hours">(Hybrid) Energy and Run Hours</option>
+    </select>
+</div>
+
+<router-outlet></router-outlet>

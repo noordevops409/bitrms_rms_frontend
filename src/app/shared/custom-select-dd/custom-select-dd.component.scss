@@ -1,0 +1,103 @@
+.filter-dd {
+
+    &.flat {
+        .dropdown-toggle {
+            display: none !important;
+        }
+
+        .dropdown-menu {
+            position: relative !important;
+            border: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+
+            input[type=text] {
+                box-sizing: border-box;
+                width: 100%;
+            }
+        }
+    }
+
+    .dropdown-toggle {
+        max-width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        border-radius: 4px 0 0 4px;
+        margin: 0px;
+        border: 1px solid transparent;
+    }
+
+    &.size-medium {
+        .select-button {
+            font-size: .9375rem;
+            font-weight: 600;
+            line-height: 1.5rem;
+        }
+    }
+    
+    &.shape-rectangle {
+        .select-button {
+            border-radius: .25rem;
+        }
+    }
+    
+    &.appearance-outline {
+        .select-button {
+            border-style: solid;
+            border-width: 1px;
+        }
+    }
+    
+    &.nb-transition {
+        .select-button {
+            transition-duration: 0.15s;
+            transition-property: background-color,border-color,border-radius,box-shadow,color;
+            transition-timing-function: ease-in;
+        }
+    }
+    
+    &.appearance-outline.status-basic {
+        .select-button {
+            background-color: #192038;
+            border-color: #101426;
+            color: #fff;
+            font-weight: normal;
+            &:hover {
+                background-color: #151a30;
+                border-color: #101426;
+            }
+        }
+    }
+    
+    &.appearance-outline.size-medium {
+        .select-button {
+            padding: .4375rem 1rem;
+            padding-right: 2rem;
+        }
+    }
+    
+    .select-button {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: none;
+        white-space: nowrap;
+        padding: .4375rem 2.2rem .4375rem 1.125rem !important;
+        min-width: 6rem;
+        cursor: pointer;
+        font-family: Open Sans,sans-serif;
+        box-shadow: none;
+        width: 150px;
+        text-align: left;
+        font-weight: normal;
+        &.btn.dropdown-toggle::after {
+            position: absolute;
+            right: 15px;
+            top: 16px;
+        }
+    }
+}
+
+

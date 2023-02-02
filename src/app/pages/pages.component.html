@@ -1,0 +1,20 @@
+
+<div class="nb-layout">
+    <div class="window-mode with-scroll">
+        <div class="scrollable-container">
+            <div class="layout">
+                <app-header class="fixed"></app-header>
+                <div class="layout-container">
+                    <app-sidebar class="menu-sidebar start" [isToggle]="isToggle" [ngClass]="{'compacted': isToggle}"></app-sidebar>
+                    <div class="content">
+                        <div class="columns">
+                            <div class="nb-layout-column">
+                                <router-outlet></router-outlet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+:host {
+    margin-bottom: 1rem;
+
+    .label {
+        padding: 0;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        min-height: inherit;
+    }
+
+    .custom-checkbox {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 3px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .text {
+        font-family: Open Sans,sans-serif;
+        font-size: .8125rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+        &:not(:empty) {
+            padding-left: .6875rem;
+        }
+    }
+
+    .native-input:focus:checked+.custom-checkbox {
+        box-shadow: 0 0 0 0.375rem #2e3a59;
+    }
+
+    .nb-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 50%;
+    }
+
+    &.status-basic {
+
+        .native-input:enabled:focus+.custom-checkbox {
+            background-color: rgba(143,155,179,.24);
+            border-color: #8f9bb3;
+        }
+
+        .native-input:enabled:focus+.custom-checkbox.checked {
+            background-color: #274bdb;
+            border-color: #1a34b8;
+        }
+
+        .custom-checkbox {
+            background-color: rgba(143,155,179,.08);
+            border-color: #8f9bb3;
+            &:hover {
+                background-color: rgba(51,102,255,.16);
+                border-color: #36f;
+                &.checked {
+                    background-color: #598bff;
+                    border-color: #598bff;
+                }
+            }
+            &.checked {
+                background-color: #36f;
+                border-color: #36f;
+                .nb-icon {
+                    color: #fff;
+                }
+            }
+        }
+
+        .text {
+            color: #fff;
+        }
+    }
+
+    &.nb-transition {
+
+        .custom-checkbox {
+            transition-duration: 0.15s;
+            transition-property: background-color,border,box-shadow;
+            transition-timing-function: ease-in;
+        }
+
+        .text {
+            transition-duration: 0.15s;
+            transition-property: color;
+            transition-timing-function: ease-in;
+        }
+    }
+}

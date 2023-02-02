@@ -1,0 +1,42 @@
+<div class="filter-wrapper">
+    <form [formGroup]="filterElement">
+        <div class="filter-row">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Start date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="startDate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0px;">
+                <mat-form-field appearance="fill">
+                    <mat-label>End date</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="endDate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary-outline" (click)="reset($event);">Reset</button>
+                <button class="btn btn-primary" (click)="fetch($event);">Fetch</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="chart-container">
+    <div class="box">
+        <div class="box-title">
+            <h4>Performance Dashboard Report</h4>
+        </div>
+
+        <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isLoading}">
+            <div class="ct-chart hourly-chart fuel-consumption" id="websiteViewsChart1"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,681 @@
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute, Params } from "@angular/router";
+import { CommonUtilService } from '../../shared/common-util.service';
+import { BroadcastService } from '../../shared/broadcast.service';
+
+
+import { TOWER_STATUS_COLUMN_HEADER } from './tower-status-column.enum';
+// import { ALARM_STATUS_COLUMN_HEADER } from './alarm-status-column.enum';
+
+import { ApiConstant } from '../../shared/api-constant.enum';
+import { AppConstant } from '../../shared/app-constant.enum';
+
+import * as Chartist from 'chartist';
+
+import 'chartist-plugin-tooltips';
+import 'chartist-plugin-legend';
+
+import { alarmCategory } from '../data/alarm-category';
+import { alarmStatus } from '../data/alarm-status';
+import { clusterMaster } from '../data/cluster-master';
+import { customerMaster } from '../data/customer-master';
+import { deviceTypeMaster } from '../data/device-type-master';
+import { hourlyReport } from '../data/hourly-report';
+import { latestData } from '../data/latest-data';
+import { latestReportStatus } from '../data/latest-report-status';
+import { regionMaster } from '../data/region-master';
+import { siteCodeMaster } from '../data/site-code-master';
+import { siteTypeMaster } from '../data/site-type-master';
+import { zoneMaster } from '../data/zone-master';
+
+import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
+
+  public isLoading: boolean = false;
+  public isListServerError: boolean = false;
+
+  public parentHeight: any = null;
+  public selectedRow: any = null;
+  public multipleSelRow: any = null;
+  public list = [];
+  public list1 = [];
+  public appType: Number = AppConstant.LATEST_DATA1_APP_TYPE;
+  public appType1: Number = AppConstant.ALARM_STATUS_APP_TYPE;
+
+  public activeListing: any = {};
+  public data: any;
+  public listingTemplate: any = {};
+
+  public latestReportStatus: any = null;
+
+  isReqToOpenFilter: boolean = false;
+  isOpenTabularFilter: boolean = false;
+  isExpanded: boolean = false;
+  defaultFilterList: any = [
+    {
+      id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'POST',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [
+        {
+          "rgRegion": "string",
+          "rgRegionID": "string",
+          "znZoneID": "string"
+        }
+      ],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegionID',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: zoneMaster,
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'POST',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [
+        {
+          "rgRegionID": "string",
+          "znZone": "string",
+          "znZoneID": "string"
+        }
+      ],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZoneID',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: clusterMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'POST',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [
+        {
+          "crClusterID": "string",
+          "crName": "string",
+          "znZoneID": "string"
+        }
+      ],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crClusterID',
+        value: 'crName'
+      }
+    },
+    {
+      id: 'FMF04',
+      fieldName: 'siteId',
+      indexField: 'siteId',
+      labelName: 'Site Id',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'siteId',
+      data: siteCodeMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'POST',
+      xhrUrl: ApiConstant.getSiteCode,
+      xhrParam: [
+        {
+          "code": "string"
+        }
+      ],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'code',
+        value: 'code'
+      }
+    }
+  ];
+
+  public isFilterDataLoaded: boolean = false;
+  public isFilterDataLoaded1: boolean = false;
+
+  private sampleData: any = {};
+  private sampleData1: any = {};
+  private currentPageNo: number = 0;
+  private pageSize: number = 10;
+  private recordStartFrom: number = 0;
+  private isMultipleRowSelected: boolean = false;
+
+  private filterParam: any = {
+    clusters: ['All'],
+    customers: ['All'],
+    regions: ['All'],
+    siteId: ['All'],
+    siteStatus: '-1',
+    siteType: ['All'],
+    zones: ['All']
+  };
+
+  private filterParam1: any = {
+    categories: ['All']
+  };
+  private type: any = null;
+
+  constructor(
+    private util: CommonUtilService,
+    private broadcast: BroadcastService,
+    private httpClient: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.init();
+    this.loadChart();
+    this.loadBarChart();
+  }
+
+  ngOnDestroy() {
+
+  }
+
+  init() {
+    this.type = (this.route.snapshot.queryParams as any).type;
+    this.loadTowerLatestData();
+    this.loadLatestReportStatus();
+  }
+
+  refreshLatestStatusData(evt?: any) {
+    this.loadLatestReportStatus();
+  }
+
+  loadLatestReportStatus() {
+    this.httpClient.post(ApiConstant.getLatestReportStatus, {
+      "username": "harish1",
+      "groupByCustomer": false,
+      "groupBySiteType": false,
+      "groupByDeviceType": true
+    }).subscribe((data: any) => {
+      this.setLatestReportStatus(data);
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading latest report data'
+      })
+    })
+  }
+
+  setLatestReportStatus(data: any) {
+    data.percentage = ((data.onlineSite * 100) / data.totalSite).toFixed(2) + '%';
+    this.latestReportStatus = data;
+    this.loadTowerStatusGaugeChart();
+    this.loadMultiLinesLabelChart();
+  }
+
+  loadTowerStatusGaugeChart() {
+    let chartData: any = [
+      {
+        type: "Lineage",
+        total: 900,
+        online: 750,
+        offline: 150
+      },
+      {
+        type: "Delta",
+        total: 400,
+        online: 320,
+        offline: 80
+      },
+      {
+        type: "Statcon",
+        total: 200,
+        online: 175,
+        offline: 25
+      },
+      {
+        type: "Alpha",
+        total: 10,
+        online: 9,
+        offline: 1
+      }
+    ];
+    let totalSite: any = 0;
+    let deviceTypeList: any = chartData.map((item: any) => {
+      return item.type;
+    });
+    let onlineList: any = chartData.map((item: any) => {
+      return item.online;
+    });
+    chartData.map((item: any) => {
+      totalSite += item.total;
+    });
+
+    var data = {
+      labels: [...deviceTypeList],
+      series: [...onlineList]
+    };
+
+    let findItem = (online: any) => {
+      return chartData.filter((item: any) => item.online === online)[0];
+    };
+
+    var options = {
+      labelInterpolationFnc: (value: any) => {
+        value = parseInt(value, 10);
+        let cData = findItem(value);
+        return Math.round(value / cData.total * 100) + '%';
+      },
+      showLabel: true,
+      chartPadding: 30,
+      labelOffset: 50,
+      labelDirection: 'explode',
+      plugins: [
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            // console.log(tooltip);
+            tooltip = parseInt(tooltip, 10);
+            let cData = findItem(tooltip);
+            return Math.round(tooltip / cData.total * 100) + '%';
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ]
+    };
+
+    var responsiveOptions = [
+      ['screen and (min-width: 640px)', {
+        chartPadding: 30,
+        labelOffset: 100,
+        labelDirection: 'explode',
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        }
+      }],
+      ['screen and (min-width: 1024px)', {
+        labelOffset: 80,
+        chartPadding: 20
+      }]
+    ];
+
+    let chart = new Chartist.Pie('#websiteViewsChart2', data, options, responsiveOptions);
+
+    // this.latestReportStatus.offlineSite -= 30;
+    // this.latestReportStatus.onlineSite += 30;
+    // latestReportStatus.onlineSite -= 89;
+    // latestReportStatus.offlineSite += 45;
+    // latestReportStatus.totalSite = latestReportStatus.totalSite + 45 - 89 ; 
+    // let chart = new Chartist.Pie('#websiteViewsChart2', {
+    //   labels: [deviceTypeList],
+    //   series: [onlineList]
+    // }, {
+    //   labelInterpolationFnc: (value) => {
+    //     return Math.round(value / data.series.reduce(totalSite) * 100) + '%';
+    //   }
+    // }, responsiveOptions);
+
+    chart.on('draw', (data: any) => {
+      if (data.type === 'slice') {
+        data.element._node.onclick = (event: any) => this.click(data);
+      }
+    });
+  }
+
+  click(item: any) {
+    // console.log(item);
+    var elem = document.querySelectorAll('.chartist-tooltip.tooltip-show');
+    elem.forEach(item => item.remove());
+    if (item && item.index === 0) {
+      this.router.navigate(['pages', 'dashboard', 'type', '2']);
+    } else if (item.index === 1) {
+      this.router.navigate(['pages', 'dashboard', 'type', '1']);
+    }
+  }
+
+  loadTowerListing($evt?: any, type?: any) {
+    (window as any).localStorage.removeItem('type');
+    (window as any).localStorage.setItem('type', '' + type);
+  }
+
+  loadMultiLinesLabelChart() {
+    let chartData: any = [
+      {
+        type: "Lineage",
+        total: 900,
+        online: 750,
+        offline: 150,
+        onlinePer: '83%'
+      },
+      {
+        type: "Delta",
+        total: 400,
+        online: 320,
+        offline: 80,
+        onlinePer: '80%'
+      },
+      {
+        type: "Statcon",
+        total: 200,
+        online: 175,
+        offline: 25,
+        onlinePer: '88%'
+      },
+      {
+        type: "Alpha",
+        total: 10,
+        online: 9,
+        offline: 1,
+        onlinePer: '90%'
+      }
+    ];
+
+    let deviceTypeList: any = chartData.map((item: any) => {
+      return item.type;
+    });
+
+    let totalList: any = chartData.map((item: any) => {
+      return item.total;
+    });
+
+    let onlineList: any = chartData.map((item: any) => {
+      return item.online;
+    });
+
+    let offlineList: any = chartData.map((item: any) => {
+      return item.offline;
+    });
+
+    new Chartist.Bar('#websiteViewsChart3', {
+      labels: [...deviceTypeList],
+      series: [
+        { name: "Total", data: [...totalList] },
+        { name: "Online", data: [...onlineList] },
+        { name: "Offline", data: [...offlineList] }
+      ]
+    }, {
+      seriesBarDistance: 10,
+      axisX: {
+        offset: 60,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        }
+      },
+      axisY: {
+        offset: 80,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        },
+        scaleMinSpace: 15
+      },
+      plugins: [
+        Chartist.plugins.legend(),
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            return tooltip;
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ]
+    });
+  }
+
+  setFilterParam() {
+    console.log(this.filterParam);
+  }
+
+  loadTowerLatestData() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    const url = ApiConstant.getLatestData;
+    this.httpClient.get(url).subscribe((data: any) => {
+      this.isLoading = false;
+      this.manipulate(data.data);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading Tower Latest Details!'
+      })
+    });
+  }
+
+  manipulate(data: any) {
+    this.setResponse(data);
+    this.setColumnHeader(data);
+    this.setRowData(data);
+    this.activeListing.list = this.sampleData;
+  }
+
+  setResponse(resData: any) {
+    this.sampleData.currentPageNo = this.currentPageNo + 1;
+    this.sampleData.listingType = AppConstant.LATEST_DATA1_LISTING_TYPE;
+    this.sampleData.recordBatchSize = 50 || resData.length;
+    this.sampleData.recordStartFrom = this.recordStartFrom;
+    this.sampleData.sortField = 'smSiteCode';
+    this.sampleData.sortFieldType = 'text';
+    this.sampleData.sortOrder = 'desc';
+    this.sampleData.totalDocs = resData.totalElements || resData.length;
+  }
+
+  setColumnHeader(resData: any) {
+    this.sampleData.columnHeader = [];
+    const colData = resData || [];
+    if (colData.length) {
+      const rowData = colData[0];
+      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      for (let key in rowData) {
+        if (TOWER_STATUS_COLUMN_HEADER[key]) {
+          this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER[key]);
+        }
+      }
+    }
+  }
+
+  setRowData(resData: any) {
+    const data = resData || [];
+    if (data.length) {
+      this.sampleData.data = data;
+    } else {
+      this.sampleData.data = [];
+    }
+  }
+
+  loadChart() {
+    this.httpClient.post(ApiConstant.getPowerSourceCount, {}).subscribe((data: any) => {
+      this.maipulatePieChartData(data);
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading power source data!'
+      })
+    })
+  }
+
+  maipulatePieChartData(data: any) {
+    let label: any = [];
+    let series: any = [];
+    let valueList: any = [];
+    for (let item of data.powersourcedata) {
+      label.push(item[0]);
+      valueList.push(item[2]);
+      if (item[0] === 'AC_power') {
+        series.push({
+          value: item[2],
+          className: "ac-power"
+        });
+      } else if (item[0] === 'DG') {
+        series.push({
+          value: item[2],
+          className: "dc-power"
+        });
+      } else if (item[0] === 'Battery') {
+        series.push({
+          value: item[2],
+          className: "battery-solar"
+        });
+      } else if (item[0] === 'Unknown') {
+        series.push({
+          value: item[2],
+          className: "unknown"
+        });
+      }
+    }
+    this.initPieChart(label, series, valueList);
+  }
+
+
+
+  initPieChart(label: any, series: any, valueList: any) {
+    let sum = (a: any, b: any) => { return a + b };
+    let data: any = {
+      labels: label,
+      series: series
+    };
+
+    let arrayList = valueList;
+    new Chartist.Pie('#websiteViewsChart', data, {
+      labelInterpolationFnc: (value: any) => {
+        return Math.round(value / arrayList.reduce(sum) * 100) + '%';
+      },
+      showLabel: false,
+      chartPadding: 30,
+      labelOffset: 50,
+      labelDirection: 'explode',
+      plugins: [
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            // console.log(tooltip);
+            return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ],
+    });
+  }
+
+  loadBarChart() {
+    new Chartist.Bar('#websiteViewsChart1', {
+      labels: ['Battery', 'DG', 'Hybrid', 'Rectifier', 'Solar', 'Critical'],
+      series: [
+        [1200, 2560, 2120, 2000, 1800, 3220]
+      ]
+    });
+
+  }
+
+  openFilter(evt?: any) {
+    this.isReqToOpenFilter = !this.isReqToOpenFilter;
+  }
+
+  onFilterChange(evt?: any) {
+
+  }
+
+  openTabular(evt?: any) {
+    this.isExpanded = !this.isExpanded;
+  }
+
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  }
+
+  applyFilter(evt?: any) {
+    this.isReqToOpenFilter = false;
+  }
+
+  updateListParam(data: any) {
+    this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
+    this.pageSize = data.pageSize || this.pageSize;
+    this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
+
+    if (data && data.popupTo) {
+      this.applyFilter(data);
+    } else {
+      this.loadTowerLatestData();
+    }
+  }
+
+  loadListing(data: any) {
+    this.updateListParam(data);
+  }
+
+  onRowSelectionChanged(data: any) {
+    if (data && data.length) {
+      this.isMultipleRowSelected = data.length > 1;
+      this.multipleSelRow = data;
+      if (this.isMultipleRowSelected) {
+        // custom business logic
+      } else {
+        this.selectedRow = data;
+      }
+    } else {
+      this.multipleSelRow = null;
+      this.selectedRow = null;
+    }
+  }
+
+}

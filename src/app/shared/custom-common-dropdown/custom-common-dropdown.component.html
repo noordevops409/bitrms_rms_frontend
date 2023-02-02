@@ -1,0 +1,30 @@
+<div class="component-wrapper">
+    <button type="button" class="btn btn-default btn-toggle" [ngClass]="{'disabled': isDisabled}"  #toggleElem (click)="btnToggle();" [title]="btnTitle" [id]="btnId">
+      <i class="fa" *ngIf="btnIcon" [ngClass]="btnIcon"></i>
+      <span *ngIf="btnText">{{btnText}}</span>
+    </button>
+    <main [ngClass]="{'open': isOpen}" #mainElem>
+      <div class="dropdown-menu dropdown-menu-right data-panel docked" *ngIf="isDialog" [ngClass]="{'expanded': isExpanded}" [style.height.px]="parentHeight">
+        <div class="ibox">
+          <div class="ibox-title clearfix">
+            <div class="pull-right">
+              <button class="btn btn-default btn-xs button-expand" *ngIf="isExpandable" (click)="expandCollapse();" [title]="(isExpanded ? 'Minimize' : 'Maximum')">
+                <i class="fa" [ngClass]="{'fa-expand': !isExpanded, 'fa-compress': isExpanded}"></i>
+              </button>
+              <!-- <button class="btn btn-default btn-xs button-dock" *ngIf="!isExpanded && isDockable" (click)="applyDock();" [title]="(isDock ? 'Undock' : 'Dock')">
+                <i class="fa fa-thumbtack"></i>
+              </button> -->
+              <button class="btn btn-default btn-xs close-link" (click)="btnToggle();">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+            <h5>{{ddTitle}}</h5>
+          </div>
+          <div class="ibox-content clearfix">
+            <ng-content></ng-content>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  

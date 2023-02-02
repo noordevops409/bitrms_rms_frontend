@@ -1,0 +1,26 @@
+<div class="listing-container">
+    <div class="listingContainer" #sdEvent>
+        <div class="table-grid scroller-outer">
+            <div class="ghead">
+                <ul>
+                    <li>Last Updated</li>
+                    <li>Power Source</li>
+                    <li>Region</li>
+                    <li>Site ID</li>
+                </ul>
+            </div>
+            <div class="gbody scroller">
+                <div class="list-item-container scroller-inner" [ngClass]="{'aLoader': isLoading}">
+                    <ul *ngFor="let item of dataSource">
+                        <li [title]="item?.lastUpdated">{{item?.lastUpdated}}</li>
+                        <li [title]="item?.powerSource">{{item?.powerSource}}</li>
+                        <li [title]="item?.region">{{item?.region}}</li>
+                        <li [title]="item?.smSiteCode">{{item?.smSiteCode}}</li>
+                    </ul>
+                    <p class="noRecordMsg" *ngIf="!dataSource.length">No record
+                        available!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+export enum INPUT_DATA_TYPE {
+  CO_LATI_LONG = 35,
+  DECIMAL = 8,
+  INTEGER = 7,
+  SURVEY_GRID_REF = 36
+}

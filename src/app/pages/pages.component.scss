@@ -1,0 +1,59 @@
+:host {
+    display: block;
+    height: inherit;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    app-header {
+        &.fixed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+
+            &~.layout-container {
+                padding-top: 4.75rem;
+                min-height: 100vh;
+            }
+        }
+
+        nav {
+            align-items: center;
+            justify-content: flex-start;
+            display: flex;
+        }
+    }
+}
+
+.layout-container {
+    display: flex;
+    flex: 1;
+    -ms-flex: 1 1 auto;
+    flex-direction: row;
+
+    .content {
+        display: flex;
+        flex: 1;
+        -ms-flex: 1 1 auto;
+        flex-direction: column;
+        min-width: 0;
+
+        .columns[_ngcontent-ksc-c105] {
+            display: flex;
+            flex: 1;
+            -ms-flex: 1 1 auto;
+            flex-direction: row;
+            width: 100%;
+
+            .nb-layout-column {
+                order: 1;
+                flex: 1 0;
+                min-width: 0;
+            }
+        }
+    }
+}

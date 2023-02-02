@@ -1,0 +1,26 @@
+<div class="search-filter-main filter-wrap clearfix">
+    <div class="filter-scroll">
+        <div class="relative">
+            <div class="filter-holder">
+                <ng-container *ngFor="let item of defaultFilterList; let i = index">
+                    <span [ngSwitch]="item.dataType" (mouseover)="onMouseover($event)">
+                        <span *ngSwitchCase="'Dropdown'">
+                            <app-custom-select-dd [isOpen]="item.isOpen" [ddData]="item"
+                                (onDropdownClose)="closeFilterDropdown($event)" (onSelectionChange)="doFilter($event)">
+                            </app-custom-select-dd>
+                        </span>
+
+                        <span *ngSwitchCase="'Date'">
+                            <app-custom-date-filter [isOpen]="item.isOpen" [ddData]="item"
+                                (onDropdownClose)="closeFilterDropdown($event)" (onSelectionChange)="doFilter($event)">
+                            </app-custom-date-filter>
+                        </span>
+                        <i class="grp-btn fa fa-close fa-times" title="Clear filter selection"
+                            *ngIf="item.popupTo.data.length" (click)="clearSelection(item, i)"></i>
+                    </span>
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+:host {
+    display: block;
+    height: inherit;
+}
+
+
+.header {
+    .title {
+        font-size: 1rem;
+        margin-bottom: 0px;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+}
+
+.data-container {
+    border-top: 52px solid transparent;
+    height: inherit;
+
+    .listing {
+        .head {
+            background: #222B45;
+
+            ul {
+                position: relative;
+                padding: 10px 24px;
+
+                li {
+                    padding: 0px;
+                }
+            }
+        }
+
+        .body {
+            ul {
+                background-color: #222B45;
+                padding: 10px 24px;
+                li {
+                    padding: 0px;
+                }
+            }
+        }
+    }
+
+    .tab-container {
+        padding: 15px 0px 15px 0px;
+        height: 100%;
+        // border-top: 66px solid transparent;
+    }
+}

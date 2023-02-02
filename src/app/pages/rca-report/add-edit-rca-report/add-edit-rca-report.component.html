@@ -1,0 +1,145 @@
+<h2 mat-dialog-title class="dialog-title">Add RCA Report</h2>
+
+<form [formGroup]="jobForm" class="form add-edit-job-form">
+    <section class="panel-body">
+        <div class="form-container" [ngClass]="{'aLoader': isSubmiting}">
+            <div class="form-group">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Select Date"
+                            formControlName="selectDate" [min]="minDate" [max]="maxDate" [disabled]="disabled">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                            [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian">
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Input Site Down Time"
+                            (dateChange)="calDuration($event);" formControlName="inputSiteDownTime" [min]="minDate"
+                            [max]="maxDate" [disabled]="disabled">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker1 [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                            [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian">
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="picker2" placeholder="Input Restored Time"
+                            (dateChange)="calDuration($event);" formControlName="inputRestoredTime" [min]="minDate"
+                            [max]="maxDate" [disabled]="disabled">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker2 [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                            [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian">
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <div class="form-field col-4">
+                    <label for="selectRegionName" class="label">Select Region</label>
+                    <select formControlName="selectRegionName" name="selectRegionName" class="input-element mini">
+                        <option *ngFor="let c of regionData" [ngValue]="c">{{c.rgRegion}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="selectSiteName" class="label">Select Site Name</label>
+                    <select formControlName="selectSiteName" name="selectSiteName" class="input-element mini">
+                        <option *ngFor="let c of siteList" [ngValue]="c">{{c.siteName}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="enterAnchorOprtr" class="label">Enter AnhorOprtr</label>
+                    <input type="text" formControlName="enterAnchorOprtr" name="enterAnchorOprtr" class="input-element"
+                        placeholder="Enter AnhorOprtr" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-field col-4">
+                    <label for="selectIssueName" class="label">Select Issue</label>
+                    <select formControlName="selectIssueName" name="selectIssueName" class="input-element mini">
+                        <option *ngFor="let c of issueData" [ngValue]="c">{{c.issuename}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="selectOutageCategory" class="label">Select Outage Category</label>
+                    <select formControlName="selectOutageCategory" class="input-element mini">
+                        <option *ngFor="let c of outageData" [ngValue]="c">{{c.outageCategory}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="selectFaultCategory" class="label">Select Fault Category</label>
+                    <select formControlName="selectFaultCategory" class="input-element mini">
+                        <option *ngFor="let c of faultData" [ngValue]="c">{{c.faultCategory}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-field col-4">
+                    <label for="enterRCA" class="label">Enter RCA</label>
+                    <input type="text" formControlName="enterRCA" name="enterRCA" class="input-element"
+                        placeholder="Enter RCA" />
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="enterOutageMinutes" class="label">Enter Outage Minutes</label>
+                    <input type="number" formControlName="enterOutageMinutes" name="enterOutageMinutes"
+                        class="input-element" placeholder="Enter Outage Minutes" />
+                </div>
+
+                <div class="form-field col-4">
+                    <label for="enterSLA" class="label">Enter SLA</label>
+                    <input type="text" formControlName="enterSLA" name="enterSLA" class="input-element"
+                        placeholder="Enter SLA" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-field col-6">
+                    <label for="enterOpcoID" class="label">Enter OPCOID</label>
+                    <input type="text" formControlName="enterOpcoID" name="enterOpcoID" class="input-element"
+                        placeholder="Enter OPCOID" />
+                </div>
+
+                <div class="form-field col-6">
+                    <label for="siteDownDuration" class="label">Site Down Duration</label>
+                    <input type="text" formControlName="siteDownDuration" name="siteDownDuration" class="input-element"
+                        placeholder="Site Down Duration" />
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="footer">
+
+        <mat-dialog-actions style="padding: 15px 10px;">
+            <button class="btn btn-default" (click)="close()">
+                Close
+            </button>
+            <button class="btn btn-primary" [disabled]="jobForm.invalid" (click)="save()">
+                Submit
+                <mat-icon class="imgPreIcon rotating" *ngIf="isSubmiting">
+                    autorenew
+                </mat-icon>
+            </button>
+        </mat-dialog-actions>
+
+    </section>
+</form>

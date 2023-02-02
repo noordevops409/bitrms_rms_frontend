@@ -1,0 +1,100 @@
+<div class="modal-popup site-details">
+    <div class="header popupHeaderBg">
+        <div class="left-side">
+            <h1 class="title">Zone Master Data</h1>
+        </div>
+        <div class="right-side">
+            <a href="javascript:void(0);" (click)="close($event)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
+        <form [formGroup]="masterForm" class="form">
+
+            <div class="form-group d-flex" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Zone Name</mat-label>
+                    <input formControlName="name" required matInput />
+                    <mat-error *ngIf="mf.name.touched && mf.name.invalid">
+                        <div *ngIf="mf.name.errors?.required" class="italicAlign">Name is required.</div>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fullWidth form-field">
+                    <div class="dropdown" [ngClass]="{'open': isRegionDDOpen}">
+                        <button (click)="toggleRegion($event);" class="btn btn-secondary dropdown-toggle" [title]="selRegion ?
+                        selRegion.name : 'Select Region'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+                            aria-expanded="false">{{selRegion ?
+                            selRegion.name : 'Select Region'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li *ngFor="let item of regionList">
+                                <a class="dropdown-item" (click)="selectRegion(item);"
+                                    href="javascript:void(0);">{{item.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-form-field>
+
+                <mat-form-field class="fullWidth form-field">
+                    <div class="dropdown" [ngClass]="{'open': isCountryDDOpen}">
+                        <button (click)="toggleCountry($event);" class="btn btn-secondary dropdown-toggle" [title]="selCountry ?
+                        selCountry.name : 'Select Country'" type="button" id="dropdownMenuButton1"
+                            data-toggle="dropdown" aria-expanded="false">{{selCountry ?
+                            selCountry.name : 'Select Country'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li *ngFor="let item of countryList">
+                                <a class="dropdown-item" (click)="selectCountry(item);"
+                                    href="javascript:void(0);">{{item.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group d-flex" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Enter Acsys Sync Status Name</mat-label>
+                    <input formControlName="acsysSyncStatusName" matInput />
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="fullWidth form-field">
+                    <mat-label>Select Acsys Sync Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="acsysSyncDateName">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="form-field flexField">
+                    <mat-label>Select Acsys Sync Time</mat-label>
+                    <input matInput type="time" formControlName="acsysSyncTimeName" />
+                </mat-form-field>
+            </div>
+
+            <div class="form-group d-flex" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Enter ACC ID Name</mat-label>
+                    <input formControlName="accIdName" matInput />
+                </mat-form-field>
+            </div>
+
+            <div class="footer">
+                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Update
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Add
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

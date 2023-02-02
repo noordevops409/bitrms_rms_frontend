@@ -1,0 +1,108 @@
+:host {
+    display: block;
+    height: 100%;
+  }
+  
+  .listingContainer {
+    height: 100%;
+  
+    .listing-header {
+      background-color: #f1f1f1;
+      position: absolute;
+      display: block;
+      width: 100%;
+      z-index: 2;
+      box-shadow: 0 0 3px 0 #bbb;
+  
+      .settings {
+        padding: 6px 10px 6px 0;
+        line-height: 24px;
+  
+        > * {
+          margin-left: 5px;
+          display: inline-block;
+          vertical-align: top;
+        }
+      }
+    }
+  
+    .table-grid {
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      height: 100%;
+      border-top: 39px solid #ddd;
+      .ghead {
+        position: absolute;
+        width: 100%;
+        background: #222B45;
+        overflow: hidden;
+        ul {
+          position: relative;
+          padding: 10px 24px;
+          li {
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #8F9BB3;
+            font-size: 0.75rem;
+            padding: 0px 36px 0px 0px;
+            b {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+  
+      .gbody {
+        height: 100%;
+        overflow: auto;
+        border-top: 44px solid #fff;
+        background-color: #222B45;
+
+        .list-item-container {
+          ul {
+            padding: 16px 24px;
+          }
+        }
+
+        .repeated-item {
+          padding: 16px 24px;
+        }
+        
+        .pagerDom {
+          text-align: left;
+          padding: 8px 5px 8px 10px;
+          line-height: 1;
+  
+          .record-counter {
+            line-height: 26px;
+            margin-left: 10px;
+          }
+  
+          .pagination {
+            margin: 0;
+            > li {
+              > a {
+                padding: 4px 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    .gfooter {
+      .pagerDom {
+        display: flex;
+        margin-top: 10px;
+        justify-content: space-between;
+        align-items: center;
+  
+        ul {
+          margin-right: 15px;
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+  

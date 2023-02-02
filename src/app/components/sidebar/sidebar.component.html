@@ -1,0 +1,28 @@
+<div class="main-container main-container-fixed" [ngClass]="{'collapse': isToggle}">
+    <div class="scrollable">
+        <div class="nb-menu">
+            <ul class="menu-items">
+                <li *ngFor="let item of menu;let i = index" class="menu-item"
+                    [ngClass]="{'expanded': item.isExpanded, 'active': item.isActive}">
+                    <a href="javascript:void(0);" (click)="menuClick($event, item);">
+						<mat-icon aria-hidden="false" aria-label="Example home icon">{{item.matIcon}}</mat-icon>
+						<span class="menu-title">{{item.value}}</span>
+                        <span class="pull-right-container" *ngIf="item.subMenu"
+                            (click)="expandCollapse($event, item, i);">
+                            <i class="material-icons">keyboard_arrow_left</i>
+                        </span>
+                    </a>
+                    <ng-container *ngIf="item.subMenu && item.subMenu.length">
+                        <ul class="treeview-menu">
+                            <li *ngFor="let sItem of item.subMenu;let j=index" class="sub-menu-item">
+                                <a href="javascript:void(0);" (click)="subMenuClick($event, item, sItem);">
+                                    {{sItem.value}}
+                                </a>
+                            </li>
+                        </ul>
+                    </ng-container>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+
+.list-wrap {
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    background-color: #fff;
+    z-index: 3;
+    .view-holder {
+        height: 100%;
+        // border-bottom: 42px solid #fff;
+        .listing-container {
+            height: 100%;
+        }
+    }
+}
+
+.table-grid {
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 10px 24px;
+        white-space: nowrap;
+        border-bottom: 1px solid #151A30;
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 100%;
+        font-size: 0;
+        // height: 80px;
+        li {
+            vertical-align: middle;
+            display: inline-block;
+            width: 200px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 22px;
+            line-height: 22px;
+            box-sizing: content-box;
+            padding: 5px;
+            font-size: 0.9375rem;
+            color: #fff;
+            padding-right: 36px;
+            * {
+                vertical-align: middle;
+            }
+            input[type=checkbox],
+            input[type=radio] {
+                vertical-align: middle;
+                margin: 0;
+                height: 15px;
+                width: 15px;
+            }
+            img {
+                border: none;
+                outline: 0;
+            }
+        }
+    }
+    .ghead {
+        ul {
+            font-weight: 700;
+            padding-right: 17px;
+            height: 44px;
+            border-top: 1px solid #151A30;
+        }
+    }
+}
+
+adoddle-table-listing {
+    .table-grid {
+        ul {
+            li {
+                height: 26px;
+                line-height: 26px;
+            }
+        }
+    }
+}
+
+.listingContainer {
+    .table-grid {
+        .gbody {
+            // min-height: 500px;
+            // max-height: 500px;
+
+            &::-webkit-scrollbar {
+                width: .3125rem;
+                height: .3125rem
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                background: #101426;
+                cursor: pointer;
+                border-radius: .15625rem
+            }
+            
+            &::-webkit-scrollbar-track {
+                background: #192038
+            }
+        }
+    }
+}

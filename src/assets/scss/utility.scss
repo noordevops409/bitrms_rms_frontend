@@ -1,0 +1,36 @@
+.visually-hidden {
+    position: absolute!important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px,1px,1px,1px);
+}
+
+.nb-transition {
+    transition-duration: 0.15s;
+    transition-property: background-color,border-color,box-shadow,color;
+    transition-timing-function: ease-in;
+}
+
+.nb-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    svg {
+        vertical-align: top;
+    }
+    i {
+        margin-left: -5px;
+    }
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}

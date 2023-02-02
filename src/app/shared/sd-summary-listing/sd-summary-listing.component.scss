@@ -1,0 +1,44 @@
+:host {
+    display: block;
+    padding: 15px 0px;
+}
+
+
+.listing {
+    .head {
+        background: #222B45;
+
+        ul {
+            position: relative;
+            padding: 10px 24px;
+
+            li {
+                padding: 0px 5px;
+                &:first-child {
+                    padding-left: 0px;
+                }
+
+                &:last-child {
+                    padding-right: 0px;
+                }
+            }
+        }
+    }
+
+    .body {
+        ul {
+            background-color: #222B45;
+            padding: 10px 24px;
+            li {
+                padding: 0px 5px;
+                &:first-child {
+                    padding-left: 0px;
+                }
+
+                &:last-child {
+                    padding-right: 0px;
+                }
+            }
+        }
+    }
+}

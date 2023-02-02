@@ -1,0 +1,19 @@
+.global-search {
+    position:relative;
+    top:10px !important;
+    left: 10px !important;
+
+    button {
+        position: absolute;
+        padding: 1px 5px;
+        margin: 0px;
+        top: 6px;
+        right: 10px;
+
+        mat-icon {
+            margin: 0px;
+            height: auto;
+            width: auto;
+        }
+    }
+}

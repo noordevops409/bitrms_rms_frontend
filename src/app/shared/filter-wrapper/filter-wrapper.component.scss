@@ -1,0 +1,109 @@
+:host {
+    &.fit-to-parent {
+        .filter-scroll  {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            text-align: left;
+            z-index: 2;
+            bottom: 0px;
+            overflow: visible;
+
+            .filter-holder {
+                overflow: hidden;
+            }
+        }
+
+    }
+}
+
+.btn {
+    padding: 4px 9px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+}
+
+.filter-list-dd {
+    .dropdown-toggle.filter-selected {
+        border-radius: 4px 0 0 4px;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .filter-dd-toggle {
+        padding-right: 23px;
+        padding-left: 10px;
+        position: relative;
+
+        &::after {
+            display: none;
+        }
+
+        .fa-caret-down {
+            position: absolute;
+            top: 6px;
+            right: 9px;
+        }
+    }
+
+    .save-dd {
+        .more {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            padding-left: 7px;
+            padding-right: 7px;
+
+            &::after {
+                display: none;
+            }
+        }
+
+        .filter-action-menu {
+            .disbled {
+                pointer-events: none;
+            }
+        }
+    }
+
+    .filter-types {
+        padding: 0px;
+        margin: -7px 0px 4px 0px;
+
+        li {
+            display: inline-block;
+            text-align: center;
+            line-height: 26px;
+            width: 50%;
+            border-bottom: 1px solid #ddd;
+
+            a {
+                font-size: 12px;
+                color: #000;
+                padding: 3px 12px;
+                margin: 0px 2px;
+                display: block;
+                text-align: center;
+                border-bottom: 3px solid transparent;
+                text-decoration: none;
+                
+                &:focus,
+                &:hover,
+                &.active {
+                    font-weight: 700;
+                    border-bottom-color: #0098de;
+                }
+            }
+        }
+    }
+}
+
+.filter-action-menu {
+    li {
+        &:not(.disabled):hover {
+            background-color: #f5f5f5;
+        }
+    }
+}
+

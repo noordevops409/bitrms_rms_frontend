@@ -1,0 +1,70 @@
+<div class="modal-popup site-details">
+    <div class="header popupHeaderBg">
+        <div class="left-side">
+            <h1 class="title">Zone Master Data</h1>
+        </div>
+        <div class="right-side">
+            <a href="javascript:void(0);" (click)="close($event)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
+        <form [formGroup]="masterForm" class="form">
+
+            <div class="form-group d-flex" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Enter SIM Number</mat-label>
+                    <input formControlName="simNumber" required matInput />
+                    <mat-error *ngIf="mf.simNumber.touched && mf.simNumber.invalid">
+                        <div *ngIf="mf.simNumber.errors?.required" class="italicAlign">Sim Number is required.</div>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fullWidth form-field">
+                    <div class="dropdown" [ngClass]="{'open': isZoneDDOpen}">
+                        <button (click)="toggleZone($event);" class="btn btn-secondary dropdown-toggle" [title]="selZone ?
+                        selZone.name : 'Select Zone'" type="button" id="dropdownMenuButton1"
+                            data-toggle="dropdown" aria-expanded="false">{{selZone ?
+                                selZone.name : 'Select Country'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li *ngFor="let item of zoneList">
+                                <a class="dropdown-item" (click)="selectZone(item);"
+                                    href="javascript:void(0);">{{item.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group d-flex" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Enter GSM OP ID</mat-label>
+                    <input formControlName="gsmOPID" matInput />
+                </mat-form-field>
+
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Enter Acc ID</mat-label>
+                    <input formControlName="accID" matInput />
+                </mat-form-field>
+            </div>
+
+            <div class="footer">
+                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Update
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Add
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="listing">
+    <div class="head">
+        <ul>
+            <li title="MDG Energy">MDG Energy</li>
+            <li title="DG Energy">DG Energy</li>
+            <li title="OPCO1 Energy">OPCO1 Energy</li>
+            <li title="OPCO2 Energy">OPCO2 Energy</li>
+            <li title="OPCO3 Energy">OPCO3 Energy</li>
+            <li title="OPCO4 Energy">OPCO4 Energy</li>
+            <li title="Total Load DC Energy Consumption">Total Load DC Energy Consumption</li>
+            <li title="Battery Discharging Energy">Battery Discharging Energy</li>
+            <li title="Battery Charging Energy">Battery Charging Energy</li>
+            <li title="Community Load Energy">Community Load Energy</li>
+            <li title="Tele Energy">Tele Energy</li>
+            <li title="Inverter Energy">Inverter Energy</li>
+            <li title="Solar Output Energy">Solar Output Energy</li>
+            <li title="Solar Input Energy">Solar Input Energy</li>
+        </ul>
+    </div>
+    <div class="body">
+        <ul>
+            <li [title]="data?.totalDailyMdgEnergy">{{data?.totalDailyMdgEnergy}}</li>
+            <li [title]="data?.totalDailyDgEnergy">{{data?.totalDailyDgEnergy}}</li>
+            <li [title]="data?.totalDailyOpco1Energy">{{data?.totalDailyOpco1Energy}}</li>
+            <li [title]="data?.totalDailyOpco2Energy">{{data?.totalDailyOpco2Energy}}</li>
+            <li [title]="data?.totalDailyOpco3Energy">{{data?.totalDailyOpco3Energy}}</li>
+            <li [title]="data?.totalDailyOpco4Energy">{{data?.totalDailyOpco4Energy}}</li>
+            <li [title]="data?.totalDailyTotal_DCLoad_Energy_consumption">{{data?.totalDailyTotal_DCLoad_Energy_consumption}}</li>
+            <li [title]="data?.totalDailyBatt_DisEnergy">{{data?.totalDailyBatt_DisEnergy}}</li>
+            <li [title]="data?.totalDailyBatt_ChargingEnergy">{{data?.totalDailyBatt_ChargingEnergy}}</li>
+            <li [title]="data?.totalDailyCommunityLoad_Energy">{{data?.totalDailyCommunityLoad_Energy}}</li>
+            <li [title]="data?.totalDailyTeleEnergy">{{data?.totalDailyTeleEnergy}}</li>
+            <li [title]="data?.totalDailyInverterEnergy">{{data?.totalDailyInverterEnergy}}</li>
+            <li [title]="data?.totalDailySolar_Input_Energy">{{data?.totalDailySolar_Input_Energy}}</li>
+            <li [title]="data?.totalDailySolar_Output_Energy">{{data?.totalDailySolar_Output_Energy}}</li>
+        </ul>
+    </div>
+</div>

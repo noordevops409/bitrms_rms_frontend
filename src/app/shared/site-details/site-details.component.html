@@ -1,0 +1,46 @@
+<div class="parent-container">
+    <div class="header">
+        <h1 class="title">Performance Dashboard Report Site: {{siteId}}</h1>
+    </div>
+
+    <div class="data-container" [ngClass]="{'aLoader': isLoading}">
+        <div class="listing">
+            <div class="head">
+                <ul>
+                    <li>Last Updated</li>
+                    <li>Power Source</li>
+                    <li>Region</li>
+                    <li>Site ID</li>
+                    <li>Site Name</li>
+                    <li>Engineer Name</li>
+                </ul>
+            </div>
+            <div class="body">
+                <ul>
+                    <li [title]="siteData?.lastUpdated">{{siteData?.lastUpdated}}</li>
+                    <li [title]="siteData?.powerSource">{{siteData?.powerSource}}</li>
+                    <li [title]="siteData?.region">{{siteData?.region}}</li>
+                    <li [title]="siteData?.smSiteCode">{{siteData?.smSiteCode}}</li>
+                    <li [title]="siteData?.siteName">{{siteData?.siteName}}</li>
+                    <li [title]="siteData?.engineerName">{{siteData?.engineerName}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <!-- Tab starts -->
+            <mat-tab-group (selectedTabChange)="tabChanged($event);" [selectedIndex]="selTabIndex">
+                <mat-tab *ngFor="let tab of tabs" [label]="tab?.displayName?.name">
+                    <ng-template matTabContent>
+                        <app-sd-summary-listing [data]="siteData" *ngIf="tab?.component === 'app-sd-summary-listing'"></app-sd-summary-listing>
+                        <app-sd-energy-listing [tabData]="selTabData" [smSiteCode]="siteId" *ngIf="tab?.component === 'app-sd-energy-listing'"></app-sd-energy-listing>
+                        <app-sd-event [type]="tab.type" [smSiteCode]="data.params.smSiteCode" *ngIf="tab?.component === 'app-sd-event'"></app-sd-event>
+                        <app-sd-fuel-consumption [type]="tab.type" [value]="tab.value" [smSiteCode]="data.params.smSiteCode"  *ngIf="tab?.component === 'app-sd-fuel-consumption'"></app-sd-fuel-consumption>
+                        <app-sd-no-load-outage [type]="tab.type" [value]="tab.value" [smSiteCode]="data.params.smSiteCode" *ngIf="tab?.component === 'app-sd-no-load-outage'"></app-sd-no-load-outage>
+                        <!-- <app-sd-remote [type]="tab.type" *ngIf="tab?.component === 'app-sd-remote'"></app-sd-remote> -->
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute, Params, NavigationEnd } from "@angular/router";
+
+import { CommonUtilService } from '../shared/common-util.service';
+import { AppConstant } from '../shared/app-constant.enum';
+import { ApiConstant } from '../shared/api-constant.enum';
+
+import { BroadcastService } from './broadcast.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ListingApiService {
+
+  retainNoOfShow: number = (window as any)['retainNoOfShow'] || 10;
+  lazyLoadBatchSize: number = this.retainNoOfShow;
+
+  private $: any = (window as any)['$'];
+
+  constructor(
+    private util: CommonUtilService,
+    private broadcast: BroadcastService,
+    private router: Router
+  ) { }
+
+  removeSelected_Assoc(array: any, el: any, index: any, callback: any) {
+    if (!array) {
+      return;
+    }
+
+    if (el === 'all') {
+      array.length = 0;
+    } else {
+      el.closest('.repeated-item').remove();
+      // tslint:disable-next-line: no-unused-expression
+      array && array.splice(index, 1);
+    }
+
+    // tslint:disable-next-line: no-unused-expression
+    callback && callback(array, el, index);
+  }
+
+  getColumnDataByFieldName(columns: any, fieldName: any) {
+    if (!columns || !columns.length) {
+      return {};
+    }
+    const filtered = columns.filter((val: any) => {
+      return val.fieldName === fieldName;
+    });
+    if (!filtered.length) {
+      return {};
+    }
+    return filtered[0];
+  }
+
+  viewSiteDetails(data: any) {
+    this.router.navigate(['pages', 'dashboard', 'prfdash', data.smSiteCode]);
+  }
+
+  loadSiteDetails(data: any) {
+    data.isForViewDetails = false;
+    data.isForLoadOtherDetails = true;
+    this.broadcast.broadcast('SET_SELECTED_ROW', data);
+  }
+
+  editRCAReportDetails(data: any) {
+    this.router.navigate(['pages', 'rca-report', 'edit', data.rcaid]);
+  }
+}

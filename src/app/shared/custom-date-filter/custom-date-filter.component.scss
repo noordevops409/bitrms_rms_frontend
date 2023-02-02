@@ -1,0 +1,51 @@
+.date-range {
+    width: auto;
+    .dp {
+        cursor: pointer;
+        font-size: 12px;
+        background-color: #fff !important;
+    }
+}
+
+.filter-dd  {
+
+    &.flat {
+        .dropdown-toggle {
+            display: none !important;
+        }
+
+        .dropdown-menu {
+            position: relative !important;
+            border: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+
+            label {
+                display: inline-block;
+                margin-bottom: 0px;
+                vertical-align: middle;
+            }
+            input[type=radio] {
+                margin: 0px;
+            }
+
+            input[ngbdatepicker] {
+                border-radius: 4px;
+                border: 1px solid #cccccc;
+            }
+            .range-button {
+                .btn {
+                    padding: 4px 12px;
+                }
+            }
+        }
+    }
+
+    .dropdown-toggle {
+        max-width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        border-radius: 4px 0 0 4px;
+    }
+}

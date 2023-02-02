@@ -1,0 +1,84 @@
+:host {
+    display: block;
+    height: inherit;
+    position: relative;
+}
+
+.dialog-title {
+    /* margin: 0 0 20px; */
+    display: block;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #151a30;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #fff;
+    font-family: Open Sans, sans-serif;
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    position: absolute;
+    width: 100%;
+    height: 57px;
+}
+
+form {
+    height: inherit;
+    border-top: 57px solid transparent;
+}
+
+.panel-body {
+    height: inherit;
+    padding: 15px 10px;
+    overflow: auto;
+    border-bottom: 88px solid transparent;
+
+    .form-container {
+        border-bottom: none;
+
+        &::-webkit-scrollbar {
+            width: .3125rem;
+            height: .3125rem
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #101426;
+            cursor: pointer;
+            border-radius: .15625rem
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #192038
+        }
+
+        input,
+        select {
+            color: #fff;
+        }
+
+        input {
+            &::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 1;
+                /* Firefox */
+            }
+
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: #fff;
+            }
+
+            &::-ms-input-placeholder {
+                /* Microsoft Edge */
+                color: #fff;
+            }
+        }
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+}

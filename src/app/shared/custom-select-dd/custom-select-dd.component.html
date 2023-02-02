@@ -1,0 +1,41 @@
+<div
+  class="btn-group dropdown filter-dd appearance-outline size-medium status-basic shape-rectangle nb-transition"
+  [ngClass]="{'flat' : hideTriggerEl}" #dropDown="ngbDropdown" ngbDropdown (openChange)="onToggle($event)"
+  [placement]="placement" [autoClose]="'outside'">
+  <button class="btn btn-default dropdown-toggle select-button" type="button" ngbDropdownToggle [title]="dd.title">
+    <span>{{ddData.labelName + ': ' + dd.text}}</span>
+  </button>
+  <div class="dropdown-menu filter-dd-menu" ngbDropdownMenu #ddEl>
+    <div [ngClass]="{aLoader: dd.list.xhr, failed: (dd.list.xhr.status && dd.list.xhr.status != -1)}">
+      <div class="inpt-wrap clearfix"
+        [style.display]="(!backup || !backup.length) && !dd.list.data.length ? 'none' : 'block'">
+        <input type="text" #$searchInput class="form-control search-input" [(ngModel)]="dd.search.value"
+          (keyup)="search()" placeholder="Search" />
+        <i class="i-search fa" (click)="clearSearch()"
+          [ngClass]="{'fa-search': !dd.list.searchxhr && !dd.search.value, 'fa-close': !dd.list.searchxhr && dd.search.value, 'fa-refresh fa-spin fa-3x fa-fw': dd.list.searchxhr && dd.search.value}"></i>
+      </div>
+      <div class="link-wrap clearfix" [style.display]="!dd.list.data.length || dd.search.value ? 'none' : 'block'">
+        <a href="javascript:void(0)" class="pull-left" (click)="clear()">Clear</a>
+        <a href="javascript:void(0)" class="pull-right" (click)="closeDropdown()">Close</a>
+        <!-- <a href="javascript:void(0)" [style.display]="dd.dynamic && dd.limited ? 'block' : 'none'"
+                (click)="showAll()">
+                {{ 'show-all' | translate }}
+              </a> -->
+      </div>
+      <ul class="opt-list">
+        <li class="dropdown-header" *ngIf="dd.dynamic && dd.limited && dd.list.data.length && !dd.search.value">
+          {{dd.suggestionLabel}}
+        </li>
+        <ng-container>
+          <li *ngFor="let opt of dd.list.data;trackBy: trackBy">
+            <a href="javascript:void(0)" [ngClass]="{checked: opt.isSelected}" (click)="select(opt)"
+              [title]="opt.value">
+              <span>{{opt.value}}</span>
+            </a>
+          </li>
+        </ng-container>
+        <li class="dropdown-header text-center" *ngIf="!dd.list.data.length">No match found</li>
+      </ul>
+    </div>
+  </div>
+</div>

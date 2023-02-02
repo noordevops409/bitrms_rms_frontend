@@ -1,0 +1,22 @@
+:host {
+    display: block;
+    height: inherit;
+}
+
+.login-container {
+    display: flex;
+    width: 650px;
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto;
+    height: inherit;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+        margin-right: 15px;
+    }
+}

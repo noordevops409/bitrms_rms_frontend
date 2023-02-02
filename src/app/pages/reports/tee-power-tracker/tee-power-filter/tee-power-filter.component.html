@@ -1,0 +1,38 @@
+<div class="filter-wrapper" [ngClass]="{'open': isReqToOpenFilter}">
+    <h4>Filters</h4>
+    <div class="filter-criteria">
+        <div class="dropdown-container">
+            <app-filter-wrapper class="filter-container fit-to-parent" [defaultFilterList]="defaultFilterList"
+                [listingType]="1" (onSelectionChange)="onFilterChange($event)"
+                (onFilterChange)="onFilterChange($event)">
+            </app-filter-wrapper>
+        </div>
+        <!-- <div class="checkbox-container">
+            <div class="elem-row">
+                <label>Site Type</label>
+                <ul>
+                    <li *ngFor="let item of siteType">
+                        <app-checkbox class="status-basic nb-transition" [inputData]="item">
+                        </app-checkbox>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="elem-row">
+                <label>Date</label>
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate placeholder="Start date">
+                        <input matEndDate placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+        </div> -->
+    </div>
+    <div class="apply-btn">
+        <button class="btn btn-primary" (click)="applyFilter($event);">APPLY</button>
+    </div>
+</div>

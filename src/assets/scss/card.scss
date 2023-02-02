@@ -1,0 +1,33 @@
+.card {
+    background-color: #222b45;
+    border: .0625rem solid #101426;
+    border-radius: .25rem;
+    box-shadow: none;
+    color: #fff;
+    font-family: Open Sans,sans-serif;
+    font-size: .9375rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    margin-bottom: 1.875rem;
+    .card-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #151a30;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #fff;
+        font-family: Open Sans,sans-serif;
+        font-size: .9375rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+    }
+
+    .card-body {
+        flex: 1;
+        -ms-flex: 1 1 auto;
+        overflow: auto;
+        padding: 1rem 1.5rem;
+        position: relative;
+        scrollbar-face-color: #101426;
+        scrollbar-track-color: #192038;
+    }
+}

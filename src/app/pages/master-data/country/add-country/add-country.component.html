@@ -1,0 +1,42 @@
+<div class="modal-popup site-details">
+    <div class="header popupHeaderBg">
+        <div class="left-side">
+            <h1 class="title">Country Master Data</h1>
+        </div>
+        <div class="right-side">
+            <a href="javascript:void(0);" (click)="close($event)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
+        <form [formGroup]="masterForm" class="form">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <mat-form-field class="fullWidth form-field">
+                    <mat-label>Country Name</mat-label>
+                    <input formControlName="name" required matInput />
+                    <mat-error *ngIf="mf.name.touched && mf.name.invalid">
+                        <div *ngIf="mf.name.errors?.required" class="italicAlign">Name is required.</div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="footer">
+                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Update
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Add
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

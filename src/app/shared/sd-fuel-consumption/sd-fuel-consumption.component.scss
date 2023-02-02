@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    padding: 15px 0px;
+}
+
+.filter-wrapper {
+    display: block;
+    form {
+        display: block;
+        .filter-row {
+            display: block;
+            .form-group {
+                display: inline-block;
+                margin-right: 50px;
+                button {
+
+                }
+            }
+        }
+    }
+}

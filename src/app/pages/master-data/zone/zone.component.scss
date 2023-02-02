@@ -1,0 +1,40 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.parent-container {
+
+    height: 100%;
+    overflow: auto;
+    position: relative;
+
+    &::-webkit-scrollbar {
+        width: .3125rem;
+        height: .3125rem
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #101426;
+        cursor: pointer;
+        border-radius: .15625rem
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #192038
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        padding: 0px 36px;
+        background-color: transparent;
+        z-index: 1;
+    }
+}
+

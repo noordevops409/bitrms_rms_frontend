@@ -1,0 +1,48 @@
+:host {
+    background-color: #222b45;
+    color: #fff;
+    font-family: Open Sans,sans-serif;
+    font-size: .9375rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    display: block;
+
+    nav {
+        color: #fff;
+        box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+        height: 4.75rem;
+        padding: 1.25rem 0.7rem;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .header-container {
+                display: flex;
+                align-items: center;
+                width: auto;
+
+                .logo-container {
+                    display: flex;
+                    align-items: center;
+                    width: calc(16rem - 1.25rem);
+                }
+
+                .sidebar-toggle {
+                    text-decoration: none;
+                    color: #8f9bb3;
+                    margin-right: 1.25rem;
+                }
+
+                .logo {
+                    padding: 0 1.25rem;
+                    font-size: 1.75rem;
+                    white-space: nowrap;
+                    text-decoration: none;
+                    border-left: 1px solid #151a30;
+                }
+            }
+        }
+    }
+}

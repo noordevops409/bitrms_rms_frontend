@@ -1,0 +1,33 @@
+<div class="btn-group dropdown filter-dd" [ngClass]="{'flat' : hideTriggerEl}" #dropDown="ngbDropdown" ngbDropdown (openChange)="onToggle($event)"
+  [placement]="placement" [autoClose]="'outside'">
+  <button class="btn btn-default dropdown-toggle" type="button" ngbDropdownToggle [title]="dd.title">
+    <span>{{ddData.labelName + ': ' + dd.title}}</span>
+  </button>
+  <div class="dropdown-menu filter-dd-menu date-range" ngbDropdownMenu #ddEl>
+    <div name="dateRangeForm" class="form-horizontal" novalidate="novalidate">
+      <div class="between" (click)="onRadioChange('Between')">
+        <label>
+          <input type="radio" value="Between" name="datecompo{{name}}" [(ngModel)]="dd.targetId" />
+          Between
+        </label>
+        <span (click)="d2.close();onRadioChange('Between');$event.stopPropagation();">
+          <input class="dp form-control" name="dp" [(ngModel)]="dd.fromVal" ngbDatepicker #d1="ngbDatepicker"
+            [placement]="['bottom-left', 'bottom-right']" readonly (click)="d1.toggle()" (dateSelect)="d1.close();"
+            [autoClose]="'outside'">
+        </span>
+        <span> - </span>
+        <span (click)="d1.close();onRadioChange('Between');$event.stopPropagation();">
+          <input class="dp form-control" name="dp" [(ngModel)]="dd.toVal" ngbDatepicker #d2="ngbDatepicker" [placement]="['bottom-left', 'bottom-right']"
+            readonly (click)="d2.toggle()" (dateSelect)="d2.close();" [autoClose]="'outside'">
+        </span>
+      </div>
+      
+      <div class="range-button">
+        <input type="button" name="btnupdate" class="btn btn-mini btn-danger" value="Update" 
+            [disabled]="!valid()" (click)="update()" />
+        <input type="button" name="btnreset" class="btn btn-mini btn-inverse pull-right" value="Reset" 
+            (click)="reset()" />
+      </div>
+    </div>
+  </div>
+</div>

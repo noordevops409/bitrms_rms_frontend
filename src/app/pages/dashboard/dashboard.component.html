@@ -1,0 +1,166 @@
+<div class="parent-container" [ngClass]="{'expanded': isExpanded}">
+    <div class="row summary-data">
+        <div class="col-6">
+            <div class="box online-stat">
+                <div class="box-title">
+                    <h4>Tower Status</h4>
+                </div>
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <!-- <div class="total">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '3']"
+                                        (click)="loadTowerListing($event, 3);" target="_blank">
+                                        <label>Total</label>
+                                        <p>{{latestReportStatus?.totalSite}}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div> -->
+                        <div class="ct-chart" id="websiteViewsChart2"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>&nbsp;</li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <div class="left-side col-10">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '1']"
+                                    (click)="loadTowerListing($event, 1);" target="_blank">
+                                    <label>Online</label>
+                                    <p>{{latestReportStatus.onlineSite}}</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '2']"
+                                    (click)="loadTowerListing($event, 2);" target="_blank">
+                                    <label>Offline</label>
+                                    <p>{{latestReportStatus.offlineSite}}</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [style.width]="latestReportStatus.percentage"
+                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="box tower-chart">
+                <div class="box-title">
+                    <h4>Tower Information</h4>
+                </div>
+                <div class="box-body" [ngClass]="{'open': isReqToOpenFilter}">
+                    <div class="ct-chart" id="websiteViewsChart"></div>
+                    <app-tower-filter-wrapper [filterType]=1 [(isReqToOpenFilter)]="isReqToOpenFilter"
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                    </app-tower-filter-wrapper>
+                </div>
+                <div class="box-footer tower-actions-btn">
+                    <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
+                    <button class="btn btn-primary" (click)="openFilter($event);">FILTERS</button>
+                </div>
+            </div>
+
+            <div class="box online-stat">
+                <div class="box-title">
+                    <h4>Tower Status: Multi Lines Label</h4>
+                </div>
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <div class="ct-chart" id="websiteViewsChart3"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>&nbsp;</li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-6 google-chart">
+            <!-- <app-google-data-studio [isReqToShowTowerList]="false"></app-google-data-studio> -->
+        </div>
+
+
+
+        <!-- <div class="col-5">
+            <div class="box tower-chart">
+                <div class="box-title">
+                    <h4>Alarm Information</h4>
+                </div>
+                <div class="box-body">
+                    <div class="total-count">
+                        <label>Total Alarms</label>
+                        <p>3773</p>
+                    </div>
+                    <div class="ct-chart" id="websiteViewsChart1"></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- <div class="row summary-data">
+        <div class="col-6">
+
+        </div>
+    </div> -->
+
+    <div class="tower-listing">
+        <div class="header">
+            <div class="back-filter">
+                <button class="btn btn-default" (click)="openTabular($event);">
+                    <span class="material-icons">
+                        arrow_back_ios
+                    </span> DASHBOARD
+                </button>
+                <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            </div>
+            <div class="export">
+                <label>Export</label>
+                <select class="mini">
+                    <option value="1">Excel</option>
+                    <option value="2">CSV</option>
+                    <option value="3">PDF</option>
+                </select>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">
+                <h4>Tower Status</h4>
+            </div>
+            <div class="box-body">
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                    </app-tower-filter-wrapper>
+                </div>
+                <div class="list-wrap">
+                    <div class="view-holder">
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

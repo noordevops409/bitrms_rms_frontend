@@ -1,0 +1,262 @@
+<div class="filter-wrapper">
+
+    <form class="form add-edit-job-form">
+        <div class="form-container">
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isIntervalDDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Interval: {{selInterval.label}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li *ngFor="let item of intervalList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectInterval($event, item);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries1DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series1 ?
+                        selSeries.series1.label : 'Choose...'" type="button" id="dropdownMenuButton1"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 1: {{selSeries.series1 ?
+                            selSeries.series1.label : 'Choose...'}} </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li *ngFor="let item of series1">
+                                <a class="dropdown-item" href="javascript:void(0);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries2DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series2 ?
+                        selSeries.series2.label : 'Choose...'" type="button" id="dropdownMenuButton2"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 2: {{selSeries.series2 ?
+                            selSeries.series2.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 2);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries3DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series3 ?
+                        selSeries.series3.label : 'Choose...'" type="button" id="dropdownMenuButton3"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 3: {{selSeries.series3 ?
+                            selSeries.series3.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 3);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries4DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series4 ?
+                        selSeries.series4.label : 'Choose...'" type="button" id="dropdownMenuButton4"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 4: {{selSeries.series4 ?
+                            selSeries.series4.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 4);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries5DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series5 ?
+                        selSeries.series5.label : 'Choose...'" type="button" id="dropdownMenuButton5"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 5: {{selSeries.series5 ?
+                            selSeries.series5.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 5);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries6DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series6 ?
+                        selSeries.series6.label : 'Choose...'" type="button" id="dropdownMenuButton6"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 6: {{selSeries.series6 ?
+                            selSeries.series6.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 6);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-field col-4">
+                    <div class="dropdown" [ngClass]="{'open': isSeries7DDOpen}">
+                        <button class="btn btn-secondary dropdown-toggle" [title]="selSeries.series7 ?
+                        selSeries.series7.label : 'Choose...'" type="button" id="dropdownMenuButton7"
+                            data-toggle="dropdown" aria-expanded="false">
+                            Series 7: {{selSeries.series7 ?
+                            selSeries.series7.label : 'Choose...'}}</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
+                            <li *ngFor="let item of filterSeriesList">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    (click)="selectSeries($event, item, 7);">{{item.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group filter-row" style="margin-bottom: 0px;">
+                <ng-container *ngIf="selInterval.value == 1 || selInterval.value == 4">
+
+                    <mat-form-field class="form-field" style="margin-right: 20px;" appearance="fill">
+                        <mat-label>Start date</mat-label>
+                        <input matInput [matDatepicker]="picker" [formControl]="startDate" placeholder="Start Date" />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-field" style="margin-right: 20px;" appearance="fill">
+                        <mat-label>End date</mat-label>
+                        <input matInput [matDatepicker]="picker1" [formControl]="endDate" placeholder="End Date" />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                </ng-container>
+
+                <ng-container *ngIf="selInterval.value == 2">
+                    <mat-form-field class="form-field" style="margin-right: 20px;">
+                        <mat-label>Start Month</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="Month and Year"
+                            [formControl]="startDate" />
+                        <mat-hint>MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker startView="multi-year" panelClass="example-month-picker"
+                            (yearSelected)="chosenStartYearHandler($event)"
+                            (monthSelected)="chosenStartMonthHandler($event, picker)"></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-field" style="margin-right: 20px;">
+                        <mat-label>End Month</mat-label>
+                        <input matInput [matDatepicker]="picker1" placeholder="Month and Year"
+                            [formControl]="endDate" />
+                        <mat-hint>MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1 startView="multi-year" panelClass="example-month-picker"
+                            (yearSelected)="chosenEndYearHandler($event)"
+                            (monthSelected)="chosenEndMonthHandler($event, picker1)"></mat-datepicker>
+                    </mat-form-field>
+                </ng-container>
+
+                <ng-container *ngIf="selInterval.value === 3">
+                    <div class="form-field col-4">
+                        <app-year-picker [formControl]="_yearPickerCtrl"></app-year-picker>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="selInterval.value === 4">
+                    <div class="form-field col-4">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Start date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="startDate">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+
+                <div class="form-field col-4">
+                    <button class="btn btn-primary-outline" (click)="reset($event);">Reset</button>
+                    <button class="btn btn-primary" [disabled]="isListingLoading || isChartLoading"
+                        (click)="fetch($event);">
+                        Fetch
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isListingLoading || isChartLoading">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="listing-container">
+    <div class="listing">
+        <div class="head">
+            <ul>
+                <li>#</li>
+                <li>Daily Energy (kWh)</li>
+                <li>Weekly Energy (kWh)</li>
+                <li>Monthly Energy (kWh)</li>
+                <li>Yearly Energy (kWh)</li>
+                <li>Lifetime Energy (kWh)</li>
+            </ul>
+        </div>
+
+        <div class="body" [ngClass]="{'aLoader': isListingLoading}">
+            <ul>
+                <li>#</li>
+                <li>{{listData?.daily}}</li>
+                <li>{{listData?.weekly}}</li>
+                <li>{{listData?.monthly}}</li>
+                <li>{{listData?.yearly}}</li>
+                <li>{{listData?.lifetime}}</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="chart-container">
+    <div class="box">
+        <div class="box-title">
+            <h4>Performance Dashboard Report</h4>
+        </div>
+
+        <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isChartLoading}">
+            <div class="ct-chart hourly-chart energy-listing" id="websiteViewsChart1"></div>
+        </div>
+    </div>
+</div>

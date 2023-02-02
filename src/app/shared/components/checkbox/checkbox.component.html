@@ -1,0 +1,9 @@
+<label class="label">
+    <input type="checkbox" class="native-input visually-hidden" />
+    <span class="custom-checkbox" [ngClass]="{'checked': inputData.isChecked}" (click)="onChangeEvent($event);">
+        <span class="nb-icon" *ngIf="inputData.isChecked">
+            <i class="bi bi-check2"></i>
+        </span>
+    </span>
+    <span class="text" (click)="onChangeEvent($event);">{{inputData.text}}</span>
+</label>
