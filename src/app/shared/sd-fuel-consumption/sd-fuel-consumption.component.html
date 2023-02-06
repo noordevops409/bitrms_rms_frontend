@@ -1,29 +1,33 @@
 <div class="filter-wrapper">
-    <form [formGroup]="filterElement">
-        <div class="filter-row">
-            <div class="form-group" style="margin-bottom: 0px;">
-                <mat-form-field appearance="fill">
+
+    <form class="form add-edit-job-form">
+        <div class="form-container">
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
+                <mat-form-field class="form-field col-4" appearance="fill">
                     <mat-label>Start date</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="startDate">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-            </div>
 
-            <div class="form-group" style="margin-bottom: 0px;">
-                <mat-form-field appearance="fill">
+                <mat-form-field class="form-field col-4" appearance="fill">
                     <mat-label>End date</mat-label>
                     <input matInput [matDatepicker]="picker1" formControlName="endDate">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
-            </div>
 
-            <div class="form-group">
-                <button class="btn btn-primary-outline" (click)="reset($event);">Reset</button>
-                <button class="btn btn-primary" (click)="fetch($event);">Fetch</button>
+                <div class="form-field col-4">
+                    <button class="btn btn-primary-outline" (click)="reset($event);">Reset</button>
+                    <button class="btn btn-primary" [disabled]="isLoading" (click)="fetch($event);">
+                        Fetch
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isLoading">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
     </form>
@@ -37,6 +41,19 @@
 
         <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isLoading}">
             <div class="ct-chart hourly-chart fuel-consumption" id="websiteViewsChart1"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="chart-container">
+    <div class="box">
+        <div class="box-title">
+            <h4>Power Source</h4>
+        </div>
+
+        <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isLoading}">
+            <div class="ct-chart hourly-chart power-source" id="websiteViewsChart2"></div>
         </div>
     </div>
 </div>

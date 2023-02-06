@@ -218,6 +218,10 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
 
   init() {
     this.selInterval = this.intervalList[0];
+    this.initSerires1();
+  }
+
+  initSerires1() {
     setTimeout(() => {
       this.setSeries1();
       this.setFilterList();
@@ -251,6 +255,15 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
 
   resetFilterList() {
     this.filterSeriesList = JSON.parse(JSON.stringify(this.seriesList));
+    this.selSeries = {
+      series2: null,
+      series3: null,
+      series4: null,
+      series5: null,
+      series6: null,
+      series7: null
+    };
+    this.initSerires1();
   }
 
   toggleInterval(evt?: any) {
@@ -337,6 +350,8 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
   }
 
   reset(evt?: any) {
+    this.startDate.setValue(moment());
+    this.endDate.setValue(moment());
     this.resetFilterList();
   }
 
@@ -409,15 +424,17 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
   }
 
   manipulateTabularData(data) {
-    let kwhMap: any = this.tabData.kwhMap;
-    let obj: any = {
-      daily: data[kwhMap.daily],
-      weekly: data[kwhMap.weekly],
-      monthly: data[kwhMap.monthly],
-      yearly: data[kwhMap.yearly],
-      lifetime: data[kwhMap.lifetime],
-    };
-    this.listData = obj;
+    if (data && Object.keys(data).length) {
+      let kwhMap: any = this.tabData.kwhMap;
+      let obj: any = {
+        daily: data[kwhMap.daily],
+        weekly: data[kwhMap.weekly],
+        monthly: data[kwhMap.monthly],
+        yearly: data[kwhMap.yearly],
+        lifetime: data[kwhMap.lifetime],
+      };
+      this.listData = obj;
+    }
   }
 
   loadPerfReport() {
@@ -439,11 +456,32 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
 
   manipulateChartData(data: any) {
     data.seriesList = [];
-    for (let item of data.dataSets) {
-      let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
-      // let obj: any = { className: cssClass, data: item.data.splice(0, 20) };
-      // let obj: any = [];
-      data.seriesList.push(item.data);
+    // for (let item of data.dataSets) {
+    //   let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
+    //   // let obj: any = { className: cssClass, data: item.data.splice(0, 20) };
+    //   // let obj: any = [];
+    //   data.seriesList.push(item.data);
+    // }
+
+    // for (let i = 0; i < data.labels.length; i++) {
+    //   data.labels.splice(i + 1, 1);
+    // }
+
+    for (let i = 0; i < data.dataSets.length; i++) {
+      let setItem: any = data.dataSets[i];
+      let dataList: any = data.dataSets[i].data;
+      let list: any = [];
+      for (let j = 0; j < dataList.length; j++) {
+        // dataList.splice(j + 1, 1);
+        let item: any = dataList[j];
+        let obj: any = {
+          value: item,
+          meta: setItem.label + ": " + data.labels[j],
+          legend: setItem.label
+        };
+        list.push(obj);
+      }
+      data.seriesList.push(list);
     }
   }
 
@@ -498,6 +536,8 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
 
     var options = {
       fullWidth: true,
+      height: 400,
+      seriesBarDistance: 100,
       chartPadding: {
         right: 10
       },
@@ -510,7 +550,9 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
           legendNames: legendList,
           position: 'bottom'
         }),
-        Chartist.plugins.tooltip()
+        Chartist.plugins.tooltip({
+          appendToBody: true
+        })
       ]
     };
 

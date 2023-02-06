@@ -142,10 +142,10 @@
 
 
 
-            <div class="form-group filter-row" style="margin-bottom: 0px;">
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
                 <ng-container *ngIf="selInterval.value == 1 || selInterval.value == 4">
 
-                    <mat-form-field class="form-field" style="margin-right: 20px;" appearance="fill">
+                    <mat-form-field class="form-field col-4" appearance="fill">
                         <mat-label>Start date</mat-label>
                         <input matInput [matDatepicker]="picker" [formControl]="startDate" placeholder="Start Date" />
                         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -153,9 +153,10 @@
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
-                    <mat-form-field class="form-field" style="margin-right: 20px;" appearance="fill">
+                    <mat-form-field class="form-field col-4" appearance="fill">
                         <mat-label>End date</mat-label>
-                        <input matInput [matDatepicker]="picker1" [formControl]="endDate" placeholder="End Date" />
+                        <input matInput [matDatepicker]="picker1" [min]="startDate?.value" [formControl]="endDate"
+                            placeholder="End Date" />
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
@@ -164,7 +165,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="selInterval.value == 2">
-                    <mat-form-field class="form-field" style="margin-right: 20px;">
+                    <mat-form-field class="form-field col-4">
                         <mat-label>Start Month</mat-label>
                         <input matInput [matDatepicker]="picker" placeholder="Month and Year"
                             [formControl]="startDate" />
@@ -175,7 +176,7 @@
                             (monthSelected)="chosenStartMonthHandler($event, picker)"></mat-datepicker>
                     </mat-form-field>
 
-                    <mat-form-field class="form-field" style="margin-right: 20px;">
+                    <mat-form-field class="form-field col-4">
                         <mat-label>End Month</mat-label>
                         <input matInput [matDatepicker]="picker1" placeholder="Month and Year"
                             [formControl]="endDate" />
@@ -255,7 +256,7 @@
             <h4>Performance Dashboard Report</h4>
         </div>
 
-        <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isChartLoading}">
+        <div class="box-body" style="min-height: 350px;padding: 5px 0px;" [ngClass]="{'aLoader': isChartLoading}">
             <div class="ct-chart hourly-chart energy-listing" id="websiteViewsChart1"></div>
         </div>
     </div>

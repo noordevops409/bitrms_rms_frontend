@@ -718,6 +718,34 @@ app-root {
         }
     }
 
+    .ct-chart-line{
+        overflow: visible;
+    }
+
+    
+
+    .ct-label.ct-label.ct-horizontal.ct-end {
+        position: relative;
+        justify-content: flex-end;
+        text-align: right;
+        transform-origin: 100% 0;
+        transform: translate(-100%) rotate(-45deg);
+        white-space: nowrap;
+    }
+
+    .ct-labels {
+        > foreignObject:nth-child(2n+1) {
+            display: block;
+            span {
+                color: #fff;
+            }
+        }
+
+        > foreignObject:nth-child(2n+2) {
+            display: none;
+        }
+    }
+
     &.fuel-consumption {
         .ct-legend {
             $ct-series-colors: #60fa44;
@@ -756,9 +784,38 @@ app-root {
     }
 
     &.energy-listing {
+
+        .ct-chart .ct-series-a .ct-point {
+            stroke: #00bcd4;
+        }
+
+        .ct-series .ct-series-b .ct-point {
+            stroke: #f44336;
+        }
+
+        .ct-chart .ct-series-c .ct-point {
+            stroke: #ff9800;
+        }
+
+        .ct-series .ct-series-d .ct-point {
+            stroke: #d17905;
+        }
+
+        .ct-chart .ct-series-e .ct-point {
+            stroke: #453d3f;
+        }
+
+        .ct-series .ct-series-f .ct-point {
+            stroke: #59922b;
+        }
+
+        .ct-chart .ct-series-g .ct-point {
+            stroke: #0544d3;
+        }
+
+
         .ct-legend {
-            $ct-series-colors: #00bcd4,
-            #f44336;
+            $ct-series-colors: #00bcd4,#f44336, #ff9800, #d17905, #453d3f, #59922b, #0544d3;
 
             li {
                 color: white;
@@ -772,6 +829,22 @@ app-root {
             }
         }
     }
+}
+
+app-sd-energy-listing {
+    .hourly-chart {
+        .ct-legend {
+            position: absolute;
+            width: 100%;
+            bottom: 10px;
+            left: 0px;
+        }
+    }
+}
+
+.chartist-tooltip {
+    text-align: left;
+    font-weight: normal;
 }
 
 .columns {
