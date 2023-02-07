@@ -1,16 +1,14 @@
 import { Inject, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute, Params } from "@angular/router";
-import { FormGroup, FormArray, FormBuilder, Validators, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import { Router, ActivatedRoute } from "@angular/router";
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
-import { iif, Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { BroadcastService } from '../../shared/broadcast.service';
 import { CommonUtilService } from '../../shared/common-util.service';
 import { ApiConstant } from '../../shared/api-constant.enum';
@@ -171,6 +169,32 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
   public startDate: any = new FormControl(moment());
   public endDate: any = new FormControl(moment());
   public listData: any = null;
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom"
+      },
+      tooltip: {
+        callbacks: {
+          labelColor: (context) => {
+            let dataSet: any = context.dataset;
+            return {
+              borderColor: dataSet.borderColor,
+              backgroundColor: dataSet.backgroundColor,
+              borderWidth: 1
+            };
+          }
+        }
+      }
+    }
+  };
+  public lineChartLegend = true;
 
   private _onDestroy: Subject<void> = new Subject<void>();
   private params: any = null;
@@ -444,7 +468,9 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
     this.isChartLoading = true;
     this.httpClient.post(ApiConstant.getSitePerfReport, this.params).subscribe((res: any) => {
       this.isChartLoading = false;
-      this.prepareChart(res.data);
+      res.data.datasets = res.data.dataSets;
+      this.lineChartData = res.data;
+      // this.prepareChart(res.data);
     }, (err) => {
       this.isChartLoading = false;
       this.util.notification.error({
@@ -452,113 +478,6 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
         msg: 'Error while loading performance dashboard report!'
       })
     });
-  }
-
-  manipulateChartData(data: any) {
-    data.seriesList = [];
-    // for (let item of data.dataSets) {
-    //   let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
-    //   // let obj: any = { className: cssClass, data: item.data.splice(0, 20) };
-    //   // let obj: any = [];
-    //   data.seriesList.push(item.data);
-    // }
-
-    // for (let i = 0; i < data.labels.length; i++) {
-    //   data.labels.splice(i + 1, 1);
-    // }
-
-    for (let i = 0; i < data.dataSets.length; i++) {
-      let setItem: any = data.dataSets[i];
-      let dataList: any = data.dataSets[i].data;
-      let list: any = [];
-      for (let j = 0; j < dataList.length; j++) {
-        // dataList.splice(j + 1, 1);
-        let item: any = dataList[j];
-        let obj: any = {
-          value: item,
-          meta: setItem.label + ": " + data.labels[j],
-          legend: setItem.label
-        };
-        list.push(obj);
-      }
-      data.seriesList.push(list);
-    }
-  }
-
-
-  prepareChart1(res: any) {
-    this.manipulateChartData(res);
-    var chartData = {
-      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      series: [
-        [5, 5, 10, 8, 7, 5, 4, null, null, null, 10, 10, 7, 8, 6, 9],
-        [10, 15, null, 12, null, 10, 12, 15, null, null, 12, null, 14, null, null, null],
-        [null, null, null, null, 3, 4, 1, 3, 4, 6, 7, 9, 5, null, null, null],
-        [{ x: 3, y: 3 }, { x: 4, y: 3 }, { x: 5, y: undefined }, { x: 6, y: 4 }, { x: 7, y: null }, { x: 8, y: 4 }, { x: 9, y: 4 }]
-      ]
-    };
-    let legendList: any = res.dataSets.map((item: any) => {
-      return item.label;
-    })
-
-    var options = {
-      fullWidth: true,
-      chartPadding: {
-        right: 10
-      },
-      lineSmooth: Chartist.Interpolation.cardinal({
-        fillHoles: true,
-      }),
-      low: 0,
-      plugins: [
-        Chartist.plugins.legend({
-          legendNames: legendList,
-          position: 'bottom'
-        }),
-        Chartist.plugins.tooltip()
-      ]
-    };
-
-    var responsiveOptions: any = [];
-
-    new Chartist.Line('#websiteViewsChart1', chartData, options, responsiveOptions);
-  }
-
-  prepareChart(res: any) {
-    this.manipulateChartData(res);
-    var chartData = {
-      labels: res.labels,
-      series: res.seriesList
-    };
-    let legendList: any = res.dataSets.map((item: any) => {
-      return item.label;
-    })
-
-    var options = {
-      fullWidth: true,
-      height: 400,
-      seriesBarDistance: 100,
-      chartPadding: {
-        right: 10
-      },
-      lineSmooth: Chartist.Interpolation.cardinal({
-        fillHoles: true,
-      }),
-      low: 0,
-      plugins: [
-        Chartist.plugins.legend({
-          legendNames: legendList,
-          position: 'bottom'
-        }),
-        Chartist.plugins.tooltip({
-          appendToBody: true
-        })
-      ]
-    };
-
-    var responsiveOptions: any = [];
-
-    new Chartist.Line('#websiteViewsChart1', chartData, options, responsiveOptions);
   }
 
   test() {

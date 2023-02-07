@@ -733,18 +733,18 @@ app-root {
         white-space: nowrap;
     }
 
-    .ct-labels {
-        > foreignObject:nth-child(2n+1) {
-            display: block;
-            span {
-                color: #fff;
-            }
-        }
+    // .ct-labels {
+    //     > foreignObject:nth-child(2n+1) {
+    //         display: block;
+    //         span {
+    //             color: #fff;
+    //         }
+    //     }
 
-        > foreignObject:nth-child(2n+2) {
-            display: none;
-        }
-    }
+    //     > foreignObject:nth-child(2n+2) {
+    //         display: none;
+    //     }
+    // }
 
     &.fuel-consumption {
         .ct-legend {

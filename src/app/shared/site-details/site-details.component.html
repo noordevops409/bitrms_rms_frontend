@@ -34,9 +34,9 @@
                     <ng-template matTabContent>
                         <app-sd-summary-listing [data]="siteData" *ngIf="tab?.component === 'app-sd-summary-listing'"></app-sd-summary-listing>
                         <app-sd-energy-listing [tabData]="selTabData" [smSiteCode]="siteId" *ngIf="tab?.component === 'app-sd-energy-listing'"></app-sd-energy-listing>
-                        <app-sd-event [type]="tab.type" [smSiteCode]="data.params.smSiteCode" *ngIf="tab?.component === 'app-sd-event'"></app-sd-event>
-                        <app-sd-fuel-consumption [type]="tab.type" [value]="tab.value" [smSiteCode]="data.params.smSiteCode"  *ngIf="tab?.component === 'app-sd-fuel-consumption'"></app-sd-fuel-consumption>
-                        <app-sd-no-load-outage [type]="tab.type" [value]="tab.value" [smSiteCode]="data.params.smSiteCode" *ngIf="tab?.component === 'app-sd-no-load-outage'"></app-sd-no-load-outage>
+                        <app-sd-event [tabData]="selTabData" [smSiteCode]="siteId" *ngIf="tab?.component === 'app-sd-event'"></app-sd-event>
+                        <app-sd-fuel-consumption [tabData]="selTabData" [smSiteCode]="siteId"  *ngIf="tab?.component === 'app-sd-fuel-consumption'"></app-sd-fuel-consumption>
+                        <app-sd-no-load-outage [tabData]="selTabData" [smSiteCode]="siteId" *ngIf="tab?.component === 'app-sd-no-load-outage'"></app-sd-no-load-outage>
                         <!-- <app-sd-remote [type]="tab.type" *ngIf="tab?.component === 'app-sd-remote'"></app-sd-remote> -->
                     </ng-template>
                 </mat-tab>

@@ -1,5 +1,4 @@
 <div class="filter-wrapper">
-
     <form class="form add-edit-job-form">
         <div class="form-container">
             <div class="form-group filter-row row" style="margin-bottom: 0px;">
@@ -48,8 +47,6 @@
                         </ul>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="form-group filter-row row" style="margin-bottom: 0px;">
@@ -139,8 +136,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="form-group filter-row row" style="margin-bottom: 0px;">
                 <ng-container *ngIf="selInterval.value == 1 || selInterval.value == 4">
@@ -257,7 +252,13 @@
         </div>
 
         <div class="box-body" style="min-height: 350px;padding: 5px 0px;" [ngClass]="{'aLoader': isChartLoading}">
-            <div class="ct-chart hourly-chart energy-listing" id="websiteViewsChart1"></div>
+            <canvas class="ct-chart hourly-chart fuel-consumption"
+                baseChart 
+                [type]="'line'"
+                [data]="lineChartData" 
+                [options]="lineChartOptions" 
+                [legend]="lineChartLegend">
+            </canvas>
         </div>
     </div>
 </div>

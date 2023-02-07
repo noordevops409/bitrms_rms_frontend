@@ -1,11 +1,11 @@
 <div class="filter-wrapper">
-
     <form class="form add-edit-job-form">
         <div class="form-container">
             <div class="form-group filter-row row" style="margin-bottom: 0px;">
+
                 <mat-form-field class="form-field col-4" appearance="fill">
                     <mat-label>Start date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="startDate">
+                    <input matInput [matDatepicker]="picker" [formControl]="startDate" placeholder="Start Date" />
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -13,7 +13,8 @@
 
                 <mat-form-field class="form-field col-4" appearance="fill">
                     <mat-label>End date</mat-label>
-                    <input matInput [matDatepicker]="picker1" formControlName="endDate">
+                    <input matInput [matDatepicker]="picker1" [min]="startDate?.value" [formControl]="endDate"
+                        placeholder="End Date" />
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
@@ -40,7 +41,13 @@
         </div>
 
         <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isLoading}">
-            <div class="ct-chart hourly-chart fuel-consumption" id="websiteViewsChart1"></div>
+            <canvas class="ct-chart hourly-chart fuel-consumption"
+                baseChart 
+                [type]="'line'"
+                [data]="lineChartFuelData" 
+                [options]="lineChartOptions" 
+                [legend]="lineChartLegend">
+            </canvas>
         </div>
     </div>
 </div>
@@ -53,7 +60,13 @@
         </div>
 
         <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isLoading}">
-            <div class="ct-chart hourly-chart power-source" id="websiteViewsChart2"></div>
+            <canvas class="ct-chart hourly-chart fuel-consumption"
+                baseChart 
+                [type]="'line'"
+                [data]="lineChartPowerData" 
+                [options]="lineChartOptions" 
+                [legend]="lineChartLegend">
+            </canvas>
         </div>
     </div>
 </div>

@@ -33,6 +33,7 @@ import { YearPickerComponent } from './year-picker/year-picker.component';
 import { MonthPickerComponent } from './month-picker/month-picker.component';
 import { GlobalSearchComponent } from './global-search/global-search.component';
 
+import { NgChartsModule } from 'ng2-charts';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 
@@ -84,7 +85,8 @@ export const MY_MOMENT_FORMATS = {
     OwlNativeDateTimeModule,
     GoogleMapsModule,
     NgxMatDatetimePickerModule, 
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    NgChartsModule
   ],
   providers: [
     BsLocaleService,
@@ -102,6 +104,7 @@ export const MY_MOMENT_FORMATS = {
     TowerFilterWrapperComponent,
     SiteDetailsComponent,
     SdEnergyListingComponent,
+    SdFuelConsumptionComponent,
     SdRemoteComponent,
     YearPickerComponent,
     MonthPickerComponent,

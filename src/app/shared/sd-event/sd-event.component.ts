@@ -25,8 +25,7 @@ import * as moment from 'moment';
 })
 export class SdEventComponent implements OnInit, OnDestroy {
 
-  @Input() type: any = null;
-  @Input() value: any = null;
+  @Input() tabData: any;
   @Input() smSiteCode: any = null;
 
   @ViewChild('sdEvent', { static: true }) $sdEvent: any;

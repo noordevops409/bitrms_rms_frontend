@@ -1,14 +1,10 @@
 import { Inject, Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute, Params } from "@angular/router";
-import { FormGroup, FormArray, FormBuilder, Validators, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Router, ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-
-import { iif, Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 
 
 import { BroadcastService } from '../../shared/broadcast.service';
@@ -58,14 +54,48 @@ export const MY_FORMATS = {
 })
 export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
 
-  @Input() type: any = null;
-  @Input() value: any = null;
+  @Input() tabData: any;
   @Input() smSiteCode: any = null;
 
   public isLoading: boolean = false;
 
   public startDate: any = new FormControl(moment());
   public endDate: any = new FormControl(moment());
+
+  public lineChartFuelData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  };
+  public lineChartPowerData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    scales: {
+      xAxes: {
+        reverse: true
+      }
+    },
+    plugins: {
+      legend: {
+        position: "bottom"
+      },
+      tooltip: {
+        callbacks: {
+          labelColor: (context) => {
+            let dataSet: any = context.dataset;
+            return {
+              borderColor: dataSet.borderColor,
+              backgroundColor: dataSet.backgroundColor,
+              borderWidth: 1
+            };
+          }
+        }
+      }
+    }
+  };
+  public lineChartLegend = true;
 
   constructor(
     private util: CommonUtilService,
@@ -102,7 +132,6 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
   }
 
   loadChart(req?: any) {
-
     let params: any = {
       "tabId": "nav-fuel-consumption",
       "siteId": "MGT20421A" || this.smSiteCode,
@@ -112,11 +141,15 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
       "dateYear": moment(this.endDate.value).format('YYYY-MM')
     };
 
-    const url = ApiConstant.getFuelConsumptionReport;
-    this.httpClient.post(url, params).subscribe((data: any) => {
-      console.log(data);
+    const url = ApiConstant.getSiteFuelConsumptionReport;
+    this.httpClient.post(url, params).subscribe((res: any) => {
       this.isLoading = false;
-      this.prepareChart(data);
+      // res.data.labels.sort();
+      // for (let item of res.data.dataSets) {
+      //   item.data.sort();
+      // }
+      res.data.datasets = res.data.dataSets;
+      this.lineChartFuelData = res.data;
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -124,47 +157,6 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
         msg: 'Error while loading fuel consumption report!'
       })
     });
-  }
-
-  manipulateChartData(data: any) {
-    data.seriesList = [];
-    for (let item of data.dataSets) {
-      let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
-      let obj: any = { className: cssClass, data: item.data.slice(0, 10) };
-      data.seriesList.push(obj);
-    }
-  }
-
-  prepareChart(res: any) {
-    this.manipulateChartData(res);
-    var chartData = {
-      labels: res.labels.slice(0, 10),
-      series: res.seriesList
-    };
-    let legendList: any = res.dataSets.map((item: any) => {
-      return item.label;
-    })
-
-    var options = {
-      seriesBarDistance: 10,
-      plugins: [Chartist.plugins.legend({
-        legendNames: legendList,
-        position: 'bottom'
-      }), Chartist.plugins.tooltip()]
-    };
-
-    var responsiveOptions = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: (value: any) => {
-            return value[0];
-          }
-        }
-      }]
-    ];
-
-    new Chartist.Bar('#websiteViewsChart1', chartData, options, responsiveOptions);
   }
 
   loadPowerSourceChart() {
@@ -177,11 +169,11 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
       "dateYear": moment(this.endDate.value).format('YYYY-MM-DD')
     };
 
-    const url = ApiConstant.getPowerSourceCount;
-    this.httpClient.post(url, params).subscribe((data: any) => {
-      console.log(data);
+    const url = ApiConstant.getSitePowerSource;
+    this.httpClient.post(url, params).subscribe((res: any) => {
       this.isLoading = false;
-      this.prepareChart1(data);
+      res.data.datasets = res.data.dataSets;
+      this.lineChartPowerData = res.data;
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -189,47 +181,6 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
         msg: 'Error while loading fuel consumption report!'
       })
     });
-  }
-
-  manipulateChartData1(data: any) {
-    data.seriesList = [];
-    for (let item of data.dataSets) {
-      let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
-      let obj: any = { className: cssClass, data: item.data.slice(0, 10) };
-      data.seriesList.push(obj);
-    }
-  }
-
-  prepareChart1(res: any) {
-    this.manipulateChartData1(res);
-    var chartData = {
-      labels: res.labels.slice(0, 10),
-      series: res.seriesList
-    };
-    let legendList: any = res.dataSets.map((item: any) => {
-      return item.label;
-    })
-
-    var options = {
-      seriesBarDistance: 10,
-      plugins: [Chartist.plugins.legend({
-        legendNames: legendList,
-        position: 'bottom'
-      }), Chartist.plugins.tooltip()]
-    };
-
-    var responsiveOptions = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: (value: any) => {
-            return value[0];
-          }
-        }
-      }]
-    ];
-
-    new Chartist.Bar('#websiteViewsChart2', chartData, options, responsiveOptions);
   }
 
 }

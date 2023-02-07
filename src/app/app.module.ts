@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 
 
 import { ChartistModule } from 'ng-chartist';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { TokenInterceptorService } from './guards/token-interceptor.service';
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot(),
     ChartistModule,
+    NgChartsModule,
     MaterialModule
   ],
   providers: [
