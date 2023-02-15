@@ -215,11 +215,10 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
 
       this.dd.list.xhr = false;
       this.dd.list.searchxhr = false;
-
       /**
        * Custom requirement for manipulate diff diff response data as per required format of component
        */
-      this.manipulateData((response && response.length && response) || response.body.data || []);
+      this.manipulateData((response && response.length && response) || response.data || response.body.data || []);
       /* ---------------------- END HERE ------------------ */
 
       if (this.selection.length) {

@@ -53,19 +53,13 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [
-        {
-          "rgRegion": "string",
-          "rgRegionID": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'rgRegionID',
+        id: 'rgRegion',
         value: 'rgRegion'
       }
     },
@@ -85,19 +79,13 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [
-        {
-          "rgRegionID": "string",
-          "znZone": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'znZoneID',
+        id: 'znZone',
         value: 'znZone'
       }
     },
@@ -117,15 +105,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [
-        {
-          "crClusterID": "string",
-          "crName": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
@@ -149,13 +131,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getSiteCode,
-      xhrParam: [
-        {
-          "code": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
@@ -179,13 +157,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [
-        {
-          "deviceType": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
@@ -203,14 +177,27 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
-  private filterParam: any = {};
+  private filterParam: any = {
+    "siteId": [],
+    "clusters": [],
+    "zones": [],
+    "regions": [],
+    "deviceType": [],
+    "siteStatus": 1,
+    "siteType": [],
+    "date": "2022/10/20",
+    "start": 1,
+    "length": 10,
+    "draw": 5,
+    "page": 15
+  };
 
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
     private httpClient: HttpClient
   ) {
-    
+
   }
 
 
@@ -239,7 +226,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRawDataReport, {}).subscribe((data: any) => {
+    this.httpClient.post(ApiConstant.getRawDataReport, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data.data);
       setTimeout(() => {
