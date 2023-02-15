@@ -13,6 +13,7 @@ export class ReportsComponent implements OnInit {
 
   public selectReport: string = '';
 
+
   constructor(
     private router: Router
   ) { }
@@ -24,7 +25,6 @@ export class ReportsComponent implements OnInit {
   init() {
     this.selectReport = this.router.url;
   }
-
   
   changeReportType(evt?: any) {
     this.router.navigateByUrl(this.selectReport);
