@@ -1,7 +1,6 @@
-<div
-  class="btn-group dropdown filter-dd appearance-outline size-medium status-basic shape-rectangle nb-transition"
+<div class="btn-group dropdown filter-dd appearance-outline size-medium status-basic shape-rectangle nb-transition"
   [ngClass]="{'flat' : hideTriggerEl}" #dropDown="ngbDropdown" ngbDropdown (openChange)="onToggle($event)"
-  [placement]="placement" [autoClose]="'outside'">
+  container="body" [autoClose]="'outside'">
   <button class="btn btn-default dropdown-toggle select-button" type="button" ngbDropdownToggle [title]="dd.title">
     <span>{{ddData.labelName + ': ' + dd.text}}</span>
   </button>

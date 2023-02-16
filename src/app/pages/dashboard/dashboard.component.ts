@@ -77,19 +77,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [
-        {
-          "rgRegion": "string",
-          "rgRegionID": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'rgRegionID',
+        id: 'rgRegion',
         value: 'rgRegion'
       }
     },
@@ -104,24 +98,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         data: []
       },
       listingColumnFieldName: 'zones',
-      data: zoneMaster,
+      data: [],
       isDataLoaded: false,
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [
-        {
-          "rgRegionID": "string",
-          "znZone": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'znZoneID',
+        id: 'znZone',
         value: 'znZone'
       }
     },
@@ -136,24 +124,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         data: []
       },
       listingColumnFieldName: 'clusters',
-      data: clusterMaster,
-      isDataLoaded: true,
-      isDynamic: false,
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [
-        {
-          "crClusterID": "string",
-          "crName": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'crClusterID',
+        id: 'crName',
         value: 'crName'
       }
     },
@@ -168,18 +150,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         data: []
       },
       listingColumnFieldName: 'siteId',
-      data: siteCodeMaster,
-      isDataLoaded: true,
-      isDynamic: false,
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getSiteCode,
-      xhrParam: [
-        {
-          "code": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {

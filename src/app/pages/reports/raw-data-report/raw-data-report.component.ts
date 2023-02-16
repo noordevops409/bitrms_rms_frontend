@@ -111,7 +111,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'crClusterID',
+        id: 'crName',
         value: 'crName'
       }
     },
@@ -217,10 +217,6 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  setFilterParam() {
-
-  }
-
   loadData() {
     if (this.isLoading) {
       return;
@@ -295,8 +291,64 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   }
 
+  setFilterParam(fData) {
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      clusters = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      }
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteStatus": 1,
+      "siteType": siteType,
+      "date": rangeDate,
+      "start": 1,
+      "length": 10,
+      "draw": 5,
+      "page": 15
+    };
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.setFilterParam(evt);
+    this.loadData();
   }
 
   updateListParam(data) {

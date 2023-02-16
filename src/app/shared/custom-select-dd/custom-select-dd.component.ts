@@ -22,7 +22,7 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
 
   @Input('isOpen') isOpen: any;
 
-  @Input('placement') placement: any = ['bottom-left', 'bottom-right'];
+  @Input('placement') placement: any = ['bottom-left', 'bottom-right', 'top-start', 'top-end'];
 
   @Input('hideTriggerEl') hideTriggerEl: boolean = false;
 

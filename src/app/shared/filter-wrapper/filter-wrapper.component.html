@@ -5,7 +5,7 @@
                 <ng-container *ngFor="let item of defaultFilterList; let i = index">
                     <span [ngSwitch]="item.dataType" (mouseover)="onMouseover($event)">
                         <span *ngSwitchCase="'Dropdown'">
-                            <app-custom-select-dd [isOpen]="item.isOpen" [ddData]="item"
+                            <app-custom-select-dd [isOpen]="item.isOpen" [ddData]="item" [placement]="top-end"
                                 (onDropdownClose)="closeFilterDropdown($event)" (onSelectionChange)="doFilter($event)">
                             </app-custom-select-dd>
                         </span>
@@ -15,8 +15,11 @@
                                 (onDropdownClose)="closeFilterDropdown($event)" (onSelectionChange)="doFilter($event)">
                             </app-custom-date-filter>
                         </span>
-                        <i class="grp-btn fa fa-close fa-times" title="Clear filter selection"
-                            *ngIf="item.popupTo.data.length" (click)="clearSelection(item, i)"></i>
+                        <mat-icon aria-hidden="false" class="grp-btn fa fa-close fa-times"
+                            *ngIf="item?.popupTo?.data.length" (click)="clearSelection(item, i)"
+                            title="Clear filter selection" aria-label="Clear filter selection">close</mat-icon>
+                        <!-- <i class="grp-btn fa fa-close fa-times" title="Clear filter selection"
+                            *ngIf="item.popupTo.data.length" (click)="clearSelection(item, i)"></i> -->
                     </span>
 
                 </ng-container>
