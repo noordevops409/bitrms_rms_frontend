@@ -63,6 +63,7 @@ export const ApiConstant = {
   getFaultCategory: `${GATEWAY}/api/rca_master_data/fault_category`,
 
   getRawDataReport: `${GATEWAY}/api/raw-report/raw-data`,
+  getTeePowerTrackerReport: `${GATEWAY}/api/power-tracker/tee/pageNumber`,
   getRawDataReportDropboxLink: `${GATEWAY}/api/raw-report/dropboxlink`,
   getRawDataReportExportEmail: `${GATEWAY}/api/raw-report/export_email`,
   getRawDataReportExcel: `${GATEWAY}/api/raw-report/raw-data-exel`,

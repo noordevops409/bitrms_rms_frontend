@@ -7,22 +7,27 @@
 .filter-criteria {
     display: flex;
     justify-content: space-between;
+
     .checkbox-container {
         margin-top: 15px;
+
         .elem-row {
             margin: 0px 0px 40px 0px;
             display: flex;
-            > label {
+
+            >label {
                 width: 100px;
                 color: #fff;
                 font-size: 00.9375rem;
                 font-weight: normal;
             }
         }
+
         ul {
             list-style: none;
             padding: 0px;
             margin: 0px;
+
             li {
                 float: left;
                 width: 50%;
@@ -36,7 +41,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        > div {
+
+        >div {
             margin-right: 10px;
         }
     }
@@ -52,9 +58,10 @@
     width: 60%;
     height: 0px;
     opacity: 0;
+
     &.open {
         height: 100%;
         opacity: 1;
+        z-index: 4;
     }
 }
-

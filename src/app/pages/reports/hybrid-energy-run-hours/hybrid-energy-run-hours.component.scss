@@ -1,0 +1,67 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+
+.filter-criteria {
+    display: flex;
+    justify-content: space-between;
+
+    .checkbox-container {
+        margin-top: 15px;
+
+        .elem-row {
+            margin: 0px 0px 40px 0px;
+            display: flex;
+
+            >label {
+                width: 100px;
+                color: #fff;
+                font-size: 00.9375rem;
+                font-weight: normal;
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+
+            li {
+                float: left;
+                width: 50%;
+            }
+        }
+    }
+}
+
+.header {
+    .left-side {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        >div {
+            margin-right: 10px;
+        }
+    }
+}
+
+
+.tabular-filter-wrapper {
+    transition: 0.5s;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 60%;
+    height: 0px;
+    opacity: 0;
+
+    &.open {
+        height: 100%;
+        opacity: 1;
+        z-index: 4;
+    }
+}

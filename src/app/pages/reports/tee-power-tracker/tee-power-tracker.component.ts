@@ -106,38 +106,6 @@ export class TeePowerTrackerComponent implements OnInit {
       }
     },
     {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'POST',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [
-        {
-          "crClusterID": "string",
-          "crName": "string",
-          "znZoneID": "string"
-        }
-      ],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crClusterID',
-        value: 'crName'
-      }
-    },
-    {
       id: 'FMF04',
       fieldName: 'customerId',
       indexField: 'customerId',
@@ -226,87 +194,44 @@ export class TeePowerTrackerComponent implements OnInit {
         id: 'deviceType',
         value: 'deviceType'
       }
-    },
-    {
-      id: 'FMF07',
-      fieldName: 'siteType',
-      indexField: 'siteType',
-      labelName: 'Site Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'siteType',
-      data: siteTypeMaster,
-      isDataLoaded: true,
-      isDynamic: false,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'POST',
-      xhrUrl: ApiConstant.getSiteType,
-      xhrParam: [
-        {
-          "id": 0,
-          "type": "string"
-        }
-      ],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'id',
-        value: 'type'
-      }
-    },
-    {
-      id: 'FMF08',
-      fieldName: 'powerSource',
-      indexField: 'powerSource',
-      labelName: 'Power Source',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'siteType',
-      data: powerSourceMaster,
-      isDataLoaded: true,
-      isDynamic: false,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'POST',
-      xhrUrl: ApiConstant.getSiteType,
-      xhrParam: [
-        {
-          "id": 0,
-          "type": "string"
-        }
-      ],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'id',
-        value: 'type'
-      }
     }
   ];
 
   public isFilterDataLoaded: boolean = false;
 
   private sampleData: any = {};
-  private currentPageNo: number = 0;
+  private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
-  private filterParam: any = {};
+  private filterParam: any = {
+    "siteId": [
+
+    ],
+    "customers": [
+
+    ],
+    "zones": [
+
+    ],
+    "regions": [
+
+    ],
+    "deviceType": [
+
+    ],
+    "startDate": "2020-10-11",
+    "endDate": "2020-12-12"
+  };
+
 
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
     private httpClient: HttpClient
   ) {
-    
+
   }
 
 
@@ -326,16 +251,13 @@ export class TeePowerTrackerComponent implements OnInit {
     this.loadData();
   }
 
-  setFilterParam() {
-
-  }
-
   loadData() {
     if (this.isLoading) {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRawDataReport, {}).subscribe((data: any) => {
+    let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data.data);
       setTimeout(() => {
@@ -405,8 +327,57 @@ export class TeePowerTrackerComponent implements OnInit {
 
   }
 
+  setFilterParam(fData) {
+
+    let siteId: any = [];
+    let customers: any = [];
+    let zones: any = [];
+    let regions: any = [];
+    let deviceType: any = [];
+    let startDate: any = "";
+    let endDate: any = "";
+    if (fData && fData.length) {
+      siteId = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      customers = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      zones = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      regions = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        startDate = fData[6].startDate;
+        endDate = fData[6].endDate;
+      }
+    };
+    
+    this.filterParam = {
+      "siteId": siteId,
+      "customers": customers,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "startDate": startDate,
+      "endDate": endDate
+    };
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.setFilterParam(evt);
+    this.loadData();
   }
 
   updateListParam(data) {
