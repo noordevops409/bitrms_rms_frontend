@@ -57,19 +57,13 @@ export class TeePowerTrackerComponent implements OnInit {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [
-        {
-          "rgRegion": "string",
-          "rgRegionID": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'rgRegionID',
+        id: 'rgRegion',
         value: 'rgRegion'
       }
     },
@@ -89,54 +83,44 @@ export class TeePowerTrackerComponent implements OnInit {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [
-        {
-          "rgRegionID": "string",
-          "znZone": "string",
-          "znZoneID": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'znZoneID',
+        id: 'znZone',
         value: 'znZone'
       }
     },
     {
-      id: 'FMF04',
-      fieldName: 'customerId',
-      indexField: 'customerId',
-      labelName: 'Customer',
+      id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
       dataType: 'Dropdown',
       popupTo: {
         recordBatchSize: 25,
         data: []
       },
-      listingColumnFieldName: 'customerId',
-      data: customerMaster,
-      isDataLoaded: true,
-      isDynamic: false,
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
-      xhrUrl: ApiConstant.getCustomerMaster,
-      xhrParam: [
-        {
-          "name": "string"
-        }
-      ],
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
-        id: 'name',
-        value: 'name'
+        id: 'crName',
+        value: 'crName'
       }
     },
     {
-      id: 'FMF05',
+      id: 'FMF04',
       fieldName: 'siteId',
       indexField: 'siteId',
       labelName: 'Site Id',
@@ -151,13 +135,9 @@ export class TeePowerTrackerComponent implements OnInit {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getSiteCode,
-      xhrParam: [
-        {
-          "code": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
@@ -166,7 +146,7 @@ export class TeePowerTrackerComponent implements OnInit {
       }
     },
     {
-      id: 'FMF06',
+      id: 'FMF05',
       fieldName: 'deviceType',
       indexField: 'deviceType',
       labelName: 'Device Type',
@@ -181,13 +161,9 @@ export class TeePowerTrackerComponent implements OnInit {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-      xhrMethod: 'POST',
+      xhrMethod: 'GET',
       xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [
-        {
-          "deviceType": "string"
-        }
-      ],
+      xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
       maniObj: {
@@ -206,21 +182,13 @@ export class TeePowerTrackerComponent implements OnInit {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    "siteId": [
-
-    ],
-    "customers": [
-
-    ],
-    "zones": [
-
-    ],
-    "regions": [
-
-    ],
-    "deviceType": [
-
-    ],
+    "regions": [],
+    "zones": [],
+    "clusters": [],
+    "siteId": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": 1,
     "startDate": "2020-10-11",
     "endDate": "2020-12-12"
   };
@@ -244,7 +212,7 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
+    (window as any)['retainNoOfShow'] = 10;
   }
 
   init() {
@@ -257,9 +225,10 @@ export class TeePowerTrackerComponent implements OnInit {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
-    this.httpClient.post(apiUrl, this.filterParam).subscribe((data: any) => {
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(data.data);
+      this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
       });
@@ -273,22 +242,23 @@ export class TeePowerTrackerComponent implements OnInit {
     });
   }
 
-  manipulate(data) {
-    this.setResponse(data);
-    this.setColumnHeader(data);
-    this.setRowData(data);
+  manipulate(res) {
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
 
   setResponse(resData) {
-    this.sampleData.currentPageNo = this.currentPageNo + 1;
-    this.sampleData.listingType = AppConstant.RAW_DATA_REPORT_LISTING_TYPE;
-    this.sampleData.recordBatchSize = 50 || resData.length;
+    this.sampleData.currentPageNo = this.currentPageNo;
+    this.sampleData.listingType = AppConstant.TEE_POWER_TRACKER_LISTING_TYPE;
+    this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
-    this.sampleData.sortField = 'rcaid';
+    this.sampleData.retainNoOfShow = this.pageSize;
+    this.sampleData.sortField = 'smSiteId';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
-    this.sampleData.totalDocs = resData.totalElements || resData.length;
   }
 
   setColumnHeader(resData) {
@@ -329,27 +299,26 @@ export class TeePowerTrackerComponent implements OnInit {
 
   setFilterParam(fData) {
 
-    let siteId: any = [];
-    let customers: any = [];
-    let zones: any = [];
     let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
     let deviceType: any = [];
-    let startDate: any = "";
-    let endDate: any = "";
+    let siteType: any = [];
+    let rangeDate: any = "";
     if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
         return item.id;
       });
 
-      customers = fData[1].popupTo.data.map((item) => {
+      clusters = fData[2].popupTo.data.map((item) => {
         return item.id;
       });
 
-      zones = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
-
-      regions = fData[3].popupTo.data.map((item) => {
+      siteId = fData[3].popupTo.data.map((item) => {
         return item.id;
       });
 
@@ -357,20 +326,29 @@ export class TeePowerTrackerComponent implements OnInit {
         return item.id;
       });
 
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        startDate = fData[6].startDate;
-        endDate = fData[6].endDate;
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
       }
-    };
-    
+    }
     this.filterParam = {
       "siteId": siteId,
-      "customers": customers,
+      "clusters": clusters,
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "startDate": startDate,
-      "endDate": endDate
+      "siteStatus": 1,
+      "siteType": siteType,
+      "date": rangeDate,
+      "start": 1,
+      "length": 10,
+      "draw": 5,
+      "page": 15
     };
   }
 
@@ -381,7 +359,7 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   updateListParam(data) {
-    this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
+    this.currentPageNo = data.currentPageNo ? (data.currentPageNo) : this.currentPageNo;
     this.pageSize = data.pageSize || this.pageSize;
     this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
 

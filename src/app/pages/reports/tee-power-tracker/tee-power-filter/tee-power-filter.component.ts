@@ -50,7 +50,14 @@ export class TeePowerFilterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.setSiteType();
     this.setDateRange();
+  }
+
+  setSiteType() {
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[5]) {
+      this.siteType = this.defaultFilterList[5];
+    }
   }
 
   setDateRange() {
@@ -70,7 +77,7 @@ export class TeePowerFilterComponent implements OnInit {
   dateRangeChange(type: any, evt: any) {
     if (this.range.controls['start'].value && this.range.controls['end'].value) {
       let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
-      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+        let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
       this.reqSiteIdObj.startDate = startDate;
       this.reqSiteIdObj.endDate = endDate;
     }

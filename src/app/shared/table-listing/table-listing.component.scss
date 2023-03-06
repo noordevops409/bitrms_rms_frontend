@@ -1,108 +1,161 @@
 :host {
+  display: block;
+  height: 100%;
+}
+
+.listingContainer {
+  height: 100%;
+
+  .listing-header {
+    background-color: #f1f1f1;
+    position: absolute;
     display: block;
-    height: 100%;
+    width: 100%;
+    z-index: 2;
+    box-shadow: 0 0 3px 0 #bbb;
+
+    .settings {
+      padding: 6px 10px 6px 0;
+      line-height: 24px;
+
+      >* {
+        margin-left: 5px;
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
   }
-  
-  .listingContainer {
+
+  .table-grid {
+    border-bottom: 1px solid #ddd;
+    position: relative;
     height: 100%;
-  
-    .listing-header {
-      background-color: #f1f1f1;
+    border-top: 39px solid #ddd;
+
+    .ghead {
       position: absolute;
-      display: block;
       width: 100%;
-      z-index: 2;
-      box-shadow: 0 0 3px 0 #bbb;
-  
-      .settings {
-        padding: 6px 10px 6px 0;
-        line-height: 24px;
-  
-        > * {
-          margin-left: 5px;
-          display: inline-block;
-          vertical-align: top;
+      background: #222B45;
+      overflow: hidden;
+
+      ul {
+        position: relative;
+        padding: 10px 24px;
+
+        li {
+          position: relative;
+          white-space: nowrap;
+          overflow: hidden;
+          color: #8F9BB3;
+          font-size: 0.75rem;
+          padding: 0px 36px 0px 0px;
+
+          b {
+            font-weight: bold;
+          }
         }
       }
     }
-  
-    .table-grid {
-      border-bottom: 1px solid #ddd;
-      position: relative;
+
+    .gbody {
       height: 100%;
-      border-top: 39px solid #ddd;
-      .ghead {
-        position: absolute;
-        width: 100%;
-        background: #222B45;
-        overflow: hidden;
+      overflow: auto;
+      border-top: 44px solid #fff;
+      background-color: #222B45;
+
+      .list-item-container {
         ul {
-          position: relative;
-          padding: 10px 24px;
-          li {
-            position: relative;
-            white-space: nowrap;
-            overflow: hidden;
-            color: #8F9BB3;
-            font-size: 0.75rem;
-            padding: 0px 36px 0px 0px;
-            b {
-              font-weight: bold;
-            }
-          }
-        }
-      }
-  
-      .gbody {
-        height: 100%;
-        overflow: auto;
-        border-top: 44px solid #fff;
-        background-color: #222B45;
-
-        .list-item-container {
-          ul {
-            padding: 16px 24px;
-          }
-        }
-
-        .repeated-item {
           padding: 16px 24px;
         }
-        
-        .pagerDom {
-          text-align: left;
-          padding: 8px 5px 8px 10px;
-          line-height: 1;
-  
-          .record-counter {
-            line-height: 26px;
-            margin-left: 10px;
-          }
-  
-          .pagination {
-            margin: 0;
-            > li {
-              > a {
-                padding: 4px 10px;
-              }
+      }
+
+      .repeated-item {
+        padding: 16px 24px;
+      }
+
+      .pagerDom {
+        text-align: left;
+        padding: 8px 5px 8px 10px;
+        line-height: 1;
+
+        .record-counter {
+          line-height: 26px;
+          margin-left: 10px;
+        }
+
+        .pagination {
+          margin: 0;
+
+          >li {
+            >a {
+              padding: 4px 10px;
             }
           }
         }
       }
     }
-  
-    .gfooter {
-      .pagerDom {
-        display: flex;
-        margin-top: 10px;
-        justify-content: space-between;
-        align-items: center;
-  
-        ul {
-          margin-right: 15px;
-          margin-bottom: 0px;
+  }
+
+  &.hasPager {
+    .table-grid {
+      .gbody {
+        border-bottom: 49px solid transparent;
+      }
+    }
+  }
+
+  .gfooter {
+    background: #222B45;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .pagerDom {
+      text-align: left;
+      padding: 8px 5px 8px 10px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .record-counter {
+        line-height: 26px;
+        margin-left: 10px;
+      }
+
+      .pagination {
+        margin: 0;
+
+        >li {
+
+          &:hover,
+          &:focus,
+          &.active {
+            > a {
+              background-color: #151a30;
+              border-color: #101426;
+            }
+          }
+
+          &.disabled {
+            > a {
+              opacity: 0.5;
+            }
+          }
+
+          >a {
+            padding: 4px 10px;
+            background-color: #192038;
+            color: #fff;
+            text-decoration: none;
+            border-right: 1px solid #151a30;
+            line-height: 24px;
+          }
         }
       }
     }
   }
-  
+}

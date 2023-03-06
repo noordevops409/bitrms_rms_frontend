@@ -541,7 +541,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
       // console.log('****************', itemH)
       let data = itemB[itemH.fieldName] || '';
 
-      if(itemH.fieldName=='Amount Sent'){
+      if (itemH.fieldName == 'Amount Sent') {
         data = itemB['amount_sent'] || '';
       }
       data = (data + '').replace(/&/g, '&amp;');
@@ -653,13 +653,13 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.inifiniteScrollLocal = this.inifiniteScroll;
     this.onRowSelectionChangedDebouncer = debounce(this.onRowSelectionChanged, 100);
     this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 10;
-    
+
     this.setLazyLoadBatchSize();
     this.uniqueId;
     this.timestamp = (new Date()).getTime();
     this.init();
-    this.broadcast.on<String>('searchResult').subscribe(data=>{
-        console.log
+    this.broadcast.on<String>('searchResult').subscribe(data => {
+      console.log
     })
   }
 
@@ -756,6 +756,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
     switch (type) {
       case AppConstant.LATEST_DATA1_LISTING_TYPE:
         this.uniqueId = 'smSiteCode';
+        break;
+      case AppConstant.TEE_POWER_TRACKER_LISTING_TYPE:
+        this.uniqueId = 'smSiteId';
         break;
       default:
         this.uniqueId = 'distUniqueId';

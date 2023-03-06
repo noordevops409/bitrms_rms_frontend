@@ -77,7 +77,7 @@ export class RawFilterComponent implements OnInit {
   dateRangeChange(type: any, evt: any) {
     if (this.range.controls['start'].value && this.range.controls['end'].value) {
       let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
-      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+        let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
       this.reqSiteIdObj.startDate = startDate;
       this.reqSiteIdObj.endDate = endDate;
     }
