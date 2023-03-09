@@ -16,9 +16,9 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  tranDate: {
+  trandate: {
     userIndex: 1,
-    fieldName: 'tranDate',
+    fieldName: 'trandate',
     colDisplayName: 'Date',
     title: 'Date',
     widthOfColumn: 100,
@@ -33,9 +33,9 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteCode: {
+  smsitecode: {
     userIndex: 2,
-    fieldName: 'smSiteCode',
+    fieldName: 'smsitecode',
     colDisplayName: 'Site ID',
     title: 'Site ID',
     widthOfColumn: 100,
