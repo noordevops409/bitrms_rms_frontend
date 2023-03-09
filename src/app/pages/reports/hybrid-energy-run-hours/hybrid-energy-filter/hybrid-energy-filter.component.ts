@@ -1,0 +1,105 @@
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment';
+
+@Component({
+  selector: 'app-hybrid-energy-filter',
+  templateUrl: './hybrid-energy-filter.component.html',
+  styleUrls: ['./hybrid-energy-filter.component.scss']
+})
+export class HybridEnergyFilterComponent implements OnInit {
+  @Input() filterType: number = 1;
+
+  @Input() isReqToOpenFilter: boolean = false;
+  @Input() isOpenTabularFilter: boolean = false;
+  @Input() defaultFilterList: any;
+  @Output() onFilter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() isReqToOpenFilterChange = new EventEmitter();
+  @Output() isOpenTabularFilterChange = new EventEmitter();
+
+  public siteType: any = [
+    {
+      isChecked: false,
+      text: 'All'
+    },
+    {
+      isChecked: false,
+      text: 'TEE'
+    },
+    {
+      isChecked: false,
+      text: 'Hybrid'
+    },
+    {
+      isChecked: false,
+      text: 'Null'
+    }
+  ];
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+  private reqSiteIdObj: any = {
+    startDate: null,
+    endDate: null
+  };
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.setSiteType();
+    this.setDateRange();
+  }
+
+  setSiteType() {
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[5]) {
+      this.siteType = this.defaultFilterList[5];
+    }
+  }
+
+  setDateRange() {
+    let t1: any = this.defaultFilterList;
+    if (t1 && t1.length && t1[6]) {
+      let t2: any = t1[6];
+      if (t2.startDate && t2.endDate) {
+        this.reqSiteIdObj.startDate = moment(t2.startDate);
+        this.reqSiteIdObj.endDate = moment(t2.endDate);
+
+        this.range.controls['start'].setValue(this.reqSiteIdObj.startDate);
+        this.range.controls['end'].setValue(this.reqSiteIdObj.endDate);
+      }
+    }
+  }
+
+  dateRangeChange(type: any, evt: any) {
+    if (this.range.controls['start'].value && this.range.controls['end'].value) {
+      let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
+      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+      this.reqSiteIdObj.startDate = startDate;
+      this.reqSiteIdObj.endDate = endDate;
+    }
+  }
+
+  applyFilter(evt?: any) {
+    if (this.filterType === 1) {
+      this.isReqToOpenFilter = false;
+      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+    } else if (this.filterType === 2) {
+      this.isOpenTabularFilter = false;
+      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+    }
+    this.defaultFilterList.push(this.siteType);
+    this.defaultFilterList.push(this.reqSiteIdObj);
+    this.onFilter.emit(this.defaultFilterList);
+  }
+
+  applyTabularFilter(evt?: any) {
+
+  }
+
+  onFilterChange(evt?: any) {
+
+  }
+}

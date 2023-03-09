@@ -1,4 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { CommonUtilService } from '../../../shared/common-util.service';
+import { BroadcastService } from '../../../shared/broadcast.service';
+
+import { TEE_ENERGY_RUN_HOURS_COLUMN_HEADER } from './tee-energy-hours-column.enum';
+
+import { ApiConstant } from '../../../shared/api-constant.enum';
+import { AppConstant } from '../../../shared/app-constant.enum';
+
+import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
 @Component({
   selector: 'app-tee-energy-run-hours',
@@ -7,9 +18,371 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeeEnergyRunHoursComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
+
+  public isLoading: boolean = false;
+  public isListServerError: boolean = false;
+
+  public parentHeight: any = null;
+  public selectedRow: any = null;
+  public multipleSelRow: any = null;
+  public list = [];
+  public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
+
+  public activeListing: any = {};
+  public data: any;
+  public listingTemplate: any = {};
+
+  isReqToOpenFilter: boolean = false;
+  isOpenTabularFilter: boolean = false;
+  isExpanded: boolean = false;
+  defaultFilterList: any = [
+    {
+      id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegion',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZone',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crName',
+        value: 'crName'
+      }
+    },
+    {
+      id: 'FMF04',
+      fieldName: 'siteId',
+      indexField: 'siteId',
+      labelName: 'Site Id',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'siteId',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getSiteCode,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'code',
+        value: 'code'
+      }
+    },
+    {
+      id: 'FMF05',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
+    }
+  ];
+
+  public isFilterDataLoaded: boolean = false;
+
+  private sampleData: any = {};
+  private currentPageNo: number = 1;
+  private pageSize: number = 10;
+  private recordStartFrom: number = 0;
+  private isMultipleRowSelected: boolean = false;
+
+  private filterParam: any = {
+    "regions": [],
+    "zones": [],
+    "clusters": [],
+    "siteId": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": 1,
+    "startDate": "2020-01-05",
+    "endDate": "2020-01-08"
+  };
+
+
+  constructor(
+    private util: CommonUtilService,
+    private broadcast: BroadcastService,
+    private httpClient: HttpClient
+  ) {
+
+  }
+
+
+  listen() {
+
+  }
 
   ngOnInit(): void {
+    this.init();
+  }
+
+  ngOnDestroy() {
+
+  }
+
+  init() {
+    this.loadData();
+  }
+
+  loadData() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    let apiUrl: any = ApiConstant.getTeeEnergyRunHoursReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
+      this.isLoading = false;
+      this.manipulate(res);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading TEE Energy Run Hours Report details!'
+      })
+    });
+  }
+
+  manipulate(res) {
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
+    this.activeListing.list = this.sampleData;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
+  }
+
+  setResponse(resData) {
+    this.sampleData.currentPageNo = this.currentPageNo;
+    this.sampleData.listingType = AppConstant.TEE_ENERGY_RUN_HOURS_LISTING_TYPE;
+    this.sampleData.recordBatchSize = this.pageSize || resData.length;
+    this.sampleData.recordStartFrom = this.recordStartFrom;
+    this.sampleData.retainNoOfShow = this.pageSize;
+    this.sampleData.sortField = 'smSiteId';
+    this.sampleData.sortFieldType = 'text';
+    this.sampleData.sortOrder = 'desc';
+  }
+
+  setColumnHeader(resData) {
+    this.sampleData.columnHeader = [];
+    const colData = resData || [];
+    if (colData.length) {
+      const rowData = colData[0];
+      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      for (let key in rowData) {
+        if (TEE_ENERGY_RUN_HOURS_COLUMN_HEADER[key]) {
+          this.sampleData.columnHeader.push(TEE_ENERGY_RUN_HOURS_COLUMN_HEADER[key]);
+        }
+      }
+    }
+  }
+
+
+  setRowData(resData) {
+    const data = resData || [];
+    if (data.length) {
+      this.sampleData.data = data;
+    } else {
+      this.sampleData.data = [];
+    }
+  }
+
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  }
+
+  exportCSV(evt?: any) {
+
+  }
+
+  exportExcel(evt?: any) {
+
+  }
+
+  setFilterParam(fData) {
+
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      clusters = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      }
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteStatus": 1,
+      "siteType": siteType,
+      "date": rangeDate,
+      "start": 1,
+      "length": 10,
+      "draw": 5,
+      "page": 15
+    };
+  }
+
+  applyFilter(evt?: any) {
+    this.isReqToOpenFilter = false;
+    this.setFilterParam(evt);
+    this.loadData();
+  }
+
+  updateListParam(data) {
+    this.currentPageNo = data.currentPageNo ? (data.currentPageNo) : this.currentPageNo;
+    this.pageSize = data.pageSize || this.pageSize;
+    this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
+
+    if (data && data.popupTo) {
+      this.applyFilter(data);
+    } else {
+      this.loadData();
+    }
+  }
+
+  loadListing(data) {
+    this.updateListParam(data);
+  }
+
+  onRowSelectionChanged(data) {
+    if (data && data.length) {
+      this.isMultipleRowSelected = data.length > 1;
+      this.multipleSelRow = data;
+      if (this.isMultipleRowSelected) {
+        // custom business logic
+      } else {
+        this.selectedRow = data;
+      }
+    } else {
+      this.multipleSelRow = null;
+      this.selectedRow = null;
+    }
   }
 
 }

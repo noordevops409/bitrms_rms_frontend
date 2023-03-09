@@ -212,7 +212,7 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    (window as any)['retainNoOfShow'] = 10;
+
   }
 
   init() {

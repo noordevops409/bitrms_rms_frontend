@@ -64,6 +64,9 @@ export const ApiConstant = {
 
   getRawDataReport: `${GATEWAY}/api/raw-report/raw-data`,
   getTeePowerTrackerReport: `${GATEWAY}/api/power-tracker/tee/pageNumber`,
+  getHybridPowerTrackerReport: `${GATEWAY}/api/power-tracker/hybrid/pageNumber`,
+  getTeeEnergyRunHoursReport: `${GATEWAY}/api/energy-runhours/tee/pageNumber`,
+  getHybridEnergyRunHoursReport: `${GATEWAY}/api/energy-runhours/hybrid/pageNumber`,
   getRawDataReportDropboxLink: `${GATEWAY}/api/raw-report/dropboxlink`,
   getRawDataReportExportEmail: `${GATEWAY}/api/raw-report/export_email`,
   getRawDataReportExcel: `${GATEWAY}/api/raw-report/raw-data-exel`,

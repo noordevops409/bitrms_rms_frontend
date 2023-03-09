@@ -760,6 +760,15 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.TEE_POWER_TRACKER_LISTING_TYPE:
         this.uniqueId = 'smSiteId';
         break;
+      case AppConstant.HYBRID_POWER_TRACKER_LISTING_TYPE:
+        this.uniqueId = 'smSiteId';
+        break;
+      case AppConstant.TEE_ENERGY_RUN_HOURS_LISTING_TYPE:
+        this.uniqueId = 'smSiteId';
+        break;
+      case AppConstant.HYBRID_ENERGY_RUN_HOURS_LISTING_TYPE:
+        this.uniqueId = 'smSiteId';
+        break;
       default:
         this.uniqueId = 'distUniqueId';
     }

@@ -102,14 +102,18 @@
         border-bottom: 49px solid transparent;
       }
     }
+
+    .gfooter {
+      display: flex;
+    }
   }
 
   .gfooter {
+    display: none;
     background: #222B45;
     position: absolute;
     width: 100%;
     bottom: 0px;
-    display: flex;
     justify-content: space-between;
     align-items: center;
 
