@@ -718,11 +718,11 @@ app-root {
         }
     }
 
-    .ct-chart-line{
+    .ct-chart-line {
         overflow: visible;
     }
 
-    
+
 
     .ct-label.ct-label.ct-horizontal.ct-end {
         position: relative;
@@ -815,7 +815,13 @@ app-root {
 
 
         .ct-legend {
-            $ct-series-colors: #00bcd4,#f44336, #ff9800, #d17905, #453d3f, #59922b, #0544d3;
+            $ct-series-colors: #00bcd4,
+            #f44336,
+            #ff9800,
+            #d17905,
+            #453d3f,
+            #59922b,
+            #0544d3;
 
             li {
                 color: white;
@@ -830,6 +836,94 @@ app-root {
         }
     }
 }
+
+
+.box-body {
+}
+.tab-container-1 {
+    mat-tab-body {
+        .listing-container {
+            height: 500px;
+            position: relative;
+            padding: 0px !important;
+
+            .listing {
+                height: inherit;
+
+                .head {
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+
+                    ul {
+                        display: inline-block;
+                        width: 100%;
+                        height: inherit;
+                        padding: 5px 10px;
+
+                        li {
+                            width: 175px;
+                        }
+                    }
+                }
+
+                .body {
+                    height: inherit;
+                    border-top: 43px solid transparent;
+                    border-bottom: 50px solid transparent;
+                    overflow: auto;
+
+                    &::-webkit-scrollbar {
+                        width: 0.3125rem;
+                        height: 0.3125rem;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background: #101426;
+                        cursor: pointer;
+                        border-radius: 0.15625rem;
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background: #192038;
+                    }
+
+                    ul {
+                        display: inline-block;
+                        padding: 5px 10px;
+
+                        li {
+                            width: 175px;
+                        }
+                    }
+                }
+
+                .footer {
+                    position: absolute;
+                    bottom: 0px;
+                    left: 0px;
+                    width: 100%;
+                    padding: 5px 10px;
+
+                    ul {
+                        display: inline-block;
+                        padding: 5px 10px;
+
+                        li {
+                            width: 175px;
+                            padding: 5px;
+                            font-weight: bold;
+                            font-size: 1rem;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 app-sd-energy-listing {
     .hourly-chart {

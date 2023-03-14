@@ -62,6 +62,8 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isListingLoading: boolean = false;
   public isChartLoading: boolean = false;
+  public selTabIndex: any = 0;
+  public selTabData: any = null;
   public filterElement!: FormGroup;
   public _yearPickerCtrl: FormControl = new FormControl();
 
@@ -195,6 +197,20 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
     }
   };
   public lineChartLegend = true;
+
+  public tabView: any = {
+    columnHeader: [],
+    listingData: [],
+    footer: {
+      series1: 0,
+      series2: 0,
+      series3: 0,
+      series4: 0,
+      series5: 0,
+      series6: 0,
+      series7: 0
+    }
+  };
 
   private _onDestroy: Subject<void> = new Subject<void>();
   private params: any = null;
@@ -470,6 +486,7 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
       this.isChartLoading = false;
       res.data.datasets = res.data.dataSets;
       this.lineChartData = res.data;
+      this.loadTabular(res);
       // this.prepareChart(res.data);
     }, (err) => {
       this.isChartLoading = false;
@@ -478,6 +495,39 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
         msg: 'Error while loading performance dashboard report!'
       })
     });
+  }
+
+  loadTabular(res) {
+    let columns: any = [];
+    let listingData: any = [];
+    for (let item of res.data.dataSets) {
+      columns.push({
+        label: item.label,
+        colField: item.label.toLowerCase().replace(/\s/g, "_"),
+        footerVal: 0,
+        data: item.data
+      });
+    }
+
+    for (let j = 0; j < res.data.labels.length; j++) {
+      let rowItem = res.data.labels[j];
+      let objItem = {};
+      for (let i = 0; i < columns.length; i++) {
+        let colItem = columns[i];
+        objItem["series" + (i + 1)] = colItem.data[j];
+        this.tabView.footer["series" + (i + 1)] += colItem.data[j];
+      }
+      listingData.push({
+        label: rowItem,
+        ...objItem
+      })
+    }
+    this.tabView.columnHeader = columns;
+    this.tabView.listingData = listingData;
+  }
+
+  tabChanged(evt) {
+    this.selTabIndex = evt.index;
   }
 
   test() {
