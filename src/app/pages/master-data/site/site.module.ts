@@ -7,10 +7,11 @@ import { MaterialModule } from '../../../material/material.module';
 import { SiteRoutingModule } from './site-routing.module';
 import { SiteComponent } from './site.component';
 import { AddSiteComponent } from './add-site/add-site.component';
+import { FilterSiteComponent } from './filter-site/filter-site.component';
 
 
 @NgModule({
-  declarations: [SiteComponent, AddSiteComponent],
+  declarations: [SiteComponent, AddSiteComponent, FilterSiteComponent],
   imports: [
     CommonModule,
     SiteRoutingModule,
@@ -20,7 +21,8 @@ import { AddSiteComponent } from './add-site/add-site.component';
     MaterialModule
   ],
   exports: [
-    AddSiteComponent
+    AddSiteComponent,
+    FilterSiteComponent
   ]
 })
 export class SiteModule { }

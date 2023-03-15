@@ -1,7 +1,7 @@
 <div class="modal-popup site-details">
     <div class="header popupHeaderBg">
         <div class="left-side">
-            <h1 class="title">Employee Master Data</h1>
+            <h1 class="title">Site Master Data</h1>
         </div>
         <div class="right-side">
             <a href="javascript:void(0);" (click)="close($event)">
@@ -13,208 +13,151 @@
     <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
         <form [formGroup]="masterForm" class="form">
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Site Code</mat-label>
-                    <input formControlName="siteCode" required matInput />
-                    <mat-error *ngIf="mf.siteCode.touched && mf.siteCode.invalid">
-                        <div *ngIf="mf.siteCode.errors?.required" class="italicAlign">Site Code is required.</div>
-                    </mat-error>
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Site Code</mat-label>
+                        <input formControlName="siteCode" required matInput />
+                        <mat-error *ngIf="mf.siteCode.touched && mf.siteCode.invalid">
+                            <div *ngIf="mf.siteCode.errors?.required" class="italicAlign">Site Code is required.</div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Site Name</mat-label>
-                    <input formControlName="siteName" required matInput />
-                    <mat-error *ngIf="mf.siteName.touched && mf.siteName.invalid">
-                        <div *ngIf="mf.siteName.errors?.required" class="italicAlign">Site Name is required.</div>
-                    </mat-error>
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Site Name</mat-label>
+                        <input formControlName="siteName" required matInput />
+                        <mat-error *ngIf="mf.siteName.touched && mf.siteName.invalid">
+                            <div *ngIf="mf.siteName.errors?.required" class="italicAlign">Site Name is required.</div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <select formControlName="selSiteType" name="selSiteType" class="input-element mini">
+                        <option *ngFor="let item of siteTypeList" [ngValue]="item">{{item.label}}</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isSiteTypeDDOpen}">
-                        <button (click)="toggleSiteType($event);" class="btn btn-secondary dropdown-toggle" [title]="selSiteType ?
-                        selSiteType.name : 'Select Site Type'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selSiteType ?
-                                selSiteType.name : 'Select Site Type'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of siteTypeList">
-                                <a class="dropdown-item" (click)="selectSiteType(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <select formControlName="selCluster" name="selCluster" class="input-element mini">
+                        <option *ngFor="let item of clusterList" [ngValue]="item">{{item.label}}</option>
+                    </select>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isClusterDDOpen}">
-                        <button (click)="toggleCluster($event);" class="btn btn-secondary dropdown-toggle" [title]="selCluster ?
-                        selCluster.name : 'Select Cluster'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selCluster ?
-                                selCluster.name : 'Select Cluster'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of clusterList">
-                                <a class="dropdown-item" (click)="selectCluster(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Address</mat-label>
+                        <input formControlName="address"  matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter District</mat-label>
+                        <input formControlName="district" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Address</mat-label>
-                    <input formControlName="address" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Pin Code</mat-label>
+                        <input formControlName="pinCode" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter District</mat-label>
-                    <input formControlName="district" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <select formControlName="selEmployee" name="selEmployee" class="input-element mini">
+                        <option *ngFor="let item of employeeList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Latitude</mat-label>
+                        <input formControlName="latitude" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Pin Code</mat-label>
-                    <input formControlName="pinCode" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Longitude</mat-label>
+                        <input formControlName="longitude" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isEmployeeDDOpen}">
-                        <button (click)="toggleEmployee($event);" class="btn btn-secondary dropdown-toggle" [title]="selEmployee ?
-                        selEmployee.name : 'Select Employee'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selEmployee ?
-                                selEmployee.name : 'Select Employee'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of employeeList">
-                                <a class="dropdown-item" (click)="selectEmployee(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <select formControlName="selDeviceType" name="selDeviceType" class="input-element mini">
+                        <option *ngFor="let item of deviceTypeList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <select formControlName="selSim" name="selSim" class="input-element mini">
+                        <option *ngFor="let item of simList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Latitude</mat-label>
-                    <input formControlName="latitude" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Dv Unique Id</mat-label>
+                        <input formControlName="dvUniqueId" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Longitude</mat-label>
-                    <input formControlName="longitude" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <select formControlName="selSiteStatus" name="selSiteStatus" class="input-element mini">
+                        <option *ngFor="let item of siteStatusList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <select formControlName="selCustomer" name="selCustomer" class="input-element mini">
+                        <option *ngFor="let item of customerList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
             </div>
 
+            <div class="form-group row" style="margin-bottom: 0px;">
+                
+                <div class="form-field col-4">
+                    <select formControlName="selSiteClassification" name="selSiteClassification" class="input-element mini">
+                        <option *ngFor="let item of siteClassificationList" [ngValue]="item">{{item.name}}</option>
+                    </select>
+                </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isDeviceTypeDDOpen}">
-                        <button (click)="toggleDeviceType($event);" class="btn btn-secondary dropdown-toggle" [title]="selDeviceType ?
-                        selDeviceType.name : 'Select Device Type'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selDeviceType ?
-                                selDeviceType.name : 'Select Device Type'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of deviceTypeList">
-                                <a class="dropdown-item" (click)="selectDeviceType(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter AccId Name</mat-label>
+                        <input formControlName="accIdName" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isSimDDOpen}">
-                        <button (click)="toggleSim($event);" class="btn btn-secondary dropdown-toggle" [title]="selSim ?
-                        selSim.name : 'Select Sim'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selSim ?
-                                selSim.name : 'Select Sim'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of simList">
-                                <a class="dropdown-item" (click)="selectSim(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter DG Brand Name</mat-label>
+                        <input formControlName="dgBrandName" matInput />
+                    </mat-form-field>
+                </div>
+
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Dv Unique Id</mat-label>
-                    <input formControlName="dvUniqueId" matInput />
-                </mat-form-field>
-
-
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isSiteStatusDDOpen}">
-                        <button (click)="toggleSiteStatus($event);" class="btn btn-secondary dropdown-toggle" [title]="selSiteStatus ?
-                        selSiteStatus.name : 'Select Site Status'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selSiteStatus ?
-                                selSiteStatus.name : 'Select Site Status'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of siteStatusList">
-                                <a class="dropdown-item" (click)="selectSiteStatus(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
-            </div>
-
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isCustomerDDOpen}">
-                        <button (click)="toggleCustomer($event);" class="btn btn-secondary dropdown-toggle" [title]="selCustomer ?
-                        selCustomer.name : 'Select Customer'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selCustomer ?
-                                selCustomer.name : 'Select Customer'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of customerList">
-                                <a class="dropdown-item" (click)="selectCustomer(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isSiteClassificationDDOpen}">
-                        <button (click)="toggleSiteClassification($event);" class="btn btn-secondary dropdown-toggle" [title]="selSiteClassification ?
-                        selSiteClassification.name : 'Select Site Classification'" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">{{selSiteClassification ?
-                                selSiteClassification.name : 'Select Site Classification'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of siteClassificationList">
-                                <a class="dropdown-item" (click)="selectClassification(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
-            </div>
-
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter AccId Name</mat-label>
-                    <input formControlName="accIdName" matInput />
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter DG Brand Name</mat-label>
-                    <input formControlName="dgBrandName" matInput />
-                </mat-form-field>
-            </div>
-
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter DG Tank Capacity</mat-label>
-                    <input formControlName="dgTankCapacity" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter DG Tank Capacity</mat-label>
+                        <input formControlName="dgTankCapacity" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
             <div class="footer">

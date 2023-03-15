@@ -53,15 +53,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
       href: 'master-data',
       matIcon: 'view_quilt',
       subMenu: [
-        { id: 6.1, value: "Country Master", href: "country-master" },
-        { id: 6.2, value: "Region Master", href: "region-master" },
-        { id: 6.3, value: "Zone Master", href: "zone-master" },
-        { id: 6.4, value: "Employee Role Master", href: "employee-role-master" },
-        { id: 6.5, value: "Employee Master", href: "employee-master" },
-        { id: 6.6, value: "Cluster Master", href: "cluster-master" },
-        { id: 6.7, value: "Site Master", href: "site-master" },
+        { id: 6.1, value: "Country Master", href: "country" },
+        { id: 6.2, value: "Region Master", href: "region" },
+        { id: 6.3, value: "Zone Master", href: "zone" },
+        { id: 6.4, value: "Employee Role Master", href: "employee-role" },
+        { id: 6.5, value: "Employee Master", href: "employee" },
+        { id: 6.6, value: "Cluster Master", href: "cluster" },
+        { id: 6.7, value: "Site Master", href: "site" },
         { id: 6.8, value: "Planned Energy", href: "planned-energy" },
-        { id: 6.9, value: "Sim Master", href: "sim-master" }
+        { id: 6.9, value: "Sim Master", href: "sim" }
       ]
     },
     {

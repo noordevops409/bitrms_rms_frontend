@@ -20,95 +20,17 @@
     <div class="table-listing">
         <div class="box">
             <div class="box-title">
-                <h4>Master Data: Site</h4>
-                <div class="search-part">
-                    <div class="pageSearchCont">
-                        <input placeholder="Search" class="pageSearchControl" id="matFieldDataSearch"
-                            [ngModel]="searchText" (ngModelChange)="searchKey($event)">
-                        <div class="pageSearchIconCont">
-                            <mat-icon class="pageSearchIcon">
-                                search
-                            </mat-icon>
-                        </div>
-                    </div>
-                </div>
+                <h4>Site Master</h4>
             </div>
             <div class="box-body">
                 <div class="list-wrap">
                     <div class="view-holder">
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
-                            <div class="listing">
-                                <div class="head">
-                                    <ul>
-                                        <li title="Sr. No.">Sr. No.</li>
-                                        <li title="Site Code">Site Code</li>
-                                        <li title="Site Name">Site Name</li>
-                                        <li title="Site Type">Site Type</li>
-                                        <li title="Cluster">Cluster</li>
-                                        <li title="Address">Address</li>
-                                        <li title="District">District</li>
-                                        <li title="Pincode">Pincode</li>
-                                        <li title="Employee ID">Employee ID</li>
-                                        <li title="Latitude">Latitude</li>
-                                        <li title="Longitude">Longitude</li>
-                                        <li title="Sim">Sim</li>
-                                        <li title="Device Type">Device Type</li>
-                                        <li title="Dv Unique ID">Dv Unique ID</li>
-                                        <li title="Site Status">Site Status</li>
-                                        <li title="Customer">Customer</li>
-                                        <li title="Site Classification">Site Classification</li>
-                                        <li title="AccID Name">AccID Name</li>
-                                        <li title="DG Brand Name">DG Brand Name</li>
-                                        <li title="DG Tank Capacity">DG Tank Capacity</li>
-                                        <li title="Edit">Edit</li>
-                                        <li title="Delete">Delete</li>
-                                    </ul>
-                                </div>
-                                <div class="body">
-                                    <ng-container *ngFor="let item of dataSource;let i = index;">
-                                        <ul>
-                                            <li>{{(i+1)}}</li>
-                                            <li [title]="item.siteCode">{{item.siteCode}}</li>
-                                            <li [title]="item.siteName">{{item.siteName}}</li>
-                                            <li [title]="item.siteType">{{item.siteType}}</li>
-                                            <li [title]="item.cluster">{{item.cluster}}</li>
-                                            <li [title]="item.address">{{item.address}}</li>
-                                            <li [title]="item.district">{{item.district}}</li>
-                                            <li [title]="item.pincode">{{item.pincode}}</li>
-                                            <li [title]="item.employeeId">{{item.employeeId}}</li>
-                                            <li [title]="item.latitude">{{item.latitude}}</li>
-                                            <li [title]="item.longitude">{{item.longitude}}</li>
-                                            <li [title]="item.sim">{{item.sim}}</li>
-                                            <li [title]="item.deviceType">{{item.deviceType}}</li>
-                                            <li [title]="item.dvUniqueId">{{item.dvUniqueId}}</li>
-                                            <li [title]="item.siteStatus">{{item.siteStatus}}</li>
-                                            <li [title]="item.customer">{{item.customer}}</li>
-                                            <li [title]="item.siteClassification">{{item.siteClassification}}</li>
-                                            <li [title]="item.accIdName">{{item.accIdName}}</li>
-                                            <li [title]="item.dgBrandName">{{item.dgBrandName}}</li>
-                                            <li [title]="item.dgTankCapacity">{{item.dgTankCapacity}}</li>
-                                            <li>{{(item.employeeNotification)}}</li>
-                                            <li>{{(item.accIdName)}}</li>
-                                            <li>
-                                                <mat-icon matTooltip="Edit" class="galleryIcon" (click)="edit($event, item)">
-                                                    create
-                                                </mat-icon>
-                                            </li>
-                                            <li>
-                                                <mat-icon matTooltip="Delete" class="galleryIcon" (click)="delete(item, i)">
-                                                    delete
-                                                </mat-icon>
-                                            </li>
-                                        </ul>
-                                    </ng-container>
-                                </div>
-                                <div class="footer">
-                                    <mat-paginator [length]="totalItemCount" [pageSize]="pageSize"
-                                        [disabled]="showSaving" [pageIndex]="pageIndex"
-                                        (page)="onPaginationChange($event)" [pageSizeOptions]="[5, 10, 25, 50]">
-                                    </mat-paginator>
-                                </div>
-                            </div>
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
                         </div>
                     </div>
                 </div>

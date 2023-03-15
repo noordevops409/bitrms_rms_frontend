@@ -32,8 +32,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   public isCustomerDDOpen: boolean = false;
   public isSiteClassificationDDOpen: boolean = false;
 
-  public selSiteType: any = null;
   public siteTypeList: any = [
+    {
+      value: -1,
+      label: 'Select Site Type'
+    },
     {
       value: 'Hybrid',
       label: 'Hybrid'
@@ -43,8 +46,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       label: 'TEE'
     }
   ];
-  public selDeviceType: any = null;
   public deviceTypeList: any = [
+    {
+      value: -1,
+      label: 'Select Device Type'
+    },
     {
       value: 'Lineage',
       label: 'Lineage'
@@ -66,8 +72,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       label: 'Alpha'
     }
   ];
-  public selSiteStatus: any = null;
   public siteStatusList: any = [
+    {
+      value: -1,
+      label: 'Select Site Status'
+    },
     {
       label: 'Active',
       value: 'Active'
@@ -77,8 +86,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       value: 'Inactive'
     }
   ];
-  public selCustomer: any = null;
   public customerList: any = [
+    {
+      value: -1,
+      label: 'Select Customer'
+    },
     {
       label: 'Apollo',
       value: 'Apollo'
@@ -96,8 +108,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       value: 'test'
     }
   ];
-  public selSiteClassification: any = null;
   public siteClassificationList: any = [
+    {
+      value: -1,
+      label: 'Select Classification'
+    },
     {
       label: 'Class A',
       value: 'Class A'
@@ -115,11 +130,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       value: 'Critical'
     }
   ];
-  public selCluster: any = null;
+
   public clusterList: any = null;
-  public selEmployee: any = null;
   public employeeList: any = null;
-  public selSim: any = null;
   public simList: any = null;
 
   public masterForm!: FormGroup;
@@ -155,7 +168,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.selSiteType = this.siteTypeList[0];
     this.loadData();
   }
 
@@ -163,6 +175,14 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm = this.formBuilder.group({
       'siteCode': [null, [Validators.required]],
       'siteName': [null, [Validators.required]],
+      'selSiteType': [-1],
+      'selDeviceType': [-1],
+      'selSiteStatus': [-1],
+      'selCustomer': [-1],
+      'selSiteClassification': [-1],
+      'selCluster': [-1],
+      'selEmployee': [-1],
+      'selSim': [-1],
       'address': [null],
       'district': [null],
       'pinCode': [null],
@@ -198,12 +218,14 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['accIdName'].setValue(this.selSite.accIdName);
     this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrandName);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
-
-    this.setSiteTypeDD();
-    this.setDeviceTypeDD();
-    this.setSiteStatusDD();
-    this.setCustomerDD();
-    this.setSiteClassificationDD();
+    this.masterForm.controls['selSiteType'].setValue(this.selSite.selSiteType);
+    this.masterForm.controls['selDeviceType'].setValue(this.selSite.selDeviceType);
+    this.masterForm.controls['selSiteStatus'].setValue(this.selSite.selSiteStatus);
+    this.masterForm.controls['selCustomer'].setValue(this.selSite.selCustomer);
+    this.masterForm.controls['selSiteClassification'].setValue(this.selSite.selSiteClassification);
+    this.masterForm.controls['selCluster'].setValue(this.selSite.selCluster);
+    this.masterForm.controls['selEmployee'].setValue(this.selSite.selEmployee);
+    this.masterForm.controls['selSim'].setValue(this.selSite.selSim);
   }
 
   loadData() {
@@ -216,7 +238,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.clusterList = data;
-      this.setSelClusterDD();
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -230,7 +251,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.employeeList = data;
-      this.setSelEmployeeDD();
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -244,7 +264,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.simList = data;
-      this.setSelSimDD();
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -254,143 +273,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSiteTypeDD() {
-    for (let item of this.siteTypeList) {
-      if (item.value === this.selSite.siteTypeId) {
-        this.selSiteType = item;
-        break;
-      }
-    }
-  }
-
-  setDeviceTypeDD() {
-    for (let item of this.deviceTypeList) {
-      if (item.value === this.selSite.deviceType) {
-        this.selDeviceType = item;
-        break;
-      }
-    }
-  }
-
-  setSiteStatusDD() {
-    for (let item of this.siteStatusList) {
-      if (item.value === this.selSite.siteStatus) {
-        this.selSiteStatus = item;
-        break;
-      }
-    }
-  }
-
-  setCustomerDD() {
-    for (let item of this.customerList) {
-      if (item.value === this.selSite.customer) {
-        this.selCustomer = item;
-        break;
-      }
-    }
-  }
-
-  setSiteClassificationDD() {
-    for (let item of this.siteClassificationList) {
-      if (item.value === this.selSite.siteClassification) {
-        this.selSiteClassification = item;
-        break;
-      }
-    }
-  }
-
-  setSelClusterDD() {
-    for (let item of this.clusterList) {
-      if (item.id === this.selSite.clusterId) {
-        this.selCluster = item;
-        break;
-      }
-    }
-  }
-
-  setSelEmployeeDD() {
-    for (let item of this.employeeList) {
-      if (item.id === this.selSite.employeeId) {
-        this.selEmployee = item;
-        break;
-      }
-    }
-  }
-
-  setSelSimDD() {
-    for (let item of this.simList) {
-      if (item.id === this.selSite.simId) {
-        this.selSim = item;
-        break;
-      }
-    }
-  }
-
-  toggleSiteType(evt?: any) {
-    this.isSiteTypeDDOpen = !this.isSiteTypeDDOpen;
-  }
-
-  selectSiteType(item?: any) {
-    this.selSiteType = item;
-  }
-
-  toggleCluster(evt?: any) {
-    this.isClusterDDOpen = !this.isClusterDDOpen;
-  }
-
-  selectCluster(item?: any) {
-    this.selCluster = item;
-  }
-
-  toggleEmployee(evt?: any) {
-    this.isEmployeeDDOpen = !this.isEmployeeDDOpen;
-  }
-
-  selectEmployee(item?: any) {
-    this.selEmployee = item;
-  }
-
-  toggleDeviceType(evt?: any) {
-    this.isDeviceTypeDDOpen = !this.isDeviceTypeDDOpen;
-  }
-
-  selectDeviceType(item?: any) {
-    this.selDeviceType = item;
-  }
-
-  toggleSiteStatus(evt?: any) {
-    this.isSiteStatusDDOpen = !this.isSiteStatusDDOpen;
-  }
-
-  selectSiteStatus(item?: any) {
-    this.selSiteStatus = item;
-  }
-
-  toggleCustomer(evt?: any) {
-    this.isCustomerDDOpen = !this.isCustomerDDOpen;
-  }
-
-  selectCustomer(item?: any) {
-    this.selCustomer = item;
-  }
-
-  toggleSiteClassification(evt?: any) {
-    this.isSiteClassificationDDOpen = !this.isSiteClassificationDDOpen;
-  }
-
-  selectClassification(item?: any) {
-    this.selSiteClassification = item;
-  }
-
-  toggleSim(evt?: any) {
-    this.isSimDDOpen = !this.isSimDDOpen;
-  }
-
-  selectSim(item?: any)  {
-    this.selSim = item;
-  }
-
-
+  
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -410,26 +293,25 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
 
     let params: any = {
-
       siteCode: formData.siteCode,
       siteName: formData.siteName,
-      siteType: this.selSiteType.value,
-      clusterId: this.selCluster.id,
-      clusterName: this.selCluster.name,
+      siteType: formData.selSiteType,
+      clusterId: formData.selCluster,
+      clusterName: formData.selCluster,
       address: formData.address,
       district: formData.district,
       pinCode: formData.pinCode,
-      employeeId: this.selEmployee.id,
-      employeeName: this.selEmployee.name,
+      employeeId: formData.selEmployee.id,
+      employeeName: formData.selEmployee.name,
       latitude: formData.latitude,
       longitude: formData.longitude,
-      deviceType: this.selDeviceType.value,
-      simId: this.selSim.id,
-      simName: this.selSim.name,
+      deviceType: formData.selDeviceType.value,
+      simId: formData.selSim.id,
+      simName: formData.selSim.name,
       dvUniqueId: formData.dvUniqueId,
-      siteStatus: this.selSiteStatus.value,
-      customer: this.selCustomer.value,
-      siteClassification: this.selSiteClassification.value,
+      siteStatus: formData.selSiteStatus.value,
+      customer: formData.selCustomer.value,
+      siteClassification: formData.selSiteClassification.value,
       accIdName: formData.accIdName,
       dgBrandName: formData.dgBrandName,
       dgTankCapacity: formData.dgTankCapacity
