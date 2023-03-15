@@ -273,7 +273,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
-  
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -335,6 +334,4 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-
 }
