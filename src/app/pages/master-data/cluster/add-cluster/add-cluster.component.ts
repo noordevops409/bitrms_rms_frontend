@@ -30,9 +30,7 @@ export class AddClusterComponent implements OnInit, OnDestroy {
   public masterForm!: FormGroup;
 
   public employeeList: any = null;
-  public selEmployee: any = null;
   public zoneList: any = null;
-  public selZone: any = null;
 
   private selCluster: any = null;
   private clusterId: any = null;
@@ -78,7 +76,10 @@ export class AddClusterComponent implements OnInit, OnDestroy {
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
       'acsysSyncTimeName': [null],
-      'accIdName': [null]
+      'accIdName': [null],
+      'selEmployee': [-1],
+      'selZone': [-1],
+      'selCluster': [-1]
     });
   }
 
@@ -86,7 +87,6 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.employeeList = data;
-      this.setSelEmployeeDD();
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -100,7 +100,6 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.zoneList = data;
-      this.setSelZoneDD();
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -129,40 +128,9 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     this.masterForm.controls['acsysSyncDateName'].setValue(acsysSyncDateTimeName[0]);
     this.masterForm.controls['acsysSyncTimeName'].setValue(acsysSyncDateTimeName[1]);
     this.masterForm.controls['accIdName'].setValue(this.selCluster.accIdName);
-  }
 
-  setSelZoneDD() {
-    for (let item of this.zoneList) {
-      if (item.id === this.selZone.countryId) {
-        this.selZone = item;
-        break;
-      }
-    }
-  }
-
-  setSelEmployeeDD() {
-    for (let item of this.employeeList) {
-      if (item.id === this.selZone.employeeId) {
-        this.selEmployee = item;
-        break;
-      }
-    }
-  }
-
-  toggleEmployee(evt?: any) {
-    this.isEmployeeDDOpen = !this.isEmployeeDDOpen;
-  }
-
-  selectEmployee(item?: any) {
-    this.selEmployee = item;
-  }
-
-  toggleZone(evt?: any) {
-    this.isZoneDDOpen = !this.isZoneDDOpen;
-  }
-
-  selectZone(item?: any) {
-    this.selZone = item;
+    this.masterForm.controls['selEmployee'].setValue(this.selCluster.selEmployee);
+    this.masterForm.controls['selZone'].setValue(this.selCluster.selZone);
   }
 
   close(evt?: any) {
@@ -189,10 +157,10 @@ export class AddClusterComponent implements OnInit, OnDestroy {
       acsysSyncDateTimeName: acsysSyncDateTimeName,
       acsysSyncStatusName: formData.acsysSyncStatusName,
       accIdName: formData.accIdName,
-      employeeId: this.selEmployee.id,
-      employeeName: this.selEmployee.name,
-      zoneId: this.selZone.id,
-      zoneName: this.selZone.name
+      employeeId: formData.selEmployee.id,
+      employeeName: formData.selEmployee.name,
+      zoneId: formData.selZone.id,
+      zoneName: formData.selZone.name
     };
 
     if (this.isForEdit) {
