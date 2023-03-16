@@ -20,97 +20,17 @@
     <div class="table-listing">
         <div class="box">
             <div class="box-title">
-                <h4>Master Data: Employee</h4>
-                <div class="search-part">
-                    <div class="pageSearchCont">
-                        <input placeholder="Search" class="pageSearchControl" id="matFieldDataSearch"
-                            [ngModel]="searchText" (ngModelChange)="searchKey($event)">
-                        <div class="pageSearchIconCont">
-                            <mat-icon class="pageSearchIcon">
-                                search
-                            </mat-icon>
-                        </div>
-                    </div>
-                </div>
+                <h4>Employee Master</h4>
             </div>
             <div class="box-body">
                 <div class="list-wrap">
                     <div class="view-holder">
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
-                            <div class="listing">
-                                <div class="head">
-                                    <ul>
-                                        <li title="Sr. No.">Sr. No.</li>
-                                        <li title="Employee ID">ID</li>
-                                        <li title="Employee Role">Role</li>
-                                        <li title="Employee First Name">First Name</li>
-                                        <li title="Employee Last Name">Last Name</li>
-                                        <li title="Employee Contact Number">Contact No</li>
-                                        <li title="Email">Email</li>
-                                        <li title="Region">Region</li>
-                                        <li title="Zone">Zone</li>
-                                        <li title="ERP Location">ERP Location</li>
-                                        <li title="Employee Location">Location</li>
-                                        <li title="Lattitude">Lattitude</li>
-                                        <li title="Longitude">Longitude</li>
-                                        <li title="Entry Date">Entry Date</li>
-                                        <li title="Exit Date">Exit Date</li>
-                                        <li title="Escalation Mode">Escalation Mode</li>
-                                        <li title="Acssys Employee ID">Acssys ID</li>
-                                        <li title="Acssys Employee Sync Status">Acssys Sync Status</li>
-                                        <li title="Acssys Employee Updated Name">Acssys Updated Name</li>
-                                        <li title="ke ID">ke ID</li>
-                                        <li title="Employee Notification">Notification</li>
-                                        <li title="Acc ID">Acc ID</li>
-                                        <li title="Edit">Edit</li>
-                                        <li title="Delete">Delete</li>
-                                    </ul>
-                                </div>
-                                <div class="body">
-                                    <ng-container *ngFor="let item of dataSource;let i = index;">
-                                        <ul>
-                                            <li>{{(i+1)}}</li>
-                                            <li>{{(item.id)}}</li>
-                                            <li>{{(item.role)}}</li>
-                                            <li>{{(item.firstName)}}</li>
-                                            <li>{{(item.lastName)}}</li>
-                                            <li>{{(item.contactNo)}}</li>
-                                            <li>{{(item.email)}}</li>
-                                            <li>{{(item.region)}}</li>
-                                            <li>{{(item.zone)}}</li>
-                                            <li>{{(item.erpLocation)}}</li>
-                                            <li>{{(item.employeeLocation)}}</li>
-                                            <li>{{(item.lattitude)}}</li>
-                                            <li>{{(item.longitude)}}</li>
-                                            <li>{{(item.entryDate)}}</li>
-                                            <li>{{(item.exitDate)}}</li>
-                                            <li>{{(item.escalationMode)}}</li>
-                                            <li>{{(item.acsysEmployeeId)}}</li>
-                                            <li>{{(item.acsysSyncStatus)}}</li>
-                                            <li>{{(item.acsysUpdatedDate)}}</li>
-                                            <li>{{(item.keid)}}</li>
-                                            <li>{{(item.employeeNotification)}}</li>
-                                            <li>{{(item.accIdName)}}</li>
-                                            <li>
-                                                <mat-icon matTooltip="Edit" class="galleryIcon" (click)="edit($event, item)">
-                                                    create
-                                                </mat-icon>
-                                            </li>
-                                            <li>
-                                                <mat-icon matTooltip="Delete" class="galleryIcon" (click)="delete(item, i)">
-                                                    delete
-                                                </mat-icon>
-                                            </li>
-                                        </ul>
-                                    </ng-container>
-                                </div>
-                                <div class="footer">
-                                    <mat-paginator [length]="totalItemCount" [pageSize]="pageSize"
-                                        [disabled]="showSaving" [pageIndex]="pageIndex"
-                                        (page)="onPaginationChange($event)" [pageSizeOptions]="[5, 10, 25, 50]">
-                                    </mat-paginator>
-                                </div>
-                            </div>
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
                         </div>
                     </div>
                 </div>

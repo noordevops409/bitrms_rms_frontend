@@ -31,14 +31,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
 
   public masterForm!: FormGroup;
 
-  public selEmployeeRole: any = null;
   public employeeRoleList: any = null;
-  public selRegion: any = null;
   public regionList: any = null;
-  public selZone: any = null;
   public zoneList: any = null;
-  public selEscalationMode: any = null;
   public escalationModeList: any = [
+    {
+      label: 'Select Escalation Mode',
+      value: -1
+    },
     {
       label: 'Email',
       value: 1
@@ -82,7 +82,6 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.selEscalationMode = this.escalationModeList[0];
     this.loadData();
   }
 
@@ -102,7 +101,11 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       'acsysEmployeeSyncStatus': [null],
       'keId': [null],
       'notification': [null],
-      'accIdName': [null]
+      'accIdName': [null],
+      'selEmployeeRole': [null],
+      'selRegion': [null],
+      'selZone': [null],
+      'selEscalationMode': [null]
     });
   }
 
@@ -116,7 +119,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.employeeRoleList = data;
-      this.setSelEmployeeRoleDD();
+      this.masterForm.controls['selEmployeeRole'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -130,7 +133,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.zoneList = data;
-      this.setSelZoneDD();
+      this.masterForm.controls['selZone'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -144,7 +147,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.regionList = data;
-      this.setSelRegionDD();
+      this.masterForm.controls['selRegion'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -182,77 +185,13 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.masterForm.controls['keId'].setValue(this.selEmployee.keId);
     this.masterForm.controls['notification'].setValue(this.selEmployee.notification);
     this.masterForm.controls['accIdName'].setValue(this.selEmployee.accIdName);
-    
-    this.setEscalationMode();
+
+    this.masterForm.controls['selEmployeeRole'].setValue(this.selEmployee.selEmployeeRole);
+    this.masterForm.controls['selZone'].setValue(this.selEmployee.selZone);
+    this.masterForm.controls['selRegion'].setValue(this.selEmployee.selRegion);
+    this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
   }
 
-  setEscalationMode() {
-    for (let item of this.selEscalationMode) {
-      if (item.value === this.selEmployee.escalationMode) {
-        this.selEscalationMode = item;
-        break;
-      }
-    }
-  }
-
-  setSelEmployeeRoleDD() {
-    for (let item of this.employeeRoleList) {
-      if (item.id === this.selEmployee.roleId) {
-        this.selEmployeeRole = item;
-        break;
-      }
-    }
-  }
-
-  setSelZoneDD() {
-    for (let item of this.zoneList) {
-      if (item.id === this.selEmployee.zoneId) {
-        this.selZone = item;
-        break;
-      }
-    }
-  }
-
-  setSelRegionDD() {
-    for (let item of this.regionList) {
-      if (item.id === this.selZone.regionId) {
-        this.selRegion = item;
-        break;
-      }
-    }
-  }
-
-  toggleEmployeeRole(evt?: any) {
-    this.isEmployeeRoleDDOpen = !this.isEmployeeRoleDDOpen;
-  }
-
-  selectEmployeeRole(item?: any) {
-    this.selEmployeeRole = item;
-  }
-
-  toggleZone(evt?: any) {
-    this.isZoneDDOpen = !this.isZoneDDOpen;
-  }
-
-  selectZone(item?: any) {
-    this.selZone = item;
-  }
-
-  toggleRegion(evt?: any) {
-    this.isRegionDDOpen = !this.isRegionDDOpen;
-  }
-
-  selectRegion(item?: any) {
-    this.selRegion = item;
-  }
-
-  toggleEscalation(evt?: any) {
-    this.isEscalationDDOpen = !this.isEscalationDDOpen;
-  }
-
-  selectEscalationMode(item?: any) {
-    this.selRegion = item;
-  }
 
   close(evt?: any) {
     this.dialogRef.close();
@@ -276,19 +215,19 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       empId: formData.empId,
       firstName: formData.firstName,
       lastName: formData.lastName,
-      roleId: this.selEmployeeRole.id,
-      roleName: this.selEmployeeRole.name,
-      regionId: this.selRegion.id,
-      regionName: this.selRegion.name,
-      zoneId: this.selZone.id,
-      zoneName: this.selZone.name,
+      roleId: formData.selEmployeeRole.id,
+      roleName: formData.selEmployeeRole.name,
+      regionId: formData.selRegion.id,
+      regionName: formData.selRegion.name,
+      zoneId: formData.selZone.id,
+      zoneName: formData.selZone.name,
       contactNumber: formData.contactNumber,
       email: formData.email,
       erpLocation: formData.erpLocation,
       employeeLocation: formData.employeeLocation,
       latitude: formData.latitude,
       longitude: formData.longitude,
-      escalationMode: this.selEscalationMode.value,
+      escalationMode: formData.selEscalationMode.value,
       acsysEmployeeId: formData.acsysEmployeeId,
       acsysEmployeeSyncStatus: formData.acsysEmployeeSyncStatus,
       entryDate: moment(formData.entryDate).format('YYYY-MM-DD'),

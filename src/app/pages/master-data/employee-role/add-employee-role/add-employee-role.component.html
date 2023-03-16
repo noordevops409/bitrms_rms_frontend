@@ -12,38 +12,60 @@
 
     <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
         <form [formGroup]="masterForm" class="form">
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Enter Role Name</mat-label>
-                    <input formControlName="name" required matInput />
-                    <mat-error *ngIf="mf.name.touched && mf.name.invalid">
-                        <div *ngIf="mf.name.errors?.required" class="italicAlign">Employee Role Name is required.</div>
-                    </mat-error>
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Enter Role Name</mat-label>
+                        <input formControlName="name" required matInput />
+                        <mat-error *ngIf="mf.name.touched && mf.name.invalid">
+                            <div *ngIf="mf.name.errors?.required" class="italicAlign">Employee Role Name is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Employee Is Predefined</mat-label>
-                    <input formControlName="isPredefined" type="number" min="0" max="1" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Employee Is Predefined</mat-label>
+                        <input formControlName="isPredefined" type="number" min="0" max="1" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Role Category Id</mat-label>
+                        <input formControlName="roleCategoryId" type="number" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Role Category Id</mat-label>
-                    <input formControlName="roleCategoryId" type="number" matInput />
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
                     <mat-label>Is Escalation Request</mat-label>
                     <input formControlName="isEscalationReq" type="number" matInput />
-                </mat-form-field>
-            </div>
+                </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
+                <div class="form-field col-4">
                     <mat-label>Category Id</mat-label>
                     <input formControlName="categoryId" type="number" matInput />
-                </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="footer">
+                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Update
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
+                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                    [disabled]="masterForm.invalid">Add
+                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                        autorenew
+                    </mat-icon>
+                </button>
             </div>
         </form>
     </div>
