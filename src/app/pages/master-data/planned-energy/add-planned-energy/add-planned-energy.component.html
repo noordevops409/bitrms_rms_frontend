@@ -12,171 +12,231 @@
 
     <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
         <form [formGroup]="masterForm" class="form">
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <div class="dropdown" [ngClass]="{'open': isSiteCodeDDOpen}">
-                        <button (click)="toggleSiteCode($event);" class="btn btn-secondary dropdown-toggle" [title]="selSiteCode ?
-                        selSiteCode.name : 'Select Site Code'" type="button" id="dropdownMenuButton1"
-                            data-toggle="dropdown" aria-expanded="false">{{selSiteCode ?
-                            selSiteCode.name : 'Select Site Code'}}</button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li *ngFor="let item of siteCodeList">
-                                <a class="dropdown-item" (click)="selectSiteCode(item);"
-                                    href="javascript:void(0);">{{item.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-form-field>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Solar Output Energy</mat-label>
-                    <input formControlName="solarOutputEnergy" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <select formControlName="selSiteCode" name="selEscalationMode" class="input-element mini">
+                        <option *ngFor="let item of siteCodeList" [ngValue]="item">{{item.label}}</option>
+                    </select>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar Output Energy</mat-label>
+                        <input formControlName="solarOutputEnergy" matInput />
+                    </mat-form-field>
+                </div>
+
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar Output Energy</mat-label>
+                        <input formControlName="solarOutputEnergy" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Solar Run Hrs.</mat-label>
-                    <input formControlName="solarRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar Run Hrs.</mat-label>
+                        <input formControlName="solarRunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>DG Energy</mat-label>
-                    <input formControlName="dgEnergy" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>DG Energy</mat-label>
+                        <input formControlName="dgEnergy" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>DG Run Hrs.</mat-label>
+                        <input formControlName="dgRunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>DG Run Hrs.</mat-label>
-                    <input formControlName="dgRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>DG Run Hrs.</mat-label>
+                        <input formControlName="dgRunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>MDG Energy</mat-label>
-                    <input formControlName="mdgEnergy" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>MDG Energy</mat-label>
+                        <input formControlName="mdgEnergy" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>MDG Run Hrs.</mat-label>
+                        <input formControlName="mdgRunHrs" matInput />
+                    </mat-form-field>
+                </div>
+
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>MDG Run Hrs.</mat-label>
-                    <input formControlName="mdgRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Batt Dis Energy(kwh)</mat-label>
+                        <input formControlName="battDisEnergy" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Batt Dis Energy(kwh)</mat-label>
-                    <input formControlName="battDisEnergy" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Batt Dis Run Hrs.</mat-label>
+                        <input formControlName="battRunHrs" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Batt Charging Energy(kwh)</mat-label>
+                        <input formControlName="battChargingEnergy" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Batt Dis Run Hrs.</mat-label>
-                    <input formControlName="battRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Batt Charging Energy Run Hrs.</mat-label>
+                        <input formControlName="battChargingRunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Batt Charging Energy(kwh)</mat-label>
-                    <input formControlName="battChargingEnergy" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar Batt Run Hrs.</mat-label>
+                        <input formControlName="solarBattRunHrs" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar DG Run Hrs.</mat-label>
+                        <input formControlName="solarDGRunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Batt Charging Energy Run Hrs.</mat-label>
-                    <input formControlName="battChargingRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar MDG Run Hrs.</mat-label>
+                        <input formControlName="solarMDGRunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Solar Batt Run Hrs.</mat-label>
-                    <input formControlName="solarBattRunHrs" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Solar MDG Run Hrs.</mat-label>
+                        <input formControlName="solarMDGRunHrs" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Tele Energy</mat-label>
+                        <input formControlName="solarDGRunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Solar DG Run Hrs.</mat-label>
-                    <input formControlName="solarDGRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Tele Run Hrs.</mat-label>
+                        <input formControlName="teleRunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Solar MDG Run Hrs.</mat-label>
-                    <input formControlName="solarMDGRunHrs" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Community Load Energy</mat-label>
+                        <input formControlName="communityLoadEnergy" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Community Load Run Hrs.</mat-label>
+                        <input formControlName="communityLoadRunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Tele Energy</mat-label>
-                    <input formControlName="solarDGRunHrs" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 1 (kwh)</mat-label>
+                        <input formControlName="opco1" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Tele Run Hrs.</mat-label>
-                    <input formControlName="teleRunHrs" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 1 Run Hrs.</mat-label>
+                        <input formControlName="opco1RunHrs" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 2 (kwh)</mat-label>
+                        <input formControlName="opco2" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Community Load Energy</mat-label>
-                    <input formControlName="communityLoadEnergy" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 2 Run Hrs.</mat-label>
+                        <input formControlName="opco2RunHrs" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Community Load Run Hrs.</mat-label>
-                    <input formControlName="communityLoadRunHrs" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 3 (kwh)</mat-label>
+                        <input formControlName="opco3" matInput />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 3 Run Hrs.</mat-label>
+                        <input formControlName="opco3RunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 1 (kwh)</mat-label>
-                    <input formControlName="opco1" matInput />
-                </mat-form-field>
+            <div class="form-group row" style="margin-bottom: 0px;">
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 4 (kwh)</mat-label>
+                        <input formControlName="opco4" matInput />
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 1 Run Hrs.</mat-label>
-                    <input formControlName="opco1RunHrs" matInput />
-                </mat-form-field>
+                <div class="form-field col-4">
+                    <mat-form-field>
+                        <mat-label>Opco 4 Run Hrs.</mat-label>
+                        <input formControlName="opco4RunHrs" matInput />
+                    </mat-form-field>
+                </div>
             </div>
 
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 2 (kwh)</mat-label>
-                    <input formControlName="opco2" matInput />
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 2 Run Hrs.</mat-label>
-                    <input formControlName="opco2RunHrs" matInput />
-                </mat-form-field>
-            </div>
-
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 3 (kwh)</mat-label>
-                    <input formControlName="opco3" matInput />
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 3 Run Hrs.</mat-label>
-                    <input formControlName="opco3RunHrs" matInput />
-                </mat-form-field>
-            </div>
-
-            <div class="form-group d-flex" style="margin-bottom: 0px;">
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 4 (kwh)</mat-label>
-                    <input formControlName="opco4" matInput />
-                </mat-form-field>
-
-                <mat-form-field class="fullWidth form-field">
-                    <mat-label>Opco 4 Run Hrs.</mat-label>
-                    <input formControlName="opco4RunHrs" matInput />
-                </mat-form-field>
-            </div>
 
             <div class="footer">
                 <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
