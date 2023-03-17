@@ -769,6 +769,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.HYBRID_ENERGY_RUN_HOURS_LISTING_TYPE:
         this.uniqueId = 'smSiteId';
         break;
+      case AppConstant.COUNTRY_MASTER_LISTING_TYPE:
+        this.uniqueId = 'countryID';
+        break;
       default:
         this.uniqueId = 'distUniqueId';
     }

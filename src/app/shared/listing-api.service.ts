@@ -66,4 +66,8 @@ export class ListingApiService {
   editRCAReportDetails(data: any) {
     this.router.navigate(['pages', 'rca-report', 'edit', data.rcaid]);
   }
+
+  openCountryDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_COUNTRY_FOR_EDIT', data);
+  }
 }

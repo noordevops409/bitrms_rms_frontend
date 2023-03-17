@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -51,21 +52,33 @@ export class CountryComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
+  private forEditListener!: Subscription;
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
     private httpClient: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
     this.init();
+    this.listen();
   }
 
   ngOnDestroy(): void {
+    this.forEditListener.unsubscribe();
+  }
 
+  listen() {
+    this.forEditListener = this.broadcast.on<string>('OPEN_COUNTRY_FOR_EDIT').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.edit(null, data);
+      });
+    });
   }
 
   init() {
@@ -77,7 +90,7 @@ export class CountryComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    let apiUrl: any = ApiConstant.getCountryMasterData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -105,11 +118,11 @@ export class CountryComponent implements OnInit, OnDestroy {
 
   setResponse(resData) {
     this.sampleData.currentPageNo = this.currentPageNo;
-    this.sampleData.listingType = AppConstant.TEE_POWER_TRACKER_LISTING_TYPE;
+    this.sampleData.listingType = AppConstant.COUNTRY_MASTER_LISTING_TYPE;
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'smSiteId';
+    this.sampleData.sortField = 'countryID';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }

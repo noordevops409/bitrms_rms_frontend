@@ -10,6 +10,16 @@
     justify-content: center;
     margin: 0px auto;
     height: inherit;
+
+    .card {
+        .card-body {
+            .form-group {
+                input {
+                    color: #fff;
+                }
+            }
+        }
+    }
 }
 
 .footer {

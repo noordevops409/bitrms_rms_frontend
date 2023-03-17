@@ -69,6 +69,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Remote Commands',
       href: 'remote-commands',
       matIcon: 'view_quilt'
+    },
+    {
+      id: 8,
+      value: 'Logout',
+      href: 'logout',
+      matIcon: 'logout'
     }
   ];
 
@@ -127,7 +133,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   menuClick(evt: any, item: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    this.router.navigate(['pages', item.href]);
+    if(item.id === 8) {
+      this.router.navigate(['logout']);
+    } else {
+      this.router.navigate(['pages', item.href]);
+    }
   }
 
   expandCollapse(evt: any, item: any, index: any) {
