@@ -75,5 +75,13 @@ export const ApiConstant = {
   getCountryMasterData: `${GATEWAY}/api/master_data/view_countrymaster_form`,
   saveCountryMasterData: `${GATEWAY}/api/master_data/country`,
   deleteCountryMasterData: `${GATEWAY}/api/master_data/delete_country_details`,
+
+  getRegionMasterData: `${GATEWAY}/api/master_data/view_regionmaster_form`,
+  saveRegionMasterData: `${GATEWAY}/api/master_data/region`,
+  deleteRegionMasterData: `${GATEWAY}/api/master_data/delete_region_details`,
+
+  getZoneMasterData: `${GATEWAY}/api/master_data/view_zonemaster_form`,
+  saveZoneMasterData: `${GATEWAY}/api/master_data/zone`,
+  deleteZoneMasterData: `${GATEWAY}/api/master_data/delete_zone_details`
 };
 

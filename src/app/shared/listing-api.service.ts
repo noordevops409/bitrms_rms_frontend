@@ -70,4 +70,12 @@ export class ListingApiService {
   openCountryDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_COUNTRY_FOR_EDIT', data);
   }
+
+  openRegionDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_REGION_FOR_EDIT', data);
+  }
+
+  openZoneDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_ZONE_FOR_EDIT', data);
+  }
 }

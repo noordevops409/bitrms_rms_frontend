@@ -47,9 +47,9 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadCountryData();
     this.init();
     this.initForm();
+    this.loadCountryData();
     this.getData();
   }
 
@@ -87,8 +87,8 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selRegion')) {
-      this.selRegion = JSON.parse((window as any).localStorage.getItem('selRegion'));
+    if (this.data) {
+      this.selRegion = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -98,14 +98,13 @@ export class AddRegionComponent implements OnInit, OnDestroy {
 
   setFormData() {
     this.regionId = this.selRegion.id;
-    this.masterForm.controls['name'].setValue(this.selRegion.name);
+    this.masterForm.controls['name'].setValue(this.selRegion.rgRegion);
 
-    let acsysSyncDateTimeName = this.selRegion.acsysSyncDateTimeName.split(' ');
-    this.masterForm.controls['acsysSyncStatusName'].setValue(this.selRegion.acsysSyncStatusName);
+    let acsysSyncDateTimeName = this.selRegion.rgAcsysSyncDateTime.split(' ');
+    this.masterForm.controls['acsysSyncStatusName'].setValue(this.selRegion.rgAcsysSyncstatus);
     this.masterForm.controls['acsysSyncDateName'].setValue(acsysSyncDateTimeName[0]);
     this.masterForm.controls['acsysSyncTimeName'].setValue(acsysSyncDateTimeName[1]);
-    this.masterForm.controls['accIdName'].setValue(this.selRegion.accIdName);
-
+    this.masterForm.controls['accIdName'].setValue(this.selRegion.accID);
   }
 
   close(evt?: any) {
@@ -122,25 +121,26 @@ export class AddRegionComponent implements OnInit, OnDestroy {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
+    const url = ApiConstant.saveRegionMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
 
     let params: any = {
-      name: formData.name,
-      countryId: formData.selCountry.id,
+      rgRegion: formData.name,
+      cmID: formData.selCountry.id,
       countryName: formData.selCountry.name,
-      acsysSyncDateTimeName: acsysSyncDateTimeName,
-      acsysSyncStatusName: formData.acsysSyncStatusName,
-      accIdName: formData.accIdName
+      rgAcsysSyncDateTime: acsysSyncDateTimeName,
+      rgAcsysSyncstatus: formData.acsysSyncStatusName,
+      accID: formData.accIdName
     };
 
     if (this.isForEdit) {
-      params.id = this.regionId;
+      params.rgRegionID = this.regionId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Region details saved successfully...'

@@ -108,8 +108,8 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selZone')) {
-      this.selZone = JSON.parse((window as any).localStorage.getItem('selZone'));
+    if (this.data) {
+      this.selZone = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -118,15 +118,14 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.zoneId = this.selZone.id;
-    this.masterForm.controls['name'].setValue(this.selZone.name);
+    this.zoneId = this.selZone.znZoneID;
+    this.masterForm.controls['name'].setValue(this.selZone.znZone);
 
-    let acsysSyncDateTimeName = this.selZone.acsysSyncDateTimeName.split(' ');
-    this.masterForm.controls['acsysSyncStatusName'].setValue(this.selZone.acsysSyncStatusName);
+    let acsysSyncDateTimeName = this.selZone.znAcsysSyncDateTime.split(' ');
+    this.masterForm.controls['acsysSyncStatusName'].setValue(this.selZone.znAcsysSyncstatus);
     this.masterForm.controls['acsysSyncDateName'].setValue(acsysSyncDateTimeName[0]);
     this.masterForm.controls['acsysSyncTimeName'].setValue(acsysSyncDateTimeName[1]);
-    this.masterForm.controls['accIdName'].setValue(this.selZone.accIdName);
-
+    this.masterForm.controls['accIdName'].setValue(this.selZone.accID);
   }
 
   

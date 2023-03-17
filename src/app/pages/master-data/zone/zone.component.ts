@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -50,6 +51,7 @@ export class ZoneComponent implements OnInit {
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
+  private forEditListener!: Subscription;
 
   constructor(
     private util: CommonUtilService,
@@ -57,19 +59,29 @@ export class ZoneComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
     this.init();
+    this.listen();
   }
 
   ngOnDestroy(): void {
-
+    this.forEditListener.unsubscribe();
   }
 
   init() {
     this.loadData();
+  }
+
+  listen() {
+    this.forEditListener = this.broadcast.on<string>('OPEN_ZONE_FOR_EDIT').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.edit(null, data);
+      });
+    });
   }
 
   loadData() {
@@ -77,7 +89,7 @@ export class ZoneComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    let apiUrl: any = ApiConstant.getZoneMasterData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -96,20 +108,20 @@ export class ZoneComponent implements OnInit {
   }
 
   manipulate(res) {
-    this.setResponse(res.data);
-    this.setColumnHeader(res.data);
-    this.setRowData(res.data);
+    this.setResponse(res.zoneMasterList);
+    this.setColumnHeader(res.zoneMasterList);
+    this.setRowData(res.zoneMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.data.length;
+    this.sampleData.totalDocs = res.totalCount || res.zoneMasterList.length;
   }
 
   setResponse(resData) {
     this.sampleData.currentPageNo = this.currentPageNo;
-    this.sampleData.listingType = AppConstant.TEE_POWER_TRACKER_LISTING_TYPE;
+    this.sampleData.listingType = AppConstant.ZONE_MASTER_LISTING_TYPE;
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'smSiteId';
+    this.sampleData.sortField = 'znZoneID';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -160,7 +172,6 @@ export class ZoneComponent implements OnInit {
     this.updateListParam(data);
   }
 
-
   onRowSelectionChanged(data) {
     if (data && data.length) {
       this.isMultipleRowSelected = data.length > 1;
@@ -193,7 +204,11 @@ export class ZoneComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.zoneMasterList && data.zoneMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }
@@ -207,7 +222,11 @@ export class ZoneComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.zoneMasterList && data.zoneMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }
