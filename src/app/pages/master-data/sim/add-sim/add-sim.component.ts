@@ -28,7 +28,6 @@ export class AddSimComponent implements OnInit {
   
   public masterForm!: FormGroup;
 
-  public selZone: any = null;
   public zoneList: any = null;
   
   private selSIM: any = null;
@@ -67,7 +66,8 @@ export class AddSimComponent implements OnInit {
     this.masterForm = this.formBuilder.group({
       'simNumber': [null, [Validators.required]],
       'gsmOPID': [null],
-      'accID': [null]
+      'accID': [null],
+      'selZone': [null]
     });
   }
 
@@ -79,7 +79,7 @@ export class AddSimComponent implements OnInit {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.zoneList = data;
-      this.setSelZoneDD();
+      this.masterForm.controls['selZone'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -107,23 +107,6 @@ export class AddSimComponent implements OnInit {
     this.masterForm.controls['accID'].setValue(this.selSIM.accID);
   }
 
-  setSelZoneDD() {
-    for (let item of this.zoneList) {
-      if (item.id === this.selSIM.zoneId) {
-        this.selZone = item;
-        break;
-      }
-    }
-  }
-
-  toggleZone(evt?: any) {
-    this.isZoneDDOpen = !this.isZoneDDOpen;
-  }
-
-  selectZone(item?: any) {
-    this.selZone = item;
-  }
-
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -146,8 +129,8 @@ export class AddSimComponent implements OnInit {
       empId: formData.empId,
       firstName: formData.firstName,
       lastName: formData.lastName,
-      zoneId: this.selZone.id,
-      zoneName: this.selZone.name,
+      zoneId: formData.selZone.id,
+      zoneName: formData.selZone.name,
       gsmOPID: formData.gsmOPID,
       accID: formData.accID
     };

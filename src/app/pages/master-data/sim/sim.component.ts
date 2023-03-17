@@ -1,13 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { CommonUtilService } from '../../../shared/common-util.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+
+import { CommonUtilService } from '../../../shared/common-util.service';
+import { BroadcastService } from '../../../shared/broadcast.service';
 
 import { ApiConstant } from '../../../shared/api-constant.enum';
 import { AppConstant } from '../../../shared/app-constant.enum';
-import { BroadcastService } from '../../../shared/broadcast.service';
+
+import { SIM_COLUMN_HEADER } from './sim-column.enum';
+
+import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
 import { AddSimComponent } from './add-sim/add-sim.component';
 
@@ -18,17 +23,33 @@ import { AddSimComponent } from './add-sim/add-sim.component';
 })
 export class SimComponent implements OnInit {
 
-  public isLoading: boolean = false;
-  public allItems: any = [];
-  public dataSource: any = [];
-  public searchText: any = null;
-  public isListServerError: boolean = false;
-  public showSaving: boolean = false;
+  @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
 
-  public totalItemCount: number = 0;
-  public pageSize: number = 5;
-  public pageIndex: number = 0;
-  public paginationLoading = false;
+  public isLoading: boolean = false;
+  public isListServerError: boolean = false;
+
+  public parentHeight: any = null;
+  public selectedRow: any = null;
+  public multipleSelRow: any = null;
+  public list = [];
+  public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
+
+  public activeListing: any = {};
+  public data: any;
+  public listingTemplate: any = {};
+
+  public isReqToOpenFilter: boolean = false;
+  public isOpenTabularFilter: boolean = false;
+  public isExpanded: boolean = false;
+  public defaultFilterList: any = [];
+
+  public isFilterDataLoaded: boolean = false;
+
+  private sampleData: any = {};
+  private currentPageNo: number = 1;
+  private pageSize: number = 10;
+  private recordStartFrom: number = 0;
+  private isMultipleRowSelected: boolean = false;
 
   constructor(
     private util: CommonUtilService,
@@ -48,25 +69,113 @@ export class SimComponent implements OnInit {
   }
 
   init() {
-
+    this.loadData();
   }
 
   loadData() {
-
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+      this.isLoading = false;
+      this.manipulate(res);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading Raw Data Report details!'
+      })
+    });
   }
 
-  manipulate() {
-
+  manipulate(res) {
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
+    this.activeListing.list = this.sampleData;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
 
-  searchKey(data: string) {
-    this.searchText = data;
-    this.searchNameFilter();
+  setResponse(resData) {
+    this.sampleData.currentPageNo = this.currentPageNo;
+    this.sampleData.listingType = AppConstant.TEE_POWER_TRACKER_LISTING_TYPE;
+    this.sampleData.recordBatchSize = this.pageSize || resData.length;
+    this.sampleData.recordStartFrom = this.recordStartFrom;
+    this.sampleData.retainNoOfShow = this.pageSize;
+    this.sampleData.sortField = 'smSiteId';
+    this.sampleData.sortFieldType = 'text';
+    this.sampleData.sortOrder = 'desc';
   }
 
-  searchNameFilter() {
-    this.dataSource = this.allItems.filter(item => item.name.toLowerCase().includes(this.searchText.toLowerCase()) == true);
+  setColumnHeader(resData) {
+    this.sampleData.columnHeader = [];
+    const colData = resData || [];
+    if (colData.length) {
+      const rowData = colData[0];
+      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      for (let key in rowData) {
+        if (SIM_COLUMN_HEADER[key]) {
+          this.sampleData.columnHeader.push(SIM_COLUMN_HEADER[key]);
+        }
+      }
+    }
   }
+
+  setRowData(resData) {
+    const data = resData || [];
+    if (data.length) {
+      this.sampleData.data = data;
+    } else {
+      this.sampleData.data = [];
+    }
+  }
+
+
+  applyFilter(evt?: any) {
+    this.isReqToOpenFilter = false;
+    // this.setFilterParam(evt);
+    this.loadData();
+  }
+
+  updateListParam(data) {
+    this.currentPageNo = data.currentPageNo ? (data.currentPageNo) : this.currentPageNo;
+    this.pageSize = data.pageSize || this.pageSize;
+    this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
+
+    if (data && data.popupTo) {
+      this.applyFilter(data);
+    } else {
+      this.loadData();
+    }
+  }
+
+  loadListing(data) {
+    this.updateListParam(data);
+  }
+
+
+  onRowSelectionChanged(data) {
+    if (data && data.length) {
+      this.isMultipleRowSelected = data.length > 1;
+      this.multipleSelRow = data;
+      if (this.isMultipleRowSelected) {
+        // custom business logic
+      } else {
+        this.selectedRow = data;
+      }
+    } else {
+      this.multipleSelRow = null;
+      this.selectedRow = null;
+    }
+  }
+
 
   exportExcel(evt?: any) {
 
@@ -74,12 +183,6 @@ export class SimComponent implements OnInit {
 
   exportCSV(evt?: any) {
 
-  }
-
-  onPaginationChange($event) {
-    this.pageSize = $event.pageSize;
-    this.pageIndex = $event.pageIndex;
-    this.loadData();
   }
 
   add(evt?: any) {

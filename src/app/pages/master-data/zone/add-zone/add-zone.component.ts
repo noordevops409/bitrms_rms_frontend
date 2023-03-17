@@ -26,9 +26,7 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   public masterForm!: FormGroup;
   public isRegionDDOpen: boolean = false;
   public isCountryDDOpen: boolean = false;
-  public selRegion: any = null;
   public regionList: any = null;
-  public selCountry: any = null;
   public countryList: any = null;
 
   private selZone: any = null;
@@ -70,7 +68,9 @@ export class AddZoneComponent implements OnInit, OnDestroy {
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
       'acsysSyncTimeName': [null],
-      'accIdName': [null]
+      'accIdName': [null],
+      'selRegion': [null],
+      'selCountry': [null]
     });
   }
 
@@ -83,7 +83,7 @@ export class AddZoneComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.countryList = data;
-      this.setSelCountryDD();
+      this.masterForm.controls['selCountry'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -97,7 +97,7 @@ export class AddZoneComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.regionList = data;
-      this.setSelRegionDD();
+      this.masterForm.controls['selRegion'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -129,40 +129,7 @@ export class AddZoneComponent implements OnInit, OnDestroy {
 
   }
 
-  setSelCountryDD() {
-    for (let item of this.countryList) {
-      if (item.id === this.selZone.countryId) {
-        this.selCountry = item;
-        break;
-      }
-    }
-  }
-
-  setSelRegionDD() {
-    for (let item of this.regionList) {
-      if (item.id === this.selZone.regionId) {
-        this.selRegion = item;
-        break;
-      }
-    }
-  }
-
-  toggleCountry(evt?: any) {
-    this.isCountryDDOpen = !this.isCountryDDOpen;
-  }
-
-  selectCountry(item?: any) {
-    this.selCountry = item;
-  }
-
-  toggleRegion(evt?: any) {
-    this.isRegionDDOpen = !this.isRegionDDOpen;
-  }
-
-  selectRegion(item?: any) {
-    this.selRegion = item;
-  }
-
+  
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -183,10 +150,10 @@ export class AddZoneComponent implements OnInit, OnDestroy {
 
     let params: any = {
       name: formData.name,
-      regionId: this.selRegion.id,
-      regionName: this.selRegion.name,
-      countryId: this.selCountry.id,
-      countryName: this.selCountry.name,
+      regionId: formData.selRegion.id,
+      regionName: formData.selRegion.name,
+      countryId: formData.selCountry.id,
+      countryName: formData.selCountry.name,
       acsysSyncDateTimeName: acsysSyncDateTimeName,
       acsysSyncStatusName: formData.acsysSyncStatusName,
       accIdName: formData.accIdName

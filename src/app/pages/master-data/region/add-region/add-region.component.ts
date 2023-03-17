@@ -26,7 +26,6 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   
   public masterForm!: FormGroup;
   public isCountryDDOpen: boolean = false;
-  public selCountry: any = null;
   public countryList: any = null;
 
   private selRegion: any = null;
@@ -68,7 +67,8 @@ export class AddRegionComponent implements OnInit, OnDestroy {
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
       'acsysSyncTimeName': [null],
-      'accIdName': [null]
+      'accIdName': [null],
+      'selCountry': [null]
     });
   }
 
@@ -76,7 +76,7 @@ export class AddRegionComponent implements OnInit, OnDestroy {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.countryList = data;
-      this.setSelCountryDD();
+      this.masterForm.controls['selCountry'].setValue(data[0]);
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -108,23 +108,6 @@ export class AddRegionComponent implements OnInit, OnDestroy {
 
   }
 
-  setSelCountryDD() {
-    for (let item of this.countryList) {
-      if (item.id === this.selRegion.countryId) {
-        this.selCountry = item;
-        break;
-      }
-    }
-  }
-
-  toggleCountry(evt?: any) {
-    this.isCountryDDOpen = !this.isCountryDDOpen;
-  }
-
-  selectCountry(item?: any) {
-    this.selCountry = item;
-  }
-
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -145,8 +128,8 @@ export class AddRegionComponent implements OnInit, OnDestroy {
 
     let params: any = {
       name: formData.name,
-      countryId: this.selCountry.id,
-      countryName: this.selCountry.name,
+      countryId: formData.selCountry.id,
+      countryName: formData.selCountry.name,
       acsysSyncDateTimeName: acsysSyncDateTimeName,
       acsysSyncStatusName: formData.acsysSyncStatusName,
       accIdName: formData.accIdName
