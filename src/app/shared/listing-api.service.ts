@@ -78,4 +78,8 @@ export class ListingApiService {
   openZoneDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_ZONE_FOR_EDIT', data);
   }
+
+  openEmployeeDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_ZONE_FOR_EMPLOYEE', data);
+  }
 }

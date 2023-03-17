@@ -158,8 +158,8 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selEmployee')) {
-      this.selEmployee = JSON.parse((window as any).localStorage.getItem('selEmployee'));
+    if (this.data) {
+      this.selEmployee = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -168,30 +168,29 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.employeeId = this.selEmployee.id;
+    this.employeeId = this.selEmployee.emEmpID;
     this.masterForm.controls['name'].setValue(this.selEmployee.name);
 
-    this.masterForm.controls['empId'].setValue(this.selEmployee.empId);
-    this.masterForm.controls['firstName'].setValue(this.selEmployee.firstName);
-    this.masterForm.controls['lastName'].setValue(this.selEmployee.lastName);
-    this.masterForm.controls['contactNumber'].setValue(this.selEmployee.contactNumber);
-    this.masterForm.controls['email'].setValue(this.selEmployee.email);
-    this.masterForm.controls['erpLocation'].setValue(this.selEmployee.erpLocation);
-    this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.employeeLocation);
-    this.masterForm.controls['latitude'].setValue(this.selEmployee.latitude);
-    this.masterForm.controls['longitude'].setValue(this.selEmployee.longitude);
-    this.masterForm.controls['acsysEmployeeId'].setValue(this.selEmployee.acsysEmployeeId);
-    this.masterForm.controls['acsysEmployeeSyncStatus'].setValue(this.selEmployee.acsysEmployeeSyncStatus);
-    this.masterForm.controls['keId'].setValue(this.selEmployee.keId);
-    this.masterForm.controls['notification'].setValue(this.selEmployee.notification);
-    this.masterForm.controls['accIdName'].setValue(this.selEmployee.accIdName);
+    this.masterForm.controls['empId'].setValue(this.selEmployee.emEmployeeID);
+    this.masterForm.controls['firstName'].setValue(this.selEmployee.emFirstName);
+    this.masterForm.controls['lastName'].setValue(this.selEmployee.emLastName);
+    this.masterForm.controls['contactNumber'].setValue(this.selEmployee.emContactNo);
+    this.masterForm.controls['email'].setValue(this.selEmployee.emEmail);
+    this.masterForm.controls['erpLocation'].setValue(this.selEmployee.emERPLocation);
+    this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.emLocation);
+    this.masterForm.controls['latitude'].setValue(this.selEmployee.emLatitude);
+    this.masterForm.controls['longitude'].setValue(this.selEmployee.emLongitude);
+    this.masterForm.controls['acsysEmployeeId'].setValue(this.selEmployee.emAcsysEmployeeID);
+    this.masterForm.controls['acsysEmployeeSyncStatus'].setValue(this.selEmployee.emAcsysEmployeeSyncstatus);
+    this.masterForm.controls['keId'].setValue(this.selEmployee.keID);
+    this.masterForm.controls['notification'].setValue(this.selEmployee.emNotification);
+    this.masterForm.controls['accIdName'].setValue(this.selEmployee.accID);
 
     this.masterForm.controls['selEmployeeRole'].setValue(this.selEmployee.selEmployeeRole);
     this.masterForm.controls['selZone'].setValue(this.selEmployee.selZone);
     this.masterForm.controls['selRegion'].setValue(this.selEmployee.selRegion);
     this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
   }
-
 
   close(evt?: any) {
     this.dialogRef.close();
@@ -207,7 +206,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
+    const url = ApiConstant.saveEmployeeMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
 
@@ -239,11 +238,12 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     };
 
     if (this.isForEdit) {
-      params.id = this.employeeId;
+      params.emEmpID = this.employeeId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Employee details saved successfully...'
