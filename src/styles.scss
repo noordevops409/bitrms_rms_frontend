@@ -1133,6 +1133,10 @@ app-sd-energy-listing {
     }
 }
 
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: #fff;
+}
+
 .mat-dialog-container {
     background-color: #222b45;
     border: 0.0625rem solid #101426;

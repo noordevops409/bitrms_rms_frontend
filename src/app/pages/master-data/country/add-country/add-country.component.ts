@@ -53,7 +53,7 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-
+    
   }
 
   initForm() {
@@ -63,8 +63,8 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selCountry')) {
-      this.selCountry = JSON.parse((window as any).localStorage.getItem('selCountry'));
+    if (this.data) {
+      this.selCountry = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -73,8 +73,8 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.countryId = this.selCountry.id;
-    this.masterForm.controls['name'].setValue(this.selCountry.name);
+    this.countryId = this.selCountry.countryID;
+    this.masterForm.controls['name'].setValue(this.selCountry.country);
   }
 
   close(evt?: any) {
@@ -91,17 +91,18 @@ export class AddCountryComponent implements OnInit, OnDestroy {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
+    const url = ApiConstant.saveCountryMasterData;
     let params: any = {
-      name: formData.name
+      country: formData.name
     };
 
-    if(this.isForEdit) {
-      params.id = this.countryId;
+    if (this.isForEdit) {
+      params.countryID = this.countryId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Country details saved successfully...'

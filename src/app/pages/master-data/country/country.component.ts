@@ -109,11 +109,11 @@ export class CountryComponent implements OnInit, OnDestroy {
   }
 
   manipulate(res) {
-    this.setResponse(res.data);
-    this.setColumnHeader(res.data);
-    this.setRowData(res.data);
+    this.setResponse(res.countryMasterList);
+    this.setColumnHeader(res.countryMasterList);
+    this.setRowData(res.countryMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.data.length;
+    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
   }
 
   setResponse(resData) {
@@ -200,19 +200,26 @@ export class CountryComponent implements OnInit, OnDestroy {
 
   add(evt?: any) {
     this.dialog.closeAll();
+    window.localStorage.removeItem('selCountry');
     const dialogRef = this.dialog.open(AddCountryComponent, {
       width: '1000px',
       height: 'auto'
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.countryMasterList && data.countryMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }
 
   edit(evt?: any, item?: any) {
     this.dialog.closeAll();
+    window.localStorage.removeItem('selCountry');
+    window.localStorage.setItem('selCountry', JSON.stringify(item));
     const dialogRef = this.dialog.open(AddCountryComponent, {
       width: '1000px',
       height: 'auto',
@@ -220,7 +227,11 @@ export class CountryComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.countryMasterList && data.countryMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }
