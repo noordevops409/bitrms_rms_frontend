@@ -77,7 +77,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   listen() {
-    this.forEditListener = this.broadcast.on<string>('OPEN_ZONE_FOR_EMPLOYEE').subscribe((data: any) => {
+    this.forEditListener = this.broadcast.on<string>('OPEN_EMPLOYEE_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.edit(null, data);
       });

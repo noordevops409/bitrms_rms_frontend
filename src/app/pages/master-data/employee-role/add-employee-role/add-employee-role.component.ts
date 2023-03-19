@@ -71,8 +71,8 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selEmployeeRole')) {
-      this.selEmployeeRole = JSON.parse((window as any).localStorage.getItem('selEmployeeRole'));
+    if (this.data) {
+      this.selEmployeeRole = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -81,12 +81,12 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.employeeRoleId = this.selEmployeeRole.id;
-    this.masterForm.controls['name'].setValue(this.selEmployeeRole.name);
-    this.masterForm.controls['isPredefined'].setValue(this.selEmployeeRole.isPredefined);
-    this.masterForm.controls['roleCategoryId'].setValue(this.selEmployeeRole.roleCategoryId);
-    this.masterForm.controls['isEscalationReq'].setValue(this.selEmployeeRole.isEscalationReq);
-    this.masterForm.controls['categoryId'].setValue(this.selEmployeeRole.categoryId);
+    this.employeeRoleId = this.selEmployeeRole.erRoleID;
+    this.masterForm.controls['name'].setValue(this.selEmployeeRole.erRoleName);
+    this.masterForm.controls['isPredefined'].setValue(this.selEmployeeRole.erIsPredifined);
+    this.masterForm.controls['roleCategoryId'].setValue(this.selEmployeeRole.empRoleCatID);
+    this.masterForm.controls['isEscalationReq'].setValue(this.selEmployeeRole.erIsEscalationReq);
+    this.masterForm.controls['categoryId'].setValue(this.selEmployeeRole.erCategoryId);
   }
 
   close(evt?: any) {
@@ -103,24 +103,25 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
+    const url = ApiConstant.saveEmployeeRoleMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
 
     let params: any = {
-      name: formData.name,
-      isPredefined: formData.isPredefined,
-      roleCategoryId: formData.roleCategoryId,
-      isEscalationReq: formData.isEscalationReq,
-      categoryId: formData.categoryId
+      erRoleName: formData.name,
+      erIsPredifined: formData.isPredefined,
+      empRoleCatID: formData.roleCategoryId,
+      erIsEscalationReq: formData.isEscalationReq,
+      erCategoryId: formData.categoryId
     };
 
     if (this.isForEdit) {
-      params.id = this.employeeRoleId;
+      params.erRoleID = this.employeeRoleId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Employee Role details saved successfully...'

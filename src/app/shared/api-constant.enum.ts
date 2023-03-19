@@ -86,6 +86,10 @@ export const ApiConstant = {
 
   getEmployeeMasterData: `${GATEWAY}/api/master_data/view_employee_form`,
   saveEmployeeMasterData: `${GATEWAY}/api/master_data/employee`,
-  deleteEmployeeMasterData: `${GATEWAY}/api/master_data/delete_employee_details`
+  deleteEmployeeMasterData: `${GATEWAY}/api/master_data/delete_employee_details`,
+
+  getEmployeeRoleMasterData: `${GATEWAY}/api/master_data/view_employeerole_form`,
+  saveEmployeeRoleMasterData: `${GATEWAY}/api/master_data/employeerole`,
+  deleteEmployeeRoleMasterData: `${GATEWAY}/api/master_data/delete_employeerole_details`
 };
 

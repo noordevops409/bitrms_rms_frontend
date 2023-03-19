@@ -80,6 +80,10 @@ export class ListingApiService {
   }
 
   openEmployeeDataForEdit(data: any) {
-    this.broadcast.broadcast('OPEN_ZONE_FOR_EMPLOYEE', data);
+    this.broadcast.broadcast('OPEN_EMPLOYEE_FOR_EDIT', data);
+  }
+
+  openEmployeeRoleDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_EMPLOYEE_ROLE_FOR_EDIT', data);
   }
 }
