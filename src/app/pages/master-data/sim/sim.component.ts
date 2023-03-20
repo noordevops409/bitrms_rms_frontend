@@ -98,7 +98,7 @@ export class SimComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getSimMaster;
+    let apiUrl: any = ApiConstant.getSimMasterData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;

@@ -76,10 +76,12 @@ export class AddSimComponent implements OnInit {
   }
 
   loadZone() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.zoneList = data;
-      this.masterForm.controls['selZone'].setValue(data[0]);
+    const url = ApiConstant.getZoneMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.zoneMasterList && data.zoneMasterList.length) {
+        this.zoneList = data.zoneMasterList;
+        this.masterForm.controls['selZone'].setValue(data.zoneMasterList[0]);
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -108,8 +110,6 @@ export class AddSimComponent implements OnInit {
       this.isForEdit = false;
     }
   }
-
-  
 
   setFormData() {
     this.simId = this.selSIM.simID;
@@ -153,10 +153,10 @@ export class AddSimComponent implements OnInit {
     if (this.isForEdit) {
       params.simID = this.simId;
       params.simLastupdatedby = authToken.userId;
-      params.simLastupdateddt = new Date().getTime();
+      params.simLastupdateddt = moment();
     } else {
       params.simCreatedby = authToken.userId;
-      params.simCreateddt = new Date().getTime();
+      params.simCreateddt = moment();
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {

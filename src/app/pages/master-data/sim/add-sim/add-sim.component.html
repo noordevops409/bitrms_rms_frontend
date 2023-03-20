@@ -20,30 +20,31 @@
                                 <mat-label>Enter SIM Number</mat-label>
                                 <input formControlName="simNumber" required matInput />
                                 <mat-error *ngIf="mf.simNumber.touched && mf.simNumber.invalid">
-                                    <div *ngIf="mf.simNumber.errors?.required" class="italicAlign">Sim Number is required.</div>
+                                    <div *ngIf="mf.simNumber.errors?.required" class="italicAlign">Sim Number is
+                                        required.</div>
                                 </mat-error>
                             </mat-form-field>
                         </div>
-        
+
                         <div class="form-field col-4">
                             <select formControlName="selZone" name="selZone" class="input-element mini">
-                                <option *ngFor="let item of zoneList" [ngValue]="item">{{item.label}}</option>
+                                <option *ngFor="let item of zoneList" [ngValue]="item">{{item.znZone}}</option>
                             </select>
                         </div>
-        
+
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter GSM OP ID</mat-label>
-                                <input formControlName="gsmOPID" matInput />
+                                <input formControlName="gsmOPID" type="number" matInput />
                             </mat-form-field>
                         </div>
                     </div>
-        
+
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Acc ID</mat-label>
-                                <input formControlName="accID" matInput />
+                                <input formControlName="accID" type="number" matInput />
                             </mat-form-field>
                         </div>
                     </div>
