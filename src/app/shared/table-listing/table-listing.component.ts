@@ -784,6 +784,18 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.EMPLOYEE_ROLE_MASTER_LISTING_TYPE:
         this.uniqueId = 'erRoleID';
         break;
+      case AppConstant.TEE_POWER_TRACKER_LISTING_TYPE:
+        this.uniqueId = 'smSitecode';
+        break;
+      case AppConstant.SITE_MASTER_LISTING_TYPE:
+        this.uniqueId = 'smSitecode';
+        break;
+      case AppConstant.CLUSTER_MASTER_LISTING_TYPE:
+        this.uniqueId = 'crClusterID';
+        break;
+      case AppConstant.SIM_MASTER_LISTING_TYPE:
+        this.uniqueId = 'simID';
+        break;
       default:
         this.uniqueId = 'distUniqueId';
     }

@@ -29,6 +29,7 @@ export const ApiConstant = {
   getSiteCode: `${GATEWAY}/api/dashboard/site-code-master`,
   getSiteType: `${GATEWAY}/api/dashboard/site-type-master`,
   getClusterMaster: `${GATEWAY}/api/dashboard/cluster-master`,
+  getSimMaster: `${GATEWAY}/api/dashboard/sim-master`,
   getZoneMaster: `${GATEWAY}/api/dashboard/zone-master`,
   getRegionMaster: `${GATEWAY}/api/dashboard/region-master`,
   getDeviceTypeMaster: `${GATEWAY}/api/dashboard/device-type-master`,
@@ -90,6 +91,23 @@ export const ApiConstant = {
 
   getEmployeeRoleMasterData: `${GATEWAY}/api/master_data/view_employeerole_form`,
   saveEmployeeRoleMasterData: `${GATEWAY}/api/master_data/employeerole`,
-  deleteEmployeeRoleMasterData: `${GATEWAY}/api/master_data/delete_employeerole_details`
+  deleteEmployeeRoleMasterData: `${GATEWAY}/api/master_data/delete_employeerole_details`,
+
+  getPlannedEnergyMasterData: `${GATEWAY}/api/master_data/view_plannedenergy_form`,
+  savePlannedEnergyMasterData: `${GATEWAY}/api/master_data/planned_energy`,
+  deletePlannedEnergyMasterData: `${GATEWAY}/api/master_data/delete_planned_energy_details`,
+
+  getSiteMasterData: `${GATEWAY}/api/master_data/view_sitemaster_form`,
+  saveSiteMasterData: `${GATEWAY}/api/master_data/site`,
+  deleteSiteMasterData: `${GATEWAY}/api/master_data/delete_sitemaster_details`,
+
+  getClusterMasterData: `${GATEWAY}/api/master_data/view_clustermaster_form`,
+  saveClusterMasterData: `${GATEWAY}/api/master_data/cluster`,
+  deleteClusterMasterData: `${GATEWAY}/api/master_data/delete_clustermaster_details`,
+
+  getSimMasterData: `${GATEWAY}/api/master_data/view_simmaster_form`,
+  saveSimMasterData: `${GATEWAY}/api/master_data/add_simmaster`,
+  deleteSimMasterData: `${GATEWAY}/api/master_data/delete_sim_master_details`,
+
 };
 

@@ -12,56 +12,61 @@
 
     <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
         <form [formGroup]="masterForm" class="form">
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter SIM Number</mat-label>
-                        <input formControlName="simNumber" required matInput />
-                        <mat-error *ngIf="mf.simNumber.touched && mf.simNumber.invalid">
-                            <div *ngIf="mf.simNumber.errors?.required" class="italicAlign">Sim Number is required.</div>
-                        </mat-error>
-                    </mat-form-field>
+            <section class="panel-body">
+                <div class="form-container" [ngClass]="{'aLoader': isSubmiting}">
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter SIM Number</mat-label>
+                                <input formControlName="simNumber" required matInput />
+                                <mat-error *ngIf="mf.simNumber.touched && mf.simNumber.invalid">
+                                    <div *ngIf="mf.simNumber.errors?.required" class="italicAlign">Sim Number is required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <select formControlName="selZone" name="selZone" class="input-element mini">
+                                <option *ngFor="let item of zoneList" [ngValue]="item">{{item.label}}</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter GSM OP ID</mat-label>
+                                <input formControlName="gsmOPID" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Acc ID</mat-label>
+                                <input formControlName="accID" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <div class="form-field col-4">
-                    <select formControlName="selZone" name="selZone" class="input-element mini">
-                        <option *ngFor="let item of zoneList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter GSM OP ID</mat-label>
-                        <input formControlName="gsmOPID" matInput />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter Acc ID</mat-label>
-                        <input formControlName="accID" matInput />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="footer">
-                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
-                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
-                    [disabled]="masterForm.invalid">Update
-                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
-                        autorenew
-                    </mat-icon>
-                </button>
-                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
-                    [disabled]="masterForm.invalid">Add
-                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
-                        autorenew
-                    </mat-icon>
-                </button>
-            </div>
+            <section class="footer">
+                <mat-dialog-actions style="padding: 15px 10px;">
+                    <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Update
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                    <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Add
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </section>
         </form>
     </div>
 </div>

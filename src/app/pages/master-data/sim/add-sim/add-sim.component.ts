@@ -21,15 +21,16 @@ import * as moment from 'moment';
 })
 export class AddSimComponent implements OnInit {
 
+  public isSubmiting: boolean = false;
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
   public isZoneDDOpen: boolean = false;
-  
+
   public masterForm!: FormGroup;
 
   public zoneList: any = null;
-  
+
   private selSIM: any = null;
   private simId: any = null;
 
@@ -59,7 +60,10 @@ export class AddSimComponent implements OnInit {
   }
 
   init() {
-    this.loadData();
+    this.loadZone();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
@@ -71,11 +75,7 @@ export class AddSimComponent implements OnInit {
     });
   }
 
-  loadData() {
-    this.loadZoneData();
-  }
-
-  loadZoneData() {
+  loadZone() {
     const url = '';
     this.httpClient.get(url).subscribe((data: any) => {
       this.zoneList = data;
@@ -89,9 +89,19 @@ export class AddSimComponent implements OnInit {
     });
   }
 
+  setZone(req?: any) {
+    for (let item of this.zoneList) {
+      if (item.znZoneID === req.clCircleID) {
+        this.selSIM.selZone = item;
+        this.masterForm.controls['selZone'].setValue(item);
+        break;
+      }
+    }
+  }
+
   getData() {
-    if (window.localStorage.getItem('selSim')) {
-      this.selSIM = JSON.parse((window as any).localStorage.getItem('selSim'));
+    if (this.data) {
+      this.selSIM = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -99,12 +109,15 @@ export class AddSimComponent implements OnInit {
     }
   }
 
-  setFormData() {
-    this.simId = this.selSIM.id;
+  
 
+  setFormData() {
+    this.simId = this.selSIM.simID;
     this.masterForm.controls['simNumber'].setValue(this.selSIM.simNumber);
     this.masterForm.controls['gsmOPID'].setValue(this.selSIM.gsmOPID);
-    this.masterForm.controls['accID'].setValue(this.selSIM.accID);
+    this.masterForm.controls['accID'].setValue(this.selSIM.acAccID);
+
+    this.setZone(this.selSIM);
   }
 
   close(evt?: any) {
@@ -121,26 +134,34 @@ export class AddSimComponent implements OnInit {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
+    const url = ApiConstant.saveSimMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
+    let authToken: any = null;
+    if ((window as any).localStorage.getItem('authToken')) {
+      authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+    }
 
     let params: any = {
-      empId: formData.empId,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      zoneId: formData.selZone.id,
-      zoneName: formData.selZone.name,
+      simNumber: formData.simNumber,
+      clCircleID: formData.selZone.znZoneID,
       gsmOPID: formData.gsmOPID,
-      accID: formData.accID
+      acAccID: formData.accID,
+      username: 'harish1'
     };
 
     if (this.isForEdit) {
-      params.id = this.simId;
+      params.simID = this.simId;
+      params.simLastupdatedby = authToken.userId;
+      params.simLastupdateddt = new Date().getTime();
+    } else {
+      params.simCreatedby = authToken.userId;
+      params.simCreateddt = new Date().getTime();
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'SIM details saved successfully...'

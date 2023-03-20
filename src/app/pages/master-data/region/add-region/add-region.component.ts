@@ -23,7 +23,7 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
-  
+
   public masterForm!: FormGroup;
   public isCountryDDOpen: boolean = false;
   public countryList: any = null;
@@ -73,10 +73,12 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   loadCountryData() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.countryList = data;
-      this.masterForm.controls['selCountry'].setValue(data[0]);
+    const url = ApiConstant.getCountryMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.countryMasterList && data.countryMasterList.length) {
+        this.countryList = data.countryMasterList;
+        this.masterForm.controls['selCountry'].setValue(data.countryMasterList[0]);
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({

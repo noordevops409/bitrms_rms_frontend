@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -12,7 +13,7 @@ import { AppConstant } from '../../../shared/app-constant.enum';
 
 import { AddSiteComponent } from './add-site/add-site.component';
 
-import { SITE_COLUMN_HEADER  } from './site-column.enum';
+import { SITE_COLUMN_HEADER } from './site-column.enum';
 
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
@@ -45,11 +46,28 @@ export class SiteComponent implements OnInit {
 
   public isFilterDataLoaded: boolean = false;
 
+  private clusterList: any = [];
+  private simList: any = [];
+  private siteTypeList: any = [];
+  private customerList: any = [];
+  private employeeList: any = [];
   private sampleData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
+  private forEditListener!: Subscription;
+
+  public siteType: any = [
+    {
+      value: 1,
+      label: 'Hybrid'
+    },
+    {
+      value: 2,
+      label: 'TEE'
+    }
+  ];
 
   constructor(
     private util: CommonUtilService,
@@ -57,19 +75,103 @@ export class SiteComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
     this.init();
+    this.listen();
   }
 
   ngOnDestroy(): void {
-
+    this.forEditListener.unsubscribe();
   }
 
   init() {
-    this.loadData();
+    this.loadCluster();
+    this.loadSim();
+    this.loadSiteType();
+    this.loadCustomer();
+    this.loadEmployee();
+    setTimeout(() => {
+      this.loadData();
+    }, 1000);
+  }
+
+  listen() {
+    this.forEditListener = this.broadcast.on<string>('OPEN_SITE_MASTER_FOR_EDIT').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.edit(null, data);
+      });
+    });
+  }
+
+  loadCluster() {
+    const url = ApiConstant.getClusterMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.clusterMasterList && data.clusterMasterList.length) {
+        this.clusterList = data.clusterMasterList;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading cluster list!'
+      });
+    });
+  }
+
+  loadSim() {
+    const url = ApiConstant.getSimMaster;
+    this.httpClient.get(url).subscribe((data: any) => {
+      this.simList = data;
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading sim list!'
+      });
+    });
+  }
+
+  loadSiteType() {
+    const url = ApiConstant.getSiteType;
+    this.httpClient.get(url).subscribe((data: any) => {
+      this.siteTypeList = data;
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading site type list!'
+      });
+    });
+  }
+
+  loadCustomer() {
+    const url = ApiConstant.getCustomerMaster;
+    this.httpClient.get(url).subscribe((data: any) => {
+      this.customerList = data;
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading customer list!'
+      });
+    });
+  }
+
+  loadEmployee() {
+    const url = ApiConstant.getEmployeeMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      this.employeeList = data;
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading employee list!'
+      });
+    });
   }
 
   loadData() {
@@ -77,7 +179,7 @@ export class SiteComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    let apiUrl: any = ApiConstant.getSiteMasterData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -96,20 +198,20 @@ export class SiteComponent implements OnInit {
   }
 
   manipulate(res) {
-    this.setResponse(res.data);
-    this.setColumnHeader(res.data);
-    this.setRowData(res.data);
+    this.setResponse(res.siteMasterList);
+    this.setColumnHeader(res.siteMasterList);
+    this.setRowData(res.siteMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.data.length;
+    this.sampleData.totalDocs = res.totalCount || res.siteMasterList.length;
   }
 
   setResponse(resData) {
     this.sampleData.currentPageNo = this.currentPageNo;
-    this.sampleData.listingType = AppConstant.TEE_POWER_TRACKER_LISTING_TYPE;
+    this.sampleData.listingType = AppConstant.SITE_MASTER_LISTING_TYPE;
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'smSiteId';
+    this.sampleData.sortField = 'smSitecode';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -128,6 +230,18 @@ export class SiteComponent implements OnInit {
     }
   }
 
+  setSiteType(req?: any) {
+    for (let item of this.siteTypeList) {
+      if (item.value === req.smSitetypeid) {
+        req.smSitetypeid = item.label;
+        break;
+      }
+    }
+  }
+
+  setCluster(req?: any) {
+
+  }
 
   setRowData(resData) {
     const data = resData || [];
@@ -194,7 +308,11 @@ export class SiteComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.siteMasterList && data.siteMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }
@@ -208,7 +326,11 @@ export class SiteComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-
+        if (data.siteMasterList && data.siteMasterList.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
       }
     });
   }

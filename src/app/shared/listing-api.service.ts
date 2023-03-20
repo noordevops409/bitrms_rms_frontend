@@ -86,4 +86,28 @@ export class ListingApiService {
   openEmployeeRoleDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_EMPLOYEE_ROLE_FOR_EDIT', data);
   }
+
+  openPlannedEnergyDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_PLANNED_ENERGY_FOR_EDIT', data);
+  }
+
+  openSiteMasterDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_EDIT', data);
+  }
+
+  openClusterDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_CLUSTER_FOR_EDIT', data);
+  }
+
+  openClusterDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_CLUSTER_FOR_DELETE', data);
+  }
+
+  openSimDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_SIM_FOR_EDIT', data);
+  }
+
+  openSimDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_SIM_FOR_DELETE', data);
+  }
 }
