@@ -71,8 +71,16 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_COUNTRY_FOR_EDIT', data);
   }
 
+  openCountryDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_COUNTRY_FOR_DELETE', data);
+  }
+
   openRegionDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_REGION_FOR_EDIT', data);
+  }
+
+  openRegionDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_REGION_FOR_DELETE', data);
   }
 
   openZoneDataForEdit(data: any) {

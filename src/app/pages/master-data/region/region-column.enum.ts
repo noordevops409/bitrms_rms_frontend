@@ -1,18 +1,18 @@
 
 export const REGION_COLUMN_HEADER = {
-  checkbox: {
+  delete: {
     id: '0',
-    fieldName: 'srno',
-    colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'checkbox',
-    function: '',
+    function: 'openRegionDataForDelete',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
+    widthOfColumn: 75,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -33,12 +33,12 @@ export const REGION_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  cmID: {
+  country: {
     userIndex: 2,
-    fieldName: 'cmID',
+    fieldName: 'country',
     colDisplayName: 'Country',
     title: 'Country',
-    widthOfColumn: 100,
+    widthOfColumn: 200,
     colType: 'text',
     dataType: 'text',
     id: '2',
@@ -72,7 +72,7 @@ export const REGION_COLUMN_HEADER = {
     fieldName: 'rgAcsysSyncDateTime',
     colDisplayName: 'AcsysSyncDateTime Name',
     title: 'AcsysSyncDateTime Name',
-    widthOfColumn: 100,
+    widthOfColumn: 175,
     colType: 'text',
     dataType: 'text',
     id: '4',

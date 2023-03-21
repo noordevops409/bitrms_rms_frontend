@@ -12,6 +12,7 @@ import { CommonUtilService } from '../../../../shared/common-util.service';
 import { ApiConstant } from '../../../../shared/api-constant.enum';
 import { AppConstant } from '../../../../shared/app-constant.enum';
 import * as moment from 'moment';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-region',
@@ -20,6 +21,7 @@ import * as moment from 'moment';
 })
 export class AddRegionComponent implements OnInit, OnDestroy {
 
+  public isSubmiting: boolean = false;
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
@@ -27,6 +29,23 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   public masterForm!: FormGroup;
   public isCountryDDOpen: boolean = false;
   public countryList: any = null;
+
+
+  public date!: moment.Moment;
+  public disabled = false;
+  public showSpinners = true;
+  public showSeconds = false;
+  public touchUi = false;
+  public enableMeridian = false;
+  public minDate!: moment.Moment;
+  public maxDate!: moment.Moment;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+  public disableMinute = 0;
+  public hideTime = 0;
+  public color: ThemePalette = 'primary';
+
 
   private selRegion: any = null;
   private regionId: any = null;
@@ -49,8 +68,7 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.init();
     this.initForm();
-    this.loadCountryData();
-    this.getData();
+
   }
 
   ngOnDestroy(): void {
@@ -58,7 +76,10 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   init() {
-
+    this.loadCountryData();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
@@ -66,7 +87,6 @@ export class AddRegionComponent implements OnInit, OnDestroy {
       'name': [null, [Validators.required]],
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
-      'acsysSyncTimeName': [null],
       'accIdName': [null],
       'selCountry': [null]
     });
@@ -88,6 +108,16 @@ export class AddRegionComponent implements OnInit, OnDestroy {
     });
   }
 
+  setCountry(req: any) {
+    for (let item of this.countryList) {
+      if (item.countryID === req.cmID) {
+        this.selRegion.selCountry = item;
+        this.masterForm.controls['selCountry'].setValue(item);
+        break;
+      }
+    }
+  }
+
   getData() {
     if (this.data) {
       this.selRegion = this.data;
@@ -99,14 +129,14 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.regionId = this.selRegion.id;
+    this.regionId = this.selRegion.rgRegionID;
     this.masterForm.controls['name'].setValue(this.selRegion.rgRegion);
 
-    let acsysSyncDateTimeName = this.selRegion.rgAcsysSyncDateTime.split(' ');
     this.masterForm.controls['acsysSyncStatusName'].setValue(this.selRegion.rgAcsysSyncstatus);
-    this.masterForm.controls['acsysSyncDateName'].setValue(acsysSyncDateTimeName[0]);
-    this.masterForm.controls['acsysSyncTimeName'].setValue(acsysSyncDateTimeName[1]);
+    this.masterForm.controls['acsysSyncDateName'].setValue(this.selRegion.rgAcsysSyncDateTime);
     this.masterForm.controls['accIdName'].setValue(this.selRegion.accID);
+
+    this.setCountry(this.selRegion);
   }
 
   close(evt?: any) {
@@ -125,13 +155,10 @@ export class AddRegionComponent implements OnInit, OnDestroy {
     const formData = this.masterForm.value;
     const url = ApiConstant.saveRegionMasterData;
 
-    let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
-
     let params: any = {
       rgRegion: formData.name,
-      cmID: formData.selCountry.id,
-      countryName: formData.selCountry.name,
-      rgAcsysSyncDateTime: acsysSyncDateTimeName,
+      cmID: formData.selCountry.countryID,
+      rgAcsysSyncDateTime: formData.acsysSyncDateName,
       rgAcsysSyncstatus: formData.acsysSyncStatusName,
       accID: formData.accIdName
     };

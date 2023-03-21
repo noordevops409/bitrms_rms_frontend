@@ -1,18 +1,18 @@
 
 export const COUNTRY_COLUMN_HEADER = {
-  checkbox: {
+  delete: {
     id: '0',
-    fieldName: 'srno',
-    colDisplayName: '',
-    colType: 'text',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
     userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'text',
-    function: '',
+    function: 'openCountryDataForDelete',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
+    widthOfColumn: 75,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
