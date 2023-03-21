@@ -8,6 +8,22 @@ import { ZoneRoutingModule } from './zone-routing.module';
 import { ZoneComponent } from './zone.component';
 import { AddZoneComponent } from './add-zone/add-zone.component';
 
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatDateFormats, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
+
+// If using Moment
+const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
+  parse: {
+    dateInput: "l, LTS"
+  },
+  display: {
+    dateInput: "l, LTS",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY"
+  }
+};
+
 
 @NgModule({
   declarations: [ZoneComponent, AddZoneComponent],
@@ -17,7 +33,10 @@ import { AddZoneComponent } from './add-zone/add-zone.component';
     ReactiveFormsModule, 
     FormsModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatMomentModule
   ],
   exports: [
     AddZoneComponent

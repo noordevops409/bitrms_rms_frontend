@@ -12,6 +12,7 @@ import { CommonUtilService } from '../../../../shared/common-util.service';
 import { ApiConstant } from '../../../../shared/api-constant.enum';
 import { AppConstant } from '../../../../shared/app-constant.enum';
 import * as moment from 'moment';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-zone',
@@ -20,6 +21,7 @@ import * as moment from 'moment';
 })
 export class AddZoneComponent implements OnInit, OnDestroy {
 
+  public isSubmiting: boolean = false;
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
@@ -28,6 +30,22 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   public isCountryDDOpen: boolean = false;
   public regionList: any = null;
   public countryList: any = null;
+
+
+  public date!: moment.Moment;
+  public disabled = false;
+  public showSpinners = true;
+  public showSeconds = false;
+  public touchUi = false;
+  public enableMeridian = false;
+  public minDate!: moment.Moment;
+  public maxDate!: moment.Moment;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+  public disableMinute = 0;
+  public hideTime = 0;
+  public color: ThemePalette = 'primary';
 
   private selZone: any = null;
   private zoneId: any = null;
@@ -48,10 +66,8 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadCountryData();
-    this.init();
     this.initForm();
-    this.getData();
+    this.init();
   }
 
   ngOnDestroy(): void {
@@ -60,6 +76,9 @@ export class AddZoneComponent implements OnInit, OnDestroy {
 
   init() {
     this.loadData();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
@@ -67,7 +86,6 @@ export class AddZoneComponent implements OnInit, OnDestroy {
       'name': [null, [Validators.required]],
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
-      'acsysSyncTimeName': [null],
       'accIdName': [null],
       'selRegion': [null],
       'selCountry': [null]
@@ -75,15 +93,16 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
-    this.loadCountryData();
-    this.loadRegionData();
+    this.loadCountry();
+    this.loadRegion();
   }
 
-  loadCountryData() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.countryList = data;
-      this.masterForm.controls['selCountry'].setValue(data[0]);
+  loadCountry() {
+    const url = ApiConstant.getCountryMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.countryMasterList && data.countryMasterList.length) {
+        this.countryList = data.countryMasterList;
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -93,11 +112,12 @@ export class AddZoneComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadRegionData() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.regionList = data;
-      this.masterForm.controls['selRegion'].setValue(data[0]);
+  loadRegion() {
+    const url = ApiConstant.getRegionMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.regionMasterList && data.regionMasterList.length) {
+        this.regionList = data.regionMasterList;
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -117,18 +137,39 @@ export class AddZoneComponent implements OnInit, OnDestroy {
     }
   }
 
+  setCountry(req?: any) {
+    for (let item of this.countryList) {
+      if (item.countryID === req.cmID) {
+        req.country = item.country;
+        this.selZone.selCountry = item;
+        this.masterForm.controls['selCountry'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setRegion(req?: any) {
+    for (let item of this.regionList) {
+      if (item.rgRegionID === req.rgRegionID) {
+        this.selZone.selRegion = item;
+        this.masterForm.controls['selRegion'].setValue(item);
+        break;
+      }
+    }
+  }
+
   setFormData() {
     this.zoneId = this.selZone.znZoneID;
     this.masterForm.controls['name'].setValue(this.selZone.znZone);
 
-    let acsysSyncDateTimeName = this.selZone.znAcsysSyncDateTime.split(' ');
     this.masterForm.controls['acsysSyncStatusName'].setValue(this.selZone.znAcsysSyncstatus);
-    this.masterForm.controls['acsysSyncDateName'].setValue(acsysSyncDateTimeName[0]);
-    this.masterForm.controls['acsysSyncTimeName'].setValue(acsysSyncDateTimeName[1]);
+    this.masterForm.controls['acsysSyncDateName'].setValue(this.selZone.znAcsysSyncDateTime);
     this.masterForm.controls['accIdName'].setValue(this.selZone.accID);
+
+    this.setCountry(this.selZone);
+    this.setRegion(this.selZone);
   }
 
-  
   close(evt?: any) {
     this.dialogRef.close();
   }
@@ -138,38 +179,36 @@ export class AddZoneComponent implements OnInit, OnDestroy {
   }
 
   save(evt?: any) {
-    if (this.isSaving) {
+    if (this.isSubmiting) {
       return;
     }
-    this.isSaving = true;
+    this.isSubmiting = true;
     const formData = this.masterForm.value;
-    const url = "";
-
-    let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
+    const url = ApiConstant.saveZoneMasterData;
 
     let params: any = {
-      name: formData.name,
-      regionId: formData.selRegion.id,
-      regionName: formData.selRegion.name,
-      countryId: formData.selCountry.id,
-      countryName: formData.selCountry.name,
-      acsysSyncDateTimeName: acsysSyncDateTimeName,
-      acsysSyncStatusName: formData.acsysSyncStatusName,
-      accIdName: formData.accIdName
+      znZone: formData.name,
+      rgRegionID: formData.selRegion.rgRegionID,
+      cmID: formData.selCountry.countryID,
+      znAcsysSyncDateTime: formData.acsysSyncDateName,
+      znAcsysSyncstatus: formData.acsysSyncStatusName,
+      accID: formData.accIdName,
+      username: 'harish1'
     };
 
     if (this.isForEdit) {
-      params.id = this.zoneId;
+      params.znZoneID = this.zoneId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSubmiting = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Zone details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSubmiting = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving zone details!'

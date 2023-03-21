@@ -12,81 +12,79 @@
 
     <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
         <form [formGroup]="masterForm" class="form">
+            <section class="panel-body">
+                <div class="form-container" [ngClass]="{'aLoader': isSubmiting}">
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Zone Name</mat-label>
+                                <input formControlName="name" required matInput />
+                                <mat-error *ngIf="mf.name.touched && mf.name.invalid">
+                                    <div *ngIf="mf.name.errors?.required" class="italicAlign">Name is required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <select formControlName="selRegion" name="selRegion" class="input-element mini">
+                                <option *ngFor="let item of regionList" [ngValue]="item">{{item.rgRegion}}</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <select formControlName="selCountry" name="selCountry" class="input-element mini">
+                                <option *ngFor="let item of countryList" [ngValue]="item">{{item.country}}</option>
+                            </select>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Acsys Sync Status Name</mat-label>
+                                <input formControlName="acsysSyncStatusName" matInput />
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <input matInput [ngxMatDatetimePicker]="picker" placeholder="Select Acsys Sync Date"
+                                    formControlName="acsysSyncDateName" [min]="minDate" [max]="maxDate" [disabled]="disabled">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                                    [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                                    [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian">
+                                </ngx-mat-datetime-picker>
+                            </mat-form-field>
+                        </div>
 
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Zone Name</mat-label>
-                        <input formControlName="name" required matInput />
-                        <mat-error *ngIf="mf.name.touched && mf.name.invalid">
-                            <div *ngIf="mf.name.errors?.required" class="italicAlign">Name is required.</div>
-                        </mat-error>
-                    </mat-form-field>
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter ACC ID Name</mat-label>
+                                <input formControlName="accIdName" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <div class="form-field col-4">
-                    <select formControlName="selRegion" name="selRegion" class="input-element mini">
-                        <option *ngFor="let item of regionList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-                <div class="form-field col-4">
-                    <select formControlName="selCountry" name="selCountry" class="input-element mini">
-                        <option *ngFor="let item of countryList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter Acsys Sync Status Name</mat-label>
-                        <input formControlName="acsysSyncStatusName" matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Select Acsys Sync Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="acsysSyncDateName">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Select Acsys Sync Time</mat-label>
-                        <input matInput type="time" formControlName="acsysSyncTimeName" />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter ACC ID Name</mat-label>
-                        <input formControlName="accIdName" matInput />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="footer">
-                <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
-                <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
-                    [disabled]="masterForm.invalid">Update
-                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
-                        autorenew
-                    </mat-icon>
-                </button>
-                <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
-                    [disabled]="masterForm.invalid">Add
-                    <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
-                        autorenew
-                    </mat-icon>
-                </button>
-            </div>
+            <section class="footer">
+                <mat-dialog-actions style="padding: 15px 10px;">
+                    <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Update
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                    <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Add
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </section>
         </form>
     </div>
 </div>

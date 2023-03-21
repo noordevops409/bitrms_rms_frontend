@@ -87,6 +87,10 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_ZONE_FOR_EDIT', data);
   }
 
+  openZoneDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_ZONE_FOR_DELETE', data);
+  }
+
   openEmployeeDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_EMPLOYEE_FOR_EDIT', data);
   }

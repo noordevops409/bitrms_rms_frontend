@@ -1,18 +1,18 @@
 
 export const ZONE_COLUMN_HEADER = {
-  checkbox: {
+  delete: {
     id: '0',
-    fieldName: 'srno',
-    colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'checkbox',
-    function: '',
+    function: 'openZoneDataForDelete',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
+    widthOfColumn: 75,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -33,9 +33,9 @@ export const ZONE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  cmID: {
+  country: {
     userIndex: 2,
-    fieldName: 'cmID',
+    fieldName: 'country',
     colDisplayName: 'Country',
     title: 'Country',
     widthOfColumn: 150,
@@ -50,9 +50,9 @@ export const ZONE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  rgRegionID: {
+  region: {
     userIndex: 3,
-    fieldName: 'rgRegionID',
+    fieldName: 'region',
     colDisplayName: 'Region',
     title: 'Region',
     widthOfColumn: 150,
@@ -89,7 +89,7 @@ export const ZONE_COLUMN_HEADER = {
     fieldName: 'znAcsysSyncDateTime',
     colDisplayName: 'AcsysSyncDateTime Name',
     title: 'AcsysSyncDateTime Name',
-    widthOfColumn: 100,
+    widthOfColumn: 175,
     colType: 'text',
     dataType: 'text',
     id: '5',

@@ -212,7 +212,7 @@ export class CountryComponent implements OnInit, OnDestroy {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `sim-data.${type}`);
+    XLSX.writeFile(wb, `country-data.${type}`);
 
   }
 

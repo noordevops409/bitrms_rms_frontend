@@ -69,8 +69,8 @@ export class AddClusterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
+    this.init();
   }
 
   ngOnDestroy(): void {

@@ -43,9 +43,8 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
-    this.getData();
+    this.init();
   }
 
   ngOnDestroy(): void {
@@ -53,7 +52,7 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    
+    this.getData();
   }
 
   initForm() {

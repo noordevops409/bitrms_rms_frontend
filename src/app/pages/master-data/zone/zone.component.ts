@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -46,12 +47,15 @@ export class ZoneComponent implements OnInit {
 
   public isFilterDataLoaded: boolean = false;
 
+  private countryList: any = [];
+  private regionList: any = [];
   private sampleData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
+  private forDeleteListener!: Subscription;
 
   constructor(
     private util: CommonUtilService,
@@ -70,16 +74,57 @@ export class ZoneComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.forEditListener.unsubscribe();
+    this.forDeleteListener.unsubscribe();
   }
 
   init() {
-    this.loadData();
+    this.loadCountry();
+    this.loadRegion();
+    setTimeout(() => {
+      this.loadData();
+    }, 1000);
   }
 
   listen() {
     this.forEditListener = this.broadcast.on<string>('OPEN_ZONE_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.edit(null, data);
+      });
+    });
+
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_ZONE_FOR_DELETE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.delete(data);
+      });
+    });
+  }
+
+  loadCountry() {
+    const url = ApiConstant.getCountryMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.countryMasterList && data.countryMasterList.length) {
+        this.countryList = data.countryMasterList;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading country list!'
+      });
+    });
+  }
+
+  loadRegion() {
+    const url = ApiConstant.getRegionMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.regionMasterList && data.regionMasterList.length) {
+        this.regionList = data.regionMasterList;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading region list!'
       });
     });
   }
@@ -132,10 +177,33 @@ export class ZoneComponent implements OnInit {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      this.sampleData.columnHeader.push(ZONE_COLUMN_HEADER['delete']);
       for (let key in rowData) {
-        if (ZONE_COLUMN_HEADER[key]) {
+        if (key === "cmID") {
+          this.sampleData.columnHeader.push(ZONE_COLUMN_HEADER['country']);
+        } else if (key === 'rgRegionID') {
+          this.sampleData.columnHeader.push(ZONE_COLUMN_HEADER['region']);
+        } else if (ZONE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(ZONE_COLUMN_HEADER[key]);
         }
+      }
+    }
+  }
+
+  setCountry(req?: any) {
+    for (let item of this.countryList) {
+      if (item.countryID === req.cmID) {
+        req.country = item.country;
+        break;
+      }
+    }
+  }
+
+  setRegion(req?: any) {
+    for (let item of this.regionList) {
+      if (item.rgRegionID === req.rgRegionID) {
+        req.region = item.rgRegion;
+        break;
       }
     }
   }
@@ -143,6 +211,11 @@ export class ZoneComponent implements OnInit {
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      for (let item of data) {
+        this.setCountry(item);
+        this.setRegion(item);
+        item.delete = "Delete";
+      }
       this.sampleData.data = data;
     } else {
       this.sampleData.data = [];
@@ -188,12 +261,30 @@ export class ZoneComponent implements OnInit {
   }
 
 
-  exportExcel(evt?: any) {
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `zone-data.${type}`);
 
   }
 
-  exportCSV(evt?: any) {
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
 
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
   }
 
   add(evt?: any) {
@@ -232,7 +323,21 @@ export class ZoneComponent implements OnInit {
   }
 
   delete(item?: any, i?: any) {
-
+    var r = confirm("Are you sure you want to delete selected record");
+    if (r) {
+      this.httpClient.post(ApiConstant.deleteZoneMasterData + `?znZoneID=${item.znZoneID}`, null).subscribe((data) => {
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Zone details deleted successfully.'
+        });
+        this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while deleting zone details!'
+        })
+      });
+    }
   }
 
 }
