@@ -36,10 +36,6 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   public zoneList: any = null;
   public escalationModeList: any = [
     {
-      label: 'Select Escalation Mode',
-      value: -1
-    },
-    {
       label: 'Email',
       value: 1
     },
@@ -72,9 +68,8 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
-    this.getData();
+    this.init();
   }
 
   ngOnDestroy(): void {
@@ -82,7 +77,16 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadData();
+    if (this.data) {
+      this.isLoading = true;
+    }
+    this.loadEmployeeRole();
+    this.loadRegionData();
+    this.loadZoneData();
+    setTimeout(() => {
+      this.getData();
+      this.isLoading = false;
+    }, 1000);
   }
 
   initForm() {
@@ -90,8 +94,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       'empId': [null, [Validators.required]],
       'firstName': [null, [Validators.required]],
       'lastName': [null, [Validators.required]],
-      'name': [null, [Validators.required]],
-      'contactNumber': [null],
+      'contactNumber': [null, [Validators.required]],
       'email': [null],
       'erpLocation': [null],
       'employeeLocation': [null],
@@ -102,26 +105,24 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       'keId': [null],
       'notification': [null],
       'accIdName': [null],
+      'entryDate': [moment()],
+      'exitDate': [moment()],
+      'acsysEmployeeUpdateDate': [moment()],
       'selEmployeeRole': [null],
       'selRegion': [null],
       'selZone': [null],
-      'selEscalationMode': [null]
+      'selEscalationMode': [this.escalationModeList[0]]
     });
   }
 
-  loadData() {
-    this.loadEmployeeRole();
-    this.loadRegionData();
-    this.loadZoneData();
-  }
-
   loadEmployeeRole() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.employeeRoleList = data;
-      this.masterForm.controls['selEmployeeRole'].setValue(data[0]);
+    const url = ApiConstant.getEmployeeRoleMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
+        this.employeeRoleList = data.employeeRoleMasterList;
+        this.masterForm.controls['selEmployeeRole'].setValue(data.employeeRoleMasterList[0]);
+      }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading employee role list!'
@@ -129,30 +130,32 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadZoneData() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.zoneList = data;
-      this.masterForm.controls['selZone'].setValue(data[0]);
+  loadRegionData() {
+    const url = ApiConstant.getRegionMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.regionMasterList && data.regionMasterList.length) {
+        this.regionList = data.regionMasterList;
+        this.masterForm.controls['selRegion'].setValue(data.regionMasterList[0]);
+      }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading zone list!'
+        msg: 'Error while loading region list!'
       });
     });
   }
 
-  loadRegionData() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.regionList = data;
-      this.masterForm.controls['selRegion'].setValue(data[0]);
+  loadZoneData() {
+    const url = ApiConstant.getZoneMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.zoneMasterList && data.zoneMasterList.length) {
+        this.zoneList = data.zoneMasterList;
+        this.masterForm.controls['selZone'].setValue(data.zoneMasterList[0]);
+      }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading region list!'
+        msg: 'Error while loading zone list!'
       });
     });
   }
@@ -167,9 +170,35 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     }
   }
 
+  setEmployeeRole(req: any) {
+    for (let item of this.employeeRoleList) {
+      if (item.erRoleID === req.erRoleID) {
+        this.masterForm.controls['selEmployeeRole'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setRegion(req?: any) {
+    for (let item of this.regionList) {
+      if (item.rgRegionID === req.rgRegionID) {
+        this.masterForm.controls['selRegion'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setZone(req?: any) {
+    for (let item of this.zoneList) {
+      if (item.znZoneID === req.znZoneID) {
+        this.masterForm.controls['selZone'].setValue(item);
+        break;
+      }
+    }
+  }
+
   setFormData() {
     this.employeeId = this.selEmployee.emEmpID;
-    this.masterForm.controls['name'].setValue(this.selEmployee.name);
 
     this.masterForm.controls['empId'].setValue(this.selEmployee.emEmployeeID);
     this.masterForm.controls['firstName'].setValue(this.selEmployee.emFirstName);
@@ -186,10 +215,18 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.masterForm.controls['notification'].setValue(this.selEmployee.emNotification);
     this.masterForm.controls['accIdName'].setValue(this.selEmployee.accID);
 
-    this.masterForm.controls['selEmployeeRole'].setValue(this.selEmployee.selEmployeeRole);
-    this.masterForm.controls['selZone'].setValue(this.selEmployee.selZone);
-    this.masterForm.controls['selRegion'].setValue(this.selEmployee.selRegion);
-    this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
+    this.masterForm.controls['entryDate'].setValue(this.selEmployee.emEntryDate);
+    this.masterForm.controls['exitDate'].setValue(this.selEmployee.emExitDate);
+    this.masterForm.controls['acsysEmployeeUpdateDate'].setValue(this.selEmployee.emAcsysEmployeeUpdatedDt);
+
+    if (this.selEmployee.selEscalationMode) {
+      this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
+    } else {
+      this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[0]);
+    }
+    this.setEmployeeRole(this.selEmployee);
+    this.setRegion(this.selEmployee);
+    this.setZone(this.selEmployee);
   }
 
   close(evt?: any) {
@@ -211,30 +248,28 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
 
     let params: any = {
-      empId: formData.empId,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      roleId: formData.selEmployeeRole.id,
-      roleName: formData.selEmployeeRole.name,
-      regionId: formData.selRegion.id,
-      regionName: formData.selRegion.name,
-      zoneId: formData.selZone.id,
-      zoneName: formData.selZone.name,
-      contactNumber: formData.contactNumber,
-      email: formData.email,
-      erpLocation: formData.erpLocation,
-      employeeLocation: formData.employeeLocation,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
-      escalationMode: formData.selEscalationMode.value,
-      acsysEmployeeId: formData.acsysEmployeeId,
-      acsysEmployeeSyncStatus: formData.acsysEmployeeSyncStatus,
-      entryDate: moment(formData.entryDate).format('YYYY-MM-DD'),
-      exitDate: moment(formData.exitDate).format('YYYY-MM-DD'),
-      acsysEmployeeUpdateDate: moment(formData.acsysEmployeeUpdateDate).format('YYYY-MM-DD'),
-      keId: formData.keId,
-      notification: formData.notification,
-      accIdName: formData.accIdName
+      emEmployeeID: formData.empId,
+      emFirstName: formData.firstName,
+      emLastName: formData.lastName,
+      erRoleID: formData.selEmployeeRole.erRoleID,
+      rgRegionID: formData.selRegion.rgRegionID,
+      znZoneID: formData.selZone.znZoneID,
+      emContactNo: formData.contactNumber,
+      emEmail: formData.email,
+      emERPLocation: formData.erpLocation,
+      emLocation: formData.employeeLocation,
+      emLatitude: formData.latitude,
+      emLongitude: formData.longitude,
+      emEscalationMode: formData.selEscalationMode.value,
+      emAcsysEmployeeID: formData.acsysEmployeeId,
+      emAcsysEmployeeSyncstatus: formData.acsysEmployeeSyncStatus,
+      emEntryDate: moment(formData.entryDate),
+      emExitDate: moment(formData.exitDate),
+      emAcsysEmployeeUpdatedDt: moment(formData.acsysEmployeeUpdateDate),
+      keID: formData.keId,
+      emNotification: formData.notification,
+      accID: formData.accIdName,
+      username: "harish1",
     };
 
     if (this.isForEdit) {
@@ -242,14 +277,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Employee details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving employee details!'

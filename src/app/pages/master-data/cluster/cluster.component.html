@@ -30,6 +30,7 @@
                             <table id="export-data">
                                 <thead>
                                     <tr>
+                                        <th>SrNo</th>
                                         <th>Cluster Name</th>
                                         <th>Cluster Definition</th>
                                         <th>Employee Id</th>
@@ -41,6 +42,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
                                         <td>{{item.crName}}</td>
                                         <td>{{item.crDefinition}}</td>
                                         <td>{{item.empId}}</td>
@@ -54,7 +56,7 @@
                         </div>
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

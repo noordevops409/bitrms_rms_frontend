@@ -1,12 +1,13 @@
-
 .list-wrap {
     overflow: hidden;
     height: 100%;
     position: relative;
     background-color: #fff;
     z-index: 3;
+
     .view-holder {
         height: 100%;
+
         // border-bottom: 42px solid #fff;
         .listing-container {
             height: 100%;
@@ -25,6 +26,7 @@
         vertical-align: middle;
         min-width: 100%;
         font-size: 0;
+
         // height: 80px;
         li {
             vertical-align: middle;
@@ -40,9 +42,11 @@
             font-size: 0.9375rem;
             color: #fff;
             padding-right: 36px;
+
             * {
                 vertical-align: middle;
             }
+
             input[type=checkbox],
             input[type=radio] {
                 vertical-align: middle;
@@ -50,12 +54,14 @@
                 height: 15px;
                 width: 15px;
             }
+
             img {
                 border: none;
                 outline: 0;
             }
         }
     }
+
     .ghead {
         ul {
             font-weight: 700;
@@ -87,15 +93,23 @@ adoddle-table-listing {
                 width: .3125rem;
                 height: .3125rem
             }
-            
+
             &::-webkit-scrollbar-thumb {
                 background: #101426;
                 cursor: pointer;
                 border-radius: .15625rem
             }
-            
+
             &::-webkit-scrollbar-track {
                 background: #192038
+            }
+
+            ul {
+                li {
+                    a {
+                        color: #fff;
+                    }
+                }
             }
         }
     }

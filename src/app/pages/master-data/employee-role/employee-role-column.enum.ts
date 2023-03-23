@@ -1,18 +1,18 @@
 
 export const EMPLOYEE_ROLE_COLUMN_HEADER = {
-  checkbox: {
+  srno: {
     id: '0',
     fieldName: 'srno',
     colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
+    colType: 'text',
+    userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'checkbox',
+    dataType: 'text',
     function: '',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
+    widthOfColumn: 50,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -100,5 +100,21 @@ export const EMPLOYEE_ROLE_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
-  }
+  },
+  delete: {
+    id: '6',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 6,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openEmployeeRoleDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

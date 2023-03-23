@@ -161,6 +161,7 @@ export class RegionComponent implements OnInit, OnDestroy {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       this.sampleData.columnHeader.push(REGION_COLUMN_HEADER['delete']);
+      this.sampleData.columnHeader.push(REGION_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (key === 'cmID') {
           this.sampleData.columnHeader.push(REGION_COLUMN_HEADER['country']);
@@ -183,8 +184,11 @@ export class RegionComponent implements OnInit, OnDestroy {
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
       for (let item of data) {
         this.setCountry(item);
+        counter += 1;
+        item.srno = counter;
         item.delete = "Delete";
       }
       this.sampleData.data = data;

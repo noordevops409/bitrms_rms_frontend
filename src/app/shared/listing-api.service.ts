@@ -95,8 +95,16 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_EMPLOYEE_FOR_EDIT', data);
   }
 
+  openEmployeeDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_EMPLOYEE_FOR_DELETE', data);
+  }
+
   openEmployeeRoleDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_EMPLOYEE_ROLE_FOR_EDIT', data);
+  }
+
+  openEmployeeRoleDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_EMPLOYEE_ROLE_FOR_DELETE', data);
   }
 
   openPlannedEnergyDataForEdit(data: any) {

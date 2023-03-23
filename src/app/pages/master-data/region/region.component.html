@@ -29,6 +29,7 @@
                             <table id="export-data">
                                 <thead>
                                     <tr>
+                                        <th>SrNo</th>
                                         <th>Region</th>
                                         <th>Country</th>
                                         <th>AcsysSyncstatus Name</th>
@@ -38,6 +39,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
                                         <td>{{item.rgRegion}}</td>
                                         <td>{{item.country}}</td>
                                         <td>{{item.rgAcsysSyncstatus}}</td>
@@ -49,7 +51,7 @@
                         </div>
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

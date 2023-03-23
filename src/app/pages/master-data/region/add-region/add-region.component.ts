@@ -75,9 +75,13 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    if (this.data) {
+      this.isLoading = true;
+    }
     this.loadCountryData();
     setTimeout(() => {
       this.getData();
+      this.isLoading = false;
     }, 1000);
   }
 
@@ -167,14 +171,14 @@ export class AddRegionComponent implements OnInit, OnDestroy {
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Region details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving region details!'

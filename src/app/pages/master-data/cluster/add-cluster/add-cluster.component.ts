@@ -78,10 +78,14 @@ export class AddClusterComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    if (this.data) {
+      this.isLoading = true;
+    }
     this.loadZone();
     this.loadEmployee();
     setTimeout(() => {
       this.getData();
+      this.isLoading = false;
     }, 1000);
   }
 
@@ -181,10 +185,10 @@ export class AddClusterComponent implements OnInit, OnDestroy {
   }
 
   save(evt?: any) {
-    if (this.isSubmiting) {
+    if (this.isSaving) {
       return;
     }
-    this.isSubmiting = true;
+    this.isSaving = true;
     const formData = this.masterForm.value;
     const url = ApiConstant.saveClusterMasterData;
 
@@ -211,14 +215,14 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isSubmiting = false;
+      this.isSaving = false;
       this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Cluster details saved successfully...'
       });
     }, (err) => {
-      this.isSubmiting = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving cluster details!'

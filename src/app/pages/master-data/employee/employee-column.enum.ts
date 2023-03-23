@@ -1,14 +1,14 @@
 
 export const EMPLOYEE_COLUMN_HEADER = {
-  checkbox: {
+  srno: {
     id: '0',
     fieldName: 'srno',
     colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
+    colType: 'text',
+    userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'checkbox',
+    dataType: 'text',
     function: '',
     funParams: '',
     wrapData: '',
@@ -22,7 +22,7 @@ export const EMPLOYEE_COLUMN_HEADER = {
     colDisplayName: 'Employee Id',
     title: 'Employee Id',
     widthOfColumn: 100,
-    colType: 'text',
+    colType: 'textwithlink',
     dataType: 'text',
     id: '1',
     imgName: '',
@@ -33,12 +33,12 @@ export const EMPLOYEE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  erRoleID: {
+  empRoleName: {
     userIndex: 2,
-    fieldName: 'erRoleID',
+    fieldName: 'empRoleName',
     colDisplayName: 'Employee Role',
     title: 'Employee Role',
-    widthOfColumn: 100,
+    widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
     id: '2',
@@ -119,9 +119,9 @@ export const EMPLOYEE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  rgRegionID: {
+  regionName: {
     userIndex: 7,
-    fieldName: 'rgRegionID',
+    fieldName: 'regionName',
     colDisplayName: 'Region',
     title: 'Region',
     widthOfColumn: 100,
@@ -137,9 +137,9 @@ export const EMPLOYEE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  znZoneID: {
+  zoneName: {
     userIndex: 8,
-    fieldName: 'znZoneID',
+    fieldName: 'zoneName',
     colDisplayName: 'Zone',
     title: 'Zone',
     widthOfColumn: 100,
@@ -388,5 +388,21 @@ export const EMPLOYEE_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
-  }
+  },
+  delete: {
+    id: '22',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 22,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openEmployeeDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

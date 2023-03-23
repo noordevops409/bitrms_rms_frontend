@@ -60,9 +60,13 @@ export class AddSimComponent implements OnInit {
   }
 
   init() {
+    if (this.data) {
+      this.isLoading = true;
+    }
     this.loadZone();
     setTimeout(() => {
       this.getData();
+      this.isLoading = false;
     }, 1000);
   }
 
@@ -160,14 +164,14 @@ export class AddSimComponent implements OnInit {
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'SIM details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving sim details!'

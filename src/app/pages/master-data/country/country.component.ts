@@ -142,6 +142,7 @@ export class CountryComponent implements OnInit, OnDestroy {
     if (colData.length) {
       const rowData = colData[0];
       this.sampleData.columnHeader.push(COUNTRY_COLUMN_HEADER['delete']);
+      this.sampleData.columnHeader.push(COUNTRY_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (COUNTRY_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(COUNTRY_COLUMN_HEADER[key]);
@@ -153,8 +154,11 @@ export class CountryComponent implements OnInit, OnDestroy {
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
       for (let item of data) {
         item.delete = "Delete";
+        counter += 1;
+        item.srno = counter;
       }
       this.sampleData.data = data;
     } else {

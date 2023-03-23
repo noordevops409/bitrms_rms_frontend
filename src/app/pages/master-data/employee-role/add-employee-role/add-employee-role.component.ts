@@ -25,12 +25,12 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
-  
+
   public masterForm!: FormGroup;
-  
+
   private selEmployeeRole: any = null;
   private employeeRoleId: any = null;
-  
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -49,15 +49,18 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.init();
     this.initForm();
-    this.getData();
   }
 
   ngOnDestroy(): void {
-    
+
   }
 
   init() {
-
+    if (this.data) {
+      this.isLoading = true;
+    }
+    this.getData();
+    this.isLoading = false;
   }
 
   initForm() {

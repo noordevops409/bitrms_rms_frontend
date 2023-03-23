@@ -1,18 +1,19 @@
 
 export const ZONE_COLUMN_HEADER = {
-  delete: {
-    id: '0',
-    fieldName: 'delete',
-    colDisplayName: 'Action',
-    colType: 'textwithlink',
-    dataType: 'text',
+  srno: {
     userIndex: 0,
+    fieldName: 'srno',
+    colDisplayName: 'SrNo',
+    title: 'SrNo',
+    widthOfColumn: 50,
+    colType: 'text',
+    dataType: 'text',
+    id: '0',
     imgName: '',
     tooltipSrc: '',
-    function: 'openZoneDataForDelete',
+    function: '',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 75,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -117,5 +118,21 @@ export const ZONE_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
-  }
+  },
+  delete: {
+    id: '7',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 7,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openZoneDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

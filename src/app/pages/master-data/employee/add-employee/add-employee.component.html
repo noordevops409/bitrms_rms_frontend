@@ -10,197 +10,210 @@
         </div>
     </div>
 
-    <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
+    <div class="body" [ngClass]="{'aLoader': isLoading}">
         <form [formGroup]="masterForm" class="form">
+            <section class="panel-body">
+                <div class="form-container">
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Employee Id</mat-label>
+                                <input formControlName="empId" required matInput />
+                                <mat-error *ngIf="mf.empId.touched && mf.empId.invalid">
+                                    <div *ngIf="mf.empId.errors?.required" class="italicAlign">Employee Id is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
 
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter Employee Id</mat-label>
-                        <input formControlName="empId" required matInput />
-                        <mat-error *ngIf="mf.empId.touched && mf.empId.invalid">
-                            <div *ngIf="mf.empId.errors?.required" class="italicAlign">Employee Id is required.</div>
-                        </mat-error>
-                    </mat-form-field>
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee First Name</mat-label>
+                                <input formControlName="empId" required matInput />
+                                <mat-error *ngIf="mf.firstName.touched && mf.firstName.invalid">
+                                    <div *ngIf="mf.firstName.errors?.required" class="italicAlign">Employee First Name
+                                        is
+                                        required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee Last Name</mat-label>
+                                <input formControlName="lastName" required matInput />
+                                <mat-error *ngIf="mf.lastName.touched && mf.lastName.invalid">
+                                    <div *ngIf="mf.lastName.errors?.required" class="italicAlign">Employee Last Name is
+                                        required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Employee Role</mat-label>
+                            <select formControlName="selEmployeeRole" name="selEmployeeRole" class="input-element mini">
+                                <option *ngFor="let item of employeeRoleList" [ngValue]="item">{{item.erRoleName}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Region</mat-label>
+                            <select formControlName="selRegion" name="selRegion" class="input-element mini">
+                                <option *ngFor="let item of regionList" [ngValue]="item">{{item.rgRegion}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Zone</mat-label>
+                            <select formControlName="selZone" name="selZone" class="input-element mini">
+                                <option *ngFor="let item of zoneList" [ngValue]="item">{{item.znZone}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee Contact Number</mat-label>
+                                <input formControlName="contactNumber" required matInput />
+                                <mat-error *ngIf="mf.contactNumber.touched && mf.contactNumber.invalid">
+                                    <div *ngIf="mf.contactNumber.errors?.required" class="italicAlign">Employee Contact
+                                        Nummber
+                                        is required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee Email</mat-label>
+                                <input formControlName="email" required matInput />
+                                <mat-error *ngIf="mf.email.touched && mf.email.invalid">
+                                    <div *ngIf="mf.email.errors?.required" class="italicAlign">Employee Email is
+                                        required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>ERP Location</mat-label>
+                                <input formControlName="erpLocation" matInput />
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee Location</mat-label>
+                                <input formControlName="employeeLocation" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Latitude</mat-label>
+                                <input formControlName="latitude" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Longitude</mat-label>
+                                <input formControlName="longitude" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-label>Select Escalation Mode</mat-label>
+                            <select formControlName="selEscalationMode" name="selEscalationMode"
+                                class="input-element mini">
+                                <option *ngFor="let item of escalationModeList" [ngValue]="item">{{item.label}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Acsys Employee Id</mat-label>
+                                <input formControlName="acsysEmployeeId" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Acsys Employee Sync Status</mat-label>
+                                <input formControlName="acsysEmployeeSyncStatus" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Select Entry Date</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="entryDate">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Select Exit Date</mat-label>
+                                <input matInput [matDatepicker]="picker1" formControlName="exitDate">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Select Acsys Employee Update Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="acsysEmployeeUpdateDate">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>ke ID</mat-label>
+                                <input formControlName="keId" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Employee Notification</mat-label>
+                                <input formControlName="notification" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter ACC ID Name</mat-label>
+                                <input formControlName="accIdName" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee First Name</mat-label>
-                        <input formControlName="empId" required matInput />
-                        <mat-error *ngIf="mf.firstName.touched && mf.firstName.invalid">
-                            <div *ngIf="mf.firstName.errors?.required" class="italicAlign">Employee First Name is
-                                required.</div>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee Last Name</mat-label>
-                        <input formControlName="lastName" required matInput />
-                        <mat-error *ngIf="mf.lastName.touched && mf.lastName.invalid">
-                            <div *ngIf="mf.lastName.errors?.required" class="italicAlign">Employee Last Name is
-                                required.</div>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-
-                <div class="form-field col-4">
-                    <select formControlName="selEmployeeRole" name="selEmployeeRole" class="input-element mini">
-                        <option *ngFor="let item of employeeRoleList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-                <div class="form-field col-4">
-                    <select formControlName="selRegion" name="selRegion" class="input-element mini">
-                        <option *ngFor="let item of regionList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-                <div class="form-field col-4">
-                    <select formControlName="selZone" name="selZone" class="input-element mini">
-                        <option *ngFor="let item of zoneList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee Contact Number</mat-label>
-                        <input formControlName="contactNumber" required matInput />
-                        <mat-error *ngIf="mf.contactNumber.touched && mf.contactNumber.invalid">
-                            <div *ngIf="mf.contactNumber.errors?.required" class="italicAlign">Employee Contact Nummber
-                                is required.</div>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee Email</mat-label>
-                        <input formControlName="email" required matInput />
-                        <mat-error *ngIf="mf.email.touched && mf.email.invalid">
-                            <div *ngIf="mf.email.errors?.required" class="italicAlign">Employee Email is required.</div>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>ERP Location</mat-label>
-                        <input formControlName="erpLocation" matInput />
-                    </mat-form-field>
-                </div>
-
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee Location</mat-label>
-                        <input formControlName="employeeLocation" matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Latitude</mat-label>
-                        <input formControlName="latitude" type="number" matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Longitude</mat-label>
-                        <input formControlName="longitude" type="number" matInput />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <select formControlName="selEscalationMode" name="selEscalationMode" class="input-element mini">
-                        <option *ngFor="let item of escalationModeList" [ngValue]="item">{{item.label}}</option>
-                    </select>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Acsys Employee Id</mat-label>
-                        <input formControlName="acsysEmployeeId" type="number" matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Acsys Employee Sync Status</mat-label>
-                        <input formControlName="acsysEmployeeSyncStatus" type="number" matInput />
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Select Entry Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="entryDate">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Select Exit Date</mat-label>
-                        <input matInput [matDatepicker]="picker1" formControlName="exitDate">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
-
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Select Acsys Employee Update Date</mat-label>
-                        <input matInput [matDatepicker]="picker2" formControlName="acsysEmployeeUpdateDate">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2></mat-datepicker>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="form-group row" style="margin-bottom: 0px;">
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>ke ID</mat-label>
-                        <input formControlName="keId"  matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Employee Notification</mat-label>
-                        <input formControlName="notification" matInput />
-                    </mat-form-field>
-                </div>
-
-                <div class="form-field col-4">
-                    <mat-form-field>
-                        <mat-label>Enter ACC ID Name</mat-label>
-                        <input formControlName="accIdName"  matInput />
-                    </mat-form-field>
-                </div>
-            </div>
+            </section>
 
             <div class="footer">
                 <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>

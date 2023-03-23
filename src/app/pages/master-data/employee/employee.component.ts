@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -46,12 +47,16 @@ export class EmployeeComponent implements OnInit {
 
   public isFilterDataLoaded: boolean = false;
 
+  private employeeRoleList: any = [];
+  private regionList: any = [];
+  private zoneList: any = [];
   private sampleData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
+  private forDeleteListener!: Subscription;
 
   constructor(
     private util: CommonUtilService,
@@ -70,16 +75,70 @@ export class EmployeeComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.forEditListener.unsubscribe();
+    this.forDeleteListener.unsubscribe();
   }
 
   init() {
-    this.loadData();
+    this.loadEmployeeRole();
+    this.loadRegion();
+    this.loadZone();
+    setTimeout(() => {
+      this.loadData();
+    }, 1000);
   }
 
   listen() {
     this.forEditListener = this.broadcast.on<string>('OPEN_EMPLOYEE_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.edit(null, data);
+      });
+    });
+
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_EMPLOYEE_FOR_DELETE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.delete(data);
+      });
+    });
+  }
+
+  loadEmployeeRole() {
+    const url = ApiConstant.getEmployeeRoleMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
+        this.employeeRoleList = data.employeeRoleMasterList;
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading employee role list!'
+      });
+    });
+  }
+
+  loadRegion() {
+    const url = ApiConstant.getRegionMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.regionMasterList && data.regionMasterList.length) {
+        this.regionList = data.regionMasterList;
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading region list!'
+      });
+    });
+  }
+
+  loadZone() {
+    const url = ApiConstant.getZoneMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.zoneMasterList && data.zoneMasterList.length) {
+        this.zoneList = data.zoneMasterList;
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading zone list!'
       });
     });
   }
@@ -132,10 +191,45 @@ export class EmployeeComponent implements OnInit {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (EMPLOYEE_COLUMN_HEADER[key]) {
+        if(key === 'erRoleID') {
+          this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["empRoleName"]);
+        } else if(key === 'rgRegionID') {
+          this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["regionName"]);
+        } else if(key === 'znZoneID') {
+          this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["zoneName"]);
+        } else if (EMPLOYEE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER[key]);
         }
+      }
+      this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["delete"]);
+    }
+  }
+
+  setEmployeeRole(req: any) {
+    for (let item of this.employeeRoleList) {
+      if (item.erRoleID === req.erRoleID) {
+        req.empRoleName = item.erRoleName;
+        break;
+      }
+    }
+  }
+
+  setRegion(req?: any) {
+    for (let item of this.regionList) {
+      if (item.rgRegionID === req.rgRegionID) {
+        req.regionName = item.rgRegion;
+        break;
+      }
+    }
+  }
+
+  setZone(req?: any) {
+    for (let item of this.zoneList) {
+      if (item.znZoneID === req.znZoneID) {
+        req.zoneName = item.znZone;
+        break;
       }
     }
   }
@@ -143,6 +237,15 @@ export class EmployeeComponent implements OnInit {
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
+      for (let item of data) {
+        this.setEmployeeRole(item);
+        this.setRegion(item);
+        this.setZone(item);
+        counter += 1;
+        item.srno = counter;
+        item.delete = "Delete";
+      }
       this.sampleData.data = data;
     } else {
       this.sampleData.data = [];
@@ -186,12 +289,30 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-  exportExcel(evt?: any) {
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `employee-data.${type}`);
 
   }
 
-  exportCSV(evt?: any) {
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
 
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
   }
 
   add(evt?: any) {
@@ -230,7 +351,21 @@ export class EmployeeComponent implements OnInit {
   }
 
   delete(item?: any, i?: any) {
-
+    var r = confirm("Are you sure you want to delete selected record");
+    if (r) {
+      this.httpClient.post(ApiConstant.deleteEmployeeMasterData + `?emEmpID=${item.emEmpID}`, null).subscribe((data) => {
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Employee details deleted successfully.'
+        });
+        this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while deleting employee details!'
+        })
+      });
+    }
   }
 
 }

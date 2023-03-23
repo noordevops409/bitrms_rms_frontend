@@ -69,6 +69,8 @@
         }
       }
 
+      
+
       .repeated-item {
         padding: 16px 24px;
       }
@@ -138,14 +140,14 @@
           &:hover,
           &:focus,
           &.active {
-            > a {
+            >a {
               background-color: #151a30;
               border-color: #101426;
             }
           }
 
           &.disabled {
-            > a {
+            >a {
               opacity: 0.5;
             }
           }

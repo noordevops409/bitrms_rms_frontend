@@ -52,7 +52,11 @@ export class AddCountryComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    if (this.data) {
+      this.isLoading = true;
+    }
     this.getData();
+    this.isLoading = false;
   }
 
   initForm() {
@@ -100,14 +104,14 @@ export class AddCountryComponent implements OnInit, OnDestroy {
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Country details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving country details!'

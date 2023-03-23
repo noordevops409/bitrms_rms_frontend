@@ -1,18 +1,19 @@
 
 export const REGION_COLUMN_HEADER = {
-  delete: {
-    id: '0',
-    fieldName: 'delete',
-    colDisplayName: 'Action',
-    colType: 'textwithlink',
-    dataType: 'text',
+  srno: {
     userIndex: 0,
+    fieldName: 'srno',
+    colDisplayName: 'SrNo',
+    title: 'SrNo',
+    widthOfColumn: 50,
+    colType: 'text',
+    dataType: 'text',
+    id: '0',
     imgName: '',
     tooltipSrc: '',
-    function: 'openRegionDataForDelete',
+    function: '',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 75,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -100,5 +101,21 @@ export const REGION_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
-  }
+  },
+  delete: {
+    id: '6',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 6,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openRegionDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

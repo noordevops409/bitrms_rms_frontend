@@ -10,10 +10,10 @@
         </div>
     </div>
 
-    <div class="body" [ngClass]="{'aLoader': isSaving || isLoading}">
+    <div class="body" [ngClass]="{'aLoader': isLoading}">
         <form [formGroup]="masterForm" class="form">
             <section class="panel-body">
-                <div class="form-container" [ngClass]="{'aLoader': isSubmiting}">
+                <div class="form-container">
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>

@@ -1428,6 +1428,15 @@ app-tee-power-filter {
     }
 }
 
+.form-group {
+    .form-field {
+        mat-label,
+        mat-hint {
+            color: #fff;
+        }
+    }
+}
+
 .mdc-dialog__container {
     .mat-mdc-dialog-surface {
         &.mdc-dialog__surface {
