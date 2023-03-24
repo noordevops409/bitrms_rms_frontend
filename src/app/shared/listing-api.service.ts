@@ -111,6 +111,10 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_PLANNED_ENERGY_FOR_EDIT', data);
   }
 
+  openPlannedEnergyDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_PLANNED_ENERGY_FOR_DELETE', data);
+  }
+
   openSiteMasterDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_EDIT', data);
   }

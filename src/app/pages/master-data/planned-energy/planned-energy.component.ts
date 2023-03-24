@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -52,6 +53,7 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
+  private forDeleteListener!: Subscription;
 
   constructor(
     private util: CommonUtilService,
@@ -70,6 +72,7 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.forEditListener.unsubscribe();
+    this.forDeleteListener.unsubscribe();
   }
 
   init() {
@@ -80,6 +83,12 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
     this.forEditListener = this.broadcast.on<string>('OPEN_PLANNED_ENERGY_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.edit(null, data);
+      });
+    });
+
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_PLANNED_ENERGY_FOR_DELETE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.delete(data);
       });
     });
   }
@@ -132,17 +141,25 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      this.sampleData.columnHeader.push(PLANNED_ENERGY_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (PLANNED_ENERGY_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(PLANNED_ENERGY_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(PLANNED_ENERGY_COLUMN_HEADER['delete']);
     }
   }
 
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
+      for (let item of data) {
+        counter += 1;
+        item.srno = counter;
+        item.delete = "Delete";
+      }
       this.sampleData.data = data;
     } else {
       this.sampleData.data = [];
@@ -189,12 +206,30 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
   }
 
 
-  exportExcel(evt?: any) {
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `planned-energy-data.${type}`);
 
   }
 
-  exportCSV(evt?: any) {
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
 
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
   }
 
   add(evt?: any) {
@@ -233,7 +268,21 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
   }
 
   delete(item?: any, i?: any) {
-
+    var r = confirm("Are you sure you want to delete selected record");
+    if (r) {
+      this.httpClient.post(ApiConstant.deletePlannedEnergyMasterData + `?peSitecode=${item.smSitecode}`, null).subscribe((data) => {
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Planned energy details deleted successfully.'
+        });
+        this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while deleting planned energy details!'
+        })
+      });
+    }
   }
 
 }

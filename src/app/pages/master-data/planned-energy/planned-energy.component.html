@@ -25,6 +25,72 @@
             <div class="box-body">
                 <div class="list-wrap">
                     <div class="view-holder">
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>Site Code</th>
+                                        <th>Solar Output Energy (kWh)</th>
+                                        <th>Solar Run Hrs</th>
+                                        <th>DG Energy (kWh)</th>
+                                        <th>DG Run Hrs</th>
+                                        <th>MDG Energy (kWh)</th>
+                                        <th>MDG Run Hrs</th>
+                                        <th>Batt Dis Energy (kWh)</th>
+                                        <th>Batt Dis Run Hrs</th>
+                                        <th>Batt Charging Energy (kWh)</th>
+                                        <th>Batt Charging Energy Run Hrs</th>
+                                        <th>Solar Batt Run Hrs</th>
+                                        <th>Solar DG Run Hrs</th>
+                                        <th>Solar MDG Run Hrs</th>
+                                        <th>Tele Energy (kWh)</th>
+                                        <th>Tele Run Hrs</th>
+                                        <th>Community Load Energy (kWh)</th>
+                                        <th>Community Load Run Hrs</th>
+                                        <th>Opco 1 (kWh)</th>
+                                        <th>Opco 1 Run Hrs</th>
+                                        <th>Opco 2 (kWh)</th>
+                                        <th>Opco 2 Run Hrs</th>
+                                        <th>Opco 3 (kWh)</th>
+                                        <th>Opco 3 Run Hrs</th>
+                                        <th>Opco 4 (kWh)</th>
+                                        <th>Opco 4 Run Hrs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
+                                        <td>{{item.smSitecode}}</td>
+                                        <td>{{item.planedSolarOutputenergykwh}}</td>
+                                        <td>{{item.planedSolarRunHrs}}</td>
+                                        <td>{{item.planedDGEnergy}}</td>
+                                        <td>{{item.planedDGRunHrs}}</td>
+                                        <td>{{item.planedMDGEnergy}}</td>
+                                        <td>{{item.planedMDGRunHrs}}</td>
+                                        <td>{{item.planedBattDisEnergykwh}}</td>
+                                        <td>{{item.planedBattDisRunHrs}}</td>
+                                        <td>{{item.planedBattChargingEnergykwh}}</td>
+                                        <td>{{item.planedBattChargingEnergyrunhrs}}</td>
+                                        <td>{{item.planedSolarBattRunHrs}}</td>
+                                        <td>{{item.planedSolarDGRunHrs}}</td>
+                                        <td>{{item.planedSolarMDGRunHrs}}</td>
+                                        <td>{{item.planedTeleEnergy}}</td>
+                                        <td>{{item.planedTeleRunHrs}}</td>
+                                        <td>{{item.planedCommunityLoadEnergy}}</td>
+                                        <td>{{item.planedCommunityLoadRunHrs}}</td>
+                                        <td>{{item.planedOpco1kwh}}</td>
+                                        <td>{{item.planedOpco1runhrs}}</td>
+                                        <td>{{item.planedOpco2kwh}}</td>
+                                        <td>{{item.planedOpco2runhrs}}</td>
+                                        <td>{{item.planedOpco3kwh}}</td>
+                                        <td>{{item.planedOpco3runhrs}}</td>
+                                        <td>{{item.planedOpco4kwh}}</td>
+                                        <td>{{item.planedOpco4runhrs}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

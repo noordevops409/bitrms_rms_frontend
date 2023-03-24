@@ -48,9 +48,8 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
-    this.getData();
+    this.init();
   }
 
   ngOnDestroy(): void {
@@ -58,7 +57,10 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadData();
+    this.loadSiteCode();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
@@ -132,10 +134,6 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
     this.masterForm.controls['opco4RunHrs'].setValue(this.selPlannedEnergy.planedOpco4runhrs);
   }
 
-  loadData() {
-    this.loadSiteCode();
-  }
-
   loadSiteCode() {
     const url = ApiConstant.getSiteMasterData;
     this.httpClient.post(url, null).subscribe((data: any) => {
@@ -167,39 +165,38 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
     const formData = this.masterForm.value;
     const url = ApiConstant.savePlannedEnergyMasterData;
 
-    let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
-
     let params: any = {
-      'selSiteCode': formData.selSiteCode,
-      'solarOutputEnergy': formData.solarOutputEnergy,
-      'solarRunHrs': formData.solarRunHrs,
-      'dgEnergy': formData.dgEnergy,
-      'dgRunHrs': formData.dgRunHrs,
-      'mdgEnergy': formData.mdgEnergy,
-      'mdgRunHrs': formData.mdgRunHrs,
-      'battDisEnergy': formData.battDisEnergy,
-      'battRunHrs': formData.battRunHrs,
-      'battChargingEnergy': formData.battChargingEnergy,
-      'battChargingRunHrs': formData.battChargingRunHrs,
-      'solarBattRunHrs': formData.solarBattRunHrs,
-      'solarDGRunHrs': formData.solarDGRunHrs,
-      'solarMDGRunHrs': formData.solarMDGRunHrs,
-      'teleEnergy': formData.teleEnergy,
-      'teleRunHrs': formData.teleRunHrs,
-      'communityLoadEnergy': formData.communityLoadEnergy,
-      'communityLoadRunHrs': formData.communityLoadRunHrs,
-      'opco1': formData.opco1,
-      'opco1RunHrs': formData.opco1RunHrs,
-      'opco2': formData.opco2,
-      'opco2RunHrs': formData.opco2RunHrs,
-      'opco3': formData.opco3,
-      'opco3RunHrs': formData.opco3RunHrs,
-      'opco4': formData.opco4,
-      'opco4RunHrs': formData.opco4RunHrs
+      'peSitecode': formData.selSiteCode,
+      'peSolarOutputEnergy': formData.solarOutputEnergy,
+      'peSolarRunHrs': formData.solarRunHrs,
+      'peDgEnergy': formData.dgEnergy,
+      'peDgRunHrs': formData.dgRunHrs,
+      'peMdgEnergy': formData.mdgEnergy,
+      'peMdgRunHrs': formData.mdgRunHrs,
+      'peBattDisEnergy': formData.battDisEnergy,
+      'peBattDisRunHrs': formData.battRunHrs,
+      'peBattChargingEnergy': formData.battChargingEnergy,
+      'peBattChargingEnergyRunhrs': formData.battChargingRunHrs,
+      'peSolarBattRunHrs': formData.solarBattRunHrs,
+      'peSolarDGRunHrs': formData.solarDGRunHrs,
+      'peSolarMDGRunHrs': formData.solarMDGRunHrs,
+      'peTeleEnergy': formData.teleEnergy,
+      'peTeleRunHrs': formData.teleRunHrs,
+      'peCommunityLoadEnergy': formData.communityLoadEnergy,
+      'peCommunityLoadRunHrs': formData.communityLoadRunHrs,
+      'peOpco1': formData.opco1,
+      'peOpco1Runhrs': formData.opco1RunHrs,
+      'peOpco2': formData.opco2,
+      'peOpco2Runhrs': formData.opco2RunHrs,
+      'peOpco3': formData.opco3,
+      'peOpco3Runhrs': formData.opco3RunHrs,
+      'peOpco4': formData.opco4,
+      'peOpco4Runhrs': formData.opco4RunHrs,
+      'username': 'harish1'
     };
 
     if (this.isForEdit) {
-      params.smSitecode = this.plannedEnergyId;
+      params.peSitecode = this.plannedEnergyId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
