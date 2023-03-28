@@ -132,13 +132,15 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
     this.masterForm.controls['opco3RunHrs'].setValue(this.selPlannedEnergy.planedOpco3runhrs);
     this.masterForm.controls['opco4'].setValue(this.selPlannedEnergy.planedOpco4kwh);
     this.masterForm.controls['opco4RunHrs'].setValue(this.selPlannedEnergy.planedOpco4runhrs);
+
+    this.setSitecode(this.selPlannedEnergy);
   }
 
   loadSiteCode() {
     const url = ApiConstant.getSiteMasterData;
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.siteMasterList && data.siteMasterList.length) {
-        this.siteCodeList = data.siteMasterList[0];
+        this.siteCodeList = data.siteMasterList;
         this.masterForm.controls['selSiteCode'].setValue(data.siteMasterList[0]);
       }
     }, (err) => {
@@ -147,6 +149,15 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
         msg: 'Error while loading site core list!'
       });
     });
+  }
+
+  setSitecode(req: any) {
+    for (let item of this.siteCodeList) {
+      if (item.smSitecode === req.smSitecode) {
+        this.masterForm.controls['selSiteCode'].setValue(item);
+        break;
+      }
+    }
   }
 
   close(evt?: any) {

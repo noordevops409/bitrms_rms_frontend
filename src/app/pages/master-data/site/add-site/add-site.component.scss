@@ -7,20 +7,24 @@
     position: relative;
     box-sizing: border-box;
     height: 85vh;
+
     &.small {
         width: 500px;
     }
 
-    > .header {
+    >.header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 30px 30px 15px 30px;
+        padding: 15px 30px;
         position: absolute;
         top: 0px;
         left: 0px;
         width: 100%;
         z-index: 1;
+        border-bottom: 1px solid #fff;
+        box-sizing: border-box;
+
         .left-side {
             .title {
                 font-size: 1rem;
@@ -29,9 +33,11 @@
                 letter-spacing: 1px;
             }
         }
+
         .right-side {
             a {
                 color: #fff;
+
                 &:hover,
                 &:focus {
                     color: #fff;
@@ -39,29 +45,35 @@
             }
         }
     }
-    > .body {
-        padding: 0px 30px 15px 30px;
+
+    >.body {
         height: inherit;
-        border-top: 70px solid transparent;
+        border-top: 63px solid transparent;
         position: relative;
+
         form {
-            // display: flex;
-            // align-items: center;
-            // justify-content: space-between;
-            > .left-side {
+
+            height: 100%;
+            position: relative;
+            margin-bottom: 0px;
+
+            >.left-side {
                 width: 53%;
                 margin-right: 15px;
                 float: left;
             }
-            > .right-side {
+
+            >.right-side {
                 width: 43%;
                 float: right;
                 padding: 0px 15px;
+
                 ul {
                     background-color: #ececec;
                     padding: 10px 30px;
                     border: 2px solid #d5d9dc;
                     border-radius: 4px;
+
                     li {
                         &:first-child {
                             text-align: center;
@@ -71,13 +83,16 @@
                             padding: 0px;
                             width: 100%;
                         }
+
                         display: inline-block;
                         width: 38%;
                         margin: 15px 20px;
                         text-align: center;
+
                         &.active {
                             background-color: #ee6675;
                         }
+
                         img {
                             max-width: 100%;
                             cursor: pointer;
@@ -87,22 +102,27 @@
                     }
                 }
             }
+
             .form-group {
                 margin-bottom: 0px;
+
                 &.d-flex {
                     display: -webkit-box !important;
                     display: flex !important;
                     align-items: center;
                     justify-content: space-between;
                 }
+
                 &.padding-prop {
                     .form-field {
                         margin-right: 15px;
+
                         &:last-child {
                             margin-right: 0px;
                         }
                     }
                 }
+
                 .form-field {
                     .mat-form-field {
                         display: block;
@@ -110,14 +130,82 @@
                         text-align: left;
                         font-size: 0.875rem;
                     }
+
                     &.half-width {
                         display: inline-block;
                         width: 50%;
                     }
                 }
+
                 .mat-input-element {
                     font-size: 1rem;
                     font-family: var(--body-light-font);
+                }
+            }
+
+            .panel-body {
+                height: inherit;
+                padding: 10px 20px;
+                overflow: auto;
+                border-bottom: 82px solid transparent;
+
+                .form-container {
+                    border-bottom: none;
+
+                    &::-webkit-scrollbar {
+                        width: .3125rem;
+                        height: .3125rem
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background: #101426;
+                        cursor: pointer;
+                        border-radius: .15625rem
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background: #192038
+                    }
+
+                    input,
+                    select {
+                        color: #fff;
+                    }
+
+                    input {
+                        &::placeholder {
+                            /* Chrome, Firefox, Opera, Safari 10.1+ */
+                            color: #fff;
+                            opacity: 1;
+                            /* Firefox */
+                        }
+
+                        &:-ms-input-placeholder {
+                            /* Internet Explorer 10-11 */
+                            color: #fff;
+                        }
+
+                        &::-ms-input-placeholder {
+                            /* Microsoft Edge */
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+
+            .footer {
+                border-bottom: 0px solid transparent;
+                padding: 0px 20px;
+                position: absolute;
+                bottom: 0px;
+                width: 100%;
+                left: 0px;
+                box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgb(0 0 0 / 18%) 0px 0px 0px 2px;
+
+                .btn {
+                    &:disabled {
+                        opacity: 0.5;
+                    }
                 }
             }
         }
@@ -130,16 +218,8 @@
             padding: 0px 30px;
         }
     }
-    .footer {
-        border-bottom: 30px solid transparent;
-        padding-left: 20px;
-        padding-right: 20px;
-        .btn {
-            &:disabled {
-                opacity: 0.5;
-            }
-        }
-    }
+
+
 }
 
 .tab-container {
@@ -147,4 +227,3 @@
     height: 100%;
     border-top: 66px solid transparent;
 }
-

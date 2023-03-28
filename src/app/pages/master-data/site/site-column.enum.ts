@@ -1,14 +1,14 @@
 
 export const SITE_COLUMN_HEADER = {
-  checkbox: {
+  srno: {
     id: '0',
     fieldName: 'srno',
     colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
+    colType: 'text',
+    userIndex: 0,
     imgName: '',
     tooltipSrc: '',
-    dataType: 'checkbox',
+    dataType: 'text',
     function: '',
     funParams: '',
     wrapData: '',
@@ -22,7 +22,7 @@ export const SITE_COLUMN_HEADER = {
     colDisplayName: 'Site ID',
     title: 'Site ID',
     widthOfColumn: 100,
-    colType: 'text',
+    colType: 'textwithlink',
     dataType: 'text',
     id: '1',
     imgName: '',
@@ -67,9 +67,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSitetypeid: {
+  siteType: {
     userIndex: 4,
-    fieldName: 'smSitetypeid',
+    fieldName: 'siteType',
     colDisplayName: 'Site Type',
     title: 'Site Type',
     widthOfColumn: 100,
@@ -84,9 +84,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  crClusterID: {
+  clusterName: {
     userIndex: 5,
-    fieldName: 'crClusterID',
+    fieldName: 'clusterName',
     colDisplayName: 'Cluster',
     title: 'Cluster',
     widthOfColumn: 100,
@@ -155,9 +155,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smTechEmpid: {
+  employeeId: {
     userIndex: 9,
-    fieldName: 'smTechEmpid',
+    fieldName: 'employeeId',
     colDisplayName: 'Employee Id',
     title: 'Employee Id',
     widthOfColumn: 100,
@@ -209,9 +209,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  simID: {
+  simNumber: {
     userIndex: 12,
-    fieldName: 'simID',
+    fieldName: 'simNumber',
     colDisplayName: 'SIM',
     title: 'SIM',
     widthOfColumn: 100,
@@ -370,5 +370,21 @@ export const SITE_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
-  }
+  },
+  delete: {
+    id: '21',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 21,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openSiteMasterDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

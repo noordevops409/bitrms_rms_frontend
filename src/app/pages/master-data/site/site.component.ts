@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -48,7 +49,6 @@ export class SiteComponent implements OnInit {
 
   private clusterList: any = [];
   private simList: any = [];
-  private siteTypeList: any = [];
   private customerList: any = [];
   private employeeList: any = [];
   private sampleData: any = {};
@@ -57,8 +57,9 @@ export class SiteComponent implements OnInit {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
+  private forDeleteListener!: Subscription;
 
-  public siteType: any = [
+  public siteTypeList: any = [
     {
       value: 1,
       label: 'Hybrid'
@@ -86,14 +87,15 @@ export class SiteComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.forEditListener.unsubscribe();
+    this.forDeleteListener.unsubscribe();
   }
 
   init() {
     this.loadCluster();
     this.loadSim();
-    this.loadSiteType();
-    this.loadCustomer();
     this.loadEmployee();
+    // this.loadSiteType();
+    // this.loadCustomer();
     setTimeout(() => {
       this.loadData();
     }, 1000);
@@ -103,6 +105,12 @@ export class SiteComponent implements OnInit {
     this.forEditListener = this.broadcast.on<string>('OPEN_SITE_MASTER_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.edit(null, data);
+      });
+    });
+
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_SITE_MASTER_FOR_DELETE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.delete(data);
       });
     });
   }
@@ -123,9 +131,11 @@ export class SiteComponent implements OnInit {
   }
 
   loadSim() {
-    const url = ApiConstant.getSimMaster;
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.simList = data;
+    const url = ApiConstant.getSimMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.simMasterList && data.simMasterList.length) {
+        this.simList = data.simMasterList;
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -222,30 +232,73 @@ export class SiteComponent implements OnInit {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (SITE_COLUMN_HEADER[key]) {
+        if (key === 'smSitetypeid') {
+          this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["siteType"]);
+        } if(key === 'crClusterID') {
+          this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["clusterName"]);
+        } if(key === 'smTechEmpid') {
+          this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["employeeId"]);
+        } if(key === 'simID') {
+          this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["simNumber"]);
+        } else if (SITE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["delete"]);
     }
   }
 
   setSiteType(req?: any) {
     for (let item of this.siteTypeList) {
       if (item.value === req.smSitetypeid) {
-        req.smSitetypeid = item.label;
+        req.siteType = item.label;
+        break;
+      }
+    }
+  }
+
+  setSim(req?: any) {
+    for (let item of this.simList) {
+      if (item.simID === req.simID) {
+        req.simNumber = item.simNumber;
         break;
       }
     }
   }
 
   setCluster(req?: any) {
+    for (let item of this.clusterList) {
+      if (item.crClusterID === req.crClusterID) {
+        req.clusterName = item.crName;
+        break;
+      }
+    }
+  }
 
+  setEmployeeId(req?: any) {
+    for (let item of this.employeeList) {
+      if (item.emEmpID === req.smTechEmpid) {
+        req.employeeId = item.emEmployeeID;
+        break;
+      }
+    }
   }
 
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
+      for(let item of data) {
+        counter += 1;
+        this.setSiteType(item);
+        this.setSim(item);
+        this.setCluster(item);
+        this.setEmployeeId(item);
+        item.srno = counter;
+        item.delete = 'Delete';
+      }
       this.sampleData.data = data;
     } else {
       this.sampleData.data = [];
@@ -292,12 +345,30 @@ export class SiteComponent implements OnInit {
   }
 
 
-  exportExcel(evt?: any) {
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `site-data.${type}`);
 
   }
 
-  exportCSV(evt?: any) {
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
 
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
   }
 
   add(evt?: any) {
@@ -336,7 +407,21 @@ export class SiteComponent implements OnInit {
   }
 
   delete(item?: any, i?: any) {
-
+    var r = confirm("Are you sure you want to delete selected record");
+    if (r) {
+      this.httpClient.post(ApiConstant.deleteSiteMasterData + `?smSiteID=${item.smSiteID}`, null).subscribe((data) => {
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Site details deleted successfully.'
+        });
+        this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while deleting site details!'
+        })
+      });
+    }
   }
 
 }

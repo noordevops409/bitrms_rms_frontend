@@ -119,6 +119,10 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_EDIT', data);
   }
 
+  openSiteMasterDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_DELETE', data);
+  }
+
   openClusterDataForEdit(data: any) {
     this.broadcast.broadcast('OPEN_CLUSTER_FOR_EDIT', data);
   }

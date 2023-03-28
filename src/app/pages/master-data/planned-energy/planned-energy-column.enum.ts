@@ -22,7 +22,7 @@ export const PLANNED_ENERGY_COLUMN_HEADER = {
     colDisplayName: 'Site Code',
     title: 'Site Code',
     widthOfColumn: 100,
-    colType: 'text',
+    colType: 'textwithlink',
     dataType: 'text',
     id: '1',
     imgName: '',

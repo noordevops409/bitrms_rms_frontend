@@ -34,23 +34,15 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   public siteTypeList: any = [
     {
-      value: -1,
-      label: 'Select Site Type'
-    },
-    {
-      value: 'Hybrid',
+      value: 1,
       label: 'Hybrid'
     },
     {
-      value: 'TEE',
+      value: 2,
       label: 'TEE'
     }
   ];
   public deviceTypeList: any = [
-    {
-      value: -1,
-      label: 'Select Device Type'
-    },
     {
       value: 'Lineage',
       label: 'Lineage'
@@ -74,23 +66,15 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   ];
   public siteStatusList: any = [
     {
-      value: -1,
-      label: 'Select Site Status'
-    },
-    {
       label: 'Active',
-      value: 'Active'
+      value: 1
     },
     {
       label: 'Inactive',
-      value: 'Inactive'
+      value: 0
     }
   ];
   public customerList: any = [
-    {
-      value: -1,
-      label: 'Select Customer'
-    },
     {
       label: 'Apollo',
       value: 'Apollo'
@@ -110,24 +94,20 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   ];
   public siteClassificationList: any = [
     {
-      value: -1,
-      label: 'Select Classification'
-    },
-    {
       label: 'Class A',
-      value: 'Class A'
+      value: 1
     },
     {
       label: 'Class B',
-      value: 'Class B'
+      value: 2
     },
     {
       label: 'Class C',
-      value: 'Class C'
+      value: 3
     },
     {
       label: 'Critical',
-      value: 'Critical'
+      value: 4
     }
   ];
 
@@ -158,9 +138,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
-    this.getData();
+    this.init();
   }
 
   ngOnDestroy(): void {
@@ -168,21 +147,26 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadData();
+    this.loadCluster();
+    this.loadEmployee();
+    this.loadSim();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
     this.masterForm = this.formBuilder.group({
       'siteCode': [null, [Validators.required]],
       'siteName': [null, [Validators.required]],
-      'selSiteType': [-1],
-      'selDeviceType': [-1],
-      'selSiteStatus': [-1],
-      'selCustomer': [-1],
-      'selSiteClassification': [-1],
-      'selCluster': [-1],
-      'selEmployee': [-1],
-      'selSim': [-1],
+      'selSiteType': [null],
+      'selDeviceType': [null],
+      'selSiteStatus': [null],
+      'selCustomer': [null],
+      'selSiteClassification': [null],
+      'selCluster': [null],
+      'selEmployee': [null],
+      'selSim': [null],
       'address': [null],
       'district': [null],
       'pinCode': [null],
@@ -196,8 +180,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    if (window.localStorage.getItem('selSite')) {
-      this.selSite = JSON.parse((window as any).localStorage.getItem('selSite'));
+    if (this.data) {
+      this.selSite = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -207,70 +191,102 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setFormData() {
     this.siteId = this.selSite.id;
-    this.masterForm.controls['siteCode'].setValue(this.selSite.siteCode);
-    this.masterForm.controls['siteName'].setValue(this.selSite.siteName);
-    this.masterForm.controls['address'].setValue(this.selSite.address);
-    this.masterForm.controls['district'].setValue(this.selSite.district);
-    this.masterForm.controls['pinCode'].setValue(this.selSite.pinCode);
-    this.masterForm.controls['latitude'].setValue(this.selSite.latitude);
-    this.masterForm.controls['longitude'].setValue(this.selSite.longitude);
-    this.masterForm.controls['dvUniqueId'].setValue(this.selSite.dvUniqueId);
-    this.masterForm.controls['accIdName'].setValue(this.selSite.accIdName);
-    this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrandName);
+    this.masterForm.controls['siteCode'].setValue(this.selSite.smSitecode);
+    this.masterForm.controls['siteName'].setValue(this.selSite.smSitename);
+    this.masterForm.controls['address'].setValue(this.selSite.smAddress);
+    this.masterForm.controls['district'].setValue(this.selSite.smDistrict);
+    this.masterForm.controls['pinCode'].setValue(this.selSite.smPincode);
+    this.masterForm.controls['latitude'].setValue(this.selSite.smLatitude);
+    this.masterForm.controls['longitude'].setValue(this.selSite.smLongitude);
+    this.masterForm.controls['dvUniqueId'].setValue(this.selSite.dvuniqueid);
+    this.masterForm.controls['accIdName'].setValue(this.selSite.accID);
+    this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrand);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
-    this.masterForm.controls['selSiteType'].setValue(this.selSite.selSiteType);
-    this.masterForm.controls['selDeviceType'].setValue(this.selSite.selDeviceType);
-    this.masterForm.controls['selSiteStatus'].setValue(this.selSite.selSiteStatus);
-    this.masterForm.controls['selCustomer'].setValue(this.selSite.selCustomer);
-    this.masterForm.controls['selSiteClassification'].setValue(this.selSite.selSiteClassification);
-    this.masterForm.controls['selCluster'].setValue(this.selSite.selCluster);
-    this.masterForm.controls['selEmployee'].setValue(this.selSite.selEmployee);
-    this.masterForm.controls['selSim'].setValue(this.selSite.selSim);
-  }
 
-  loadData() {
-    this.loadCluster();
-    this.loadEmployee();
-    this.loadSim();
+    this.masterForm.controls['selSiteType'].setValue(this.selSite.smSitetypeid);
+    this.masterForm.controls['selDeviceType'].setValue(this.selSite.devicetype);
+    this.masterForm.controls['selSiteStatus'].setValue(this.selSite.smSiteactivestatus);
+    this.masterForm.controls['selCustomer'].setValue(this.selSite.smCustomerId);
+    this.masterForm.controls['selSiteClassification'].setValue(this.selSite.smscid);
+
+    this.setSim(this.selSite);
+    this.setCluster(this.selSite);
+    this.setEmployeeId(this.selSite);
   }
 
   loadCluster() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.clusterList = data;
+    const url = ApiConstant.getClusterMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.clusterMasterList && data.clusterMasterList.length) {
+        this.clusterList = data.clusterMasterList;
+        this.masterForm.controls['selCluster'].setValue(data.clusterMasterList[0]);
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading employee role list!'
-      });
-    });
-  }
-
-  loadEmployee() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.employeeList = data;
-    }, (err) => {
-      this.isLoading = false;
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading employee role list!'
+        msg: 'Error while loading cluster list!'
       });
     });
   }
 
   loadSim() {
-    const url = '';
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.simList = data;
+    const url = ApiConstant.getSimMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.simMasterList && data.simMasterList.length) {
+        this.simList = data.simMasterList;
+        this.masterForm.controls['selSim'].setValue(data.simMasterList[0]);
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading employee role list!'
+        msg: 'Error while loading sim list!'
       });
     });
+  }
+
+  loadEmployee() {
+    const url = ApiConstant.getEmployeeMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.employeeMasterList && data.employeeMasterList.length) {
+        this.employeeList = data.employeeMasterList;
+        this.masterForm.controls['selEmployee'].setValue(data.employeeMasterList[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading employee list!'
+      });
+    });
+  }
+
+  setSim(req?: any) {
+    for (let item of this.simList) {
+      if (item.simID === req.simID) {
+        req.simNumber = item.simNumber;
+        break;
+      }
+    }
+  }
+
+  setCluster(req?: any) {
+    for (let item of this.clusterList) {
+      if (item.crClusterID === req.crClusterID) {
+        req.clusterName = item.crName;
+        break;
+      }
+    }
+  }
+
+  setEmployeeId(req?: any) {
+    for (let item of this.employeeList) {
+      if (item.emEmpID === req.smTechEmpid) {
+        req.employeeId = item.emEmployeeID;
+        break;
+      }
+    }
   }
 
   close(evt?: any) {
@@ -287,47 +303,44 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     }
     this.isSaving = true;
     const formData = this.masterForm.value;
-    const url = "";
-
-    let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
+    const url = ApiConstant.saveSiteMasterData;
 
     let params: any = {
-      siteCode: formData.siteCode,
-      siteName: formData.siteName,
-      siteType: formData.selSiteType,
-      clusterId: formData.selCluster,
-      clusterName: formData.selCluster,
-      address: formData.address,
-      district: formData.district,
-      pinCode: formData.pinCode,
-      employeeId: formData.selEmployee.id,
-      employeeName: formData.selEmployee.name,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
-      deviceType: formData.selDeviceType.value,
-      simId: formData.selSim.id,
-      simName: formData.selSim.name,
-      dvUniqueId: formData.dvUniqueId,
-      siteStatus: formData.selSiteStatus.value,
-      customer: formData.selCustomer.value,
-      siteClassification: formData.selSiteClassification.value,
-      accIdName: formData.accIdName,
-      dgBrandName: formData.dgBrandName,
-      dgTankCapacity: formData.dgTankCapacity
+      smSitecode: formData.siteCode,
+      smSitename: formData.siteName,
+      smSitetypeid: formData.selSiteType,
+      crClusterID: formData.selCluster.crClusterID,
+      smAddress: formData.address,
+      smDistrict: formData.district,
+      smPincode: formData.pinCode,
+      smTechEmpid: formData.selEmployee.emEmpID,
+      smLatitude: formData.latitude,
+      smLongitude: formData.longitude,
+      devicetype: formData.selDeviceType.value,
+      simID: formData.selSim.simID,
+      dvuniqueid: formData.dvUniqueId,
+      smSiteactivestatus: formData.selSiteStatus.value,
+      smCustomerId: formData.selCustomer.value,
+      smscid: formData.selSiteClassification.value,
+      accID: formData.accIdName,
+      dgBrand: formData.dgBrandName,
+      dgTankCapacity: formData.dgTankCapacity,
+      username: 'harish1'
     };
 
     if (this.isForEdit) {
-      params.id = this.siteId;
+      params.smSiteID = this.siteId;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {
-      this.isLoading = false;
+      this.isSaving = false;
+      this.dialogRef.close(data);
       this.util.notification.success({
         title: 'Success',
         msg: 'Site details saved successfully...'
       });
     }, (err) => {
-      this.isLoading = false;
+      this.isSaving = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while saving site details!'
