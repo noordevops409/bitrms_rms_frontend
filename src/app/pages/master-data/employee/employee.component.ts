@@ -51,6 +51,7 @@ export class EmployeeComponent implements OnInit {
   private regionList: any = [];
   private zoneList: any = [];
   private sampleData: any = {};
+  private allData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
@@ -193,11 +194,11 @@ export class EmployeeComponent implements OnInit {
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if(key === 'erRoleID') {
+        if (key === 'erRoleID') {
           this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["empRoleName"]);
-        } else if(key === 'rgRegionID') {
+        } else if (key === 'rgRegionID') {
           this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["regionName"]);
-        } else if(key === 'znZoneID') {
+        } else if (key === 'znZoneID') {
           this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER["zoneName"]);
         } else if (EMPLOYEE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(EMPLOYEE_COLUMN_HEADER[key]);
@@ -247,8 +248,10 @@ export class EmployeeComponent implements OnInit {
         item.delete = "Delete";
       }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
@@ -313,6 +316,22 @@ export class EmployeeComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toLowerCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        item.emEmployeeID = item.emEmployeeID.toString();
+        item.empRoleName = item.empRoleName.toString();
+        return (item.emEmployeeID.toLowerCase().includes(value) || item.empRoleName.toLowerCase().includes(value));
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
   add(evt?: any) {

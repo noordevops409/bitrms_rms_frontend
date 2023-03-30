@@ -48,6 +48,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
   public isFilterDataLoaded: boolean = false;
 
   private sampleData: any = {};
+  private allData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
@@ -160,8 +161,10 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
         item.srno = counter;
       }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
@@ -229,6 +232,21 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toLowerCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        item.erRoleName = item.erRoleName.toString();
+        return (item.erRoleName.toLowerCase().includes(value));
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
   add(evt?: any) {

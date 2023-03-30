@@ -49,6 +49,7 @@ export class RegionComponent implements OnInit, OnDestroy {
 
   private countryList: any = [];
   private sampleData: any = {};
+  private allData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
@@ -192,8 +193,10 @@ export class RegionComponent implements OnInit, OnDestroy {
         item.delete = "Delete";
       }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
@@ -259,6 +262,22 @@ export class RegionComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toLowerCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        item.rgRegion = item.rgRegion.toString();
+        // item.simID = item.simID.toString();
+        return (item.rgRegion.toLowerCase().includes(value));
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
   add(evt?: any) {

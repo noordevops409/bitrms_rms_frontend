@@ -52,6 +52,7 @@ export class SiteComponent implements OnInit {
   private customerList: any = [];
   private employeeList: any = [];
   private sampleData: any = {};
+  private allData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
@@ -122,7 +123,6 @@ export class SiteComponent implements OnInit {
         this.clusterList = data.clusterMasterList;
       }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading cluster list!'
@@ -137,7 +137,6 @@ export class SiteComponent implements OnInit {
         this.simList = data.simMasterList;
       }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading sim list!'
@@ -150,7 +149,6 @@ export class SiteComponent implements OnInit {
     this.httpClient.get(url).subscribe((data: any) => {
       this.siteTypeList = data;
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading site type list!'
@@ -163,7 +161,6 @@ export class SiteComponent implements OnInit {
     this.httpClient.get(url).subscribe((data: any) => {
       this.customerList = data;
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading customer list!'
@@ -174,9 +171,10 @@ export class SiteComponent implements OnInit {
   loadEmployee() {
     const url = ApiConstant.getEmployeeMasterData;
     this.httpClient.post(url, null).subscribe((data: any) => {
-      this.employeeList = data;
+      if (data && data.employeeMasterList && data.employeeMasterList.length) {
+        this.employeeList = data.employeeMasterList;
+      }
     }, (err) => {
-      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading employee list!'
@@ -236,11 +234,11 @@ export class SiteComponent implements OnInit {
       for (let key in rowData) {
         if (key === 'smSitetypeid') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["siteType"]);
-        } if(key === 'crClusterID') {
+        } if (key === 'crClusterID') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["clusterName"]);
-        } if(key === 'smTechEmpid') {
+        } if (key === 'smTechEmpid') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["employeeId"]);
-        } if(key === 'simID') {
+        } if (key === 'simID') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["simNumber"]);
         } else if (SITE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER[key]);
@@ -290,7 +288,7 @@ export class SiteComponent implements OnInit {
     const data = resData || [];
     if (data.length) {
       let counter = 0;
-      for(let item of data) {
+      for (let item of data) {
         counter += 1;
         this.setSiteType(item);
         this.setSim(item);
@@ -300,8 +298,10 @@ export class SiteComponent implements OnInit {
         item.delete = 'Delete';
       }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
@@ -369,6 +369,20 @@ export class SiteComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toLowerCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        return (item.smSitecode.toLowerCase().includes(value) || item.smSitename.toLowerCase().includes(value));
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
   add(evt?: any) {

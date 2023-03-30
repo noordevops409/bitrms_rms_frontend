@@ -1,18 +1,19 @@
 
 export const SITE_COLUMN_HEADER = {
   srno: {
-    id: '0',
-    fieldName: 'srno',
-    colDisplayName: '',
-    colType: 'text',
     userIndex: 0,
+    fieldName: 'srno',
+    colDisplayName: 'SrNo',
+    title: 'SrNo',
+    widthOfColumn: 50,
+    colType: 'text',
+    dataType: 'text',
+    id: '0',
     imgName: '',
     tooltipSrc: '',
-    dataType: 'text',
     function: '',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
