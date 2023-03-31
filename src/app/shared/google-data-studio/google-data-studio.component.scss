@@ -1,6 +1,17 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.match-parent {
+    width: 100%;
+    height: 100%;
+}
+
 .parent-container {
     height: 100%;
     padding: 36px 36px 28px 36px;
+
     .row {
         margin: 0px;
         height: 100%;
@@ -10,9 +21,15 @@
 
 .tower-listing {
     height: 100%;
+    position: relative;
+
     .search-box {
-        margin-bottom: 42px;
+        margin-bottom: 20px;
         position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+
         label {
             margin-right: 24px;
             font-size: 0.9375rem;
@@ -23,7 +40,25 @@
             border: 1px solid #101426;
             border-radius: 4px;
             padding: 8px 25px 8px 16px;
-            width: 170px;
+            width: 100%;
+            color: #fff;
+
+            &::placeholder {
+                /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #fff;
+                opacity: 1;
+                /* Firefox */
+            }
+
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: #fff;
+            }
+
+            &::-ms-input-placeholder {
+                /* Microsoft Edge */
+                color: #fff;
+            }
         }
 
         .search-icon {
@@ -38,11 +73,13 @@
 
     .box {
         height: 100%;
-        border-top: 80px solid #151a30;
+        border-top: 58px solid #151a30;
+
         .box-title {
             position: absolute;
             width: 100%;
         }
+
         .box-body {
             border-top: 54px solid transparent;
             height: 100%;
@@ -54,29 +91,30 @@
         list-style: none;
         padding: 0px;
         margin: 0px;
-        li {
 
-        }
+        li {}
 
         &.head {
-            li {
-
-            }
+            li {}
         }
     }
 
     .list-head {
         position: absolute;
         width: 100%;
+
         ul {
             border-bottom: 1px solid #151A30;
+
             li {
                 display: inline-block;
                 padding: 16px 24px;
                 color: #8F9BB3;
+
                 &:first-child {
                     width: 100px;
                 }
+
                 &:last-child {
                     // width: 80%;
                 }
@@ -88,31 +126,35 @@
         height: 100%;
         border-top: 54px solid transparent;
         overflow: auto;
+
         &::-webkit-scrollbar {
             width: .3125rem;
             height: .3125rem
         }
-    
+
         &::-webkit-scrollbar-thumb {
             background: #101426;
             cursor: pointer;
             border-radius: .15625rem
         }
-    
+
         &::-webkit-scrollbar-track {
             background: #192038
         }
 
         ul {
             border-bottom: 1px solid #151A30;
+
             li {
                 display: inline-block;
                 padding: 16px 24px;
                 color: #fff;
+
                 &:first-child {
                     // width: 20%;
                     width: 100px;
                 }
+
                 &:last-child {
                     // width: 80%;
                 }
@@ -123,15 +165,17 @@
 
 .tower-status {
     height: 100%;
+
     .box {
         height: 100%;
+
         .box-title {
             position: absolute;
             width: 100%;
         }
 
         .box-body {
-            border-top: 54px solid transparent;
+            // border-top: 54px solid transparent;
             height: 100%;
             padding: 0px;
 
@@ -153,6 +197,7 @@
     padding: 16px 24px;
     margin-top: 36px;
     width: 100%;
+
     h4 {
         font-size: 0.9375rem;
         margin-bottom: 0px;
@@ -162,10 +207,12 @@
         list-style: none;
         padding: 0px;
         margin: 0px;
+
         li {
             font-size: 0.9375rem;
             display: inline-block;
             margin-left: 24px;
+
             span {
                 width: 10px;
                 height: 10px;
@@ -173,21 +220,22 @@
                 margin-right: 12px;
                 border: 1px solid #000;
             }
+
             &.online-no-alarms {
                 span {
-                    background-color: #3366FF;
+                    background-color: blue;
                 }
             }
 
             &.offline-no-alarms {
                 span {
-                    background-color: #1F3D99;
+                    background-color: yellow;
                 }
             }
 
             &.online-critical-alarms {
                 span {
-                    background-color: #CCEAFF;
+                    background-color: red;
                 }
             }
 

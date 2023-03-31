@@ -1,60 +1,51 @@
-<div class="parent-container" [ngClass]="{'p-0': !isReqToShowTowerList}">
-    <div class="row">
-        <div class="col-3 tower-listing" *ngIf="isReqToShowTowerList" style="padding-left: 0px;">
-            <div class="search-box">
-                <label for="search">Search</label>
-                <input type="search" id="search" name="search" />
-                <span class="search-icon material-icons">
-                    search
-                </span>
-            </div>
+<div class="row">
+    <div class="col-3 tower-listing" *ngIf="isReqToShowSiteList" style="padding-left: 0px;">
+        <div class="search-box">
+            <input type="search" id="search" (input)="search($event);" name="search" placeholder="Search" />
+            <span class="search-icon material-icons">
+                search
+            </span>
+        </div>
 
-            <div class="box">
-                <div class="box-title">
-                    <h4>Tower</h4>
+        <div class="box">
+            <div class="box-title">
+                <h4>Tower Status</h4>
+            </div>
+            <div class="box-body">
+                <div class="list-head">
+                    <ul>
+                        <li class="site-item">Sr. No.</li>
+                        <li class="site-item">Site ID</li>
+                    </ul>
                 </div>
-                <div class="box-body">
-                    <div class="list-head">
-                        <ul>
-                            <li class="site-item">Sr. No.</li>
-                            <li class="site-item">Site ID</li>
-                        </ul>
-                    </div>
-                    <div class="list-body">
-                        <ul *ngFor="let item of siteList; let i = index">
-                            <li class="site-item">{{ (i+1) }}</li>
-                            <li class="site-item">{{ item.code }}</li>
-                        </ul>
-                    </div>
+                <div class="list-body">
+                    <ul *ngFor="let item of siteList; let i = index">
+                        <li class="site-item">{{ (i+1) }}</li>
+                        <li class="site-item">{{ item.smSitecode }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-9 tower-status" [ngClass]="{'col-12': !isReqToShowTowerList}" style="padding-right: 0px;">
-            <div class="box">
-                <div class="box-title">
-                    <h4>Tower Status</h4>
-                </div>
-                <div class="box-body">
-                    <google-map class="google-map" height="100%" width="100%" [zoom]="zoom" [center]="center"
-                        [options]="options">
-                        <map-marker *ngFor="let marker of markers; let i=index" [position]="marker.position"
-                            [label]="marker.label" [title]="marker.title" (mapClick)="openInfoWindow(marker)"
-                            [clickable]="true" [options]="marker.options">
-                        </map-marker>
-                    </google-map>
-                </div>
+    <div class="col-12 tower-status" style="padding-right: 0px;">
+        <div class="box">
+            <!-- <div class="box-title">
+                <h4>Tower Status</h4>
+            </div> -->
+            <div class="box-body">
+                <div class="map" id="mapbox" class="match-parent"></div>
             </div>
         </div>
+    </div>
 
-        <div class="legend">
-            <h4>Legend</h4>
-            <ul>
-                <li class="online-no-alarms"><span></span> Online and No Alarms</li>
-                <li class="offline-no-alarms"><span></span> Offline and No Alarms</li>
-                <li class="online-critical-alarms"><span></span> Online and Critical Alarms</li>
-                <li class="offline"><span></span> Offline</li>
-            </ul>
-        </div>
+    <div class="legend">
+        <h4>Legend</h4>
+        <ul>
+            <li class="online-no-alarms"><span></span> Online and No Alarms</li>
+            <li class="offline-no-alarms"><span></span> Offline and No Alarms</li>
+            <li class="online-critical-alarms"><span></span> Online and Critical Alarms</li>
+            <li class="offline"><span></span> Offline</li>
+        </ul>
     </div>
 </div>

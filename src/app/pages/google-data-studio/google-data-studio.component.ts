@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,6 +21,8 @@ import { geoLocation } from '../../pages/data/site-geolocation';
   styleUrls: ['./google-data-studio.component.scss']
 })
 export class GoogleDataStudioComponent implements OnInit, OnDestroy {
+
+  @Input('isReqToShowSiteList') isReqToShowSiteList: boolean = true;
 
   public map: any = mapboxgl.Map;
   public mapStyle: any = 'mapbox://styles/mapbox/streets-v11';

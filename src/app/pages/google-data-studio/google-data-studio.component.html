@@ -1,6 +1,6 @@
 <div class="parent-container">
     <div class="row">
-        <div class="col-3 tower-listing" style="padding-left: 0px;">
+        <div class="col-3 tower-listing" *ngIf="isReqToShowSiteList" style="padding-left: 0px;">
             <div class="search-box">
                 <input type="search" id="search" (input)="search($event);" name="search" placeholder="Search" />
                 <span class="search-icon material-icons">
