@@ -1,1 +1,50 @@
-<p>add-outage-category works!</p>
+<div class="modal-popup site-details">
+    <div class="header popupHeaderBg">
+        <div class="left-side">
+            <h1 class="title">Outage Category</h1>
+        </div>
+        <div class="right-side">
+            <a href="javascript:void(0);" (click)="close($event)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="body" [ngClass]="{'aLoader': isLoading}">
+        <form [formGroup]="masterForm" class="form">
+            <section class="panel-body">
+                <div class="form-container">
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Outage Category Name</mat-label>
+                                <input formControlName="name" required matInput />
+                                <mat-error *ngIf="mf.name.touched && mf.name.invalid">
+                                    <div *ngIf="mf.name.errors?.required" class="italicAlign">Outage Category Name is required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="footer">
+                <mat-dialog-actions style="padding: 15px 10px;">
+                    <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Update
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                    <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Add
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </section>
+        </form>
+    </div>
+</div>

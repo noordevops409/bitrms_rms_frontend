@@ -109,5 +109,17 @@ export const ApiConstant = {
   saveSimMasterData: `${GATEWAY}/api/master_data/add_simmaster`,
   deleteSimMasterData: `${GATEWAY}/api/master_data/delete_sim_master_details`,
 
+  getFaultCategoryData: `${GATEWAY}/api/rca_master_data/view_faultCategory_form`,
+  saveFaultCategoryData: `${GATEWAY}/api/rca_master_data/fault_category`,
+  deleteFaultCategoryData: `${GATEWAY}/api/rca_master_data/delete_faultCategory_details`,
+
+  getOutageCategoryData: `${GATEWAY}/api/rca_master_data/view_outageCategory_form`,
+  saveOutageCategoryData: `${GATEWAY}/api/rca_master_data/outage_category`,
+  deleteOutageCategoryData: `${GATEWAY}/api/rca_master_data/delete_outageCategory_details`,
+
+  getIssueCategoryData: `${GATEWAY}/api/rca_master_data/view_issueCategory_form`,
+  saveIssueCategoryData: `${GATEWAY}/api/rca_master_data/issue_category`,
+  deleteIssueCategoryData: `${GATEWAY}/api/rca_master_data/delete_issueCategory_details`,
+
 };
 

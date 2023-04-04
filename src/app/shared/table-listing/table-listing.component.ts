@@ -796,6 +796,15 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.SIM_MASTER_LISTING_TYPE:
         this.uniqueId = 'simID';
         break;
+      case AppConstant.FAULT_CATEGORY_LISTING_TYPE:
+        this.uniqueId = 'faultID';
+        break;
+      case AppConstant.OUTAGE_CATEGORY_LISTING_TYPE:
+        this.uniqueId = 'outageCatID';
+        break;
+      case AppConstant.ISSUE_CATEGORY_LISTING_TYPE  :
+        this.uniqueId = 'issueCatID';
+        break;
       default:
         this.uniqueId = 'distUniqueId';
     }

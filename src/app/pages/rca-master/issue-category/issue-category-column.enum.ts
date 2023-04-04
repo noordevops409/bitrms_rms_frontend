@@ -1,0 +1,53 @@
+
+export const ISSUE_CATEGORY_COLUMN_HEADER = {
+  srno: {
+    userIndex: 0,
+    fieldName: 'srno',
+    colDisplayName: 'SrNo',
+    title: 'SrNo',
+    widthOfColumn: 50,
+    colType: 'text',
+    dataType: 'text',
+    id: '0',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  issuename: {
+    userIndex: 1,
+    fieldName: 'issuename',
+    colDisplayName: 'Issue Category Name',
+    title: 'Issue Category Name',
+    widthOfColumn: 250,
+    colType: 'textwithlink',
+    dataType: 'text',
+    id: '1',
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openIssueCategoryDataForEdit',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  delete: {
+    id: '2',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 2,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openIssueCategoryForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+};

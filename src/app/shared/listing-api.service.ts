@@ -142,4 +142,28 @@ export class ListingApiService {
   openSimDataForDelete(data: any) {
     this.broadcast.broadcast('OPEN_SIM_FOR_DELETE', data);
   }
+
+  openIssueCategoryDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_ISSUE_CATEGORY_FOR_EDIT', data);
+  }
+
+  openIssueCategoryForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_ISSUE_CATEGORY_FOR_DELETE', data);
+  }
+
+  openOutageCategoryDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_OUTAGE_CATEGORY_FOR_EDIT', data);
+  }
+
+  openOutageCategoryForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_OUTAGE_CATEGORY_FOR_DELETE', data);
+  }
+
+  openFaultCategoryDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_FAULT_CATEGORY_FOR_EDIT', data);
+  }
+
+  openFaultCategoryForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_FAULT_CATEGORY_FOR_DELETE', data);
+  }
 }
