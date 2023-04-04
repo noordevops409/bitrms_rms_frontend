@@ -93,7 +93,7 @@ export class OutageCategoryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-
+    this.loadData();
   }
 
   loadData() {
@@ -124,7 +124,7 @@ export class OutageCategoryComponent implements OnInit, OnDestroy {
     this.setColumnHeader(res.outageCategoryMasterList);
     this.setRowData(res.outageCategoryMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.outageCategoryMasterList.length;
   }
 
   setResponse(resData) {

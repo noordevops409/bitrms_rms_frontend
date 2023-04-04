@@ -117,7 +117,7 @@ export const ApiConstant = {
   saveOutageCategoryData: `${GATEWAY}/api/rca_master_data/outage_category`,
   deleteOutageCategoryData: `${GATEWAY}/api/rca_master_data/delete_outageCategory_details`,
 
-  getIssueCategoryData: `${GATEWAY}/api/rca_master_data/view_issueCategory_form`,
+  getIssueCategoryData: `${GATEWAY}/api/rca_master_data/view_issuecategory_form`,
   saveIssueCategoryData: `${GATEWAY}/api/rca_master_data/issue_category`,
   deleteIssueCategoryData: `${GATEWAY}/api/rca_master_data/delete_issueCategory_details`,
 

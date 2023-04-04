@@ -91,7 +91,7 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-
+    this.loadData();
   }
 
   loadData() {
@@ -122,7 +122,7 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
     this.setColumnHeader(res.issueCategoryMasterList);
     this.setRowData(res.issueCategoryMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.issueCategoryMasterList.length;
   }
 
   setResponse(resData) {

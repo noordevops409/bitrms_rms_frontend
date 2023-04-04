@@ -91,7 +91,7 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-
+    this.loadData();
   }
 
   loadData() {
@@ -122,7 +122,7 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
     this.setColumnHeader(res.faultCategoryMasterList);
     this.setRowData(res.faultCategoryMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.faultCategoryMasterList.length;
   }
 
   setResponse(resData) {
