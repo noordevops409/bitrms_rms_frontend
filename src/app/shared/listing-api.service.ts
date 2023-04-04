@@ -64,7 +64,11 @@ export class ListingApiService {
   }
 
   editRCAReportDetails(data: any) {
-    this.router.navigate(['pages', 'rca-report', 'edit', data.rcaid]);
+    this.broadcast.broadcast('OPEN_RCA_REPORT_FOR_EDIT', data);
+  }
+
+  deleteRCAReportDetails(data: any) {
+    this.broadcast.broadcast('OPEN_RCA_REPORT_FOR_DELETE', data);
   }
 
   openCountryDataForEdit(data: any) {

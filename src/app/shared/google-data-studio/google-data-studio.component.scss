@@ -165,6 +165,7 @@
 
 .tower-status {
     height: 100%;
+    position: relative;
 
     .box {
         height: 100%;
@@ -175,7 +176,8 @@
         }
 
         .box-body {
-            // border-top: 54px solid transparent;
+            border-top: 57px solid transparent; 
+            border-bottom: 74px solid transparent;
             height: 100%;
             padding: 0px;
 
@@ -197,6 +199,8 @@
     padding: 16px 24px;
     margin-top: 36px;
     width: 100%;
+    position: absolute;
+    bottom: 0px;
 
     h4 {
         font-size: 0.9375rem;
@@ -246,4 +250,10 @@
             }
         }
     }
+}
+
+.parent-container {
+    height: inherit;
+    max-height: 600px;
+    padding: 0px;
 }

@@ -178,7 +178,6 @@ export class ClusterComponent implements OnInit {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      this.sampleData.columnHeader.push(CLUSTER_COLUMN_HEADER['delete']);
       this.sampleData.columnHeader.push(CLUSTER_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (key === 'emEmployeeID') {
@@ -189,6 +188,7 @@ export class ClusterComponent implements OnInit {
           this.sampleData.columnHeader.push(CLUSTER_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(CLUSTER_COLUMN_HEADER['delete']);
     }
   }
 

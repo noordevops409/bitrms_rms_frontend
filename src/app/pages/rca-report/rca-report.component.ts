@@ -1,30 +1,18 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
-
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import * as XLSX from 'xlsx';
+
 import { CommonUtilService } from '../../shared/common-util.service';
 import { BroadcastService } from '../../shared/broadcast.service';
 
 import { RCA_REPORT_COLUMN_HEADER } from './rca-report-column.enum';
-
 import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
 
-
-import { alarmCategory } from '../data/alarm-category';
-import { alarmStatus } from '../data/alarm-status';
-import { clusterMaster } from '../data/cluster-master';
-import { customerMaster } from '../data/customer-master';
-import { deviceTypeMaster } from '../data/device-type-master';
-import { hourlyReport } from '../data/hourly-report';
-import { latestData } from '../data/latest-data';
-import { latestReportStatus } from '../data/latest-report-status';
-import { regionMaster } from '../data/region-master';
-import { siteCodeMaster } from '../data/site-code-master';
-import { siteTypeMaster } from '../data/site-type-master';
-import { zoneMaster } from '../data/zone-master';
-import { rcaReport } from '../data/rca-report';
-
+import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-report.component';
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
 
 @Component({
@@ -32,7 +20,7 @@ import { TableListingComponent } from '../../shared/table-listing/table-listing.
   templateUrl: './rca-report.component.html',
   styleUrls: ['./rca-report.component.scss']
 })
-export class RcaReportComponent implements OnInit {
+export class RcaReportComponent implements OnInit, OnDestroy {
 
   @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
 
@@ -61,27 +49,48 @@ export class RcaReportComponent implements OnInit {
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
-  private allData: any = [];
+  private allData: any = {};
+  private forEditListener!: Subscription;
+  private forDeleteListener!: Subscription;
 
   private filterParam: any = {};
 
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
-
-  listen() {
-
-  }
 
   ngOnInit(): void {
     this.listen();
     this.init();
   }
 
+  ngOnDestroy(): void {
+    this.forEditListener.unsubscribe();
+    this.forDeleteListener.unsubscribe();
+  }
+
   init() {
     this.loadData();
+  }
+
+  listen() {
+    this.forEditListener = this.broadcast.on<string>('OPEN_RCA_REPORT_FOR_EDIT').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.edit(null, data);
+      });
+    });
+
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_RCA_REPORT_FOR_DELETE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.delete(data);
+      });
+    });
   }
 
   setFilterParam() {
@@ -93,26 +102,9 @@ export class RcaReportComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRCADataAll, {}).subscribe((data: any) => {
+    this.httpClient.post(ApiConstant.getRCADataAll, null).subscribe((data: any) => {
       this.isLoading = false;
-      // console.log(data)
-      if (!!data) {
-        // data.data.forEach((item,index)=>{
-        //   // console.log(item)
-        //     // if(!!item.columns){
-        //          item[0].columns.forEach((colunm,ind)=>{
-        //         if(colunm.colDisplayName=='Site Id' || colunm.colDisplayName=='Site Name'){
-        //            colunm.colType='textwithlink';
-        //            item[0].columns[ind]=colunm.colType
-        //         }
-        //     })
-        //   data.data[index]=item;
-        //     // }
-
-        // })
-        this.allData = data;
-        this.manipulate(data.data);
-      }
+      this.manipulate(data);
       setTimeout(() => {
         this.tableListingComponent.init();
       });
@@ -127,10 +119,9 @@ export class RcaReportComponent implements OnInit {
   }
 
   manipulate(data) {
-    console.log("data....", data)
-    this.setResponse(data);
-    this.setColumnHeader(data);
-    this.setRowData(data);
+    this.setResponse(data.data);
+    this.setColumnHeader(data.data);
+    this.setRowData(data.data);
     this.activeListing.list = this.sampleData;
   }
 
@@ -151,34 +142,35 @@ export class RcaReportComponent implements OnInit {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (RCA_REPORT_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER[key]);
         }
       }
-      console.log(this.sampleData.columnHeader)
+      this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER['delete']);
     }
   }
 
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
+      let counter = 0;
+      for(let item of data) {
+        counter += 1;
+        item.srno = counter;
+        item.delete = "Delete";
+      }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
   openTabularFilter(evt?: any) {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
-  }
-
-  exportCSV(evt?: any) {
-
-  }
-
-  exportExcel(evt?: any) {
-
   }
 
   applyFilter(evt?: any) {
@@ -216,6 +208,31 @@ export class RcaReportComponent implements OnInit {
     }
   }
 
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `rca-report.${type}`);
+  }
+
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
+
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
+  }
+
   searchGlobally(event) {
     let { value } = event.target;
     value = value.toUpperCase();
@@ -230,10 +247,57 @@ export class RcaReportComponent implements OnInit {
     }
     this.activeListing.list = this.sampleData;
     this.tableListingComponent.init();
-    // this.broadcast.broadcast("searchResult", this.activeListing);
-    // console.log(
-    //   this.activeListing
-    // )
+  }
+
+  add(evt?: any) {
+    this.dialog.closeAll();
+    const dialogRef = this.dialog.open(AddEditRcaReportComponent, {
+      width: '800px'
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        if (data.data && data.data.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
+      }
+    });
+  }
+
+  edit(evt?: any, item?: any) {
+    this.dialog.closeAll();
+    const dialogRef = this.dialog.open(AddEditRcaReportComponent, {
+      width: '800px',
+      data: item
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        if (data.data && data.data.length) {
+          this.manipulate(data);
+        } else {
+          this.loadData();
+        }
+      }
+    });
+  }
+
+  delete(item: any) {
+    var r = confirm("Are you sure you want to delete selected record");
+    if (r) {
+      this.httpClient.post(ApiConstant.deleteRCAData + `?rcaidLong=${item.rcaid}`, null).subscribe((data) => {
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'RCA report details deleted successfully.'
+        });
+        this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while deleting rca report details!'
+        })
+      });
+    }
   }
 
 }

@@ -53,7 +53,7 @@ export const ApiConstant = {
 
   getRCADataAll: `${GATEWAY}/api/rca/get-rcadata`,
   createUpdateRCAData: `${GATEWAY}/api/rca/site-name`,
-  deleteRCAData: `${GATEWAY}/api/rca/site-name`,
+  deleteRCAData: `${GATEWAY}/api/rca/delete_rca_details`,
   filterRCAData: `${GATEWAY}/api/rca/site-name`,
 
   saveRCADetails: `${GATEWAY}/api/rca/save_rca-details`,

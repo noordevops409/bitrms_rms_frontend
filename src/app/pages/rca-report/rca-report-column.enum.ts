@@ -1,18 +1,18 @@
 
 export const RCA_REPORT_COLUMN_HEADER = {
-    checkbox: {
+    srno: {
       id: '0',
       fieldName: 'srno',
-      colDisplayName: '',
-      colType: 'checkbox',
-      userIndex: -1,
+      colDisplayName: 'SrNo',
+      colType: 'text',
+      userIndex: 0,
       imgName: '',
       tooltipSrc: '',
-      dataType: 'checkbox',
+      dataType: 'text',
       function: '',
       funParams: '',
       wrapData: '',
-      widthOfColumn: 35,
+      widthOfColumn: 50,
       isSortSupported: false,
       isCustomAttributeColumn: false
     },
@@ -188,6 +188,22 @@ export const RCA_REPORT_COLUMN_HEADER = {
       function: '',
       funParams: '',
       wrapData: '',
+      isSortSupported: false,
+      isCustomAttributeColumn: false
+    },
+    delete: {
+      id: '11',
+      fieldName: 'delete',
+      colDisplayName: 'Action',
+      colType: 'textwithlink',
+      dataType: 'text',
+      userIndex: 11,
+      imgName: '',
+      tooltipSrc: '',
+      function: 'deleteRCAReportDetails',
+      funParams: '',
+      wrapData: '',
+      widthOfColumn: 75,
       isSortSupported: false,
       isCustomAttributeColumn: false
     }

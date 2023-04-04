@@ -1,7 +1,7 @@
 <div class="parent-container">
     <div class="header">
         <div class="add-report" style="display:inline-flex;">
-            <button class="btn btn-default" routerLink="add" style="margin-right:5px">
+            <button class="btn btn-default" (click)="add($event);" style="margin-right:5px">
                 <span class="material-icons">add</span> ADD
             </button>
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
@@ -31,6 +31,42 @@
                 </div> -->
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>Site Id</th>
+                                        <th>Site Name</th>
+                                        <th>Anchor Opr TR</th>
+                                        <th>Opco ID</th>
+                                        <th>Site Down Time</th>
+                                        <th>Restroed Time</th>
+                                        <th>Site Down Duration</th>
+                                        <th>RCA</th>
+                                        <th>Outage In Minutes</th>
+                                        <th>SLA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
+                                        <td>{{item.smSiteID}}</td>
+                                        <td>{{item.smSitename}}</td>
+                                        <td>{{item.anchorOprtr}}</td>
+                                        <td>{{item.opcoID}}</td>
+                                        <td>{{item.siteDownTime}}</td>
+                                        <td>{{item.restoredTime}}</td>
+                                        <td>{{item.siteDownDuration}}</td>
+                                        <td>{{item.rca}}</td>
+                                        <td>{{item.outageInMinutes}}</td>
+                                        <td>{{item.sla}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
