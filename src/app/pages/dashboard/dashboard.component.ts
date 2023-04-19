@@ -546,18 +546,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       for (let key in rowData) {
         if (TOWER_STATUS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['alarmCategory']);
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['hourlyReport']);
     }
   }
 
   setRowData(resData: any) {
     const data = resData || [];
     if (data.length) {
+      for (let item of data) {
+        item.alarmCategory = 'Alarm Category';
+        item.hourlyReport = 'Hourly Report';
+      }
       this.sampleData.data = data;
     } else {
       this.sampleData.data = [];
@@ -798,9 +803,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     let selVal = this.ddExport;
-    if(selVal === "1") {
+    if (selVal === "1") {
       this.exportExcel(evt);
-    } else if(selVal === "2") {
+    } else if (selVal === "2") {
       this.exportCSV(evt);
     }
   }

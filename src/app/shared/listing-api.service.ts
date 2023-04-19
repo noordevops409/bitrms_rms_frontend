@@ -57,6 +57,14 @@ export class ListingApiService {
     this.router.navigate(['pages', 'dashboard', 'prfdash', data.smSiteCode]);
   }
 
+  viewAlarmCategory(data: any) {
+    this.router.navigate(['pages', 'dashboard', 'alarm-status', data.smSiteCode]);
+  }
+
+  viewHourlyReport(data: any) {
+    this.router.navigate(['pages', 'dashboard', 'hourly-report', data.smSiteCode]);
+  }
+
   loadSiteDetails(data: any) {
     data.isForViewDetails = false;
     data.isForLoadOtherDetails = true;

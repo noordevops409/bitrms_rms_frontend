@@ -5,11 +5,15 @@ import { DashboardComponent } from './dashboard.component';
 import { ListingComponent } from './listing/listing.component';
 
 import { SiteDetailsComponent } from '../../shared/site-details/site-details.component';
+import { AlarmCategoryComponent } from '../../shared/alarm-category/alarm-category.component';
+import { HourlyReportComponent } from '../../shared/hourly-report/hourly-report.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'type/:id', component: ListingComponent },
-  { path: 'prfdash/:siteId', component: SiteDetailsComponent }
+  { path: 'prfdash/:siteId', component: SiteDetailsComponent },
+  { path: 'alarm-status/:siteId', component: AlarmCategoryComponent },
+  { path: 'hourly-report/:siteId', component: HourlyReportComponent }
 ];
 
 @NgModule({

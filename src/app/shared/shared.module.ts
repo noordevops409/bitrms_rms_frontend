@@ -35,6 +35,8 @@ import { GlobalSearchComponent } from './global-search/global-search.component';
 
 import { NgChartsModule } from 'ng2-charts';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { AlarmCategoryComponent } from './alarm-category/alarm-category.component';
+import { HourlyReportComponent } from './hourly-report/hourly-report.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -72,7 +74,9 @@ export const MY_MOMENT_FORMATS = {
     MonthPickerComponent, GlobalSearchComponent,
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    AlarmCategoryComponent,
+    HourlyReportComponent
   ],
   imports: [
     CommonModule,
@@ -111,7 +115,9 @@ export const MY_MOMENT_FORMATS = {
     GlobalSearchComponent,
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    AlarmCategoryComponent,
+    HourlyReportComponent
   ]
 })
 export class SharedModule { }
