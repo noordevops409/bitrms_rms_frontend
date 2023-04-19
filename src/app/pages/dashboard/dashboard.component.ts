@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { CommonUtilService } from '../../shared/common-util.service';
 import { BroadcastService } from '../../shared/broadcast.service';
-
+import * as XLSX from 'xlsx';
 
 import { TOWER_STATUS_COLUMN_HEADER } from './tower-status-column.enum';
 // import { ALARM_STATUS_COLUMN_HEADER } from './alarm-status-column.enum';
@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public listingTemplate: any = {};
 
   public latestReportStatus: any = null;
+  public ddExport: any = "-1";
 
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
@@ -764,6 +765,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.multipleSelRow = null;
       this.selectedRow = null;
+    }
+  }
+
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `tower-status-data.${type}`);
+
+  }
+
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
+
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    let selVal = this.ddExport;
+    if(selVal === "1") {
+      this.exportExcel(evt);
+    } else if(selVal === "2") {
+      this.exportCSV(evt);
     }
   }
 

@@ -132,10 +132,11 @@
             </div>
             <div class="export">
                 <label>Export</label>
-                <select class="mini">
+                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+                    <option value="-1">Please select</option>
                     <option value="1">Excel</option>
                     <option value="2">CSV</option>
-                    <option value="3">PDF</option>
+                    <!-- <option value="3">PDF</option> -->
                 </select>
             </div>
         </div>
@@ -151,6 +152,55 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Last Updated</th>
+                                        <th>Site Id</th>
+                                        <th>Site Name</th>
+                                        <th>Power Source</th>
+                                        <th>Customer Name</th>
+                                        <th>Engineer Name</th>
+                                        <th>Battery SOC</th>
+                                        <th>DC Load</th>
+                                        <th>DC Voltage</th>
+                                        <th>DG Power (Kw)</th>
+                                        <th>Solar Kw</th>
+                                        <th>Total AC</th>
+                                        <th>Critical</th>
+                                        <th>Major</th>
+                                        <th>Minor</th>
+                                        <th>Offline Duration</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.lastUpdated}}</td>
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.siteName}}</td>
+                                        <td>{{item.powerSource}}</td>
+                                        <td>{{item.customerName}}</td>
+                                        <td>{{item.engineerName}}</td>
+                                        <td>{{item.batterySOC}}</td>
+                                        <td>{{item.dcLoad}}</td>
+                                        <td>{{item.dcVoltage}}</td>
+                                        <td>{{item.dgPower}}</td>
+                                        <td>{{item.fuelLevel}}</td>
+                                        <td>{{item.solarKw}}</td>
+                                        <td>{{item.totalac}}</td>
+                                        <td>{{item.critical}}</td>
+                                        <td>{{item.major}}</td>
+                                        <td>{{item.minor}}</td>
+                                        <td>{{item.age}}</td>
+                                        <td>{{item.location}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=false

@@ -225,7 +225,7 @@
                         top: 0px;
                         left: 0px;
                         z-index: 2;
-                        width: 60%;
+                        width: 70%;
                         height: 0px;
                         opacity: 0;
                         &.open {
@@ -239,6 +239,13 @@
         }
     }
 
+}
+
+.export-container {
+    display: none;
+    &.show {
+        display: block;
+    }
 }
 
 

@@ -1498,11 +1498,11 @@ app-global-search {
 }
 
 .mat-mdc-radio-button .mdc-radio:hover .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: #fff;
+    border-color: #fff !important;
 }
 
 .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: #fff;
+    border-color: #fff !important;
 }
 
 .mdc-form-field>label {

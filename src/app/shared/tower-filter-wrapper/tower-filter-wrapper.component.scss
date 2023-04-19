@@ -36,12 +36,13 @@
         .elem-row {
             // margin: 0px 0px 40px 0px;
             display: flex;
-
+            align-items: center;
             >label {
                 width: 100px;
                 color: #fff;
                 font-size: 00.9375rem;
                 font-weight: normal;
+                margin-bottom: 0px;
             }
         }
 
