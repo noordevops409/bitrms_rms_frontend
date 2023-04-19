@@ -176,8 +176,8 @@
         }
 
         .box-body {
-            border-top: 57px solid transparent; 
-            border-bottom: 74px solid transparent;
+            border-top: 57px solid transparent;
+            border-bottom: 38px solid transparent;
             height: 100%;
             padding: 0px;
 
@@ -196,8 +196,8 @@
     justify-content: space-between;
     background-color: #222B45;
     border: 1px solid #101426;
-    padding: 16px 24px;
-    margin-top: 36px;
+    padding: 8px 12px;
+    margin-top: 0px;
     width: 100%;
     position: absolute;
     bottom: 0px;
@@ -211,17 +211,20 @@
         list-style: none;
         padding: 0px;
         margin: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
 
         li {
-            font-size: 0.9375rem;
-            display: inline-block;
-            margin-left: 24px;
+            font-size: 0.875rem;
+            margin-right: 15px;
 
             span {
                 width: 10px;
                 height: 10px;
                 display: inline-block;
-                margin-right: 12px;
+                margin-right: 5px;
                 border: 1px solid #000;
             }
 
@@ -254,6 +257,6 @@
 
 .parent-container {
     height: inherit;
-    max-height: 600px;
+    max-height: 550px;
     padding: 0px;
 }
