@@ -164,6 +164,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
         id: 'code',
         value: 'code'
       }
+    },
+    {
+      id: 'FMF05',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
     }
   ];
 
@@ -178,18 +204,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    clusters: ['All'],
-    customers: ['All'],
-    regions: ['All'],
-    siteId: ['All'],
-    siteStatus: '-1',
-    siteType: ['All'],
-    zones: ['All']
+    "siteId": [],
+    "clusters": [],
+    "zones": [],
+    "regions": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": [],
+    "customers": [],
+    "date": null
   };
-
-  private filterParam1: any = {
-    categories: ['All']
-  };
+  private hasFilterData: boolean = false;
   private type: any = null;
 
   constructor(
@@ -453,10 +478,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  setFilterParam() {
-    console.log(this.filterParam);
-  }
-
   loadTowerLatestData() {
     if (this.isLoading) {
       return;
@@ -464,6 +485,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const url = ApiConstant.getLatestData;
     this.httpClient.get(url).subscribe((data: any) => {
+      this.isLoading = false;
+      this.manipulate(data.data);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading Tower Latest Details!'
+      })
+    });
+  }
+
+  loadFilterTowerStatusData() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    let url = ApiConstant.getLatestData1;
+    this.httpClient.post(url, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data.data);
       setTimeout(() => {
@@ -621,8 +664,76 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
+  setFilterParam(fData) {
+
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
+    let siteStatus: any = null;
+    let customer: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      clusters = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      }
+
+      siteStatus = parseInt(fData[7], 10);
+
+      customer = fData[8].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteType": siteType,
+      "siteStatus": siteStatus,
+      "customers": customer,
+      "date": rangeDate
+    };
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    if (evt) {
+      this.setFilterParam(evt);
+      this.loadFilterTowerStatusData();
+    } else {
+      this.loadTowerLatestData();
+    }
   }
 
   updateListParam(data: any) {

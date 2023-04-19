@@ -141,9 +141,9 @@ export class GoogleDataStudioComponent implements OnInit {
     const el = document.createElement('div');
     el.className = 'marker';
     el.style.backgroundColor = marker.properties.bgColor;
-    el.style.width = `${5}px`;
-    el.style.height = `${5}px`;
-    el.style.borderRadius = '5px';
+    el.style.width = `${15}px`;
+    el.style.height = `${15}px`;
+    el.style.borderRadius = '15px';
     el.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();

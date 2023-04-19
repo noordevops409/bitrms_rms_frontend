@@ -254,7 +254,7 @@ app-root {
                 .filter-holder {
                     >span {
                         display: block;
-                        margin-bottom: 30px;
+                        margin-bottom: 15px;
                     }
                 }
             }
@@ -1495,4 +1495,17 @@ app-tee-power-filter {
 
 app-global-search {
     display: block;
+}
+
+.mat-mdc-radio-button .mdc-radio:hover .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
+    border-color: #fff;
+}
+
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
+    border-color: #fff;
+}
+
+.mdc-form-field>label {
+    margin-bottom: 0px;
+    color: #fff;
 }

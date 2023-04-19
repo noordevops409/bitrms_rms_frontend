@@ -213,8 +213,46 @@ export class ListingComponent implements OnInit, OnDestroy {
         id: 'code',
         value: 'code'
       }
+    },
+    {
+      id: 'FMF05',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
     }
   ];
+
+  private filterParam: any = {
+    "regions": [],
+    "zones": [],
+    "clusters": [],
+    "siteId": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": 1,
+    "startDate": "2020-10-11",
+    "endDate": "2020-12-12"
+  };
 
   public isFilterDataLoaded: boolean = false;
   public isFilterDataLoaded1: boolean = false;
@@ -228,19 +266,6 @@ export class ListingComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
-  private filterParam: any = {
-    clusters: ['All'],
-    customers: ['All'],
-    regions: ['All'],
-    siteId: ['All'],
-    siteStatus: '-1',
-    siteType: ['All'],
-    zones: ['All']
-  };
-
-  private filterParam1: any = {
-    categories: ['All']
-  };
   private type: any = null;
   private $: any = (window as any)['jQuery'];
   private scrollTimer: any = undefined;
@@ -545,7 +570,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     const url = ApiConstant.getLatestData;
-    this.httpClient.get(url).subscribe((data: any) => {
+    this.httpClient.get(url, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data.data);
       setTimeout(() => {
@@ -634,6 +659,61 @@ export class ListingComponent implements OnInit, OnDestroy {
 
   openAlarmStatusFilter(evt?: any) {
     this.isOpenAlarmStatusFilter = !this.isOpenAlarmStatusFilter;
+  }
+
+  setFilterParam(fData) {
+
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      clusters = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      }
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteStatus": 1,
+      "siteType": siteType,
+      "date": rangeDate,
+      "start": 1,
+      "length": 10,
+      "draw": 5,
+      "page": 15
+    };
   }
 
   applyFilter(evt?: any) {
