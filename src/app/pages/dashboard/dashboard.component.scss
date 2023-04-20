@@ -13,45 +13,50 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        background: #101426;
+        background: #3f51b5;
         cursor: pointer;
         border-radius: .15625rem
     }
 
     &::-webkit-scrollbar-track {
-        background: #192038
+        background: #fff;
     }
 
 
     .online-stat-data {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .left-side {
             padding-left: 0px;
 
-            .progress {
-                margin-top: 16px;
-                height: 48px;
-                border-radius: 4px;
-                background: #151A30;
+        }
 
-                .progress-bar {
-                    background: #3366FF;
-                    border-radius: 4px;
-                }
+        .progress {
+            height: 24px;
+            border-radius: 25px;
+            background: #fff;
+
+            .progress-bar {
+                background-color: #47a44b;
+                border: 1px solid #39843c;
+                border-radius: 16px;
             }
         }
+
         ul {
             list-style: none;
             padding: 0px;
             margin: 0px;
             display: flex;
             justify-content: space-between;
+
             li {
                 label {
                     font-size: 0.9375rem;
                 }
+
                 p {
                     font-size: 1.875rem;
                     font-weight: bold;
@@ -73,6 +78,7 @@
         label {
             font-size: 0.9375rem;
         }
+
         p {
             font-size: 1.875rem;
             font-weight: bold;
@@ -87,6 +93,7 @@
         .box-body {
             position: relative;
             overflow: hidden;
+
             &.open {
                 overflow: visible;
             }
@@ -98,6 +105,7 @@
         bottom: 10px;
         right: 15px;
         left: auto;
+
         button {
             margin-left: 10px;
         }
@@ -107,22 +115,27 @@
     .filter-criteria {
         display: flex;
         justify-content: space-between;
+
         .checkbox-container {
             margin-top: 15px;
+
             .elem-row {
                 margin: 0px 0px 40px 0px;
                 display: flex;
-                > label {
+
+                >label {
                     width: 100px;
                     color: #fff;
                     font-size: 00.9375rem;
                     font-weight: normal;
                 }
             }
+
             ul {
                 list-style: none;
                 padding: 0px;
                 margin: 0px;
+
                 li {
                     float: left;
                     width: 50%;
@@ -131,7 +144,7 @@
         }
     }
 
-    
+
     .apply-btn {
         position: absolute;
         bottom: 10px;
@@ -153,8 +166,9 @@
             left: 0px;
             padding: 0px 36px;
             background-color: transparent;
+
             .back-filter {
-                > button {
+                >button {
                     margin-right: 16px;
                 }
             }
@@ -174,7 +188,7 @@
                     font-size: 0.9375rem;
                     padding: 8px 16px;
                     text-align: left;
-                    width: 150px;
+                    width: 175px;
                     font-weight: bold;
 
                     &.mini {
@@ -194,10 +208,12 @@
 
     &.expanded {
         position: relative;
+
         .summary-data,
         .online-stat {
             display: none;
         }
+
         .tower-listing {
             position: absolute;
             width: 100%;
@@ -207,18 +223,22 @@
             padding: 36px;
             display: block;
             overflow: hidden;
+
             .box {
                 height: 100%;
                 border-top: 74px solid #151a30;
+
                 .box-title {
                     position: absolute;
                     width: 100%;
                 }
+
                 .box-body {
                     height: 100%;
                     border-top: 54px solid transparent;
                     padding: 0px;
                     position: relative;
+
                     .tabular-filter-wrapper {
                         transition: 0.5s;
                         position: absolute;
@@ -228,6 +248,7 @@
                         width: 70%;
                         height: 0px;
                         opacity: 0;
+
                         &.open {
                             height: 100%;
                             opacity: 1;
@@ -243,6 +264,7 @@
 
 .export-container {
     display: none;
+
     &.show {
         display: block;
     }
@@ -252,6 +274,7 @@
 .online-stat-data {
     .col-12 {
         position: relative;
+
         .total {
             position: absolute;
         }
@@ -266,4 +289,9 @@
 
 .google-chart {
     min-height: 300px;
+}
+
+.back-filter {
+    display: flex;
+    align-items: center;
 }

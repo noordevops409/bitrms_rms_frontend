@@ -3,6 +3,7 @@
 
         <div class="filter-btn add-report">
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
 
         <div class="right-side">
@@ -31,6 +32,102 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Trans Date</th>
+                                        <th>Site ID</th>
+                                        <th>Zone</th>
+                                        <th>Cluster</th>
+                                        <th>Region</th>
+                                        <th>Device Type</th>
+                                        <th>Solar Output Energy (kWh)</th>
+                                        <th>Solar Run Hours</th>
+                                        <th>Planed Solar Output Energy (kWh)</th>
+                                        <th>Planed Solar Run Hours</th>
+                                        <th>Genset Energy (kWh)</th>
+                                        <th>Genset Run Hours</th>
+                                        <th>Planed Energy (kWh)</th>
+                                        <th>Planed DG Run Hours</th>
+                                        <th>MGenset Energy (kWh)</th>
+                                        <th>MGenset RunHrs</th>
+                                        <th>Planed MGenset Energy (kWh)</th>
+                                        <th>Planed MGenset RunHrs</th>
+                                        <th>Batt DisEnergy (kWh)</th>
+                                        <th>Batt Dis Run Hours</th>
+                                        <th>Planed Batt DisEnergy (kWh)</th>
+                                        <th>Planed Batt Dis Run Hours</th>
+                                        <th>Batt Charging Energy (kWh)</th>
+                                        <th>Batt Charging Energy Runhrs</th>
+                                        <th>Planed Batt Charging Energy (kWh)</th>
+                                        <th>Planed Batt_ChargingEnergy Runhrs</th>
+                                        <th>SolarBatt RunHrs</th>
+                                        <th>Planed SolarBatt RunHrs</th>
+                                        <th>SolarGenset RunHrs</th>
+                                        <th>Planed SolarGenset RunHrs</th>
+                                        <th>SolarMGenset RunHrs</th>
+                                        <th>Planed SolarMGenset RunHrs</th>
+                                        <th>TeleEnergy (kWh)</th>
+                                        <th>TeleRunHrs</th>
+                                        <th>Planed TeleEnergy (kWh)</th>
+                                        <th>Planed TeleRunHrs</th>
+                                        <th>CommunityLoad Energy (kWh)</th>
+                                        <th>CommunityLoad RunHrs</th>
+                                        <th>Planed Community Load Energy (kWh)</th>
+                                        <th>Planed CommunityLoad RunHrs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.tranDate}}</td>
+                                        <td>{{item.smsitecode}}</td>
+                                        <td>{{item.znZone}}</td>
+                                        <td>{{item.crName}}</td>
+                                        <td>{{item.rgRegion}}</td>
+                                        <td>{{item.devicetype}}</td>
+                                        <td>{{item.solarOutputenergykwh}}</td>
+                                        <td>{{item.solarRunHrs}}</td>
+                                        <td>{{item.planedSolarOutputenergykwh}}</td>
+                                        <td>{{item.planedSolarRunHrs}}</td>
+                                        <td>{{item.dGEnergy}}</td>
+                                        <td>{{item.dGRunHrs}}</td>
+                                        <td>{{item.planedDGEnergy}}</td>
+                                        <td>{{item.planedDGRunHrs}}</td>
+                                        <td>{{item.mDGEnergy}}</td>
+                                        <td>{{item.mDGRunHrs}}</td>
+                                        <td>{{item.planedMDGEnergy}}</td>
+                                        <td>{{item.planedMDGRunHrs}}</td>
+                                        <td>{{item.battDisEnergykwh}}</td>
+                                        <td>{{item.battDisRunHrs}}</td>
+                                        <td>{{item.planedBattDisEnergykwh}}</td>
+                                        <td>{{item.planedBattDisRunHrs}}</td>
+                                        <td>{{item.battChargingEnergykwh}}</td>
+                                        <td>{{item.battChargingEnergyrunhrs}}</td>
+                                        <td>{{item.planedBattChargingEnergykwh}}</td>
+                                        <td>{{item.planedBattChargingEnergyrunhrs}}</td>
+                                        <td>{{item.solarBattRunHrs}}</td>
+                                        <td>{{item.planedSolarBattRunHrs}}</td>
+                                        <td>{{item.solarDGRunHrs}}</td>
+                                        <td>{{item.planedSolarDGRunHrs}}</td>
+                                        <td>{{item.solarMDGRunHrs}}</td>
+                                        <td>{{item.planedSolarMDGRunHrs}}</td>
+                                        <td>{{item.teleEnergy}}</td>
+                                        <td>{{item.teleRunHrs}}</td>
+                                        <td>{{item.planedTeleEnergy}}</td>
+                                        <td>{{item.planedTeleRunHrs}}</td>
+                                        <td>{{item.communityLoadEnergy}}</td>
+                                        <td>{{item.communityLoadRunHrs}}</td>
+                                        <td>{{item.planedCommunityLoadEnergy}}</td>
+                                        <td>{{item.planedCommunityLoadRunHrs}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

@@ -3,6 +3,7 @@
 
         <div class="filter-btn add-report">
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
 
         <div class="right-side">
@@ -31,6 +32,51 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Region</th>
+                                        <th>Site ID</th>
+                                        <th>Date Time</th>
+                                        <th>Engineer Name</th>
+                                        <th>Power Source</th>
+                                        <th>Site Batt Volt</th>
+                                        <th>Batt SoC%</th>
+                                        <th>Total DC Load Current</th>
+                                        <th>Rect Input R Current (A)</th>
+                                        <th>Rect Input Y Current (A)</th>
+                                        <th>Rect Input B Current (A)</th>
+                                        <th>Opco 1 Load Current (A)</th>
+                                        <th>Opco 2 Load Current (A)</th>
+                                        <th>Opco 3 Load Current (A)</th>
+                                        <th>Opco 4 Load Current (A)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.region}}</td>
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.datetime}}</td>
+                                        <td>{{item.engineerName}}</td>
+                                        <td>{{item.powersource}}</td>
+                                        <td>{{item.sitebattvolt}}</td>
+                                        <td>{{item.battSoc}}</td>
+                                        <td>{{item.totalDcLoadCurrent}}</td>
+                                        <td>{{item.rectInputRCurrent}}</td>
+                                        <td>{{item.rectInputYCurrent}}</td>
+                                        <td>{{item.rectInputBCurrent}}</td>
+                                        <td>{{item.opco1LoadCurrent}}</td>
+                                        <td>{{item.opco2LoadCurrent}}</td>
+                                        <td>{{item.opco3LoadCurrent}}</td>
+                                        <td>{{item.opco4LoadCurrent}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

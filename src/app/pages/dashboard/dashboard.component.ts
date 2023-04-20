@@ -197,6 +197,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public isFilterDataLoaded: boolean = false;
   public isFilterDataLoaded1: boolean = false;
 
+  private allData: any = {};
   private sampleData: any = {};
   private sampleData1: any = {};
   private currentPageNo: number = 0;
@@ -249,9 +250,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadLatestReportStatus() {
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "username": "harish1",
-      "groupByCustomer": false,
-      "groupBySiteType": false,
-      "groupByDeviceType": true
+      "groupByCustomer": true,
+      "groupByDeviceType": true,
+      "groupByPowerSource": true,
+      "groupByRegion": true,
+      "groupBySiteType": true,
+      "powerSource": "string"
     }).subscribe((data: any) => {
       this.setLatestReportStatus(data);
     }, (err) => {
@@ -263,10 +267,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setLatestReportStatus(data: any) {
+    data.onlineSite = 300;
+    data.totalSite = 800;
+    data.offlineSite = 500;
     data.percentage = ((data.onlineSite * 100) / data.totalSite).toFixed(2) + '%';
     this.latestReportStatus = data;
     this.loadTowerStatusGaugeChart();
     this.loadMultiLinesLabelChart();
+  }
+
+  loadAllData(evt, type) {
+    evt.preventDefault();
+    this.router.navigate(['pages', 'dashboard', 'type', '' + type]);
   }
 
   loadTowerStatusGaugeChart() {
@@ -388,6 +400,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (item.index === 1) {
       this.router.navigate(['pages', 'dashboard', 'type', '1']);
     }
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toUpperCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        if (!!item.smSiteCode && !!item.siteName) {
+          return (item.siteName.includes(value) || item.smSiteCode.includes(value))
+        }
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
   loadTowerListing($evt?: any, type?: any) {
@@ -564,8 +592,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         item.hourlyReport = 'Hourly Report';
       }
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = data;
     }
   }
 

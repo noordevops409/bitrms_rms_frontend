@@ -514,7 +514,7 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
       let objItem = {};
       for (let i = 0; i < columns.length; i++) {
         let colItem = columns[i];
-        objItem["series" + (i + 1)] = colItem.data[j];
+        objItem["series" + (i + 1)] = colItem.data[j].toFixed(2);
         this.tabView.footer["series" + (i + 1)] += colItem.data[j];
       }
       listingData.push({

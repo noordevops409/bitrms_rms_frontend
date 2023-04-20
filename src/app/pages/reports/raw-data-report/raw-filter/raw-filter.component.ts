@@ -83,6 +83,17 @@ export class RawFilterComponent implements OnInit {
     }
   }
 
+  reset(evt?: any) {
+    if (this.filterType === 1) {
+      this.isReqToOpenFilter = false;
+      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+    } else if (this.filterType === 2) {
+      this.isOpenTabularFilter = false;
+      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+    }
+    this.onFilter.emit(null);
+  }
+
   applyFilter(evt?: any) {
     if (this.filterType === 1) {
       this.isReqToOpenFilter = false;

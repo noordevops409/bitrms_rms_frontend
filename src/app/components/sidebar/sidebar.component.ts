@@ -35,10 +35,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
       matIcon: 'view_quilt',
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
-        { id: 4.2, value: "Power Tracker Report(TEE)", href: "power-tracker-report-tee" },
-        { id: 4.3, value: "Power Tracker Report(Hybrid)", href: "power-tracker-report-hybrid" },
-        { id: 4.4, value: "Energy and Run Hours Report(TEE)", href: "energy-run-hours-report-tee" },
-        { id: 4.5, value: "Energy and Run Hours Report(Hybrid)", href: "energy-run-hours-report-hybrid" }
+        { id: 4.2, value: "Power Tracker Report(TEE)", href: "tee-power-tracker" },
+        { id: 4.3, value: "Power Tracker Report(Hybrid)", href: "hybrid-power-tracker" },
+        { id: 4.4, value: "Energy and Run Hours Report(TEE)", href: "tee-energy-run-hours" },
+        { id: 4.5, value: "Energy and Run Hours Report(Hybrid)", href: "hybrid-energy-run-hours" }
       ]
     },
     {

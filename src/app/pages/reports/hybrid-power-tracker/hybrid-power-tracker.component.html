@@ -3,6 +3,7 @@
 
         <div class="filter-btn add-report">
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
 
         <div class="right-side">
@@ -31,6 +32,64 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Region</th>
+                                        <th>Site ID</th>
+                                        <th>Date Time</th>
+                                        <th>Engineer Name</th>
+                                        <th>Power Source</th>
+                                        <th>Site Batt Volt</th>
+                                        <th>Batt SoC%</th>
+                                        <th>Invertor I/P Power (kW)</th>
+                                        <th>Invertor O/P Power (kW)</th>
+                                        <th>Batt Charging Current (A)</th>
+                                        <th>Batt Discharging Current (A)</th>
+                                        <th>DG R Amp</th>
+                                        <th>DG Y Amp</th>
+                                        <th>DG B Amp</th>
+                                        <th>DG Batt Volt</th>
+                                        <th>React Input R Current (A)</th>
+                                        <th>React Input Y Current (A)</th>
+                                        <th>React Input B Current (A)</th>
+                                        <th>Actl R Current (A)</th>
+                                        <th>Actl Y Current (A)</th>
+                                        <th>Actl B Current (A)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.region}}</td>
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.datetime}}</td>
+                                        <td>{{item.engineerName}}</td>
+                                        <td>{{item.powersource}}</td>
+                                        <td>{{item.sitebattvolt}}</td>
+                                        <td>{{item.battSoc}}</td>
+                                        <td>{{item.inverterInputPower}}</td>
+                                        <td>{{item.inverterOutputPower}}</td>
+                                        <td>{{item.battChargingCurrent}}</td>
+                                        <td>{{item.battDischargingCurrent}}</td>
+                                        <td>{{item.dgRAmp}}</td>
+                                        <td>{{item.dgYAmp}}</td>
+                                        <td>{{item.dgBAmp}}</td>
+                                        <td>{{item.dgBatVolt}}</td>
+                                        <td>{{item.rectInputRCurrent}}</td>
+                                        <td>{{item.rectInputYCurrent}}</td>
+                                        <td>{{item.rectInputBCurrent}}</td>
+                                        <td>{{item.actelRCurrent}}</td>
+                                        <td>{{item.actelYCurrent}}</td>
+                                        <td>{{item.actelBCurrent}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

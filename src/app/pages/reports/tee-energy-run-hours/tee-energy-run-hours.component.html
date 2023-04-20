@@ -3,6 +3,7 @@
 
         <div class="filter-btn add-report">
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
 
         <div class="right-side">
@@ -31,6 +32,89 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Trans Date</th>
+                                        <th>Site ID</th>
+                                        <th>Zone</th>
+                                        <th>Cluster</th>
+                                        <th>Region</th>
+                                        <th>Device Type</th>
+                                        <th>Opco_1 (kWh)</th>
+                                        <th>Opco1 Runhrs</th>
+                                        <th>Planed Opco_1 (kWh)</th>
+                                        <th>Planed Opco1 Runhrs</th>
+                                        <th>Opco_2 (kWh)</th>
+                                        <th>Opco2 Runhrs</th>
+                                        <th>Planed Opco_2 (kWh)</th>
+                                        <th>Planed Opco2 Runhrs</th>
+                                        <th>Opco_3 (kWh)</th>
+                                        <th>Opco3 Runhrs</th>
+                                        <th>Planed Opco_3 (kWh)</th>
+                                        <th>Planed Opco3 Runhrs</th>
+                                        <th>Opco_4 (kWh)</th>
+                                        <th>Opco4 Runhrs</th>
+                                        <th>Planed Opco_4 (kWh)</th>
+                                        <th>Planed Opco4 Runhrs</th>
+                                        <th>TeleEnergy (kWh)</th>
+                                        <th>Tele_Runhrs</th>
+                                        <th>Planed TeleEnergy (kWh)</th>
+                                        <th>Planed Tele_Runhrs</th>
+                                        <th>Batt_DisEnergy (kWh)</th>
+                                        <th>Batt_Dis_RunHrs</th>
+                                        <th>Planed Batt_DisEnergy (kWh)</th>
+                                        <th>Planed Batt_Dis_RunHrs</th>
+                                        <th>Batt_ChargingEnergy (kWh)</th>
+                                        <th>Batt_ChargingRunHrs</th>
+                                        <th>Planed Batt_ChargingEnergy (kWh)</th>
+                                        <th>Planed Batt_ChargingRunHrs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.tranDate}}</td>
+                                        <td>{{item.smsitecode}}</td>
+                                        <td>{{item.znZone}}</td>
+                                        <td>{{item.crName}}</td>
+                                        <td>{{item.rgRegion}}</td>
+                                        <td>{{item.devicetype}}</td>
+                                        <td>{{item.opco1kwh}}</td>
+                                        <td>{{item.opco1runhrs}}</td>
+                                        <td>{{item.planedOpco1kwh}}</td>
+                                        <td>{{item.planedOpco1runhrs}}</td>
+                                        <td>{{item.opco2kwh}}</td>
+                                        <td>{{item.opco2runhrs}}</td>
+                                        <td>{{item.planedOpco2kwh}}</td>
+                                        <td>{{item.planedOpco2runhrs}}</td>
+                                        <td>{{item.opco3kwh}}</td>
+                                        <td>{{item.opco3runhrs}}</td>
+                                        <td>{{item.planedOpco3kwh}}</td>
+                                        <td>{{item.planedOpco3runhrs}}</td>
+                                        <td>{{item.opco4kwh}}</td>
+                                        <td>{{item.opco4runhrs}}</td>
+                                        <td>{{item.planedOpco4kwh}}</td>
+                                        <td>{{item.planedOpco4runhrs}}</td>
+                                        <td>{{item.teleEnergykwh}}</td>
+                                        <td>{{item.telerunhrs}}</td>
+                                        <td>{{item.planedTeleEnergy}}</td>
+                                        <td>{{item.planedTeleRunHrs}}</td>
+                                        <td>{{item.battDisEnergykwh}}</td>
+                                        <td>{{item.battDisRunHrs}}</td>
+                                        <td>{{item.planedBattDisEnergykwh}}</td>
+                                        <td>{{item.planedBattDisRunHrs}}</td>
+                                        <td>{{item.battChargingEnergykwh}}</td>
+                                        <td>{{item.battChargingRunHrs}}</td>
+                                        <td>{{item.planedBattChargingEnergykwh}}</td>
+                                        <td>{{item.planedBattChargingEnergyrunhrs}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

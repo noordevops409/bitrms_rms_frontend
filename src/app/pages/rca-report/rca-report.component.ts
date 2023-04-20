@@ -40,7 +40,138 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
-  defaultFilterList: any = [];
+  defaultFilterList: any = [
+    {
+      id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegion',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZone',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crName',
+        value: 'crName'
+      }
+    },
+    {
+      id: 'FMF04',
+      fieldName: 'siteId',
+      indexField: 'siteId',
+      labelName: 'Site Id',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'siteId',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getSiteCode,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'code',
+        value: 'code'
+      }
+    },
+    {
+      id: 'FMF05',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
+    }
+  ];
 
   public isFilterDataLoaded: boolean = false;
 
@@ -53,7 +184,17 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
 
-  private filterParam: any = {};
+  private filterParam: any = {
+    "siteId": [],
+    "clusters": [],
+    "zones": [],
+    "regions": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": [],
+    "customers": [],
+    "date": null
+  };
 
   constructor(
     private util: CommonUtilService,
@@ -93,16 +234,12 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     });
   }
 
-  setFilterParam() {
-
-  }
-
   loadData() {
     if (this.isLoading) {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRCADataAll, null).subscribe((data: any) => {
+    this.httpClient.post(ApiConstant.getRCADataAll, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data);
       setTimeout(() => {
@@ -156,7 +293,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     const data = resData || [];
     if (data.length) {
       let counter = 0;
-      for(let item of data) {
+      for (let item of data) {
         counter += 1;
         item.srno = counter;
         item.delete = "Delete";
@@ -173,8 +310,76 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
+  setFilterParam(fData) {
+
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
+    let siteStatus: any = null;
+    let customer: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      clusters = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      }
+
+      siteStatus = parseInt(fData[7], 10);
+
+      customer = fData[8].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteType": siteType,
+      "siteStatus": siteStatus,
+      "customers": customer,
+      "date": rangeDate
+    };
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    if (evt) {
+      this.setFilterParam(evt);
+      this.loadData();
+    } else {
+      this.loadData();
+    }
   }
 
   updateListParam(data) {

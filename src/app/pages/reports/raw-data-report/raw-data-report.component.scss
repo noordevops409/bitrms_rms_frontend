@@ -65,3 +65,11 @@
         z-index: 4;
     }
 }
+
+.export-container {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}

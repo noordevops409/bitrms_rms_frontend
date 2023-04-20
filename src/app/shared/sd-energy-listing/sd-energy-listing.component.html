@@ -301,8 +301,8 @@
                     <div class="footer">
                         <ul>
                             <li>&nbsp;</li>
-                            <li *ngIf="tabView.footer.series1">{{tabView.footer.series1}}</li>
-                            <li *ngIf="tabView.footer.series2">{{tabView.footer.series2}}</li>
+                            <li *ngIf="tabView.footer.series1">{{tabView.footer.series1 | number : '1.2-2'}}</li>
+                            <li *ngIf="tabView.footer.series2">{{tabView.footer.series2 | number : '1.2-2'}}</li>
                             <li *ngIf="tabView.footer.series3">{{tabView.footer.series3}}</li>
                             <li *ngIf="tabView.footer.series4">{{tabView.footer.series4}}</li>
                             <li *ngIf="tabView.footer.series5">{{tabView.footer.series5}}</li>

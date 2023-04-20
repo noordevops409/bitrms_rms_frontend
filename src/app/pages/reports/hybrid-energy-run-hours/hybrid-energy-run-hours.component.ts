@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import * as XLSX from 'xlsx';
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
 
@@ -172,6 +172,7 @@ export class HybridEnergyRunHoursComponent implements OnInit {
   public isFilterDataLoaded: boolean = false;
 
   private sampleData: any = {};
+  private allData: any = {};
   private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
@@ -276,8 +277,10 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     const data = resData || [];
     if (data.length) {
       this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = [];
     }
   }
 
@@ -285,13 +288,6 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
-  exportCSV(evt?: any) {
-
-  }
-
-  exportExcel(evt?: any) {
-
-  }
 
   setFilterParam(fData) {
 
@@ -383,6 +379,51 @@ export class HybridEnergyRunHoursComponent implements OnInit {
       this.multipleSelRow = null;
       this.selectedRow = null;
     }
+  }
+
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toUpperCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        if (!!item.smsitecode) {
+          return (
+            item.smsitecode.includes(value)
+          )
+        }
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
+  }
+
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `hybrid-energy-run-hours-data.${type}`);
+
+  }
+
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
+
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
   }
 
 }

@@ -22,7 +22,8 @@
 
     .text {
         font-family: Open Sans,sans-serif;
-        font-size: .8125rem;
+        // font-size: .8125rem;
+        font-size: 0.75rem;
         font-weight: 600;
         line-height: 1.5rem;
         &:not(:empty) {
