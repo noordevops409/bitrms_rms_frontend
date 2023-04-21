@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
+import { AlarmCategoryComponent } from '../shared/alarm-category/alarm-category.component';
+import { HourlyReportComponent } from '../shared/hourly-report/hourly-report.component';
 
 const routes: Routes = [
   { 
@@ -10,6 +12,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'alarm-status', component: AlarmCategoryComponent },
+      { path: 'hourly-report', component: HourlyReportComponent },
       { path: 'rca-report', loadChildren: () => import('./rca-report/rca-report.module').then(m => m.RcaReportModule) },
       { path: 'rca-master', loadChildren: () => import('./rca-master/rca-master.module').then(m => m.RcaMasterModule) },
       { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },

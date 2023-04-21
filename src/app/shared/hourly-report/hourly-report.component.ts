@@ -70,84 +70,6 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
   public defaultFilterList: any = [
     {
       id: 'FMF01',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
-    },
-    {
-      id: 'FMF04',
       fieldName: 'siteId',
       indexField: 'siteId',
       labelName: 'Site Id',
@@ -173,7 +95,7 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
       }
     },
     {
-      id: 'FMF05',
+      id: 'FMF02',
       fieldName: 'deviceType',
       indexField: 'deviceType',
       labelName: 'Device Type',
@@ -206,6 +128,7 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
   };
   public lineChartOptions: ChartOptions<'line'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom"
@@ -243,15 +166,10 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
   private params: any = null;
   private siteId: any = null;
   private filterParam: any = {
-    "regions": [],
-    "zones": [],
-    "clusters": [],
-    "siteId": [],
-    "deviceType": [],
-    "siteType": [],
-    "siteStatus": 1,
-    "startDate": "2020-10-11",
-    "endDate": "2020-12-12"
+    siteId: ["All"],
+    siteType: ["All"],
+    deviceType: ["All"],
+    date: "2020/01/05 - 2020/01/08"
   };
 
   constructor(
@@ -268,12 +186,21 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.filterParam.siteId.push(this.siteId);
+    // this.filterParam.siteId.push(this.siteId);
+    this.setDefaultFilter();
     this.loadHourlyReport();
   }
 
   ngOnDestroy(): void {
-    
+
+  }
+
+  setDefaultFilter() {
+    if (this.siteId) {
+      this.filterParam.siteId = [this.siteId];
+    } else {
+      this.filterParam.siteId = ["All"];
+    }
   }
 
   loadHourlyReport() {
@@ -283,9 +210,9 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
     this.isChartLoading = true;
     this.httpClient.post(ApiConstant.getHourlyReport, this.filterParam).subscribe((res: any) => {
       this.isChartLoading = false;
-      res.data.datasets = res.data.dataSets;
-      this.lineChartData = res.data;
-      this.loadTabular(res);
+      res.datasets = res.dataSets;
+      this.lineChartData = res;
+      // this.loadTabular(res);
       // this.prepareChart(res.data);
     }, (err) => {
       this.isChartLoading = false;
@@ -339,54 +266,51 @@ export class HourlyReportComponent implements OnInit, OnDestroy {
     let siteType: any = [];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
+      siteId = fData[0].popupTo.data.map((item) => {
         return item.id;
       });
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
-
-      clusters = fData[2].popupTo.data.map((item) => {
+      deviceType = fData[1].popupTo.data.map((item) => {
         return item.id;
       });
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      // clusters = fData[2].popupTo.data.map((item) => {
+      //   return item.id;
+      // });
 
-      deviceType = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      // siteId = fData[3].popupTo.data.map((item) => {
+      //   return item.id;
+      // });
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      // deviceType = fData[4].popupTo.data.map((item) => {
+      //   return item.id;
+      // });
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+      // siteType = fData[5].filter((item) => {
+      //   return item.isChecked && item.text;
+      // }).map((item) => {
+      //   return item.text;
+      // });
+
+      if (fData[3] && fData[3].startDate && fData[3].endDate) {
+        rangeDate = fData[3].startDate.replace(/-/g, '/') + ' - ' + fData[3].endDate.replace(/-/g, '/');
       }
     }
     this.filterParam = {
       "siteId": siteId,
-      "clusters": clusters,
-      "zones": zones,
-      "regions": regions,
       "deviceType": deviceType,
-      "siteStatus": 1,
       "siteType": siteType,
-      "date": rangeDate,
-      "start": 1,
-      "length": 10,
-      "draw": 5,
-      "page": 15
+      "date": rangeDate
     };
   }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
-    this.setFilterParam(evt);
+    this.isOpenTabularFilter = false;
+    if (evt) {
+      this.setFilterParam(evt);
+    } else {
+      this.setDefaultFilter();
+    }
     this.loadHourlyReport();
   }
 

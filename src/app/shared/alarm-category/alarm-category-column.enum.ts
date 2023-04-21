@@ -33,9 +33,9 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  alarmName: {
+  alName: {
     userIndex: 2,
-    fieldName: 'alarmName',
+    fieldName: 'alName',
     colDisplayName: 'Alarm Name',
     title: 'Alarm Name',
     widthOfColumn: 150,
@@ -50,9 +50,9 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  alarmOpenTime: {
+  alOpentime: {
     userIndex: 3,
-    fieldName: 'alarmOpenTime',
+    fieldName: 'alOpentime',
     colDisplayName: 'Alarm Open Time',
     title: 'Alarm Open Time',
     widthOfColumn: 150,
@@ -72,7 +72,7 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     fieldName: 'elapsedTime',
     colDisplayName: 'Elapsed Time',
     title: 'Elapsed Time',
-    widthOfColumn: 100,
+    widthOfColumn: 250,
     colType: 'text',
     dataType: 'text',
     id: '4',

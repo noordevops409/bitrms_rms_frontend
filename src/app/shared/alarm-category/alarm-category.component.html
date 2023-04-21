@@ -3,6 +3,7 @@
 
         <div class="filter-btn add-report">
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
 
         <div class="right-side">
@@ -25,7 +26,7 @@
             </div>
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                    <app-tower-filter-wrapper [filterType]=3 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
                 </div>
@@ -47,8 +48,8 @@
                                     <tr *ngFor="let item of activeListing.list.data">
                                         <td>{{item.srno}}</td>
                                         <td>{{item.smSiteCode}}</td>
-                                        <td>{{item.alarmName}}</td>
-                                        <td>{{item.alarmOpenTime}}</td>
+                                        <td>{{item.alName}}</td>
+                                        <td>{{item.alOpentime}}</td>
                                         <td>{{item.elapsedTime}}</td>
                                     </tr>
                                 </tbody>

@@ -1517,3 +1517,15 @@ app-global-search {
 mat-radio-group mat-radio-button .mdc-form-field>label {
     font-size: 0.75rem;
 }
+
+app-hourly-report {
+    .elem-row{
+        &.site-status {
+            display: none !important;
+        }
+
+        &.customer {
+            display: none !important;
+        }
+    }
+}

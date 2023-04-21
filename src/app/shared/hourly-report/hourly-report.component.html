@@ -29,71 +29,15 @@
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
                 </div>
-                <div class="tab-container-1">
-                    <!-- Tab starts -->
-                    <mat-tab-group (selectedTabChange)="tabChanged($event);" [selectedIndex]="selTabIndex">
-                        <mat-tab label="Graphical View">
-                            <div class="chart-container">
-                                <div class="box">
-                                    <div class="box-body" style="min-height: 350px;padding: 5px 0px;"
-                                        [ngClass]="{'aLoader': isChartLoading}">
-                                        <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
-                                            [data]="lineChartData" [options]="lineChartOptions"
-                                            [legend]="lineChartLegend">
-                                        </canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                        <mat-tab label="Tabular View">
-                            <div class="listing-container">
-                                <div class="listing">
-                                    <div class="head">
-                                        <ul>
-                                            <li><span>#</span></li>
-                                            <li *ngFor="let item of tabView.columnHeader">{{item.label}}</li>
-                                        </ul>
-                                    </div>
 
-                                    <div class="body">
-                                        <ul *ngFor="let item of tabView.listingData, let i = index">
-                                            <li *ngIf="item.label">{{item.label}}</li>
-                                            <li *ngIf="item.series1 !== null && item.series1 !== undefined">
-                                                {{item.series1}}
-                                            </li>
-                                            <li *ngIf="item.series2 !== null && item.series2 !== undefined">
-                                                {{item.series2}}
-                                            </li>
-                                            <li *ngIf="item.series3 !== null && item.series3 !== undefined">
-                                                {{item.series3}}</li>
-                                            <li *ngIf="item.series4 !== null && item.series4 !== undefined">
-                                                {{item.series4}}</li>
-                                            <li *ngIf="item.series5 !== null && item.series5 !== undefined">
-                                                {{item.series5}}</li>
-                                            <li *ngIf="item.series6 !== null && item.series6 !== undefined">
-                                                {{item.series6}}</li>
-                                            <li *ngIf="item.series7 !== null && item.series7 !== undefined">
-                                                {{item.series7}}</li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="footer">
-                                        <ul>
-                                            <li>&nbsp;</li>
-                                            <li *ngIf="tabView.footer.series1">{{tabView.footer.series1}}</li>
-                                            <li *ngIf="tabView.footer.series2">{{tabView.footer.series2}}</li>
-                                            <li *ngIf="tabView.footer.series3">{{tabView.footer.series3}}</li>
-                                            <li *ngIf="tabView.footer.series4">{{tabView.footer.series4}}</li>
-                                            <li *ngIf="tabView.footer.series5">{{tabView.footer.series5}}</li>
-                                            <li *ngIf="tabView.footer.series6">{{tabView.footer.series6}}</li>
-                                            <li *ngIf="tabView.footer.series7">{{tabView.footer.series7}}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                    </mat-tab-group>
-                    <!-- Tab end starts -->
+                <div class="list-wrap" style="background-color: transparent;">
+                    <div class="view-holder">
+                        <div class="chart-container" [ngClass]="{'aLoader': isChartLoading}">
+                            <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
+                                [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend">
+                            </canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

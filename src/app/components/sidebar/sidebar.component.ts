@@ -72,6 +72,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 8,
+      value: 'Alram Status',
+      href: 'alarm-status',
+      matIcon: 'view_quilt'
+    },
+    {
+      id: 9,
+      value: 'Hourly Report',
+      href: 'hourly-report',
+      matIcon: 'view_quilt'
+    },
+    {
+      id: 10,
       value: 'Logout',
       href: 'logout',
       matIcon: 'logout'
@@ -133,7 +145,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   menuClick(evt: any, item: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    if(item.id === 8) {
+    if (item.id === 10) {
       this.router.navigate(['logout']);
     } else {
       this.router.navigate(['pages', item.href]);

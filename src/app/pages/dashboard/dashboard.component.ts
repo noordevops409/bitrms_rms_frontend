@@ -249,15 +249,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadLatestReportStatus() {
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
-      "username": "harish1",
       "groupByCustomer": true,
-      "groupByDeviceType": true,
-      "groupByPowerSource": true,
-      "groupByRegion": true,
-      "groupBySiteType": true,
-      "powerSource": "string"
-    }).subscribe((data: any) => {
-      this.setLatestReportStatus(data);
+      "groupBySiteType": false,
+      "groupByDeviceType": false,
+      "groupByRegion": false,
+      "groupByPowerSource": false,
+      "powerSource": "AC_Power"
+    }).subscribe((res: any) => {
+      this.setLatestReportStatus(res);
     }, (err) => {
       this.util.notification.error({
         title: 'Error',
@@ -266,14 +265,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  setLatestReportStatus(data: any) {
-    data.onlineSite = 300;
-    data.totalSite = 800;
-    data.offlineSite = 500;
-    data.percentage = ((data.onlineSite * 100) / data.totalSite).toFixed(2) + '%';
-    this.latestReportStatus = data;
-    this.loadTowerStatusGaugeChart();
+  setLatestReportStatus(res: any) {
+    let obj: any = {
+      percentage: null,
+      onlineSite: 0,
+      totalSite: 0,
+      offlineSite: 0
+    };
+    for (let item of res.data) {
+      obj.onlineSite += item.onlineSite;
+      obj.offlineSite += item.offlineSite;
+      obj.totalSite += item.totalSite;
+    }
+    obj.percentage = ((obj.onlineSite * 100) / obj.totalSite).toFixed(2) + '%';
+    this.latestReportStatus = obj;
+    this.loadLatestReportByDevice();
     this.loadMultiLinesLabelChart();
+  }
+
+  loadLatestReportByDevice() {
+    this.httpClient.post(ApiConstant.getLatestReportStatus, {
+      "groupByCustomer": false,
+      "groupBySiteType": false,
+      "groupByDeviceType": true,
+      "groupByRegion": false,
+      "groupByPowerSource": false,
+      "powerSource": "AC_Power"
+    }).subscribe((res: any) => {
+      this.loadTowerStatusGaugeChart(res);
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading latest report data'
+      })
+    })
   }
 
   loadAllData(evt, type) {
@@ -281,7 +306,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['pages', 'dashboard', 'type', '' + type]);
   }
 
-  loadTowerStatusGaugeChart() {
+  loadTowerStatusGaugeChart(res: any) {
     let chartData: any = [
       {
         type: "Lineage",

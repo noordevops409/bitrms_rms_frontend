@@ -141,7 +141,7 @@ export class TowerFilterWrapperComponent implements OnInit {
       this.isOpenTabularFilter = false;
       this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
     }
-    if (this.defaultFilterList) {
+    if (this.defaultFilterList && this.filterType !== 3) {
       if (!this.defaultFilterList[5]) {
         this.defaultFilterList.push(this.siteType);
       }
@@ -161,6 +161,8 @@ export class TowerFilterWrapperComponent implements OnInit {
   }
 
   reset(evt?: any) {
+    this.isReqToOpenFilter = false;
+    this.isOpenTabularFilter = false;
     this.onFilter.emit(null);
   }
 

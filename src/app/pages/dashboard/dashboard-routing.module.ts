@@ -13,7 +13,9 @@ const routes: Routes = [
   { path: 'type/:id', component: ListingComponent },
   { path: 'prfdash/:siteId', component: SiteDetailsComponent },
   { path: 'alarm-status/:siteId', component: AlarmCategoryComponent },
-  { path: 'hourly-report/:siteId', component: HourlyReportComponent }
+  // { path: 'alarm-status', component: AlarmCategoryComponent },
+  { path: 'hourly-report/:siteId', component: HourlyReportComponent },
+  // { path: 'hourly-report', component: HourlyReportComponent }
 ];
 
 @NgModule({
