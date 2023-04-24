@@ -6,7 +6,7 @@ import { ListingComponent } from './listing/listing.component';
 
 import { SiteDetailsComponent } from '../../shared/site-details/site-details.component';
 import { AlarmCategoryComponent } from '../../shared/alarm-category/alarm-category.component';
-import { HourlyReportComponent } from '../../shared/hourly-report/hourly-report.component';
+import { EnergyReportComponent } from '../../shared/energy-report/energy-report.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'prfdash/:siteId', component: SiteDetailsComponent },
   { path: 'alarm-status/:siteId', component: AlarmCategoryComponent },
   // { path: 'alarm-status', component: AlarmCategoryComponent },
-  { path: 'hourly-report/:siteId', component: HourlyReportComponent },
+  { path: 'hourly-report/:siteId', component: EnergyReportComponent },
   // { path: 'hourly-report', component: HourlyReportComponent }
 ];
 

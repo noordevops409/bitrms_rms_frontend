@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
 
-
 import { ChartistModule } from 'ng-chartist';
 import { NgChartsModule } from 'ng2-charts';
 

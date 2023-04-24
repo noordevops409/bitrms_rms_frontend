@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { UserService } from '../../../../shared/services/user.service';
+
 
 @Component({
   selector: 'app-raw-filter',
@@ -22,6 +24,8 @@ export class RawFilterComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+
+  public maxDateRangeSel: number = 1;
 
   public siteType: any = [
     {
@@ -47,11 +51,21 @@ export class RawFilterComponent implements OnInit {
     endDate: null
   };
 
-  constructor() { }
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+
     this.setSiteType();
     this.setDateRange();
+  }
+
+  setMaxDateRange() {
+    let authToken: any = this.userService.getAuthToken();
+    if (authToken && authToken.roleId == '1') {
+      this.maxDateRangeSel = 7;
+    }
   }
 
   setSiteType() {
@@ -77,7 +91,7 @@ export class RawFilterComponent implements OnInit {
   dateRangeChange(type: any, evt: any) {
     if (this.range.controls['start'].value && this.range.controls['end'].value) {
       let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
-        let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
       this.reqSiteIdObj.startDate = startDate;
       this.reqSiteIdObj.endDate = endDate;
     }

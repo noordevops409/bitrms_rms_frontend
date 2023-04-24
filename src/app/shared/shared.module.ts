@@ -33,10 +33,13 @@ import { YearPickerComponent } from './year-picker/year-picker.component';
 import { MonthPickerComponent } from './month-picker/month-picker.component';
 import { GlobalSearchComponent } from './global-search/global-search.component';
 
+import { MaxDateRangeDirective } from '../max-date-range.directive';
+// import { MaxRangeSelectionStrategy, MaxRangeDirective } from './max-range-selection-strategy';
+
 import { NgChartsModule } from 'ng2-charts';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { AlarmCategoryComponent } from './alarm-category/alarm-category.component';
-import { HourlyReportComponent } from './hourly-report/hourly-report.component';
+import { EnergyReportComponent } from './energy-report/energy-report.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -76,7 +79,8 @@ export const MY_MOMENT_FORMATS = {
     FooterComponent,
     SidebarComponent,
     AlarmCategoryComponent,
-    HourlyReportComponent
+    EnergyReportComponent,
+    MaxDateRangeDirective
   ],
   imports: [
     CommonModule,
@@ -88,7 +92,7 @@ export const MY_MOMENT_FORMATS = {
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     GoogleMapsModule,
-    NgxMatDatetimePickerModule, 
+    NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgChartsModule
   ],
@@ -117,7 +121,8 @@ export const MY_MOMENT_FORMATS = {
     FooterComponent,
     SidebarComponent,
     AlarmCategoryComponent,
-    HourlyReportComponent
+    EnergyReportComponent,
+    MaxDateRangeDirective
   ]
 })
 export class SharedModule { }

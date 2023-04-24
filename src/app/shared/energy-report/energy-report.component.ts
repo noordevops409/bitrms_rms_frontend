@@ -39,9 +39,9 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-hourly-report',
-  templateUrl: './hourly-report.component.html',
-  styleUrls: ['./hourly-report.component.scss'],
+  selector: 'app-energy-report',
+  templateUrl: './energy-report.component.html',
+  styleUrls: ['./energy-report.component.scss'],
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of
@@ -55,7 +55,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class HourlyReportComponent implements OnInit, OnDestroy {
+export class EnergyReportComponent implements OnInit, OnDestroy {
 
   public startDate: any = new FormControl(moment());
   public endDate: any = new FormControl(moment());

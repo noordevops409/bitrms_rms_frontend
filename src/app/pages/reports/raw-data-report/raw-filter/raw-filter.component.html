@@ -29,7 +29,7 @@
                     </mat-date-range-input>
                     <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-date-range-picker maxRange={{maxDateRangeSel}} #picker></mat-date-range-picker>
 
                     <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date
                     </mat-error>
