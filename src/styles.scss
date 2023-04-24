@@ -475,7 +475,10 @@ app-root {
 }
 
 #websiteViewsChart2,
-#websiteViewsChart3 {
+#websiteViewsChart3,
+#websiteViewsChart4,
+#websiteViewsChart5,
+#websiteViewsChart6 {
     position: relative;
     height: 400px;
 
@@ -568,6 +571,13 @@ app-root {
             }
         }
     }
+}
+
+
+.ct-chart-pie .ct-label,
+.ct-chart-donut .ct-label {
+    color: #fff;
+    fill: #fff;
 }
 
 .hourly-chart {
@@ -838,8 +848,8 @@ app-root {
 }
 
 
-.box-body {
-}
+.box-body {}
+
 .tab-container-1 {
     mat-tab-body {
         .listing-container {
@@ -1430,6 +1440,7 @@ app-tee-power-filter {
 
 .form-group {
     .form-field {
+
         mat-label,
         mat-hint {
             color: #fff;
@@ -1519,7 +1530,7 @@ mat-radio-group mat-radio-button .mdc-form-field>label {
 }
 
 app-hourly-report {
-    .elem-row{
+    .elem-row {
         &.site-status {
             display: none !important;
         }

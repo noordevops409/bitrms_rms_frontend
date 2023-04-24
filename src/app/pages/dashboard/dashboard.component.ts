@@ -15,6 +15,8 @@ import * as Chartist from 'chartist';
 
 import 'chartist-plugin-tooltips';
 import 'chartist-plugin-legend';
+import 'chartist-plugin-pointlabels';
+// import 'chartist-plugin-barlabels';
 
 import { alarmCategory } from '../data/alarm-category';
 import { alarmStatus } from '../data/alarm-status';
@@ -281,6 +283,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.latestReportStatus = obj;
     this.loadLatestReportByDevice();
     this.loadMultiLinesLabelChart();
+    this.loadStackBarChart();
+    this.loadStackBarChartBySiteType();
+    this.loadStackBarChartByRegion();
   }
 
   loadLatestReportByDevice() {
@@ -532,6 +537,287 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadStackBarChart() {
+    let chartData: any = [
+      {
+        type: "IGT",
+        total: 900,
+        online: 750,
+        offline: 150
+      },
+      {
+        type: "Telenor",
+        total: 700,
+        online: 550,
+        offline: 150
+      },
+      {
+        type: "Cust 1",
+        total: 600,
+        online: 500,
+        offline: 100
+      },
+      {
+        type: "Cust 2",
+        total: 500,
+        online: 450,
+        offline: 50
+      },
+      {
+        type: "Cust 3",
+        total: 400,
+        online: 350,
+        offline: 50
+      }
+    ];
+
+    let customerTypeList: any = chartData.map((item: any) => {
+      return item.type;
+    });
+
+    let totalList: any = chartData.map((item: any) => {
+      return item.total;
+    });
+
+    let onlineList: any = chartData.map((item: any) => {
+      return item.online;
+    });
+
+    let offlineList: any = chartData.map((item: any) => {
+      return item.offline;
+    });
+
+    new Chartist.Bar('#websiteViewsChart4', {
+      labels: [...customerTypeList],
+      series: [
+        // { name: "Total", data: [...totalList] },
+        { name: "Online", data: [...onlineList] },
+        { name: "Offline", data: [...offlineList] }
+      ]
+    }, {
+      seriesBarDistance: 10,
+      stackBars: true,
+      axisX: {
+        offset: 60,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        }
+      },
+      axisY: {
+        offset: 80,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        },
+        scaleMinSpace: 15
+      },
+      plugins: [
+        Chartist.plugins.legend(),
+        Chartist.plugins.ctPointLabels({
+          textAnchor: 'middle'
+        }),
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            return tooltip;
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ]
+    });
+  }
+
+  loadStackBarChartBySiteType() {
+    let chartData: any = [
+      {
+        type: "Hybrid",
+        sites: 1000,
+        online: 900
+      },
+      {
+        type: "TEE",
+        sites: 900,
+        online: 850
+      }
+    ];
+
+    let siteTypeList: any = chartData.map((item: any) => {
+      return item.type;
+    });
+
+    let totalList: any = chartData.map((item: any) => {
+      return item.total;
+    });
+
+    let siteList: any = chartData.map((item: any) => {
+      return item.sites;
+    });
+
+    let onlineList: any = chartData.map((item: any) => {
+      return item.online;
+    });
+
+    new Chartist.Bar('#websiteViewsChart5', {
+      labels: [...siteTypeList],
+      series: [
+        // { name: "Total", data: [...totalList] },
+        { name: "Sites", data: [...siteList] },
+        { name: "Online", data: [...onlineList] }
+      ]
+    }, {
+      seriesBarDistance: 10,
+      stackBars: true,
+      axisX: {
+        offset: 60,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        }
+      },
+      axisY: {
+        offset: 80,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        },
+        scaleMinSpace: 15
+      },
+      plugins: [
+        Chartist.plugins.legend(),
+        Chartist.plugins.ctPointLabels({
+          textAnchor: 'middle'
+        }),
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            return tooltip;
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ]
+    });
+  }
+
+  loadStackBarChartByRegion() {
+    let chartData: any = [
+      {
+        type: "Ayerawaddy",
+        totalSite: 250,
+        offline: 50
+      },
+      {
+        type: "Sagaing",
+        totalSite: 300,
+        offline: 45
+      },
+      {
+        type: "Mandalay",
+        totalSite: 500,
+        offline: 75
+      },
+      {
+        type: "Yangon",
+        totalSite: 300,
+        offline: 100
+      },
+      {
+        type: "Tanintharyi",
+        totalSite: 50,
+        offline: 12
+      },
+      {
+        type: "Magway",
+        totalSite: 100,
+        offline: 30
+      },
+      {
+        type: "Kachin",
+        totalSite: 10,
+        offline: 2
+      },
+      {
+        type: "Kayin",
+        totalSite: 10,
+        offline: 2
+      },
+      {
+        type: "Rakhine",
+        totalSite: 10,
+        offline: 2
+      },
+      {
+        type: "Bago",
+        totalSite: 50,
+        offline: 5
+      },
+      {
+        type: "Mon",
+        totalSite: 75,
+        offline: 20
+      },
+      {
+        type: "Chin",
+        totalSite: 75,
+        offline: 20
+      },
+      {
+        type: "Naypidaw",
+        totalSite: 50,
+        offline: 10
+      }
+    ];
+
+    let regionList: any = chartData.map((item: any) => {
+      return item.type;
+    });
+
+    let totalSites: any = chartData.map((item: any) => {
+      return item.totalSite;
+    });
+
+    let offlineList: any = chartData.map((item: any) => {
+      return item.offline;
+    });
+
+    new Chartist.Bar('#websiteViewsChart6', {
+      labels: [...regionList],
+      series: [
+        // { name: "Total", data: [...totalList] },
+        { name: "Total Site", data: [...totalSites] },
+        { name: "Offline", data: [...offlineList] }
+      ]
+    }, {
+      seriesBarDistance: 10,
+      stackBars: true,
+      axisX: {
+        offset: 60,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        }
+      },
+      axisY: {
+        offset: 80,
+        labelInterpolationFnc: (value: any) => {
+          return value;
+        },
+        scaleMinSpace: 15
+      },
+      plugins: [
+        Chartist.plugins.legend(),
+        Chartist.plugins.ctPointLabels({
+          textAnchor: 'middle'
+        }),
+        Chartist.plugins.tooltip({
+          transformTooltipTextFnc: (tooltip: any) => {
+            return tooltip;
+          },
+          class: 'class1 class2',
+          appendToBody: true
+        }),
+        Chartist.plugins.legend()
+      ]
+    });
+  }
+
   loadTowerLatestData() {
     if (this.isLoading) {
       return;
@@ -644,21 +930,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
       valueList.push(item[2]);
       if (item[0] === 'AC_power') {
         series.push({
+          label: item[0],
           value: item[2],
           className: "ac-power"
         });
       } else if (item[0] === 'DG') {
         series.push({
+          label: item[0],
           value: item[2],
           className: "dc-power"
         });
       } else if (item[0] === 'Battery') {
         series.push({
+          label: item[0],
           value: item[2],
           className: "battery-solar"
         });
       } else if (item[0] === 'Unknown') {
         series.push({
+          label: item[0],
           value: item[2],
           className: "unknown"
         });
@@ -676,24 +966,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
       series: series
     };
 
+    let getSeriesData = (req) => {
+      return series.filter((item) => {
+        return item.label === req;
+      })[0];
+    };
+
     let arrayList = valueList;
     new Chartist.Pie('#websiteViewsChart', data, {
       labelInterpolationFnc: (value: any) => {
-        return Math.round(value / arrayList.reduce(sum) * 100) + '%';
+        let sData = getSeriesData(value);
+        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
       },
-      showLabel: false,
+      // showLabel: false,
       chartPadding: 30,
       labelOffset: 50,
       labelDirection: 'explode',
       plugins: [
-        Chartist.plugins.tooltip({
-          transformTooltipTextFnc: (tooltip: any) => {
-            // console.log(tooltip);
-            return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
-          },
-          class: 'class1 class2',
-          appendToBody: true
-        }),
+        // Chartist.plugins.ctPointLabels({
+        //   textAnchor: 'middle'
+        // }),
+        // Chartist.plugins.tooltip({
+        //   transformTooltipTextFnc: (tooltip: any) => {
+        //     // console.log(tooltip);
+        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
+        //   },
+        //   class: 'class1 class2',
+        //   appendToBody: true
+        // }),
         Chartist.plugins.legend()
       ],
     });

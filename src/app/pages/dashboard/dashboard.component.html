@@ -68,7 +68,7 @@
 
             <div class="box tower-chart">
                 <div class="box-title">
-                    <h4>Tower Information</h4>
+                    <h4>Tower Status: Pie Chart: By Power</h4>
                 </div>
                 <div class="box-body" [ngClass]="{'open': isReqToOpenFilter}">
                     <div class="ct-chart" id="websiteViewsChart"></div>
@@ -121,6 +121,67 @@
                         <p>3773</p>
                     </div>
                     <div class="ct-chart" id="websiteViewsChart1"></div>
+                </div>
+            </div>
+
+
+            <div class="box online-stat">
+                <div class="box-title">
+                    <h4>Tower Status: Stacked Bar Chart: By Customer</h4>
+                </div>
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <div class="ct-chart" id="websiteViewsChart4"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>&nbsp;</li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box online-stat">
+                <div class="box-title">
+                    <h4>Tower Status: Stacked Bar Chart: By Site Type</h4>
+                </div>
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <div class="ct-chart" id="websiteViewsChart5"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>&nbsp;</li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box online-stat">
+                <div class="box-title">
+                    <h4>Tower Status: Stacked Bar Chart: By Region</h4>
+                </div>
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <div class="ct-chart" id="websiteViewsChart6"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>&nbsp;</li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
