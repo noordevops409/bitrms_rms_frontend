@@ -1063,7 +1063,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
 
       siteStatus = parseInt(fData[7], 10);

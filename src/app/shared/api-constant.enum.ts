@@ -17,6 +17,7 @@ export const ApiConstant = {
   getLatestData: `${GATEWAY}/api/dashboard/latest-data`,
   getLatestData1: `${GATEWAY}/api/dashboard/latest-data1`,
   getAlarmStatus: `${GATEWAY}/api/dashboard/alarm-status`,
+  getAlarmData: `${GATEWAY}/api/alarm-report/adata`,
   getAlarmStatusPOST: `${GATEWAY}/api/dashboard-report-controller/getAlarmStatusUsingPOST`,
   getAlarmCategory: `${GATEWAY}/api/dashboard/alarm-category`,
   getHourlyReport: `${GATEWAY}/api/dashboard/hourly-report`,

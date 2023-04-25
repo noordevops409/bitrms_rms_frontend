@@ -26,7 +26,7 @@
             </div>
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                    <app-tower-filter-wrapper [filterType]=3 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
                 </div>
@@ -41,7 +41,17 @@
                                         <th>Site Id</th>
                                         <th>Alarm Name</th>
                                         <th>Alarm Open Time</th>
+                                        <th>Alarm Close Time</th>
                                         <th>Elapsed Time</th>
+                                        <th>Alarm Status</th>
+                                        <th>Alarm Category</th>
+                                        <th>Region</th>
+                                        <th>Zone</th>
+                                        <th>Cluster Name</th>
+                                        <th>Customer Name</th>
+                                        <th>Engineer Name</th>
+                                        <th>Site Type</th>
+                                        <th>Last Updated</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,8 +59,18 @@
                                         <td>{{item.srno}}</td>
                                         <td>{{item.smSiteCode}}</td>
                                         <td>{{item.alName}}</td>
-                                        <td>{{item.alOpentime}}</td>
+                                        <td>{{item.opentime}}</td>
+                                        <td>{{item.closeitem}}</td>
                                         <td>{{item.elapsedTime}}</td>
+                                        <td>{{item.alrstatus}}</td>
+                                        <td>{{item.alarmcat}}</td>
+                                        <td>{{item.region}}</td>
+                                        <td>{{item.zone}}</td>
+                                        <td>{{item.clustername}}</td>
+                                        <td>{{item.customerName}}</td>
+                                        <td>{{item.engineerName}}</td>
+                                        <td>{{item.sitetypeid}}</td>
+                                        <td>{{item.lastUpdated}}</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -757,6 +757,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.LATEST_DATA1_LISTING_TYPE:
         this.uniqueId = 'smSiteCode';
         break;
+      case AppConstant.ALARM_STATUS_LISTING_TYPE:
+        this.uniqueId = 'alrid';
+        break;
       case AppConstant.TEE_POWER_TRACKER_LISTING_TYPE:
         this.uniqueId = 'smSiteId';
         break;
@@ -802,7 +805,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.OUTAGE_CATEGORY_LISTING_TYPE:
         this.uniqueId = 'outageCatID';
         break;
-      case AppConstant.ISSUE_CATEGORY_LISTING_TYPE  :
+      case AppConstant.ISSUE_CATEGORY_LISTING_TYPE:
         this.uniqueId = 'issueCatID';
         break;
       default:

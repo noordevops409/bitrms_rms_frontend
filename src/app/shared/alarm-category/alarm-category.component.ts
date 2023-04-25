@@ -41,9 +41,62 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
   public isExpanded: boolean = false;
-  public defaultFilterList: any = [
+
+  defaultFilterList: any = [
     {
       id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegion',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZone',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
       fieldName: 'siteId',
       indexField: 'siteId',
       labelName: 'Site Id',
@@ -69,7 +122,33 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }
     },
     {
-      id: 'FMF02',
+      id: 'FMF04',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
+    },
+    {
+      id: 'FMF05',
       fieldName: 'categories',
       indexField: 'categories',
       labelName: 'Category',
@@ -93,32 +172,6 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         id: 'category',
         value: 'category'
       }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'severities',
-      indexField: 'severities',
-      labelName: 'Severity',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'severities',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getAlarmSeverity,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'severity',
-        value: 'severity'
-      }
     }
   ];
 
@@ -137,12 +190,22 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   private forDeleteListener!: Subscription;
 
   private filterParam: any = {
-    "categories": [ // dynamic values 
-    ],
-    "siteId": [
-    ],
-    "severities": [
-    ]
+    "alarmStatus": ["All"],
+    "all": "ALL",
+    "allAlarmStatus": true,
+    "allCustomers": true,
+    "allDeviceType": true,
+    "allRegions": true,
+    "allSiteId": true,
+    "allSiteType": true,
+    "anyFilterEmpty": true,
+    "customers": ["All"],
+    "date": "2019/10/04-2019/10/05",
+    "deviceType": ["All"],
+    "regions": ["All"],
+    "siteId": ["All"],
+    "siteType": ["All"],
+    "zones": ["All"]
   };
 
   constructor(
@@ -193,7 +256,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getAlarmStatus;
+    let apiUrl: any = ApiConstant.getAlarmData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
@@ -225,7 +288,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'smSiteCode';
+    this.sampleData.sortField = 'alrid';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -282,26 +345,74 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   setFilterParam(fData) {
-    let siteId: any = [];
-    let categories: any = [];
+    let categories: any = ["All"];
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let clusters: any = ["All"];
+    let siteId: any = ["All"];
+    let deviceType: any = ["All"];
+    let siteType: any = ["All"];
     let severities: any = [];
+    let siteStatus: any = null;
+    let customer: any = [];
+    let rangeDate: any = "";
+
+
     if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
+      regions = fData[0].popupTo.data.map((item) => {
         return item.id;
       });
 
-      categories = fData[1].popupTo.data.map((item) => {
+      zones = fData[1].popupTo.data.map((item) => {
         return item.id;
       });
 
-      severities = fData[2].popupTo.data.map((item) => {
+      deviceType = fData[2].popupTo.data.map((item) => {
         return item.id;
+      });
+
+      siteId = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      categories = fData[4].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      siteType = fData[5].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+      }
+
+      customer = fData[8].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
       });
     }
     this.filterParam = {
       "categories": categories,
       "siteId": siteId,
-      "severities": severities
+      "deviceType": deviceType,
+      "regions": regions,
+      "zones": zones,
+      "customer": customer,
+      "siteType": siteType,
+      "date": rangeDate,
+      "alarmStatus": ["All"],
+      "all": "ALL",
+      "allAlarmStatus": true,
+      "allCustomers": true,
+      "allDeviceType": true,
+      "allRegions": true,
+      "allSiteId": true,
+      "allSiteType": true,
+      "anyFilterEmpty": true,
     };
   }
 
