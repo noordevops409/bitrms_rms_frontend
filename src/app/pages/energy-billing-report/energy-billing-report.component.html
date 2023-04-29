@@ -32,38 +32,80 @@
                             <table id="export-data">
                                 <thead>
                                     <tr>
-                                        <th>SrNo</th>
-                                        <th>Last Updated</th>
                                         <th>Site Id</th>
-                                        <th>Forge DG Start</th>
-                                        <th>Forge DG Runtime</th>
-                                        <th>DG Battery Voltage</th>
-                                        <th>Bulk Voltage</th>
-                                        <th>Fault Voltage</th>
-                                        <th>AC Charger Start Voltage</th>
-                                        <th>AC Charger Stop Voltage</th>
-                                        <th>Charger Battery Current Unit</th>
-                                        <th>Min Load Threshold Watt</th>
-                                        <th>Max Export Power Watt</th>
-                                        <th>Battery Capacity KWH</th>
+                                        <th>Zone</th>
+                                        <th>Cluster</th>
+                                        <th>Region</th>
+                                        <th>Device Type</th>
+                                        <th>dgEnergyIni</th>
+                                        <th>dgEnergyFinal</th>
+                                        <th>dgEnergyConsumption</th>
+                                        <th>minDGRunHrs</th>
+                                        <th>maxDGRunHrs</th>
+                                        <th>totalDGRunHrs</th>
+                                        <th>mdgEnergyIni</th>
+                                        <th>mdgEnergyFinal</th>
+                                        <th>mdgEnergyConsumption</th>
+                                        <th>minMDGRunHrs</th>
+                                        <th>maxMDGRunHrs</th>
+                                        <th>tottalMDGRunHrs</th>
+                                        <th>actelLoadFinal</th>
+                                        <th>actelLoadInitial</th>
+                                        <th>totalActelLoadConsumption</th>
+                                        <th>totalAcConsumption</th>
+                                        <th>totalGenRunHrs</th>
+                                        <th>opco1EnergyIni</th>
+                                        <th>opco1EnergyFinal</th>
+                                        <th>opco1EnergyConsumption</th>
+                                        <th>opco2EnergyIni</th>
+                                        <th>opco2EnergyFinal</th>
+                                        <th>opco2EnergyConsumption</th>
+                                        <th>opco3EnergyIni</th>
+                                        <th>opco3EnergyFinal</th>
+                                        <th>opco3EnergyConsumption</th>
+                                        <th>opco4EnergyIni</th>
+                                        <th>opco4EnergyFinal</th>
+                                        <th>opco4EnergyConsumption</th>
+                                        <th>totalDCLoadEnergyConsumption</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of activeListing.list.data">
-                                        <td>{{item.srno}}</td>
-                                        <td>{{item.lastUpdated}}</td>
                                         <td>{{item.smSiteCode}}</td>
-                                        <td>{{item.forgeDgStart}}</td>
-                                        <td>{{item.forgeDgRuntime}}</td>
-                                        <td>{{item.dgBatteryVoltage}}</td>
-                                        <td>{{item.bulkVoltage}}</td>
-                                        <td>{{item.faultVoltage}}</td>
-                                        <td>{{item.acChargerStartVoltage}}</td>
-                                        <td>{{item.acChargerStopVoltage}}</td>
-                                        <td>{{item.chargerBatteryCurrentUnit}}</td>
-                                        <td>{{item.minLoadThresholdWatt}}</td>
-                                        <td>{{item.maxExportPowerWatt}}</td>
-                                        <td>{{item.batteryCapacityKWH}}</td>
+                                        <td>{{item.znZone}}</td>
+                                        <td>{{item.crName}}</td>
+                                        <td>{{item.rgRegion}}</td>
+                                        <td>{{item.devicetype}}</td>
+                                        <td>{{item.dgEnergyIni}}</td>
+                                        <td>{{item.dgEnergyFinal}}</td>
+                                        <td>{{item.dgEnergyConsumption}}</td>
+                                        <td>{{item.minDGRunHrs}}</td>
+                                        <td>{{item.maxDGRunHrs}}</td>
+                                        <td>{{item.totalDGRunHrs}}</td>
+                                        <td>{{item.mdgEnergyIni}}</td>
+                                        <td>{{item.mdgEnergyFinal}}</td>
+                                        <td>{{item.mdgEnergyConsumption}}</td>
+                                        <td>{{item.minMDGRunHrs}}</td>
+                                        <td>{{item.maxMDGRunHrs}}</td>
+                                        <td>{{item.tottalMDGRunHrs}}</td>
+                                        <td>{{item.actelLoadFinal}}</td>
+                                        <td>{{item.actelLoadInitial}}</td>
+                                        <td>{{item.totalActelLoadConsumption}}</td>
+                                        <td>{{item.totalAcConsumption}}</td>
+                                        <td>{{item.totalGenRunHrs}}</td>
+                                        <td>{{item.opco1EnergyIni}}</td>
+                                        <td>{{item.opco1EnergyFinal}}</td>
+                                        <td>{{item.opco1EnergyConsumption}}</td>
+                                        <td>{{item.opco2EnergyIni}}</td>
+                                        <td>{{item.opco2EnergyFinal}}</td>
+                                        <td>{{item.opco2EnergyConsumption}}</td>
+                                        <td>{{item.opco3EnergyIni}}</td>
+                                        <td>{{item.opco3EnergyFinal}}</td>
+                                        <td>{{item.opco3EnergyConsumption}}</td>
+                                        <td>{{item.opco4EnergyIni}}</td>
+                                        <td>{{item.opco4EnergyFinal}}</td>
+                                        <td>{{item.opco4EnergyConsumption}}</td>
+                                        <td>{{item.totalDCLoadEnergyConsumption}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -71,7 +113,7 @@
 
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

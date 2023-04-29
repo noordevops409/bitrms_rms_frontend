@@ -41,9 +41,115 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
   public isExpanded: boolean = false;
-  public defaultFilterList: any = [];
 
   public isFilterDataLoaded: boolean = false;
+
+  public defaultFilterList: any = [
+    {
+      id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegion',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZone',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
+      fieldName: 'siteId',
+      indexField: 'siteId',
+      labelName: 'Site Id',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'siteId',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getSiteCode,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'code',
+        value: 'code'
+      }
+    },
+    {
+      id: 'FMF04',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
+    }
+  ];
 
   private sampleData: any = {};
   private allData: any = {};
@@ -54,6 +160,16 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
+
+  private filterParam: any = {
+    "siteId": [],
+    "zones": [],
+    "regions": [],
+    "deviceType": [],
+    "customers": [],
+    "startDate": null,
+    "endDate": null
+  };
 
   constructor(
     private util: CommonUtilService,
@@ -98,9 +214,9 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.viewRemoteSite;
+    let apiUrl: any = ApiConstant.getEnergyBillingReport + `/${this.currentPageNo}/size/${this.pageSize}`;
     // (window as any)['retainNoOfShow'] = this.pageSize;
-    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
       setTimeout(() => {
@@ -117,11 +233,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   }
 
   manipulate(res) {
-    this.setResponse(res.countryMasterList);
-    this.setColumnHeader(res.countryMasterList);
-    this.setRowData(res.countryMasterList);
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
 
   setResponse(resData) {
@@ -130,7 +246,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'countryID';
+    this.sampleData.sortField = 'smSiteCode';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -140,7 +256,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      this.sampleData.columnHeader.push(ENERGY_BILLING_COLUMN_HEADER['srno']);
+      // this.sampleData.columnHeader.push(ENERGY_BILLING_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (ENERGY_BILLING_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(ENERGY_BILLING_COLUMN_HEADER[key]);
@@ -165,10 +281,77 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     }
   }
 
+  setFilterParam(fData) {
+
+    let regions: any = [];
+    let zones: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let startDate: any = null;
+    let endDate: any = null;
+    let customer: any = [];
+    let rangeDate: any = "";
+    if (fData && fData.length) {
+      
+      regions = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      zones = fData[1].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      // clusters = fData[2].popupTo.data.map((item) => {
+      //   return item.id;
+      // });
+
+      siteId = fData[2].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      deviceType = fData[3].popupTo.data.map((item) => {
+        return item.id;
+      });
+
+      // siteType = fData[5].filter((item) => {
+      //   return item.isChecked && item.text;
+      // }).map((item) => {
+      //   return item.text;
+      // });
+
+      if (fData[5] && fData[5].startDate && fData[5].endDate) {
+        startDate = fData[5].startDate.replace(/-/g, '/');
+        endDate = fData[5].endDate.replace(/-/g, '/');
+        rangeDate = fData[5].startDate.replace(/-/g, '/') + ' - ' + fData[5].endDate.replace(/-/g, '/');
+      }
+
+      // siteStatus = parseInt(fData[7], 10);
+
+      customer = fData[7].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
+    }
+    this.filterParam = {
+      "siteId": siteId,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "customers": customer,
+      "startDate": rangeDate,
+      "endDate": rangeDate
+    };
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
-    // this.setFilterParam(evt);
-    this.loadData();
+    if (evt) {
+      this.setFilterParam(evt);
+      this.loadData();
+    } else {
+      this.loadData();
+    }
   }
 
   updateListParam(data) {
@@ -186,7 +369,6 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   loadListing(data) {
     this.updateListParam(data);
   }
-
 
   onRowSelectionChanged(data) {
     if (data && data.length) {

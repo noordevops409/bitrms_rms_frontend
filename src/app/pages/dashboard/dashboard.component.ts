@@ -18,19 +18,6 @@ import 'chartist-plugin-legend';
 import 'chartist-plugin-pointlabels';
 // import 'chartist-plugin-barlabels';
 
-import { alarmCategory } from '../data/alarm-category';
-import { alarmStatus } from '../data/alarm-status';
-import { clusterMaster } from '../data/cluster-master';
-import { customerMaster } from '../data/customer-master';
-import { deviceTypeMaster } from '../data/device-type-master';
-import { hourlyReport } from '../data/hourly-report';
-import { latestData } from '../data/latest-data';
-import { latestReportStatus } from '../data/latest-report-status';
-import { regionMaster } from '../data/region-master';
-import { siteCodeMaster } from '../data/site-code-master';
-import { siteTypeMaster } from '../data/site-type-master';
-import { zoneMaster } from '../data/zone-master';
-
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
 
 @Component({

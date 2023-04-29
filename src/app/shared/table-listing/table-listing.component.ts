@@ -815,7 +815,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
         this.uniqueId = 'issueCatID';
         break;
       case AppConstant.ENERGY_BILLING_REPORT_LISTING_TYPE:
-        this.uniqueId = 'issueCatID';
+        this.uniqueId = 'smSiteCode';
         break;
       default:
         this.uniqueId = 'distUniqueId';
