@@ -166,10 +166,11 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
   private params: any = null;
   private siteId: any = null;
   private filterParam: any = {
-    siteId: ["All"],
-    siteType: ["All"],
-    deviceType: ["All"],
-    date: "2020/01/05 - 2020/01/08"
+    siteId: ["SGT31055A"],
+    siteType: [],
+    deviceType: [],
+    startDate: "2020-01-01",
+    endDate: "2020-01-01"
   };
 
   constructor(
@@ -199,7 +200,7 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      this.filterParam.siteId = ["All"];
+      this.filterParam.siteId = ["SGT31055A"];
     }
   }
 
@@ -212,13 +213,13 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
       this.isChartLoading = false;
       res.datasets = res.dataSets;
       this.lineChartData = res;
+      // this.prepareChart(res);
       // this.loadTabular(res);
-      // this.prepareChart(res.data);
     }, (err) => {
       this.isChartLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading hourly report!'
+        msg: 'Error while loading energy report!'
       })
     });
   }
@@ -264,6 +265,8 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     let siteId: any = [];
     let deviceType: any = [];
     let siteType: any = [];
+    let startDate: any = null;
+    let endDate: any = null;
     let rangeDate: any = "";
     if (fData && fData.length) {
       siteId = fData[0].popupTo.data.map((item) => {
@@ -292,6 +295,8 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
       // });
 
       if (fData[3] && fData[3].startDate && fData[3].endDate) {
+        startDate = fData[3].startDate.replace(/-/g, '/');
+        endDate = fData[3].endDate.replace(/-/g, '/');
         rangeDate = fData[3].startDate.replace(/-/g, '/') + ' - ' + fData[3].endDate.replace(/-/g, '/');
       }
     }
@@ -299,7 +304,8 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
       "siteId": siteId,
       "deviceType": deviceType,
       "siteType": siteType,
-      "date": rangeDate
+      "startDate": startDate,
+      "endDate": endDate
     };
   }
 
@@ -324,7 +330,7 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `hourly-report-data.${type}`);
+    XLSX.writeFile(wb, `energy-report-data.${type}`);
 
   }
 

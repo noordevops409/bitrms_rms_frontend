@@ -365,6 +365,10 @@ app-root {
     fill: #2447b2;
 }
 
+.extra-dot {
+    fill: #c9c614;
+}
+
 .chartist-tooltip {
     background: rgba(67, 67, 67, 0.5);
     color: #fff;
@@ -436,6 +440,7 @@ app-root {
             &.ct-series-4 {
                 &::before {
                     color: #cceaff;
+                    fill: #c9c614;
                 }
             }
         }
