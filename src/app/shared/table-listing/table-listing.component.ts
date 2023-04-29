@@ -814,6 +814,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.VIEW_REMOTE_SITE_LISTING_TYPE:
         this.uniqueId = 'issueCatID';
         break;
+      case AppConstant.ENERGY_BILLING_REPORT_LISTING_TYPE:
+        this.uniqueId = 'issueCatID';
+        break;
       default:
         this.uniqueId = 'distUniqueId';
     }

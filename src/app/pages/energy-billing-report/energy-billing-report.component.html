@@ -1,1 +1,84 @@
-<p>energy-billing-report works!</p>
+<div class="parent-container">
+    <div class="header">
+        <div class="add-report">
+            <!-- <button class="btn btn-default" (click)="add($event);">
+                <span class="material-icons">add</span> ADD
+            </button> -->
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+            <!-- <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button> -->
+        </div>
+
+        <div class="export">
+            <button class="btn btn-default" (click)="exportExcel($event);">
+                EXPORT TO EXCEL
+            </button>
+            <button class="btn btn-default" (click)="exportCSV($event);">
+                EXPORT TO CSV
+            </button>
+        </div>
+    </div>
+
+
+    <div class="table-listing">
+        <div class="box">
+            <div class="box-title">
+                <h4>Country Master</h4>
+            </div>
+            <div class="box-body">
+                <div class="list-wrap">
+                    <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>Last Updated</th>
+                                        <th>Site Id</th>
+                                        <th>Forge DG Start</th>
+                                        <th>Forge DG Runtime</th>
+                                        <th>DG Battery Voltage</th>
+                                        <th>Bulk Voltage</th>
+                                        <th>Fault Voltage</th>
+                                        <th>AC Charger Start Voltage</th>
+                                        <th>AC Charger Stop Voltage</th>
+                                        <th>Charger Battery Current Unit</th>
+                                        <th>Min Load Threshold Watt</th>
+                                        <th>Max Export Power Watt</th>
+                                        <th>Battery Capacity KWH</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
+                                        <td>{{item.lastUpdated}}</td>
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.forgeDgStart}}</td>
+                                        <td>{{item.forgeDgRuntime}}</td>
+                                        <td>{{item.dgBatteryVoltage}}</td>
+                                        <td>{{item.bulkVoltage}}</td>
+                                        <td>{{item.faultVoltage}}</td>
+                                        <td>{{item.acChargerStartVoltage}}</td>
+                                        <td>{{item.acChargerStopVoltage}}</td>
+                                        <td>{{item.chargerBatteryCurrentUnit}}</td>
+                                        <td>{{item.minLoadThresholdWatt}}</td>
+                                        <td>{{item.maxExportPowerWatt}}</td>
+                                        <td>{{item.batteryCapacityKWH}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

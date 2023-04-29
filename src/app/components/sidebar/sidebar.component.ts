@@ -78,12 +78,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 9,
-      value: 'Hourly Report',
-      href: 'hourly-report',
+      value: 'Energy Report',
+      href: 'energy-report',
       matIcon: 'view_quilt'
     },
     {
       id: 10,
+      value: 'Power Report',
+      href: 'power-report',
+      matIcon: 'view_quilt'
+    },
+    {
+      id: 11,
+      value: 'Energy Billing Report',
+      href: 'energy-billing-report',
+      matIcon: 'view_quilt'
+    },
+    {
+      id: 12,
       value: 'Logout',
       href: 'logout',
       matIcon: 'logout'
@@ -145,7 +157,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   menuClick(evt: any, item: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    if (item.id === 10) {
+    if (item.id === 12) {
       this.router.navigate(['logout']);
     } else {
       this.router.navigate(['pages', item.href]);
