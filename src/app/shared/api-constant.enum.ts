@@ -122,5 +122,10 @@ export const ApiConstant = {
   saveIssueCategoryData: `${GATEWAY}/api/rca_master_data/issue_category`,
   deleteIssueCategoryData: `${GATEWAY}/api/rca_master_data/delete_issueCategory_details`,
 
+  getRemoteSite: `${GATEWAY}/api/remote/sitepage/`,
+  viewRemoteSite: `${GATEWAY}/api/remote/view_site_data`,
+  viewWriteMasterCommand: `${GATEWAY}/api/remote/view_write_master_command`,
+  saveOutgoingData: `${GATEWAY}/api/remote/save-outgoingdata`
+
 };
 

@@ -6,24 +6,24 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
 
-import { CommonUtilService } from '../../shared/common-util.service';
-import { BroadcastService } from '../../shared/broadcast.service';
+import { CommonUtilService } from '../../../shared/common-util.service';
+import { BroadcastService } from '../../../shared/broadcast.service';
 
-import { ApiConstant } from '../../shared/api-constant.enum';
-import { AppConstant } from '../../shared/app-constant.enum';
+import { ApiConstant } from '../../../shared/api-constant.enum';
+import { AppConstant } from '../../../shared/app-constant.enum';
 
-import { REMOTE_COMMANDS_COLUMN_HEADER } from './remote-commands.enum';
+import { VIEW_REMOTE_DATA_COLUMN_HEADER } from './view-remote-data.enum';
 
-import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
-import { SaveRemoteComponent } from './save-remote/save-remote.component';
+import { SaveRemoteComponent } from '../save-remote/save-remote.component';
 
 @Component({
-  selector: 'app-remote-commands',
-  templateUrl: './remote-commands.component.html',
-  styleUrls: ['./remote-commands.component.scss']
+  selector: 'app-view-remote-data',
+  templateUrl: './view-remote-data.component.html',
+  styleUrls: ['./view-remote-data.component.scss']
 })
-export class RemoteCommandsComponent implements OnInit {
+export class ViewRemoteDataComponent implements OnInit, OnDestroy {
 
   @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
 
@@ -100,7 +100,7 @@ export class RemoteCommandsComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.viewRemoteSite;
+    let apiUrl: any = ApiConstant.viewWriteMasterCommand;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -113,7 +113,7 @@ export class RemoteCommandsComponent implements OnInit {
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading Remote command sites details!'
+        msg: 'Error while loading view remote site details!'
       })
     });
   }
@@ -142,10 +142,10 @@ export class RemoteCommandsComponent implements OnInit {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      this.sampleData.columnHeader.push(REMOTE_COMMANDS_COLUMN_HEADER['srno']);
+      this.sampleData.columnHeader.push(VIEW_REMOTE_DATA_COLUMN_HEADER['srno']);
       for (let key in rowData) {
-        if (REMOTE_COMMANDS_COLUMN_HEADER[key]) {
-          this.sampleData.columnHeader.push(REMOTE_COMMANDS_COLUMN_HEADER[key]);
+        if (VIEW_REMOTE_DATA_COLUMN_HEADER[key]) {
+          this.sampleData.columnHeader.push(VIEW_REMOTE_DATA_COLUMN_HEADER[key]);
         }
       }
     }
@@ -216,7 +216,7 @@ export class RemoteCommandsComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `remote-commands.${type}`);
+    XLSX.writeFile(wb, `view-remote-data.${type}`);
 
   }
 
@@ -247,28 +247,10 @@ export class RemoteCommandsComponent implements OnInit {
     this.tableListingComponent.init();
   }
 
-  add(evt?: any) {
-    this.dialog.closeAll();
-    window.localStorage.removeItem('selCountry');
-    const dialogRef = this.dialog.open(SaveRemoteComponent, {
-      width: '1000px',
-      height: 'auto'
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        if (data.countryMasterList && data.countryMasterList.length) {
-          this.manipulate(data);
-        } else {
-          this.loadData();
-        }
-      }
-    });
-  }
-
   edit(evt?: any, item?: any) {
     this.dialog.closeAll();
-    window.localStorage.removeItem('selCountry');
-    window.localStorage.setItem('selCountry', JSON.stringify(item));
+    window.localStorage.removeItem('selRemoteData');
+    window.localStorage.setItem('selRemoteData', JSON.stringify(item));
     const dialogRef = this.dialog.open(SaveRemoteComponent, {
       width: '1000px',
       height: 'auto',
@@ -284,4 +266,5 @@ export class RemoteCommandsComponent implements OnInit {
       }
     });
   }
+
 }

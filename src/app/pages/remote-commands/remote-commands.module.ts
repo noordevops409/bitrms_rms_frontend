@@ -7,10 +7,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { RemoteCommandsRoutingModule } from './remote-commands-routing.module';
 import { RemoteCommandsComponent } from './remote-commands.component';
+import { ViewRemoteDataComponent } from './view-remote-data/view-remote-data.component';
+import { SaveRemoteComponent } from './save-remote/save-remote.component';
 
 
 @NgModule({
-  declarations: [RemoteCommandsComponent],
+  declarations: [RemoteCommandsComponent, ViewRemoteDataComponent, SaveRemoteComponent],
   imports: [
     CommonModule,
     RemoteCommandsRoutingModule,
@@ -18,6 +20,12 @@ import { RemoteCommandsComponent } from './remote-commands.component';
     MaterialModule,
     ReactiveFormsModule, 
     FormsModule
+  ],
+  exports: [
+    SaveRemoteComponent
+  ],
+  entryComponents: [
+    SaveRemoteComponent
   ]
 })
 export class RemoteCommandsModule { }
