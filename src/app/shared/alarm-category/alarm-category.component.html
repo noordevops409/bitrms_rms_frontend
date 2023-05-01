@@ -20,9 +20,18 @@
     </div>
 
     <div class="table-listing">
-        <div class="box">
+        <div class="box alarm-summary">
             <div class="box-title">
                 <h4>Alarm Status</h4>
+                <div class="summary-data">
+                    <ul>
+                        <li *ngFor="let item of alarmCounts">
+                            <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType($event, item)">
+                                {{item?.count}} {{item.type}}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">

@@ -178,6 +178,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public isFilterDataLoaded: boolean = false;
   public siteData: any = null;
   public siteId: any = null;
+  public alarmCounts: any = [];
 
   private countryList: any = [];
   private sampleData: any = {};
@@ -233,6 +234,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   init() {
     this.setDefaultFilter();
     this.loadData();
+    this.loadSummaryCounts();
   }
 
   listen() {
@@ -260,16 +262,51 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(res);
-      setTimeout(() => {
-        this.tableListingComponent.init();
-      });
+      if (res && res.data && res.data.length) {
+        this.manipulate(res);
+        setTimeout(() => {
+          this.tableListingComponent.init();
+        });
+      }
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading alarm category details!'
+      })
+    });
+  }
+
+  loadSummaryCounts() {
+    let apiUrl: any = ApiConstant.getAlarmSummaryCount;
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.get(apiUrl).subscribe((res: any) => {
+      if (res && res.length) {
+        let list: any = [];
+        for (let item of res) {
+          let obj: any = {
+            type: item[0],
+            count: item[1]
+          };
+          if (obj.type === 'Critical') {
+            obj.cssClass = 'btn-danger';
+          } else if (obj.type === 'Major') {
+            obj.cssClass = 'btn-warning';
+          } else if (obj.type === 'Minor') {
+            obj.cssClass = 'btn-default';
+          }
+          list.push(obj);
+        }
+        this.alarmCounts = list;
+      }
+
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading alarm summary count details!'
       })
     });
   }
@@ -437,6 +474,10 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     } else {
       this.loadData();
     }
+  }
+
+  loadDataByType(evt?: any, item?: any) {
+
   }
 
   loadListing(data) {

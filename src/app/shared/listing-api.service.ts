@@ -174,4 +174,8 @@ export class ListingApiService {
   openFaultCategoryForDelete(data: any) {
     this.broadcast.broadcast('OPEN_FAULT_CATEGORY_FOR_DELETE', data);
   }
+
+  openRemoteSiteCommands(data: any) {
+    this.router.navigate(['pages', 'remote-commands', 'view', data.smSiteID]);
+  }
 }

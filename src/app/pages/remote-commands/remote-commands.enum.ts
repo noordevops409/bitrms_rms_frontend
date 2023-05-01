@@ -34,26 +34,26 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteCode: {
+  smSitecode: {
     userIndex: 2,
-    fieldName: 'smSiteCode',
+    fieldName: 'smSitecode',
     colDisplayName: 'Site Id',
     title: 'Site Id',
     widthOfColumn: 100,
-    colType: 'text',
+    colType: 'textwithlink',
     dataType: 'text',
     id: '2',
     imgName: '',
     tooltipSrc: '',
-    function: '',
+    function: 'openRemoteSiteCommands',
     funParams: '',
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  forgeDgStart: {
+  forcedgstart: {
     userIndex: 3,
-    fieldName: 'forgeDgStart',
+    fieldName: 'forcedgstart',
     colDisplayName: 'Forge DG Start',
     title: 'Forge DG Start',
     widthOfColumn: 100,
@@ -68,9 +68,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  forgeDgRuntime: {
+  forcedgruntime: {
     userIndex: 4,
-    fieldName: 'forgeDgRuntime',
+    fieldName: 'forcedgruntime',
     colDisplayName: 'Forge DG Runtime',
     title: 'Forge DG Runtime',
     widthOfColumn: 100,
@@ -85,9 +85,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dgBatteryVoltage: {
+  dgbatteryvoltage: {
     userIndex: 5,
-    fieldName: 'dgBatteryVoltage',
+    fieldName: 'dgbatteryvoltage',
     colDisplayName: 'DG Battery Voltage',
     title: 'DG Battery Voltage',
     widthOfColumn: 100,
@@ -102,9 +102,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  bulkVoltage: {
+  bulkvoltage: {
     userIndex: 6,
-    fieldName: 'bulkVoltage',
+    fieldName: 'bulkvoltage',
     colDisplayName: 'Bulk Voltage',
     title: 'Bulk Voltage',
     widthOfColumn: 100,
@@ -119,11 +119,11 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  floatVoltage: {
+  floatvoltage: {
     userIndex: 7,
-    fieldName: 'faultVoltage',
-    colDisplayName: 'Fault Voltage',
-    title: 'Fault Voltage',
+    fieldName: 'floatvoltage',
+    colDisplayName: 'Float Voltage',
+    title: 'Float Voltage',
     widthOfColumn: 100,
     colType: 'text',
     dataType: 'text',
@@ -136,9 +136,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  acChargerStartVoltage: {
+  accharger_startvoltage: {
     userIndex: 8,
-    fieldName: 'acChargerStartVoltage',
+    fieldName: 'accharger_startvoltage',
     colDisplayName: 'AC Charger Start Voltage',
     title: 'AC Charger Start Voltage',
     widthOfColumn: 100,
@@ -153,9 +153,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  acChargerStopVoltage: {
+  accharger_stopvoltage: {
     userIndex: 9,
-    fieldName: 'acChargerStopVoltage',
+    fieldName: 'accharger_stopvoltage',
     colDisplayName: 'AC Charger Stop Voltage',
     title: 'AC Charger Stop Voltage',
     widthOfColumn: 100,
@@ -170,9 +170,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  chargerBatteryCurrentUnit: {
+  charger_batt_currentlimit: {
     userIndex: 10,
-    fieldName: 'chargerBatteryCurrentUnit',
+    fieldName: 'charger_batt_currentlimit',
     colDisplayName: 'Charger Battery Current Unit',
     title: 'Charger Battery Current Unit',
     widthOfColumn: 100,
@@ -187,9 +187,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  minLoadThresholdWatt: {
+  min_load_threshold_watt: {
     userIndex: 11,
-    fieldName: 'minLoadThresholdWatt',
+    fieldName: 'min_load_threshold_watt',
     colDisplayName: 'Min Load Threshold Watt',
     title: 'Min Load Threshold Watt',
     widthOfColumn: 100,
@@ -204,9 +204,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  maxExportPowerWatt: {
+  max_export_power_watt: {
     userIndex: 12,
-    fieldName: 'maxExportPowerWatt',
+    fieldName: 'max_export_power_watt',
     colDisplayName: 'Max Export Power Watt',
     title: 'Max Export Power Watt',
     widthOfColumn: 100,
@@ -221,9 +221,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  batteryCapacityKWH: {
+  batt_capacity_kwh: {
     userIndex: 13,
-    fieldName: 'batteryCapacityKWH',
+    fieldName: 'batt_capacity_kwh',
     colDisplayName: 'Battery Capacity KWH',
     title: 'Battery Capacity KWH',
     widthOfColumn: 100,

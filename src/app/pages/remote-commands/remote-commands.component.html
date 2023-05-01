@@ -39,7 +39,7 @@
                                         <th>Forge DG Runtime</th>
                                         <th>DG Battery Voltage</th>
                                         <th>Bulk Voltage</th>
-                                        <th>Fault Voltage</th>
+                                        <th>Float Voltage</th>
                                         <th>AC Charger Start Voltage</th>
                                         <th>AC Charger Stop Voltage</th>
                                         <th>Charger Battery Current Unit</th>
@@ -52,18 +52,18 @@
                                     <tr *ngFor="let item of activeListing.list.data">
                                         <td>{{item.srno}}</td>
                                         <td>{{item.lastUpdated}}</td>
-                                        <td>{{item.smSiteCode}}</td>
-                                        <td>{{item.forgeDgStart}}</td>
-                                        <td>{{item.forgeDgRuntime}}</td>
-                                        <td>{{item.dgBatteryVoltage}}</td>
-                                        <td>{{item.bulkVoltage}}</td>
-                                        <td>{{item.faultVoltage}}</td>
-                                        <td>{{item.acChargerStartVoltage}}</td>
-                                        <td>{{item.acChargerStopVoltage}}</td>
-                                        <td>{{item.chargerBatteryCurrentUnit}}</td>
-                                        <td>{{item.minLoadThresholdWatt}}</td>
-                                        <td>{{item.maxExportPowerWatt}}</td>
-                                        <td>{{item.batteryCapacityKWH}}</td>
+                                        <td>{{item.smSitecode}}</td>
+                                        <td>{{item.forcedgstart}}</td>
+                                        <td>{{item.forcedgruntime}}</td>
+                                        <td>{{item.dgbatteryvoltage}}</td>
+                                        <td>{{item.bulkvoltage}}</td>
+                                        <td>{{item.floatvoltage}}</td>
+                                        <td>{{item.accharger_startvoltage}}</td>
+                                        <td>{{item.accharger_stopvoltage}}</td>
+                                        <td>{{item.charger_batt_currentlimit}}</td>
+                                        <td>{{item.min_load_threshold_watt}}</td>
+                                        <td>{{item.max_export_power_watt}}</td>
+                                        <td>{{item.batt_capacity_kwh}}</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -385,7 +385,6 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     }
   }
 
-
   exportTableToExcel(type: string): void {
     /* pass here the table id */
     let element = document.getElementById('export-data');
@@ -397,7 +396,6 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
     /* save to file */
     XLSX.writeFile(wb, `energy-billing-report.${type}`);
-
   }
 
   exportExcel(evt?: any) {

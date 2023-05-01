@@ -809,7 +809,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
         this.uniqueId = 'issueCatID';
         break;
       case AppConstant.REMOTE_COMMANDS_LISTING_TYPE:
-        this.uniqueId = 'issueCatID';
+        this.uniqueId = 'rmcid';
         break;
       case AppConstant.VIEW_REMOTE_SITE_LISTING_TYPE:
         this.uniqueId = 'issueCatID';

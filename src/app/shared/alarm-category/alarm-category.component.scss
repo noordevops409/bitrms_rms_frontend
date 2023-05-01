@@ -175,3 +175,26 @@
         display: block;
     }
 }
+
+.alarm-summary {
+    position: relative;
+    .box-title {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 20px;
+        align-items: center;
+    }
+
+    .summary-data {
+        ul {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            column-gap: 15px;
+            li {
+                
+            }
+        }
+    }
+}
