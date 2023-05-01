@@ -204,7 +204,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     "date": "2019/10/04-2019/10/05",
     "deviceType": ["All"],
     "regions": ["All"],
-    "siteId": ["All"],
+    "siteId": ["MGT20711A"],
     "siteType": ["All"],
     "zones": ["All"]
   };
@@ -249,7 +249,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      this.filterParam.siteId = [];
+      this.filterParam.siteId = ["MGT20711A"];
     }
   }
 
@@ -337,9 +337,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       const rowData = colData[0];
       this.sampleData.columnHeader.push(ALARM_CATEGORY_COLUMN_HEADER['srno']);
       for (let key in rowData) {
-        if (key === 'age') {
+        if (key === 'ageing') {
           this.sampleData.columnHeader.push(ALARM_CATEGORY_COLUMN_HEADER['elapsedTime']);
-        } else {
+        } else if (ALARM_CATEGORY_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(ALARM_CATEGORY_COLUMN_HEADER[key]);
         }
       }
@@ -366,7 +366,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       let counter = 0;
       for (let item of data) {
         counter += 1;
-        item.elapsedTime = this.secondsToDhms(item.age);
+        item.elapsedTime = this.secondsToDhms(item.ageing);
         item.srno = counter;
       }
       this.sampleData.data = data;
