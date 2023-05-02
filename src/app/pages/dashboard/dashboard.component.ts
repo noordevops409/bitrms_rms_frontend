@@ -237,12 +237,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadLatestReportStatus() {
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
-      "groupByCustomer": true,
+      "groupByDefault": true,
+      "groupByCustomer": false,
       "groupBySiteType": false,
       "groupByDeviceType": false,
       "groupByRegion": false,
       "groupByPowerSource": false,
-      "powerSource": "AC_Power"
+      "powerSource": ""
     }).subscribe((res: any) => {
       this.setLatestReportStatus(res);
     }, (err) => {

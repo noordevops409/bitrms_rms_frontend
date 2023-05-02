@@ -21,6 +21,7 @@ export const ApiConstant = {
   getAlarmSummaryCount: `${GATEWAY}/api/alarm-report/alarmcounts_summary`,
   getAlarmStatusPOST: `${GATEWAY}/api/dashboard-report-controller/getAlarmStatusUsingPOST`,
   getAlarmCategory: `${GATEWAY}/api/dashboard/alarm-category`,
+  getHighCriticalAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms`,
   getHourlyReport: `${GATEWAY}/api/dashboard/hourly-report`,
   getPowerReport: `${GATEWAY}/api/dashboard/hourly-power-report`,
   getSDEnergyListing: `${GATEWAY}/api/prf_dashboard/perf-report`,
@@ -125,11 +126,9 @@ export const ApiConstant = {
   deleteIssueCategoryData: `${GATEWAY}/api/rca_master_data/delete_issueCategory_details`,
 
   getRemoteSite: `${GATEWAY}/api/remote/sitepage/`,
-  viewRemoteSite: `${GATEWAY}/api/remote/view_site_data`,
+  viewRemoteSite: `${GATEWAY}/api/remote/view_site_data_json`,
   viewWriteMasterCommand: `${GATEWAY}/api/remote/view_write_master_command`,
   saveOutgoingData: `${GATEWAY}/api/remote/save-outgoingdata`,
-
-
   getEnergyBillingReport: `${GATEWAY}/api/energy-biling/report/pageNumber`
 
 };

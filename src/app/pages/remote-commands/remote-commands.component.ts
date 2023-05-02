@@ -102,7 +102,7 @@ export class RemoteCommandsComponent implements OnInit {
     this.isLoading = true;
     let apiUrl: any = ApiConstant.viewRemoteSite;
     // (window as any)['retainNoOfShow'] = this.pageSize;
-    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+    this.httpClient.get(apiUrl).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
       setTimeout(() => {
