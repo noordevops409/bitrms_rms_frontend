@@ -127,6 +127,7 @@ export const ApiConstant = {
 
   getRemoteSite: `${GATEWAY}/api/remote/sitepage/`,
   viewRemoteSite: `${GATEWAY}/api/remote/view_site_data_json`,
+  viewRemoteSiteFilter: `${GATEWAY}/api/remote/view_site_data_json`,
   viewWriteMasterCommand: `${GATEWAY}/api/remote/view_write_master_command`,
   saveOutgoingData: `${GATEWAY}/api/remote/save-outgoingdata`,
   getEnergyBillingReport: `${GATEWAY}/api/energy-biling/report/pageNumber`

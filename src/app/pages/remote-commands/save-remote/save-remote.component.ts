@@ -25,8 +25,8 @@ export class SaveRemoteComponent implements OnInit, OnDestroy {
   public isForEdit: boolean = false;
   public masterForm!: FormGroup;
 
-  private selCountry: any = null;
-  private countryId: any = null;
+  private selRemoteCommandData: any = null;
+  private rmcid: any = null;
 
   constructor(
     private util: CommonUtilService,
@@ -62,13 +62,13 @@ export class SaveRemoteComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.masterForm = this.formBuilder.group({
-      'name': [null, [Validators.required]]
+      'oudcommand': [null, [Validators.required]]
     });
   }
 
   getData() {
     if (this.data) {
-      this.selCountry = this.data;
+      this.selRemoteCommandData = this.data;
       this.setFormData();
       this.isForEdit = true;
     } else {
@@ -77,8 +77,8 @@ export class SaveRemoteComponent implements OnInit, OnDestroy {
   }
 
   setFormData() {
-    this.countryId = this.selCountry.countryID;
-    this.masterForm.controls['name'].setValue(this.selCountry.country);
+    this.rmcid = this.selRemoteCommandData.rmcid;
+    this.masterForm.controls['oudcommand'].setValue(this.selRemoteCommandData.configureValue);
   }
 
   close(evt?: any) {
@@ -97,13 +97,16 @@ export class SaveRemoteComponent implements OnInit, OnDestroy {
     const formData = this.masterForm.value;
     const url = ApiConstant.saveOutgoingData;
     let params: any = {
-      country: formData.name
+      oudcommand: this.data.code + " " + formData.oudcommand,
+      oudcommandtype: this.data.oudcommandtype,
+      ouddeviceid: this.data.ouddeviceid,
+      ouddevicetype: this.data.ouddevicetype,
+      oudmode: this.data.oudmode,
+      oudstatus: this.data.oudstatus,
+      smsitecode: this.data.smsitecode,
+      smsiteid: this.data.smsiteid,
+      updateval: this.data.updateval
     };
-
-    if (this.isForEdit) {
-      params.countryID = this.countryId;
-    }
-
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isSaving = false;
       this.dialogRef.close(data);

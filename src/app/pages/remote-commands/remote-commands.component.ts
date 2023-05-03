@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
 
@@ -43,7 +43,34 @@ export class RemoteCommandsComponent implements OnInit {
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
   public isExpanded: boolean = false;
-  public defaultFilterList: any = [];
+  public defaultFilterList: any = [
+    {
+      id: 'FMF01',
+      fieldName: 'siteId',
+      indexField: 'siteId',
+      labelName: 'Site Id',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'siteId',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getSiteCode,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'code',
+        value: 'code'
+      }
+    }
+  ];
 
   public isFilterDataLoaded: boolean = false;
 
@@ -56,6 +83,9 @@ export class RemoteCommandsComponent implements OnInit {
 
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
+  private filterParam: any = {
+    "siteId": ["All"]
+  };
 
   constructor(
     private util: CommonUtilService,
@@ -75,6 +105,11 @@ export class RemoteCommandsComponent implements OnInit {
   ngOnDestroy(): void {
     this.forEditListener.unsubscribe();
     this.forDeleteListener.unsubscribe();
+  }
+
+
+  setDefaultFilter() {
+    this.filterParam.siteId = ['All'];
   }
 
   listen() {
@@ -102,7 +137,7 @@ export class RemoteCommandsComponent implements OnInit {
     this.isLoading = true;
     let apiUrl: any = ApiConstant.viewRemoteSite;
     // (window as any)['retainNoOfShow'] = this.pageSize;
-    this.httpClient.get(apiUrl).subscribe((res: any) => {
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
       setTimeout(() => {
@@ -119,11 +154,11 @@ export class RemoteCommandsComponent implements OnInit {
   }
 
   manipulate(res) {
-    this.setResponse(res.countryMasterList);
-    this.setColumnHeader(res.countryMasterList);
-    this.setRowData(res.countryMasterList);
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
 
   setResponse(resData) {
@@ -132,7 +167,7 @@ export class RemoteCommandsComponent implements OnInit {
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'countryID';
+    this.sampleData.sortField = 'rmcid';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -167,9 +202,31 @@ export class RemoteCommandsComponent implements OnInit {
     }
   }
 
+  setFilterParam(fData) {
+    let siteId: any = ["All"];
+
+    if (fData && fData.length) {
+      siteId = fData[0].popupTo.data.map((item) => {
+        return item.id;
+      });
+    }
+    this.filterParam = {
+      "siteId": siteId
+    };
+  }
+
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  }
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
-    // this.setFilterParam(evt);
+    this.isOpenTabularFilter = false;
+    if (evt) {
+      this.setFilterParam(evt);
+    } else {
+      this.setDefaultFilter();
+    }
     this.loadData();
   }
 
@@ -188,7 +245,6 @@ export class RemoteCommandsComponent implements OnInit {
   loadListing(data) {
     this.updateListParam(data);
   }
-
 
   onRowSelectionChanged(data) {
     if (data && data.length) {

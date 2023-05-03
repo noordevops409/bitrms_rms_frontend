@@ -176,6 +176,10 @@ export class ListingApiService {
   }
 
   openRemoteSiteCommands(data: any) {
-    this.router.navigate(['pages', 'remote-commands', 'view', data.smSiteID]);
+    this.router.navigate(['pages', 'remote-commands', 'view', data.smSitecode]);
+  }
+
+  openRemoteDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_REMOTE_DATA_FOR_EDIT', data);
   }
 }

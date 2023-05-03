@@ -17,6 +17,7 @@ import { VIEW_REMOTE_DATA_COLUMN_HEADER } from './view-remote-data.enum';
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
 import { SaveRemoteComponent } from '../save-remote/save-remote.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-view-remote-data',
@@ -56,6 +57,124 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
 
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
+  private siteId: any = null;
+  private filterParam: any = {
+    "allSiteId": true,
+    "siteId": []
+  };
+
+  private dummyData: any = [
+    [
+      1,
+      "w_77",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "forcedgstart",
+      "Force DG Start Command Enable"
+    ],
+    [
+      2,
+      "w_78",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "forcedgruntime",
+      "Force DG Run Time Setting"
+    ],
+    [
+      3,
+      "w_79",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "dgbatteryvoltage",
+      "DG Start Battery Voltage"
+    ],
+    [
+      4,
+      "w_80",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "bulkvoltage",
+      "BULK VOLTAGE"
+    ],
+    [
+      5,
+      "w_81",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "floatvoltage",
+      "FLOAT VOLTAGE"
+    ],
+    [
+      6,
+      "w_82",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "accharger_startvoltage",
+      "AC Charger Start Voltage"
+    ],
+    [
+      7,
+      "w_83",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "accharger_stopvoltage",
+      "AC CHarger Stop Voltage"
+    ],
+    [
+      8,
+      "w_84",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "charger_batt_currentlimit",
+      "CHARGER BATTERY CURRENT LIMIT (A)"
+    ],
+    [
+      9,
+      "w_85",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "min_load_threshold_watt",
+      "Minimum Load THREsold Value"
+    ],
+    [
+      10,
+      "w_86",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "max_export_power_watt",
+      "MAX EXPORT POWER"
+    ],
+    [
+      11,
+      "w_87",
+      null,
+      10,
+      null,
+      "2020-12-09",
+      "batt_capacity_kwh",
+      "BATTERY CAPACITY (WATT HOUR)"
+    ]
+  ];
 
   constructor(
     private util: CommonUtilService,
@@ -65,7 +184,11 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private ngZone: NgZone
-  ) { }
+  ) {
+    this.route.paramMap.subscribe(paramMap => {
+      this.siteId = paramMap.get('id');
+    });
+  }
 
   ngOnInit(): void {
     this.init();
@@ -78,9 +201,9 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
   }
 
   listen() {
-    this.forEditListener = this.broadcast.on<string>('OPEN_COUNTRY_FOR_EDIT').subscribe((data: any) => {
+    this.forEditListener = this.broadcast.on<string>('OPEN_REMOTE_DATA_FOR_EDIT').subscribe((data: any) => {
       this.ngZone.run(() => {
-        // this.edit(null, data);
+        this.edit(null, data);
       });
     });
 
@@ -92,7 +215,10 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadData();
+    if (this.siteId) {
+      this.filterParam.siteId = [this.siteId];
+      this.loadData();
+    }
   }
 
   loadData() {
@@ -100,10 +226,40 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.viewWriteMasterCommand;
+    let apiUrl: any = ApiConstant.viewRemoteSiteFilter;
     // (window as any)['retainNoOfShow'] = this.pageSize;
-    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
+      if (res && res.data && res.data.length) {
+        let rowData = res.data[0];
+        let list: any = [];
+        this.allData.data = rowData;
+        for (let item of this.dummyData) {
+          let column = item[6];
+          if (rowData[column]) {
+            rowData[column + '_ts'] = parseInt(rowData[column + '_ts'], 10);
+            let obj: any = {
+              code: item[1],
+              command: item[7],
+              configureValue: rowData[column],
+              timestamp: rowData[column + '_ts'],
+              triggerTime: moment(rowData[column + '_ts']).format("YYYY-MM-DD HH:mm:ss"),
+              status: 'ACK',
+              ouddeviceid: rowData.dvuniqueid,
+              ouddevicetype: "",
+              oudcommandtype: "",
+              oudmode: "g",
+              oudstatus: "10",
+              updateval: "string",
+              smsiteid: rowData.smSiteID,
+              smsitecode: rowData.smSitecode,
+              rmcid: rowData.rmcid
+            };
+            list.push(obj);
+          }
+        }
+        res.data = list;
+      }
       this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
@@ -119,11 +275,11 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
   }
 
   manipulate(res) {
-    this.setResponse(res.countryMasterList);
-    this.setColumnHeader(res.countryMasterList);
-    this.setRowData(res.countryMasterList);
+    this.setResponse(res.data);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.countryMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
 
   setResponse(resData) {
@@ -132,7 +288,7 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'countryID';
+    this.sampleData.sortField = 'rmcid';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -148,6 +304,7 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
           this.sampleData.columnHeader.push(VIEW_REMOTE_DATA_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(VIEW_REMOTE_DATA_COLUMN_HEADER['edit']);
     }
   }
 
@@ -158,6 +315,7 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
       for (let item of data) {
         counter += 1;
         item.srno = counter;
+        item.edit = 'Edit';
       }
       this.sampleData.data = data;
       this.allData.data = data;
@@ -237,8 +395,8 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.country = item.country.toString();
-        return (item.country.toLowerCase().includes(value));
+        item.command = item.command.toString();
+        return (item.command.toLowerCase().includes(value));
       });
     } else {
       this.sampleData.data = this.allData.data;
@@ -258,11 +416,7 @@ export class ViewRemoteDataComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        if (data.countryMasterList && data.countryMasterList.length) {
-          this.manipulate(data);
-        } else {
-          this.loadData();
-        }
+        this.loadData();
       }
     });
   }

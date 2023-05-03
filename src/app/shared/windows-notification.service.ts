@@ -40,6 +40,7 @@ export class WindowsNotificationService {
   }
 
   showNotification() {
+    return;
     //  if(document.visibilityState === "visible") {
     //      return;
     //  }
