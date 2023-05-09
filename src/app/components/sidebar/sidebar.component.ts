@@ -35,15 +35,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
       matIcon: 'view_quilt',
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
-        { id: 4.2, value: "Power Tracker Report(TEE)", href: "tee-power-tracker" },
-        { id: 4.3, value: "Power Tracker Report(Hybrid)", href: "hybrid-power-tracker" },
-        { id: 4.4, value: "Energy and Run Hours Report(TEE)", href: "tee-energy-run-hours" },
-        { id: 4.5, value: "Energy and Run Hours Report(Hybrid)", href: "hybrid-energy-run-hours" }
+        { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker" },
+        { id: 4.3, value: "(Hybrid) Power Tracker Report", href: "hybrid-power-tracker" },
+        { id: 4.4, value: "(TEE) Energy and Run Hours Report", href: "tee-energy-run-hours" },
+        { id: 4.5, value: "(Hybrid) Energy and Run Hours Report", href: "hybrid-energy-run-hours" }
       ]
     },
     {
       id: 5,
-      value: 'Google Data Studio',
+      value: 'Map Site List',
       href: 'google-data-studio',
       matIcon: 'view_quilt'
     },
@@ -72,7 +72,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 8,
-      value: 'Alram Status',
+      value: 'Alarm Status',
       href: 'alarm-status',
       matIcon: 'view_quilt'
     },

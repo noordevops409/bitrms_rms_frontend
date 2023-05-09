@@ -239,8 +239,9 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.issuename = item.issuename.toString();
-        return (item.issuename.toLowerCase().includes(value));
+        if (!!item.issuename) {
+          return (item.issuename.toLowerCase().includes(value));
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

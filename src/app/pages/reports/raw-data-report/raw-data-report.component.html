@@ -7,14 +7,27 @@
         </div>
 
         <div class="right-side">
+
+            <button class="btn btn-primary" (click)="fetchData($event);">FETCH</button>
+
             <div class="export">
+                <label>Export</label>
+                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+                    <option value="-1">Please Select</option>
+                    <option value="1">Export Excel</option>
+                    <option value="2">Export CSV</option>
+                    <!-- <option value="3">PDF</option> -->
+                </select>
+            </div>
+
+            <!-- <div class="export">
                 <button class="btn btn-default" (click)="exportExcel($event);">
                     EXPORT TO EXCEL
                 </button>
                 <button class="btn btn-default" (click)="exportCSV($event);">
                     EXPORT TO CSV
                 </button>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -24,7 +37,8 @@
             <div class="box-title">
                 <h4>Raw Data Report</h4>
             </div>
-            <div class="box-body">
+
+            <div class="box-body" *ngIf="activeListing.list?.data">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-raw-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
@@ -66,7 +80,6 @@
                                 </tbody>
                             </table>
                         </div>
-
 
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"

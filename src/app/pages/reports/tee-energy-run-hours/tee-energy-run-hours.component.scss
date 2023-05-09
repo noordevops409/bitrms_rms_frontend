@@ -37,6 +37,7 @@
 }
 
 .header {
+    margin-bottom: 0px;
     .left-side {
         display: flex;
         justify-content: space-between;
@@ -45,6 +46,13 @@
         >div {
             margin-right: 10px;
         }
+    }
+
+    .right-side {
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+        justify-content: space-between;
     }
 }
 
@@ -63,6 +71,43 @@
         height: 100%;
         opacity: 1;
         z-index: 4;
+    }
+}
+
+.export {
+    label {
+        font-size: 0.9375rem;
+        margin-right: 24px;
+        color: white;
+    }
+
+    select {
+        background-color: #192038;
+        color: white;
+        border: 1px solid #101426;
+        border-radius: 4px;
+        font-size: 0.9375rem;
+        padding: 8px 16px;
+        text-align: left;
+        width: 175px;
+        font-weight: bold;
+
+        &.mini {
+            background-image: linear-gradient(45deg, transparent 50%, #8F9BB3 50%), linear-gradient(135deg, #8F9BB3 50%, transparent 50%), linear-gradient(to right, #8F9BB3, #ccc);
+            background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+            background-size: 5px 5px, 5px 5px, 1px 1.5em;
+            background-repeat: no-repeat;
+
+            * {
+                font-size: 0.875rem;
+            }
+        }
+    }
+}
+
+.table-listing {
+    .box {
+        border-top: 60px solid #151a30;
     }
 }
 

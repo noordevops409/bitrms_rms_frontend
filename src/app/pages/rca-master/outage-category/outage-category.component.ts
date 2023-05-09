@@ -241,8 +241,9 @@ export class OutageCategoryComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.outageCategory = item.outageCategory.toString();
-        return (item.outageCategory.toLowerCase().includes(value));
+        if (!!item.outageCategory) {
+          return (item.outageCategory.toLowerCase().includes(value));
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

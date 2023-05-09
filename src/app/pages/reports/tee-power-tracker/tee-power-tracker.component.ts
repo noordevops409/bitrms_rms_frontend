@@ -36,6 +36,7 @@ export class TeePowerTrackerComponent implements OnInit {
   public activeListing: any = {};
   public data: any;
   public listingTemplate: any = {};
+  public ddExport: any = "-1";
 
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
@@ -175,6 +176,10 @@ export class TeePowerTrackerComponent implements OnInit {
 
   public isFilterDataLoaded: boolean = false;
   public allData: any = {};
+  public exportData: any = {
+    data: []
+  };
+  public isExporting: boolean = false;
 
   private sampleData: any = {};
   private currentPageNo: number = 1;
@@ -217,6 +222,11 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   init() {
+    // this.loadData();
+  }
+
+
+  fetchData(evt?: any) {
     this.loadData();
   }
 
@@ -240,6 +250,32 @@ export class TeePowerTrackerComponent implements OnInit {
         title: 'Error',
         msg: 'Error while loading Raw Data Report details!'
       })
+    });
+  }
+
+  loadAllData() {
+    return new Promise((resolve, reject) => {
+      let list: any = [];
+      let pageSize = 100;
+      let getAll = () => {
+        let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${pageSize}`;
+        this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
+          list.push(...res.data);
+          this.currentPageNo += 1;
+          pageSize = Math.min(100, (res.totalCount - list.length));
+          if (res.totalCount === list.length) {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+          } else {
+            getAll();
+          }
+        }, (err: any) => {
+          reject(err);
+        });
+      }
+      getAll();
     });
   }
 
@@ -328,7 +364,7 @@ export class TeePowerTrackerComponent implements OnInit {
       });
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
     }
     this.filterParam = {
@@ -411,6 +447,7 @@ export class TeePowerTrackerComponent implements OnInit {
 
     /* save to file */
     XLSX.writeFile(wb, `tee-power-tracker.${type}`);
+    this.isExporting = false;
 
   }
 
@@ -424,6 +461,36 @@ export class TeePowerTrackerComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.isExporting = true;
+    if (this.exportData.data.length === 0) {
+      this.loadAllData().then((res: any) => {
+        this.exportData.data = res.data;
+        setTimeout(() => {
+          let selVal = this.ddExport;
+          if (selVal === "1") {
+            this.exportExcel(evt);
+          } else if (selVal === "2") {
+            this.exportCSV(evt);
+          }
+        }, 500);
+      }).catch((err: any) => {
+
+      })
+    } else {
+      setTimeout(() => {
+        let selVal = this.ddExport;
+        if (selVal === "1") {
+          this.exportExcel(evt);
+        } else if (selVal === "2") {
+          this.exportCSV(evt);
+        }
+      }, 500);
+    }
   }
 
 }

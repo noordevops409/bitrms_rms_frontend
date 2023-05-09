@@ -29,6 +29,9 @@ export class WindowsNotificationService {
     } else {
       alert("Use normal alert");
     }
+    // setInterval(() => {
+    //   this.showNotification();
+    // }, AppConstant.NOTIFICATION_TIME_INTERVAL);
   }
 
   requestAndShowPermission() {
@@ -72,7 +75,7 @@ export class WindowsNotificationService {
             notification.close();
             window.parent.focus();
           }
-        }, 3000);
+        }, AppConstant.NOTIFICATION_TIMEOUT);
       }
     }, (err) => {
       this.util.notification.error({

@@ -886,7 +886,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         [1200, 2560, 2120, 2000, 1800, 3220]
       ]
     });
-
   }
 
   openFilter(evt?: any) {

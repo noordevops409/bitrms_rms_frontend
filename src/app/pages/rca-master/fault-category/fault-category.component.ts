@@ -239,8 +239,9 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.faultCategory = item.faultCategory.toString();
-        return (item.faultCategory.toLowerCase().includes(value));
+        if (!!item.faultCategory) {
+          return (item.faultCategory.toLowerCase().includes(value));
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

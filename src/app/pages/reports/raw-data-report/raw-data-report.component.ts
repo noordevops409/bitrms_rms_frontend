@@ -32,6 +32,11 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   public activeListing: any = {};
   public data: any;
   public listingTemplate: any = {};
+  public ddExport: any = "-1";
+  public exportData: any = {
+    data: []
+  };
+  public isExporting: boolean = false;
 
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
@@ -201,7 +206,6 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   }
 
-
   listen() {
 
   }
@@ -215,6 +219,10 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    // this.loadData();
+  }
+
+  fetchData(evt?: any) {
     this.loadData();
   }
 
@@ -321,7 +329,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       });
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
     }
     this.filterParam = {
@@ -417,6 +425,17 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    let selVal = this.ddExport;
+    if (selVal === "1") {
+      this.exportExcel(evt);
+    } else if (selVal === "2") {
+      this.exportCSV(evt);
+    }
   }
 
 }

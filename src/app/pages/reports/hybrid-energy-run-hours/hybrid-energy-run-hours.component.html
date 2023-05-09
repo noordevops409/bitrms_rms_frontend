@@ -7,14 +7,26 @@
         </div>
 
         <div class="right-side">
+            <button class="btn btn-primary" (click)="fetchData($event);">FETCH</button>
+
             <div class="export">
+                <label>Export</label>
+                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+                    <option value="-1">Please Select</option>
+                    <option value="1">Export Excel</option>
+                    <option value="2">Export CSV</option>
+                    <!-- <option value="3">PDF</option> -->
+                </select>
+            </div>
+
+            <!-- <div class="export">
                 <button class="btn btn-default" (click)="exportExcel($event);">
                     EXPORT TO EXCEL
                 </button>
                 <button class="btn btn-default" (click)="exportCSV($event);">
                     EXPORT TO CSV
                 </button>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -33,9 +45,8 @@
                 <div class="list-wrap">
                     <div class="view-holder">
 
-                        <div class="export-container" [ngClass]="{'show': isExporting}"
-                            *ngIf="activeListing.list && activeListing.list.data">
-                            <table id="export-data">
+                        <div class="export-container " [ngClass]="{'show': isExporting}">
+                            <table id="export-data" *ngIf="exportData.data && exportData.data.length">
                                 <thead>
                                     <tr>
                                         <th>Trans Date</th>
@@ -81,7 +92,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of activeListing.list.data">
+                                    <tr *ngFor="let item of exportData.data">
                                         <td>{{item.tranDate}}</td>
                                         <td>{{item.smsitecode}}</td>
                                         <td>{{item.znZone}}</td>
@@ -128,7 +139,7 @@
                         </div>
 
 
-                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                        <div class="listing-container" *ngIf="activeListing.list?.data" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"

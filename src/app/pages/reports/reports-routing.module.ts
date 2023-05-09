@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '', 
     component: ReportsComponent,
     children: [
-      { path: '', redirectTo: 'raw-data-report', pathMatch: 'full' },
+      { path: '', redirectTo: 'tee-power-tracker', pathMatch: 'full' },
       { path: 'raw-data-report', loadChildren: () => import('./raw-data-report/raw-data-report.module').then(m => m.RawDataReportModule) },
       { path: 'tee-power-tracker', loadChildren: () => import('./tee-power-tracker/tee-power-tracker.module').then(m => m.TeePowerTrackerModule) },
       { path: 'hybrid-power-tracker', loadChildren: () => import('./hybrid-power-tracker/hybrid-power-tracker.module').then(m => m.HybridPowerTrackerModule) },
