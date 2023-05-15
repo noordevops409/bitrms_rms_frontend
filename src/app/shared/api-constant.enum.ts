@@ -22,6 +22,8 @@ export const ApiConstant = {
   getAlarmStatusPOST: `${GATEWAY}/api/dashboard-report-controller/getAlarmStatusUsingPOST`,
   getAlarmCategory: `${GATEWAY}/api/dashboard/alarm-category`,
   getHighCriticalAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms`,
+  getAlarmsCountSummary: `${GATEWAY}/api/alarm-report/alarmcounts_summary`,
+  getAlarmCatSummary: `${GATEWAY}/api/alarm-report/get_alarms_cat_summary`,
   getHourlyReport: `${GATEWAY}/api/dashboard/hourly-report`,
   getPowerReport: `${GATEWAY}/api/dashboard/hourly-power-report`,
   getSDEnergyListing: `${GATEWAY}/api/prf_dashboard/perf-report`,

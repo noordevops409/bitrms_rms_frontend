@@ -42,7 +42,12 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   public isOpenTabularFilter: boolean = false;
   public isExpanded: boolean = false;
 
+  public ddExport: any = "-1";
   public isFilterDataLoaded: boolean = false;
+  public exportData: any = {
+    data: []
+  };
+  public isExporting: boolean = false;
 
   public defaultFilterList: any = [
     {
@@ -232,6 +237,32 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadAllData() {
+    return new Promise((resolve, reject) => {
+      let list: any = [];
+      let pageSize = 100;
+      let getAll = () => {
+        let apiUrl: any = ApiConstant.getEnergyBillingReport + `/${this.currentPageNo}/size/${pageSize}`;
+        this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
+          list.push(...res.data);
+          this.currentPageNo += 1;
+          pageSize = Math.min(100, (res.totalCount - list.length));
+          if (res.totalCount === list.length) {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+          } else {
+            getAll();
+          }
+        }, (err: any) => {
+          reject(err);
+        });
+      }
+      getAll();
+    });
+  }
+
   manipulate(res) {
     this.setResponse(res.data);
     this.setColumnHeader(res.data);
@@ -396,6 +427,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
     /* save to file */
     XLSX.writeFile(wb, `energy-billing-report.${type}`);
+    this.isExporting = false;
   }
 
   exportExcel(evt?: any) {
@@ -408,6 +440,36 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.isExporting = true;
+    if (this.exportData.data.length === 0) {
+      this.loadAllData().then((res: any) => {
+        this.exportData.data = res.data;
+        setTimeout(() => {
+          let selVal = this.ddExport;
+          if (selVal === "1") {
+            this.exportExcel(evt);
+          } else if (selVal === "2") {
+            this.exportCSV(evt);
+          }
+        }, 500);
+      }).catch((err: any) => {
+
+      })
+    } else {
+      setTimeout(() => {
+        let selVal = this.ddExport;
+        if (selVal === "1") {
+          this.exportExcel(evt);
+        } else if (selVal === "2") {
+          this.exportCSV(evt);
+        }
+      }, 500);
+    }
   }
 
   searchGlobally(event) {

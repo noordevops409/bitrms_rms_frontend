@@ -10,6 +10,7 @@ import * as moment from 'moment';
 export class TowerFilterWrapperComponent implements OnInit {
 
   @Input() filterType: number = 1;
+  @Input() isTimerAvail: boolean = false;
 
   @Input() isReqToOpenFilter: boolean = false;
   @Input() isOpenTabularFilter: boolean = false;
@@ -73,6 +74,8 @@ export class TowerFilterWrapperComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+  public startTime: any = null;
+  public endTime: any = null;
 
   private reqSiteIdObj: any = {
     startDate: null,
@@ -111,8 +114,10 @@ export class TowerFilterWrapperComponent implements OnInit {
     if (t1 && t1.length && t1[6]) {
       let t2: any = t1[6];
       if (t2.startDate && t2.endDate) {
-        this.reqSiteIdObj.startDate = moment(t2.startDate);
-        this.reqSiteIdObj.endDate = moment(t2.endDate);
+        let split1 = t2.startDate.toString().split(" ");
+        let split2 = t2.endDate.toString().split(" ");
+        this.reqSiteIdObj.startDate = moment(split1[0]);
+        this.reqSiteIdObj.endDate = moment(split2[0]);
 
         this.range.controls['start'].setValue(this.reqSiteIdObj.startDate);
         this.range.controls['end'].setValue(this.reqSiteIdObj.endDate);
@@ -122,8 +127,20 @@ export class TowerFilterWrapperComponent implements OnInit {
 
   dateRangeChange(type: any, evt: any) {
     if (this.range.controls['start'].value && this.range.controls['end'].value) {
-      let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
-      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+      let startDate: any = null;
+      let endDate: any = null;
+      if (this.startTime) {
+        startDate = moment(moment(this.range.controls['start'].value).format("YYYY-MM-DD") + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
+      }
+
+      if (this.endTime) {
+        endDate = moment(moment(this.range.controls['end'].value).format("YYYY-MM-DD") + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
+      }
+
       this.reqSiteIdObj.startDate = startDate;
       this.reqSiteIdObj.endDate = endDate;
     }

@@ -199,7 +199,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
   }
 
   loadFaultCategory() {
-    let apiUrl: any = ApiConstant.getFaultCategory;
+    let apiUrl: any = ApiConstant.getFaultCategoryData;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.faultCategoryMasterList && res.faultCategoryMasterList.length) {
         this.faultData = res.faultCategoryMasterList;
@@ -223,7 +223,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
   }
 
   loadIssueCategory() {
-    let apiUrl: any = ApiConstant.getIssueCategory;
+    let apiUrl: any = ApiConstant.getIssueCategoryData;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.issueCategoryMasterList && res.issueCategoryMasterList.length) {
         this.issueData = res.issueCategoryMasterList;
@@ -247,7 +247,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
   }
 
   loadOutageCategory() {
-    let apiUrl: any = ApiConstant.getOutageCategory;
+    let apiUrl: any = ApiConstant.getOutageCategoryData;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.outageCategoryMasterList && res.outageCategoryMasterList.length) {
         this.outageData = res.outageCategoryMasterList;

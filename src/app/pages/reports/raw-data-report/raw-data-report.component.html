@@ -38,7 +38,7 @@
                 <h4>Raw Data Report</h4>
             </div>
 
-            <div class="box-body" *ngIf="activeListing.list?.data">
+            <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-raw-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
@@ -47,9 +47,8 @@
                 <div class="list-wrap">
                     <div class="view-holder">
 
-                        <div class="export-container" [ngClass]="{'show': isExporting}"
-                            *ngIf="activeListing.list && activeListing.list.data">
-                            <table id="export-data">
+                        <div class="export-container" [ngClass]="{'show': isExporting}">
+                            <table id="export-data" *ngIf="exportData.data && exportData.data.length">
                                 <thead>
                                     <tr>
                                         <th>Site Id</th>
@@ -65,7 +64,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of activeListing.list.data">
+                                    <tr *ngFor="let item of exportData.data">
                                         <td>{{item.smSiteID}}</td>
                                         <td>{{item.smSitename}}</td>
                                         <td>{{item.anchorOprtr}}</td>
@@ -81,7 +80,7 @@
                             </table>
                         </div>
 
-                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                        <div class="listing-container" *ngIf="activeListing.list?.data" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"

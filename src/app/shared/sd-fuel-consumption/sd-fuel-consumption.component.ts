@@ -137,8 +137,8 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
       "siteId": "MGT20421A" || this.smSiteCode,
       "startDate": moment(this.startDate.value).format('YYYY-MM-DD'),
       "endDate": moment(this.endDate.value).format('YYYY-MM-DD'),
-      "dateMonth": moment(this.startDate.value).format('YYYY-MM'),
-      "dateYear": moment(this.endDate.value).format('YYYY-MM')
+      "dateMonth": moment(this.startDate.value).format('YYYY-MM-DD'),
+      "dateYear": moment(this.endDate.value).format('YYYY-MM-DD')
     };
 
     const url = ApiConstant.getSiteFuelConsumptionReport;

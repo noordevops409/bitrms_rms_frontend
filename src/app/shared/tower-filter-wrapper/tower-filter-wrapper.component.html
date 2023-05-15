@@ -61,6 +61,13 @@
                     </mat-error>
                 </mat-form-field>
             </div>
+
+            <div class="elem-row" *ngIf="isTimerAvail">
+                <label>Start Time</label>
+                <input type="time" id="startTime" (change)="dateRangeChange('change', $event);" name="startTime" [(ngModel)]="startTime" />
+                <label style="margin-left: 15px;">End Time</label>
+                <input type="time" id="endTime" (change)="dateRangeChange('change', $event);" name="endTime" [(ngModel)]="endTime" />
+            </div>
         </div>
     </div>
     <div class="apply-btn">

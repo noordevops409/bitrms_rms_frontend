@@ -129,6 +129,16 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
   public lineChartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      y: {
+        ticks: {
+          // Include a dollar sign in the ticks
+          callback: function (value, index, ticks) {
+            return value + ' kwh';
+          }
+        }
+      }
+    },
     plugins: {
       legend: {
         position: "bottom"
@@ -169,8 +179,8 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     siteId: ["SGT31055A"],
     siteType: [],
     deviceType: [],
-    startDate: "2020-01-01",
-    endDate: "2020-01-01"
+    startDate: "2020/01/01",
+    endDate: "2020/01/01"
   };
 
   constructor(

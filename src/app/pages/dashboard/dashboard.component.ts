@@ -185,6 +185,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public isFilterDataLoaded: boolean = false;
   public isFilterDataLoaded1: boolean = false;
+  public totalAlarmCatCount: any = 0;
 
   private allData: any = {};
   private sampleData: any = {};
@@ -293,11 +294,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item.deviceType ? item.deviceType : 'Delta';
         });
         let onlineList: any = chartData.map((item: any) => {
-          return item.onlineSite;
+          return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
         let offlineList: any = chartData.map((item: any) => {
-          return item.offlineSite;
+          return item.offlineSite === 0 ? null : item.offlineSite;
         });
         chartData.map((item: any) => {
           totalSite += item.totalSite;
@@ -426,11 +427,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
         let onlineList: any = chartData.map((item: any) => {
-          return item.onlineList;
+          return item.onlineList === 0 ? null : item.onlineList;
         });
 
         let offlineList: any = chartData.map((item: any) => {
-          return item.offlineSite;
+          return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
         new Chartist.Bar('#websiteViewsChart3', {
@@ -489,15 +490,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
         let totalList: any = chartData.map((item: any) => {
-          return item.totalSite;
+          return item.totalSite === 0 ? null : item.totalSite;
         });
 
         let onlineList: any = chartData.map((item: any) => {
-          return item.onlineSite;
+          return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
         let offlineList: any = chartData.map((item: any) => {
-          return item.offlineSite;
+          return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
         new Chartist.Bar('#websiteViewsChart4', {
@@ -565,15 +566,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
         let totalList: any = chartData.map((item: any) => {
-          return item.totalSite;
+          return item.totalSite === 0 ? null : item.totalSite;
         });
 
         let offlineList: any = chartData.map((item: any) => {
-          return item.offlineSite;
+          return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
         let onlineList: any = chartData.map((item: any) => {
-          return item.onlineSite;
+          return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
         new Chartist.Bar('#websiteViewsChart5', {
@@ -636,15 +637,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
         let totalList: any = chartData.map((item: any) => {
-          return item.totalSite;
+          return item.totalSite === 0 ? null : item.totalSite;
         });
 
         let offlineList: any = chartData.map((item: any) => {
-          return item.offlineSite;
+          return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
         let onlineList: any = chartData.map((item: any) => {
-          return item.onlineSite;
+          return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
         new Chartist.Bar('#websiteViewsChart6', {
@@ -880,11 +881,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadBarChart() {
-    new Chartist.Bar('#websiteViewsChart1', {
-      labels: ['Battery', 'DG', 'Hybrid', 'Rectifier', 'Solar', 'Critical'],
-      series: [
-        [1200, 2560, 2120, 2000, 1800, 3220]
-      ]
+    this.totalAlarmCatCount = 0;
+    const apiUrl = ApiConstant.getAlarmCatSummary;
+    this.httpClient.get(apiUrl).subscribe((res: any) => {
+      if (res && res.length) {
+        let labels:  any = [];
+        let dataset: any = [];
+        let total = 0;
+        for (let item of res) {
+          labels.push(item[0]);
+          dataset.push(item[1]);
+          total += item[1];
+        }
+        this.totalAlarmCatCount = total;
+        new Chartist.Bar('#websiteViewsChart1', {
+          labels: labels,
+          series: [
+            dataset
+          ]
+        });
+      }
+      
     });
   }
 

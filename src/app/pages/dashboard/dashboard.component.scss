@@ -50,7 +50,8 @@
             padding: 0px;
             margin: 0px;
             display: flex;
-            justify-content: space-between;
+            justify-content: end;
+            column-gap: 15px;
 
             li {
                 label {
