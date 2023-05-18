@@ -1,0 +1,18 @@
+<div class="modal-popup site-details">
+    <div class="header popupHeaderBg">
+        <div class="left-side">
+            <h1 class="title">Site Graphical Flow</h1>
+        </div>
+        <div class="right-side">
+            <a href="javascript:void(0);" (click)="close($event)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </a>
+        </div>
+    </div>
+
+    <div class="body">
+        <div class="img-container">
+            <img [src]="siteData.imagePath" alt="" title="" />
+        </div>
+    </div>
+</div>

@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { CommonUtilService } from '../../shared/common-util.service';
 import { BroadcastService } from '../../shared/broadcast.service';
+
 import * as XLSX from 'xlsx';
 
 import { TOWER_STATUS_COLUMN_HEADER } from './tower-status-column.enum';
@@ -19,6 +22,7 @@ import 'chartist-plugin-pointlabels';
 // import 'chartist-plugin-barlabels';
 
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import { ImgPreviewComponent } from './img-preview/img-preview.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -208,22 +212,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
   private hasFilterData: boolean = false;
   private type: any = null;
+  private forImgPreview!: Subscription;
 
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
     private httpClient: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
+    this.listen();
     this.init();
     this.loadBarChart();
   }
 
   ngOnDestroy() {
+    this.forImgPreview.unsubscribe();
+  }
 
+  listen() {
+    this.forImgPreview = this.broadcast.on<string>('OPEN_GRAPHIC_FOR_SITE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.showImg(data);
+      });
+    });
   }
 
   init() {
@@ -437,7 +453,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         new Chartist.Bar('#websiteViewsChart3', {
           labels: [...deviceTypeList],
           series: [
-            { name: "Total", data: [...totalList] },
+            // { name: "Total", data: [...totalList] },
             { name: "Online", data: [...onlineList] },
             { name: "Offline", data: [...offlineList] }
           ]
@@ -504,7 +520,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         new Chartist.Bar('#websiteViewsChart4', {
           labels: [...customerTypeList],
           series: [
-            { name: "Total", data: [...totalList] },
+            // { name: "Total", data: [...totalList] },
             { name: "Online", data: [...onlineList] },
             { name: "Offline", data: [...offlineList] }
           ]
@@ -580,8 +596,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         new Chartist.Bar('#websiteViewsChart5', {
           labels: [...siteTypeList],
           series: [
-            { name: "Total", data: [...totalList] },
-            { name: "Sites", data: [...offlineList] },
+            // { name: "Total", data: [...totalList] },
+            { name: "Offline", data: [...offlineList] },
             { name: "Online", data: [...onlineList] }
           ]
         }, {
@@ -651,7 +667,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         new Chartist.Bar('#websiteViewsChart6', {
           labels: [...regionList],
           series: [
-            { name: "Total", data: [...totalList] },
+            // { name: "Total", data: [...totalList] },
             { name: "Offline Site", data: [...offlineList] },
             { name: "Online Site", data: [...onlineList] }
           ]
@@ -764,6 +780,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
       this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['alarmCategory']);
       this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['hourlyReport']);
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['imgPath']);
     }
   }
 
@@ -773,6 +790,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (let item of data) {
         item.alarmCategory = 'Alarm Category';
         item.hourlyReport = 'Hourly Report';
+        item.imgPath = 'View Image';
       }
       this.sampleData.data = data;
       this.allData.data = data;
@@ -1059,6 +1077,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (selVal === "2") {
       this.exportCSV(evt);
     }
+  }
+
+  showImg(data) {
+    this.dialog.closeAll();
+    const dialogRef = this.dialog.open(ImgPreviewComponent, {
+      width: '1000px',
+      height: 'auto',
+      data: data
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      
+    });
   }
 
 }

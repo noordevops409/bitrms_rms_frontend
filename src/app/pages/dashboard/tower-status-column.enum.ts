@@ -387,4 +387,21 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
+  imgPath: {
+    userIndex: 22,
+    fieldName: 'imgPath',
+    colDisplayName: 'Image',
+    title: 'Image',
+    widthOfColumn: 125,
+    colType: 'textwithlink',
+    dataType: 'text',
+    id: '22',
+    imgName: '',
+    tooltipSrc: '',
+    function: 'viewImagePath',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
 };

@@ -65,6 +65,10 @@ export class ListingApiService {
     this.router.navigate(['pages', 'dashboard', 'hourly-report', data.smSiteCode]);
   }
 
+  viewImagePath(data?: any) {
+    this.broadcast.broadcast('OPEN_GRAPHIC_FOR_SITE', data);
+  }
+
   loadSiteDetails(data: any) {
     data.isForViewDetails = false;
     data.isForLoadOtherDetails = true;

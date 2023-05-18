@@ -6,10 +6,11 @@ import { MaterialModule } from '../../material/material.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ListingComponent } from './listing/listing.component';
+import { ImgPreviewComponent } from './img-preview/img-preview.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent, ListingComponent],
+  declarations: [DashboardComponent, ListingComponent, ImgPreviewComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -19,7 +20,8 @@ import { ListingComponent } from './listing/listing.component';
     ReactiveFormsModule
   ],
   exports: [
-    ListingComponent
+    ListingComponent,
+    ImgPreviewComponent
   ]
 })
 export class DashboardModule { }

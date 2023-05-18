@@ -32,38 +32,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   public isCustomerDDOpen: boolean = false;
   public isSiteClassificationDDOpen: boolean = false;
 
-  public siteTypeList: any = [
-    {
-      value: 1,
-      label: 'Hybrid'
-    },
-    {
-      value: 2,
-      label: 'TEE'
-    }
-  ];
-  public deviceTypeList: any = [
-    {
-      value: 'Lineage',
-      label: 'Lineage'
-    },
-    {
-      value: 'Li-Lithium',
-      label: 'Li-Lithium'
-    },
-    {
-      value: 'Statcon',
-      label: 'Statcon'
-    },
-    {
-      value: 'Delta',
-      label: 'Delta'
-    },
-    {
-      value: 'Alpha',
-      label: 'Alpha'
-    }
-  ];
+  public siteTypeList: any = [];
+  public deviceTypeList: any = [];
+  public customerList: any = [];
   public siteStatusList: any = [
     {
       label: 'Active',
@@ -72,24 +43,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     {
       label: 'Inactive',
       value: 0
-    }
-  ];
-  public customerList: any = [
-    {
-      label: 'Apollo',
-      value: 'Apollo'
-    },
-    {
-      label: 'IGT',
-      value: 'IGT'
-    },
-    {
-      label: 'Community',
-      value: 'Community'
-    },
-    {
-      label: 'test',
-      value: 'test'
     }
   ];
   public siteClassificationList: any = [
@@ -147,9 +100,12 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    this.loadSiteType();
     this.loadCluster();
     this.loadEmployee();
+    this.loadDeviceType();
     this.loadSim();
+    this.loadCustomer();
     setTimeout(() => {
       this.getData();
     }, 1000);
@@ -161,9 +117,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       'siteName': [null, [Validators.required]],
       'selSiteType': [null],
       'selDeviceType': [null],
-      'selSiteStatus': [null],
+      'selSiteStatus': [this.siteStatusList[0]],
       'selCustomer': [null],
-      'selSiteClassification': [null],
+      'selSiteClassification': [this.siteClassificationList[0]],
       'selCluster': [null],
       'selEmployee': [null],
       'selSim': [null],
@@ -181,9 +137,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   getData() {
     if (this.data) {
+      this.isForEdit = true;
       this.selSite = this.data;
       this.setFormData();
-      this.isForEdit = true;
     } else {
       this.isForEdit = false;
     }
@@ -203,15 +159,26 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrand);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
 
-    this.masterForm.controls['selSiteType'].setValue(this.selSite.smSitetypeid);
-    this.masterForm.controls['selDeviceType'].setValue(this.selSite.devicetype);
-    this.masterForm.controls['selSiteStatus'].setValue(this.selSite.smSiteactivestatus);
-    this.masterForm.controls['selCustomer'].setValue(this.selSite.smCustomerId);
-    this.masterForm.controls['selSiteClassification'].setValue(this.selSite.smscid);
-
-    this.setSim(this.selSite);
+    this.setSiteType(this.selSite);
     this.setCluster(this.selSite);
     this.setEmployeeId(this.selSite);
+    this.setDeviceType(this.selSite);
+    this.setSim(this.selSite);
+    this.setCustomer(this.selSite);
+    this.setSiteClassification(this.selSite);
+  }
+
+  loadSiteType() {
+    const url = ApiConstant.getSiteType;
+    this.httpClient.get(url).subscribe((res: any) => {
+      this.siteTypeList = res.data;
+      this.masterForm.controls['selSiteType'].setValue(res.data[0]);
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading site type list!'
+      });
+    });
   }
 
   loadCluster() {
@@ -226,22 +193,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading cluster list!'
-      });
-    });
-  }
-
-  loadSim() {
-    const url = ApiConstant.getSimMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
-      if (data && data.simMasterList && data.simMasterList.length) {
-        this.simList = data.simMasterList;
-        this.masterForm.controls['selSim'].setValue(data.simMasterList[0]);
-      }
-    }, (err) => {
-      this.isLoading = false;
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading sim list!'
       });
     });
   }
@@ -262,10 +213,68 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSim(req?: any) {
-    for (let item of this.simList) {
-      if (item.simID === req.simID) {
-        req.simNumber = item.simNumber;
+  loadDeviceType() {
+    const url = ApiConstant.getDeviceTypeMaster;
+    this.httpClient.get(url).subscribe((res: any) => {
+      if (res && res.data && res.data.length) {
+        let counter = 0;
+        for (let item of res.data) {
+          counter += 1;
+          item.id = counter;
+        }
+        this.deviceTypeList = res.data;
+        this.masterForm.controls['selDeviceType'].setValue(res.data[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading device type list!'
+      });
+    });
+  }
+
+  loadSim() {
+    const url = ApiConstant.getSimMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.simMasterList && data.simMasterList.length) {
+        this.simList = data.simMasterList;
+        this.masterForm.controls['selSim'].setValue(data.simMasterList[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading sim list!'
+      });
+    });
+  }
+
+  loadCustomer() {
+    const url = ApiConstant.getCustomerMaster;
+    this.httpClient.get(url).subscribe((res: any) => {
+      if (res && res.data && res.data.length) {
+        let counter = 0;
+        for (let item of res.data) {
+          counter += 1;
+          item.id = counter;
+        }
+        this.customerList = res.data;
+        this.masterForm.controls['selCustomer'].setValue(res.data[0]);
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading customer list!'
+      });
+    });
+  }
+
+  setSiteType(req?: any) {
+    for (let item of this.siteTypeList) {
+      if (item.id === req.smSitetypeid) {
+        req.siteType = item.type;
+        this.masterForm.controls['selSiteType'].setValue(item);
         break;
       }
     }
@@ -275,6 +284,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     for (let item of this.clusterList) {
       if (item.crClusterID === req.crClusterID) {
         req.clusterName = item.crName;
+        this.masterForm.controls['selCluster'].setValue(item);
         break;
       }
     }
@@ -284,6 +294,47 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     for (let item of this.employeeList) {
       if (item.emEmpID === req.smTechEmpid) {
         req.employeeId = item.emEmployeeID;
+        this.masterForm.controls['selEmployee'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setDeviceType(req?: any) {
+    for (let item of this.deviceTypeList) {
+      if (item.id == req.devicetype) {
+        req.deviceType = item.deviceType;
+        this.masterForm.controls['selDeviceType'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setSim(req?: any) {
+    for (let item of this.simList) {
+      if (item.simID === req.simID) {
+        req.simNumber = item.simNumber;
+        this.masterForm.controls['selSim'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setCustomer(req?: any) {
+    for (let item of this.customerList) {
+      if (item.id == req.smCustomerId) {
+        req.customerName = item.name;
+        this.masterForm.controls['selCustomer'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setSiteClassification(req?: any) {
+    for (let item of this.siteClassificationList) {
+      if (item.value == req.smscid) {
+        req.siteClassification = item.label;
+        this.masterForm.controls['selSiteClassification'].setValue(item);
         break;
       }
     }
@@ -308,7 +359,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     let params: any = {
       smSitecode: formData.siteCode,
       smSitename: formData.siteName,
-      smSitetypeid: formData.selSiteType,
+      smSitetypeid: formData.selSiteType.id,
       crClusterID: formData.selCluster.crClusterID,
       smAddress: formData.address,
       smDistrict: formData.district,
@@ -316,11 +367,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       smTechEmpid: formData.selEmployee.emEmpID,
       smLatitude: formData.latitude,
       smLongitude: formData.longitude,
-      devicetype: formData.selDeviceType.value,
+      devicetype: formData.selDeviceType.id,
       simID: formData.selSim.simID,
       dvuniqueid: formData.dvUniqueId,
       smSiteactivestatus: formData.selSiteStatus.value,
-      smCustomerId: formData.selCustomer.value,
+      smCustomerId: formData.selCustomer.id,
       smscid: formData.selSiteClassification.value,
       accID: formData.accIdName,
       dgBrand: formData.dgBrandName,
@@ -329,7 +380,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     };
 
     if (this.isForEdit) {
-      params.smSiteID = this.siteId;
+      params.smSiteID = this.selSite.smSiteID;
     }
 
     this.httpClient.post(url, params).subscribe((data: any) => {

@@ -3,7 +3,7 @@ export const EMPLOYEE_COLUMN_HEADER = {
   srno: {
     id: '0',
     fieldName: 'srno',
-    colDisplayName: '',
+    colDisplayName: 'SrNo',
     colType: 'text',
     userIndex: 0,
     imgName: '',
@@ -12,7 +12,7 @@ export const EMPLOYEE_COLUMN_HEADER = {
     function: '',
     funParams: '',
     wrapData: '',
-    widthOfColumn: 35,
+    widthOfColumn: 50,
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -36,8 +36,8 @@ export const EMPLOYEE_COLUMN_HEADER = {
   empRoleName: {
     userIndex: 2,
     fieldName: 'empRoleName',
-    colDisplayName: 'Employee Role',
-    title: 'Employee Role',
+    colDisplayName: 'Role',
+    title: 'Role',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
@@ -53,8 +53,8 @@ export const EMPLOYEE_COLUMN_HEADER = {
   emFirstName: {
     userIndex: 3,
     fieldName: 'emFirstName',
-    colDisplayName: 'Employee First Name',
-    title: 'Employee First Name',
+    colDisplayName: 'First Name',
+    title: 'First Name',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
@@ -70,8 +70,8 @@ export const EMPLOYEE_COLUMN_HEADER = {
   emLastName: {
     userIndex: 4,
     fieldName: 'emLastName',
-    colDisplayName: 'Employee Last Name',
-    title: 'Employee Last Name',
+    colDisplayName: 'Last Name',
+    title: 'Last Name',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',

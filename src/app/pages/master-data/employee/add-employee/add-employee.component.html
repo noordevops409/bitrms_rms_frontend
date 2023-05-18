@@ -29,7 +29,7 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Employee First Name</mat-label>
-                                <input formControlName="empId" required matInput />
+                                <input formControlName="firstName" required matInput />
                                 <mat-error *ngIf="mf.firstName.touched && mf.firstName.invalid">
                                     <div *ngIf="mf.firstName.errors?.required" class="italicAlign">Employee First Name
                                         is
@@ -52,7 +52,7 @@
 
                     <div class="form-group row" style="margin-bottom: 0px;">
 
-                        <div class="form-field col-4">
+                        <div class="form-field col-3">
                             <mat-label>Select Employee Role</mat-label>
                             <select formControlName="selEmployeeRole" name="selEmployeeRole" class="input-element mini">
                                 <option *ngFor="let item of employeeRoleList" [ngValue]="item">{{item.erRoleName}}
@@ -60,17 +60,25 @@
                             </select>
                         </div>
 
-                        <div class="form-field col-4">
+                        <div class="form-field col-3">
                             <mat-label>Select Region</mat-label>
                             <select formControlName="selRegion" name="selRegion" class="input-element mini">
                                 <option *ngFor="let item of regionList" [ngValue]="item">{{item.rgRegion}}</option>
                             </select>
                         </div>
 
-                        <div class="form-field col-4">
+                        <div class="form-field col-3">
                             <mat-label>Select Zone</mat-label>
                             <select formControlName="selZone" name="selZone" class="input-element mini">
                                 <option *ngFor="let item of zoneList" [ngValue]="item">{{item.znZone}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-3">
+                            <mat-label>Select Escalation Mode</mat-label>
+                            <select formControlName="selEscalationMode" name="selEscalationMode"
+                                class="input-element mini">
+                                <option *ngFor="let item of escalationModeList" [ngValue]="item">{{item.label}}</option>
                             </select>
                         </div>
 
@@ -135,30 +143,6 @@
 
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
-                            <mat-label>Select Escalation Mode</mat-label>
-                            <select formControlName="selEscalationMode" name="selEscalationMode"
-                                class="input-element mini">
-                                <option *ngFor="let item of escalationModeList" [ngValue]="item">{{item.label}}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-field col-4">
-                            <mat-form-field>
-                                <mat-label>Acsys Employee Id</mat-label>
-                                <input formControlName="acsysEmployeeId" type="number" matInput />
-                            </mat-form-field>
-                        </div>
-
-                        <div class="form-field col-4">
-                            <mat-form-field>
-                                <mat-label>Acsys Employee Sync Status</mat-label>
-                                <input formControlName="acsysEmployeeSyncStatus" type="number" matInput />
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <div class="form-group row" style="margin-bottom: 0px;">
-                        <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Select Entry Date</mat-label>
                                 <input matInput [matDatepicker]="picker" formControlName="entryDate">
@@ -209,6 +193,22 @@
                             <mat-form-field>
                                 <mat-label>Enter ACC ID Name</mat-label>
                                 <input formControlName="accIdName" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Acsys Employee Id</mat-label>
+                                <input formControlName="acsysEmployeeId" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Acsys Employee Sync Status</mat-label>
+                                <input formControlName="acsysEmployeeSyncStatus" type="number" matInput />
                             </mat-form-field>
                         </div>
                     </div>

@@ -16,7 +16,7 @@
                 <div class="form-container">
 
                     <div class="form-group row" style="margin-bottom: 0px;">
-                        <div class="form-field col-4">
+                        <div class="form-field col-6">
                             <mat-form-field>
                                 <mat-label>Enter Site Code</mat-label>
                                 <input formControlName="siteCode" required matInput />
@@ -26,7 +26,7 @@
                             </mat-form-field>
                         </div>
         
-                        <div class="form-field col-4">
+                        <div class="form-field col-6">
                             <mat-form-field>
                                 <mat-label>Enter Site Name</mat-label>
                                 <input formControlName="siteName" required matInput />
@@ -35,21 +35,9 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-        
-                        <div class="form-field col-4">
-                            <select formControlName="selSiteType" name="selSiteType" class="input-element mini">
-                                <option *ngFor="let item of siteTypeList" [ngValue]="item">{{item.label}}</option>
-                            </select>
-                        </div>
                     </div>
-        
+
                     <div class="form-group row" style="margin-bottom: 0px;">
-                        <div class="form-field col-4">
-                            <select formControlName="selCluster" name="selCluster" class="input-element mini">
-                                <option *ngFor="let item of clusterList" [ngValue]="item">{{item.crName}}</option>
-                            </select>
-                        </div>
-        
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Address</mat-label>
@@ -63,81 +51,86 @@
                                 <input formControlName="district" matInput />
                             </mat-form-field>
                         </div>
-                    </div>
-        
-                    <div class="form-group row" style="margin-bottom: 0px;">
+
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Pin Code</mat-label>
                                 <input formControlName="pinCode" matInput />
                             </mat-form-field>
                         </div>
+                    </div>
         
-                        <div class="form-field col-4">
-                            <select formControlName="selEmployee" name="selEmployee" class="input-element mini">
-                                <option *ngFor="let item of employeeList" [ngValue]="item">{{item.emEmployeeID}}</option>
-                            </select>
-                        </div>
-        
+                    <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Latitude</mat-label>
                                 <input formControlName="latitude" matInput />
                             </mat-form-field>
                         </div>
-                    </div>
-        
-                    <div class="form-group row" style="margin-bottom: 0px;">
+
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Longitude</mat-label>
                                 <input formControlName="longitude" matInput />
                             </mat-form-field>
                         </div>
-        
-                        <div class="form-field col-4">
-                            <select formControlName="selDeviceType" name="selDeviceType" class="input-element mini">
-                                <option *ngFor="let item of deviceTypeList" [ngValue]="item">{{item.name}}</option>
-                            </select>
-                        </div>
-        
-                        <div class="form-field col-4">
-                            <select formControlName="selSim" name="selSim" class="input-element mini">
-                                <option *ngFor="let item of simList" [ngValue]="item">{{item.simNumber}}</option>
-                            </select>
-                        </div>
-                    </div>
-        
-                    <div class="form-group row" style="margin-bottom: 0px;">
+
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Dv Unique Id</mat-label>
                                 <input formControlName="dvUniqueId" matInput />
                             </mat-form-field>
                         </div>
+                    </div>
         
+                    <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
-                            <select formControlName="selSiteStatus" name="selSiteStatus" class="input-element mini">
-                                <option *ngFor="let item of siteStatusList" [ngValue]="item">{{item.name}}</option>
+                            <mat-label>Select Site Type</mat-label>
+                            <select formControlName="selSiteType" name="selSiteType" class="input-element mini">
+                                <option *ngFor="let item of siteTypeList" [ngValue]="item">{{item.type}}</option>
                             </select>
                         </div>
-        
+
                         <div class="form-field col-4">
-                            <select formControlName="selCustomer" name="selCustomer" class="input-element mini">
-                                <option *ngFor="let item of customerList" [ngValue]="item">{{item.name}}</option>
+                            <mat-label>Select Cluster</mat-label>
+                            <select formControlName="selCluster" name="selCluster" class="input-element mini">
+                                <option *ngFor="let item of clusterList" [ngValue]="item">{{item.crName}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Employee</mat-label>
+                            <select formControlName="selEmployee" name="selEmployee" class="input-element mini">
+                                <option *ngFor="let item of employeeList" [ngValue]="item">{{item.emEmployeeID}}</option>
                             </select>
                         </div>
                     </div>
         
+                    
                     <div class="form-group row" style="margin-bottom: 0px;">
-        
                         <div class="form-field col-4">
-                            <select formControlName="selSiteClassification" name="selSiteClassification"
-                                class="input-element mini">
-                                <option *ngFor="let item of siteClassificationList" [ngValue]="item">{{item.name}}</option>
+                            <mat-label>Select Device Type</mat-label>
+                            <select formControlName="selDeviceType" name="selDeviceType" class="input-element mini">
+                                <option *ngFor="let item of deviceTypeList" [ngValue]="item">{{item.deviceType}}</option>
                             </select>
                         </div>
         
+                        <div class="form-field col-4">
+                            <mat-label>Select Sim</mat-label>
+                            <select formControlName="selSim" name="selSim" class="input-element mini">
+                                <option *ngFor="let item of simList" [ngValue]="item">{{item.simNumber}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Site Status</mat-label>
+                            <select formControlName="selSiteStatus" name="selSiteStatus" class="input-element mini">
+                                <option *ngFor="let item of siteStatusList" [ngValue]="item">{{item.label}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter AccId Name</mat-label>
@@ -151,15 +144,30 @@
                                 <input formControlName="dgBrandName" matInput />
                             </mat-form-field>
                         </div>
-        
-                    </div>
-        
-                    <div class="form-group row" style="margin-bottom: 0px;">
+
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter DG Tank Capacity</mat-label>
                                 <input formControlName="dgTankCapacity" matInput />
                             </mat-form-field>
+                        </div>
+        
+                    </div>
+        
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-label>Select Customer</mat-label>
+                            <select formControlName="selCustomer" name="selCustomer" class="input-element mini">
+                                <option *ngFor="let item of customerList" [ngValue]="item">{{item.name}}</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-field col-4">
+                            <mat-label>Select Site Classification</mat-label>
+                            <select formControlName="selSiteClassification" name="selSiteClassification"
+                                class="input-element mini">
+                                <option *ngFor="let item of siteClassificationList" [ngValue]="item">{{item.label}}</option>
+                            </select>
                         </div>
                     </div>
 

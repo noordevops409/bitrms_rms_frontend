@@ -36,7 +36,7 @@ export class TeePowerTrackerComponent implements OnInit {
   public activeListing: any = {};
   public data: any;
   public listingTemplate: any = {};
-  public ddExport: any = "-1";
+  
 
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
@@ -176,6 +176,7 @@ export class TeePowerTrackerComponent implements OnInit {
 
   public isFilterDataLoaded: boolean = false;
   public allData: any = {};
+  public ddExport: any = "-1";
   public exportData: any = {
     data: []
   };
