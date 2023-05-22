@@ -325,7 +325,10 @@ export class EmployeeComponent implements OnInit {
       this.sampleData.data = this.allData.data.filter((item) => {
         item.emEmployeeID = item.emEmployeeID.toString();
         item.empRoleName = item.empRoleName.toString();
-        return (item.emEmployeeID.toLowerCase().includes(value) || item.empRoleName.toLowerCase().includes(value));
+        item.emFirstName = item.emFirstName.toString();
+        return (item.emEmployeeID.toLowerCase().includes(value) ||
+          item.empRoleName.toLowerCase().includes(value) ||
+          item.emFirstName.toLowerCase().includes(value));
       });
     } else {
       this.sampleData.data = this.allData.data;

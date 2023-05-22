@@ -89,7 +89,7 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Employee Contact Number</mat-label>
-                                <input formControlName="contactNumber" required matInput />
+                                <input type="number" formControlName="contactNumber" required matInput />
                                 <mat-error *ngIf="mf.contactNumber.touched && mf.contactNumber.invalid">
                                     <div *ngIf="mf.contactNumber.errors?.required" class="italicAlign">Employee Contact
                                         Nummber
@@ -129,14 +129,14 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Latitude</mat-label>
-                                <input formControlName="latitude" type="number" matInput />
+                                <input type="number" formControlName="latitude" type="number" matInput />
                             </mat-form-field>
                         </div>
 
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Longitude</mat-label>
-                                <input formControlName="longitude" type="number" matInput />
+                                <input type="number" formControlName="longitude" type="number" matInput />
                             </mat-form-field>
                         </div>
                     </div>
@@ -178,21 +178,21 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>ke ID</mat-label>
-                                <input formControlName="keId" matInput />
+                                <input type="number" formControlName="keId" matInput />
                             </mat-form-field>
                         </div>
 
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Employee Notification</mat-label>
-                                <input formControlName="notification" matInput />
+                                <input type="number" formControlName="notification" matInput />
                             </mat-form-field>
                         </div>
 
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter ACC ID Name</mat-label>
-                                <input formControlName="accIdName" type="number" matInput />
+                                <input type="number" formControlName="accIdName"  matInput />
                             </mat-form-field>
                         </div>
                     </div>
