@@ -793,6 +793,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
       case AppConstant.SITE_MASTER_LISTING_TYPE:
         this.uniqueId = 'smSitecode';
         break;
+      case AppConstant.USER_LISTING_TYPE:
+        this.uniqueId = 'userId';
+        break;
       case AppConstant.CLUSTER_MASTER_LISTING_TYPE:
         this.uniqueId = 'crClusterID';
         break;

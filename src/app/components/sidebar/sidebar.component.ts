@@ -96,6 +96,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 12,
+      value: 'Users',
+      href: 'users',
+      matIcon: 'view_quilt'
+    },
+    {
+      id: 13,
       value: 'Logout',
       href: 'logout',
       matIcon: 'logout'
@@ -157,7 +163,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   menuClick(evt: any, item: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    if (item.id === 12) {
+    if (item.id === 13) {
       this.router.navigate(['logout']);
     } else {
       this.router.navigate(['pages', item.href]);

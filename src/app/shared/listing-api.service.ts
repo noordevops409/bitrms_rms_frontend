@@ -139,8 +139,16 @@ export class ListingApiService {
     this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_DELETE', data);
   }
 
+  openUserMasterDataForEdit(data: any) {
+    this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_EDIT', data);
+  }
+
+  openUserMasterDataForDelete(data: any) {
+    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_EDIT', data);
+  }
+
   openClusterDataForEdit(data: any) {
-    this.broadcast.broadcast('OPEN_CLUSTER_FOR_EDIT', data);
+    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_DELETE', data);
   }
 
   openClusterDataForDelete(data: any) {

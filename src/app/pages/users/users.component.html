@@ -1,0 +1,98 @@
+<div class="parent-container">
+    <div class="header">
+        <div class="add-report">
+            <button class="btn btn-default" (click)="add($event);">
+                <span class="material-icons">add</span> ADD
+            </button>
+
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+            <!-- <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button> -->
+        </div>
+
+        <div class="export">
+            <button class="btn btn-default" (click)="exportExcel($event);">
+                EXPORT TO EXCEL
+            </button>
+            <button class="btn btn-default" (click)="exportCSV($event);">
+                EXPORT TO CSV
+            </button>
+        </div>
+    </div>
+
+    <div class="table-listing">
+        <div class="box">
+            <div class="box-title">
+                <h4>User Master</h4>
+            </div>
+            <div class="box-body">
+                <div class="list-wrap">
+                    <div class="view-holder">
+
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>Site ID</th>
+                                        <th>Site Code</th>
+                                        <th>Site Name</th>
+                                        <th>Site Type</th>
+                                        <th>Cluster Name</th>
+                                        <th>Address</th>
+                                        <th>District</th>
+                                        <th>Pincode</th>
+                                        <th>Employee Id</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
+                                        <th>SIM</th>
+                                        <th>Device Type</th>
+                                        <th>DV Unique Id</th>
+                                        <th>Site Status</th>
+                                        <th>Customer Name</th>
+                                        <th>Site Classification</th>
+                                        <th>AccID Name</th>
+                                        <th>DG Brand Name</th>
+                                        <th>DG Tank Capacity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.srno}}</td>
+                                        <td>{{item.smSiteID}}</td>
+                                        <td>{{item.smSitecode}}</td>
+                                        <td>{{item.smSitename}}</td>
+                                        <td>{{item.siteType}}</td>
+                                        <td>{{item.clusterName}}</td>
+                                        <td>{{item.smAddress}}</td>
+                                        <td>{{item.smDistrict}}</td>
+                                        <td>{{item.smPincode}}</td>
+                                        <td>{{item.employeeId}}</td>
+                                        <td>{{item.smLatitude}}</td>
+                                        <td>{{item.smLongitude}}</td>
+                                        <td>{{item.simNumber}}</td>
+                                        <td>{{item.devicetype}}</td>
+                                        <td>{{item.dvuniqueid}}</td>
+                                        <td>{{item.smSiteactivestatus}}</td>
+                                        <td>{{item.smCustomerName}}</td>
+                                        <td>{{item.smscid}}</td>
+                                        <td>{{item.accID}}</td>
+                                        <td>{{item.dgBrand}}</td>
+                                        <td>{{item.dgTankCapacity}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

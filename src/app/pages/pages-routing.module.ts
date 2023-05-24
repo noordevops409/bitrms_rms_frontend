@@ -22,6 +22,7 @@ const routes: Routes = [
       { path: 'google-data-studio', loadChildren: () => import('./google-data-studio/google-data-studio.module').then(m => m.GoogleDataStudioModule) },
       { path: 'master-data', loadChildren: () => import('./master-data/master-data.module').then(m => m.MasterDataModule) },
       { path: 'remote-commands', loadChildren: () => import('./remote-commands/remote-commands.module').then(m => m.RemoteCommandsModule) },
+      { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
     ] 
   },
 ];

@@ -175,6 +175,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   ];
 
   public isFilterDataLoaded: boolean = false;
+  public dropboxLink: any = '';
 
   private sampleData: any = {};
   private allData: any = {};
