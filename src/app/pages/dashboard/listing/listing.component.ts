@@ -1,38 +1,28 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { CommonUtilService } from '../../../shared/common-util.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { CommonUtilService } from '../../../shared/common-util.service';
+import { BroadcastService } from '../../../shared/broadcast.service';
+
+import * as XLSX from 'xlsx';
+
 import { TOWER_STATUS_COLUMN_HEADER } from '../tower-status-column.enum';
 // import { ALARM_STATUS_COLUMN_HEADER } from './alarm-status-column.enum';
 
 import { ApiConstant } from '../../../shared/api-constant.enum';
 import { AppConstant } from '../../../shared/app-constant.enum';
-import { BroadcastService } from '../../../shared/broadcast.service';
-import * as MyLegend from 'chartist-plugin-legend';
 
 import * as Chartist from 'chartist';
-import * as moment from 'moment';
+
 import 'chartist-plugin-tooltips';
 import 'chartist-plugin-legend';
-import { Subscription } from 'rxjs';
-
-import { alarmCategory } from '../../data/alarm-category';
-import { alarmStatus } from '../../data/alarm-status';
-import { clusterMaster } from '../../data/cluster-master';
-import { customerMaster } from '../../data/customer-master';
-import { deviceTypeMaster } from '../../data/device-type-master';
-import { hourlyReport } from '../../data/hourly-report';
-import { latestData } from '../../data/latest-data';
-import { latestReportStatus } from '../../data/latest-report-status';
-import { regionMaster } from '../../data/region-master';
-import { siteCodeMaster } from '../../data/site-code-master';
-import { siteTypeMaster } from '../../data/site-type-master';
-import { zoneMaster } from '../../data/zone-master';
+import 'chartist-plugin-pointlabels';
+// import 'chartist-plugin-barlabels';
 
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
-import { SiteDetailsComponent } from '../../../shared/site-details/site-details.component';
+import { ImgPreviewComponent } from '../img-preview/img-preview.component';
 
 @Component({
   selector: 'app-listing',
@@ -41,18 +31,10 @@ import { SiteDetailsComponent } from '../../../shared/site-details/site-details.
 })
 export class ListingComponent implements OnInit, OnDestroy {
 
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
-  });
-  @ViewChild('alarmElem', { static: true }) $alarmElem: any;
-
   @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
 
   public isLoading: boolean = false;
-  public isAlarmStatusLoading: boolean = false;
   public isListServerError: boolean = false;
-  public isAlarmStatusListServerError: boolean = false;
 
   public parentHeight: any = null;
   public selectedRow: any = null;
@@ -65,50 +47,13 @@ export class ListingComponent implements OnInit, OnDestroy {
   public activeListing: any = {};
   public data: any;
   public listingTemplate: any = {};
-  public isAlarmCategoryOpen: boolean = false;
 
-  public latestReportStatus: any = {
-    "offlineSite": 63,
-    "onlineSite": 773,
-    "totalSite": 836
-  };
+  public latestReportStatus: any = null;
+  public ddExport: any = "-1";
 
   isReqToOpenFilter: boolean = false;
-  isReqToOpenAlarmStatusFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
-  isOpenAlarmStatusFilter: boolean = false;
-
   isExpanded: boolean = false;
-
-  defaultFilterListAlarmStatus: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'category',
-      indexField: 'category',
-      labelName: 'Category',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'category',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'POST',
-      xhrUrl: ApiConstant.getAlarmCategory,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'category',
-        value: 'category'
-      }
-    }
-  ];
-
   defaultFilterList: any = [
     {
       id: 'FMF01',
@@ -242,23 +187,11 @@ export class ListingComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private filterParam: any = {
-    "regions": [],
-    "zones": [],
-    "clusters": [],
-    "siteId": [],
-    "deviceType": [],
-    "siteType": [],
-    "siteStatus": 1,
-    "startDate": "2020-10-11",
-    "endDate": "2020-12-12"
-  };
-
   public isFilterDataLoaded: boolean = false;
   public isFilterDataLoaded1: boolean = false;
-  public alarmStatusList: any = [];
-  public alarmCategoryList: any = [];
+  public totalAlarmCatCount: any = 0;
 
+  private allData: any = {};
   private sampleData: any = {};
   private sampleData1: any = {};
   private currentPageNo: number = 0;
@@ -266,14 +199,20 @@ export class ListingComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
+  private filterParam: any = {
+    "siteId": [],
+    "clusters": [],
+    "zones": [],
+    "regions": [],
+    "deviceType": [],
+    "siteType": [],
+    "siteStatus": [],
+    "customers": [],
+    "date": null
+  };
+  private hasFilterData: boolean = false;
   private type: any = null;
-  private $: any = (window as any)['jQuery'];
-  private scrollTimer: any = undefined;
-  private scrollAreaHeight = 30;
-  private selAlarmCategory: any = null;
-  private towerStatusId: any = null;
-  private editSub!: Subscription;
-  private reqSiteIdObj: any = null;
+  private forImgPreview!: Subscription;
 
   constructor(
     private util: CommonUtilService,
@@ -281,287 +220,33 @@ export class ListingComponent implements OnInit, OnDestroy {
     private httpClient: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) {
     this.route.paramMap.subscribe(paramMap => {
-      this.towerStatusId = paramMap.get('id');
-    });
-  }
-
-  listen() {
-    this.editSub = this.broadcast.on<string>('SET_SELECTED_ROW').subscribe((data: any) => {
-      this.selectedRow = data;
-      if (data.isForViewDetails) {
-        this.viewSiteDetails(data);
-      } else if (data.isForLoadOtherDetails) {
-        this.loadOtherDetails(data);
-      }
+      // this.towerStatusId = paramMap.get('id');
     });
   }
 
   ngOnInit(): void {
+    this.listen();
     this.init();
-    this.bindEvent();
   }
 
-  ngOnDestroy(): void {
-    this.$(this.$alarmElem.nativeElement).find('.gbody').unbind('scroll');
-    this.editSub.unsubscribe();
+  ngOnDestroy() {
+    this.forImgPreview.unsubscribe();
+  }
+
+  listen() {
+    this.forImgPreview = this.broadcast.on<string>('OPEN_GRAPHIC_FOR_SITE').subscribe((data: any) => {
+      this.ngZone.run(() => {
+        this.showImg(data);
+      });
+    });
   }
 
   init() {
-    this.listen();
-    this.loadHourlyReportChart();
-    this.loadAlarmCategory();
     this.loadTowerLatestData();
-    this.loadAlarmStatusData();
-  }
-
-  viewSiteDetails(data?: any) {
-
-
-    let params: any = { 
-      "tabId": "nav-summary-tab", 
-      "siteId": "MGT20421A", 
-      "series2": null, 
-      "series3": null, 
-      "series4": null, 
-      "series5": null, 
-      "series6": null, 
-      "series7": null, 
-      "reportType": "Daily", 
-      "startDate": "", 
-      "endDate": "", 
-      "dateMonth": "", 
-      "dateYear": "" 
-    };
-
-    const url = ApiConstant.getSiteSummaryData;
-
-    // if (data && data.smSiteCode) {
-    //   params.siteId = data.smSiteCode;
-    //   params.smSiteCode = data.smSiteCode
-    // }
-
-    const dialogRef = this.dialog.open(SiteDetailsComponent, {
-      width: '1000px',
-      height: 'auto',
-      data: {
-        url,
-        params
-      }
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-
-      }
-    });
-  }
-
-  loadOtherDetails(data?: any) {
-    this.reqSiteIdObj = data;
-    this.loadAlarmStatusData(data);
-    this.loadHourlyReportChart(data);
-  }
-
-  dateRangeChange(type: any, evt: any) {
-    if (this.range.controls['start'].value && this.range.controls['end'].value) {
-      let startDate = moment(this.range.controls['start'].value).format('YYYY-MM-DD');
-      let endDate = moment(this.range.controls['end'].value).format('YYYY-MM-DD');
-      if (this.reqSiteIdObj) {
-        this.reqSiteIdObj.startDate = startDate;
-        this.reqSiteIdObj.endDate = endDate;
-        this.loadHourlyReportChart(this.reqSiteIdObj);
-      } else {
-        this.loadHourlyReportChart({ startDate, endDate });
-      }
-    }
-  }
-
-  loadHourlyReportChart(req?: any) {
-
-    let params: any = {
-      "allDeviceTypes": true,
-      "allSiteId": true,
-      "allSiteTypes": true,
-      "anyFilterEmpty": true,
-      "dataSets": [
-        {
-          "backgroundColor": "",
-          "borderColor": "",
-          "data": [""],
-          "label": ""
-        }
-      ],
-      "date": "2019/11/27 - 2019/11/28",
-      "deviceType": ["All", "Delta", "Li-Lithium", "Lineage", "Statcon"],
-      "labels": [
-        "All"
-      ],
-      "siteId": ["MDM01058A"],
-      "siteType": ["All", "Hybrid", "TEE"],
-      "username": "harish1"
-    };
-
-    if (req && req.smSiteCode) {
-      params.siteId = [req.smSiteCode]
-    }
-
-    if (req && req.startDate && req.endDate) {
-      params.date = `${req.startDate} - ${req.endDate}`;
-    }
-
-
-    const url = ApiConstant.getHourlyReport;
-    this.httpClient.post(url, params).subscribe((data: any) => {
-      console.log(data);
-      this.prepareChart(data);
-    }, (err) => {
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading hourly report!'
-      })
-    });
-  }
-
-  manipulateChartData(data: any) {
-    data.seriesList = [];
-    for (let item of data.dataSets) {
-      let cssClass = item.label.replace(/\s/g, '-').toLowerCase();
-      let obj: any = { className: cssClass, data: item.data };
-      data.seriesList.push(obj);
-    }
-  }
-
-  prepareChart(res: any) {
-    this.manipulateChartData(res);
-    var chartData = {
-      labels: res.labels,
-      series: res.seriesList
-    };
-    let legendList: any = res.dataSets.map((item: any) => {
-      return item.label;
-    })
-
-    var options = {
-      seriesBarDistance: 10,
-      plugins: [Chartist.plugins.legend({
-        legendNames: legendList,
-        position: 'bottom'
-      })]
-    };
-
-    var responsiveOptions = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value: any) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-
-    new Chartist.Bar('#websiteViewsChart2', chartData, options, responsiveOptions);
-  }
-
-  bindEvent() {
-    const self = this;
-
-    const elBody = this.$(this.$alarmElem.nativeElement).find('.gbody');
-    this.$(this.$alarmElem.nativeElement).find('.gbody').unbind('scroll').bind('scroll', () => {
-      self.onBodyScroll(elBody[0], elBody.prev(), elBody);
-    });
-  }
-
-  private onBodyScroll(gbodyDom: any, ghead: any, gbody: any) {
-    ghead.scrollLeft(gbody.scrollLeft());
-    clearTimeout(this.scrollTimer);
-    this.scrollTimer = setTimeout(() => {
-      if ((gbodyDom.scrollHeight - gbodyDom.clientHeight - this.scrollAreaHeight) < gbody.scrollTop()) {
-
-      }
-    }, 200);
-  }
-
-  loadAlarmCategory() {
-    const url = ApiConstant.getAlarmCategory;
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.alarmCategoryList = data;
-    }, (err) => {
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error While Loading Alarm Category List!'
-      })
-    });
-  }
-
-  toggle(evt?: any) {
-    this.isAlarmCategoryOpen = !this.isAlarmCategoryOpen;
-  }
-
-  selectCategory(evt?: any, item?: any) {
-    this.isAlarmCategoryOpen = false;
-    this.selAlarmCategory = item;
-    if (this.reqSiteIdObj) {
-      this.reqSiteIdObj.alarmSelCategory = item;
-      this.loadAlarmStatusData(this.reqSiteIdObj);
-    } else {
-      let obj: any = { alarmSelCategory: item };
-      this.loadAlarmStatusData(obj);
-    }
-  }
-
-  doFilter(evt?: any) {
-
-  }
-
-  loadAlarmStatusData(req?: any) {
-    if (this.isAlarmStatusLoading) {
-      return;
-    }
-    this.isAlarmStatusLoading = true;
-    const url = ApiConstant.getAlarmStatus;
-    let paramData: any = {
-      "all": "string",
-      "allCategory": true,
-      "allSeverity": true,
-      "allSiteId": true,
-      "anyFilterEmpty": true,
-      "categories": ["All", "Battery", "Hybrid", "Super Critical"],
-      "severities": [
-        "All"
-      ],
-      "siteId": [
-        "All"
-      ],
-      "username": "harish1"
-    };
-
-    if (req && req.smSiteCode) {
-      paramData.siteId = [req.smSiteCode]
-    }
-
-    if (req && req.alarmSelCategory) {
-      paramData.categories = [req.alarmSelCategory.category];
-    }
-
-    this.httpClient.post(url, paramData).subscribe((data: any) => {
-      this.isAlarmStatusLoading = false;
-      this.alarmStatusList = data;
-      this.manipulateAlarmStatusData(data.data);
-    }, (err) => {
-      this.isAlarmStatusLoading = false;
-      this.isAlarmStatusListServerError = true;
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading Alarm Status Details!'
-      })
-    });
-  }
-
-  manipulateAlarmStatusData(data: any) {
-
   }
 
   loadTowerLatestData() {
@@ -570,7 +255,29 @@ export class ListingComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     const url = ApiConstant.getLatestData;
-    this.httpClient.get(url, this.filterParam).subscribe((data: any) => {
+    this.httpClient.get(url).subscribe((data: any) => {
+      this.isLoading = false;
+      this.manipulate(data.data);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading Tower Latest Details!'
+      })
+    });
+  }
+
+  loadFilterTowerStatusData() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    let url = ApiConstant.getLatestData1;
+    this.httpClient.post(url, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       this.manipulate(data.data);
       setTimeout(() => {
@@ -609,40 +316,35 @@ export class ListingComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       for (let key in rowData) {
         if (TOWER_STATUS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER[key]);
         }
       }
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['alarmCategory']);
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['hourlyReport']);
+      this.sampleData.columnHeader.push(TOWER_STATUS_COLUMN_HEADER['imgPath']);
     }
   }
 
   setRowData(resData: any) {
     const data = resData || [];
     if (data.length) {
-      if (this.towerStatusId === "3") {
-        this.sampleData.data = data;
-      } else {
-        this.sampleData.data = data.filter((item?: any) => {
-          if (this.towerStatusId === "1" && item.isOffline === 0) {
-            return item;
-          } else if (this.towerStatusId === "2" && item.isOffline === 1) {
-            return item;
-          }
-        });
+      for (let item of data) {
+        item.alarmCategory = 'Alarm Category';
+        item.hourlyReport = 'Hourly Report';
+        item.imgPath = 'View Image';
       }
+      this.sampleData.data = data;
+      this.allData.data = data;
     } else {
       this.sampleData.data = [];
+      this.allData.data = data;
     }
   }
 
   openFilter(evt?: any) {
     this.isReqToOpenFilter = !this.isReqToOpenFilter;
-  }
-
-  openFilterAlarmStatus(evt?: any) {
-    this.isReqToOpenAlarmStatusFilter = !this.isReqToOpenAlarmStatusFilter;
   }
 
   onFilterChange(evt?: any) {
@@ -653,12 +355,12 @@ export class ListingComponent implements OnInit, OnDestroy {
     this.isExpanded = !this.isExpanded;
   }
 
-  openTabularFilter(evt?: any) {
-    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  goBack(evt?: any) {
+    window.history.back();
   }
 
-  openAlarmStatusFilter(evt?: any) {
-    this.isOpenAlarmStatusFilter = !this.isOpenAlarmStatusFilter;
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
   setFilterParam(fData) {
@@ -669,6 +371,8 @@ export class ListingComponent implements OnInit, OnDestroy {
     let siteId: any = [];
     let deviceType: any = [];
     let siteType: any = [];
+    let siteStatus: any = null;
+    let customer: any = [];
     let rangeDate: any = "";
     if (fData && fData.length) {
       regions = fData[0].popupTo.data.map((item) => {
@@ -697,8 +401,16 @@ export class ListingComponent implements OnInit, OnDestroy {
       });
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate + '-' + fData[6].endDate;
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
+
+      siteStatus = parseInt(fData[7], 10);
+
+      customer = fData[8].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
     }
     this.filterParam = {
       "siteId": siteId,
@@ -706,22 +418,21 @@ export class ListingComponent implements OnInit, OnDestroy {
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteStatus": 1,
       "siteType": siteType,
-      "date": rangeDate,
-      "start": 1,
-      "length": 10,
-      "draw": 5,
-      "page": 15
+      "siteStatus": siteStatus,
+      "customers": customer,
+      "date": rangeDate
     };
   }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
-  }
-
-  applyTowerStatusFilter(evt?: any) {
-    this.isReqToOpenAlarmStatusFilter = false;
+    if (evt) {
+      this.setFilterParam(evt);
+      this.loadFilterTowerStatusData();
+    } else {
+      this.loadTowerLatestData();
+    }
   }
 
   updateListParam(data: any) {
@@ -753,6 +464,71 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.multipleSelRow = null;
       this.selectedRow = null;
     }
+  }
+
+  exportTableToExcel(type: string): void {
+    /* pass here the table id */
+    let element = document.getElementById('export-data');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `tower-status-data.${type}`);
+
+  }
+
+  exportExcel(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("xlsx");
+  }
+
+  exportCSV(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    let selVal = this.ddExport;
+    if (selVal === "1") {
+      this.exportExcel(evt);
+    } else if (selVal === "2") {
+      this.exportCSV(evt);
+    }
+  }
+
+  showImg(data) {
+    this.dialog.closeAll();
+    const dialogRef = this.dialog.open(ImgPreviewComponent, {
+      width: '1000px',
+      height: 'auto',
+      data: data
+    });
+    dialogRef.afterClosed().subscribe(data => {
+
+    });
+  }
+
+  searchGlobally(event) {
+    let { value } = event.target;
+    value = value.toUpperCase();
+    if (value) {
+      this.sampleData.data = this.allData.data.filter((item) => {
+        if (!!item.smSiteCode && !!item.siteName) {
+          return (item.siteName.includes(value) || item.smSiteCode.includes(value))
+        }
+      });
+    } else {
+      this.sampleData.data = this.allData.data;
+    }
+    this.activeListing.list = this.sampleData;
+    this.tableListingComponent.init();
   }
 
 }

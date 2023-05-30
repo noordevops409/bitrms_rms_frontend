@@ -1,32 +1,67 @@
 :host {
     display: block;
     height: inherit;
+    background-color: #f68b1e;
 }
 
 .login-container {
     display: flex;
-    width: 650px;
+    width: 350px;
     align-items: center;
     justify-content: center;
     margin: 0px auto;
     height: inherit;
 
     .card {
+        background-color: #222b45;
+        border-radius: 15px;
+        box-shadow: 0 0 2em #222b45;
+        color: #fff;
+        font-family: Open Sans, sans-serif;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        line-height: 1.25rem;
+        margin-bottom: 1.875rem;
+        border: none;
+
+        .card-header {
+            border: none;
+            text-align: center;
+            padding: 50px 0px 34px 0px;
+        }
+
         .card-body {
             .form-group {
                 input {
                     color: #fff;
+                    background-color: transparent;
+                    padding-left: 0px;
+                    padding-right: 0px;
+                    border-bottom: 1px solid #fff;
+                    border-radius: 0px;
                 }
             }
         }
     }
 }
 
+
+
 .footer {
     display: flex;
     align-items: center;
     justify-content: center;
+
     button {
         margin-right: 15px;
+
+        &.btn-primary {
+            background-color: #151a30;
+            border-color: #101426;
+            box-shadow: none;
+            margin: 0px;
+            width: 100%;
+            border-radius: 20px;
+        }
     }
 }

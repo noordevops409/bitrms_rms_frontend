@@ -531,8 +531,8 @@ app-root {
 
 #websiteViewsChart {
     position: relative;
-    height: 350px;
-    max-height: 400px;
+    height: 380px;
+    // max-height: 400px;
 
     svg {
         height: 100% !important;
@@ -1572,6 +1572,12 @@ app-power-report {
         &.customer {
             display: none !important;
         }
+    }
+}
+
+app-login {
+    .form-field .mat-mdc-text-field-wrapper.mdc-text-field {
+        border-radius: 15px;
     }
 }
 

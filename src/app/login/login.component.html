@@ -1,7 +1,7 @@
 <div class="login-container">
     <div class="card">
         <div class="card-header">
-            <h3>Login</h3>
+            <img src="http://18.140.172.75:8080/digitrinity/resources/assets/images/yoma_logo.png" alt="Company Logo" title="Company Logo" />
         </div>
         <div class="card-body">
             <form [formGroup]="loginForm" class="form">
@@ -37,8 +37,8 @@
                 </div> -->
 
 
-                <div class="footer" style="padding: 45px 0px 15px 0px;">
-                    <button class="btn btn-default" (click)="cancel($event)">Cancel</button>
+                <div class="footer" style="padding: 15px 0px 50px 0px;">
+                    <!-- <button class="btn btn-default" (click)="cancel($event)">Cancel</button> -->
                     <button class="btn btn-primary" (click)="login($event)" [disabled]="loginForm.invalid">Login
                         <mat-icon class="imgPreIcon rotating" *ngIf="isLogining">
                             autorenew

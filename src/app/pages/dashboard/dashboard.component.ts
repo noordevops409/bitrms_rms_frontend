@@ -384,6 +384,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
+  initPieChart(label: any, series: any, valueList: any) {
+    let sum = (a: any, b: any) => { return a + b };
+    let data: any = {
+      labels: label,
+      series: series
+    };
+
+    let getSeriesData = (req) => {
+      return series.filter((item) => {
+        return item.label === req;
+      })[0];
+    };
+
+    let arrayList = valueList;
+    let chart = new Chartist.Pie('#websiteViewsChart', data, {
+      labelInterpolationFnc: (value: any) => {
+        let sData = getSeriesData(value);
+        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
+      },
+      // showLabel: false,
+      chartPadding: 30,
+      labelOffset: 50,
+      labelDirection: 'explode',
+      plugins: [
+        // Chartist.plugins.ctPointLabels({
+        //   textAnchor: 'middle'
+        // }),
+        // Chartist.plugins.tooltip({
+        //   transformTooltipTextFnc: (tooltip: any) => {
+        //     // console.log(tooltip);
+        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
+        //   },
+        //   class: 'class1 class2',
+        //   appendToBody: true
+        // }),
+        Chartist.plugins.legend()
+      ],
+    });
+    chart.on('draw', (data: any) => {
+      if (data.type === 'slice') {
+        data.element._node.onclick = (event: any) => this.click(data);
+      }
+    });
+  }
+
   loadAllData(evt, type) {
     evt.preventDefault();
     this.router.navigate(['pages', 'dashboard', 'type', '' + type]);
@@ -396,6 +441,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (item && item.index === 0) {
       this.router.navigate(['pages', 'dashboard', 'type', '2']);
     } else if (item.index === 1) {
+      this.router.navigate(['pages', 'dashboard', 'type', '1']);
+    } else {
       this.router.navigate(['pages', 'dashboard', 'type', '1']);
     }
   }
@@ -450,7 +497,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
-        new Chartist.Bar('#websiteViewsChart3', {
+        let chart = new Chartist.Bar('#websiteViewsChart3', {
           labels: [...deviceTypeList],
           series: [
             // { name: "Total", data: [...totalList] },
@@ -483,6 +530,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }),
             Chartist.plugins.legend()
           ]
+        });
+
+        chart.on('draw', (data: any) => {
+          if (data.type === 'bar') {
+            data.element._node.onclick = (event: any) => this.click(data);
+          }
         });
       }
     });
@@ -517,7 +570,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item.offlineSite === 0 ? null : item.offlineSite;
         });
 
-        new Chartist.Bar('#websiteViewsChart4', {
+        let chart = new Chartist.Bar('#websiteViewsChart4', {
           labels: [...customerTypeList],
           series: [
             // { name: "Total", data: [...totalList] },
@@ -554,6 +607,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }),
             Chartist.plugins.legend()
           ]
+        });
+
+        chart.on('draw', (data: any) => {
+          if (data.type === 'bar') {
+            data.element._node.onclick = (event: any) => this.click(data);
+          }
         });
       }
     }, (err) => {
@@ -593,7 +652,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
-        new Chartist.Bar('#websiteViewsChart5', {
+        let chart = new Chartist.Bar('#websiteViewsChart5', {
           labels: [...siteTypeList],
           series: [
             // { name: "Total", data: [...totalList] },
@@ -631,6 +690,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             Chartist.plugins.legend()
           ]
         });
+
+        chart.on('draw', (data: any) => {
+          if (data.type === 'bar') {
+            data.element._node.onclick = (event: any) => this.click(data);
+          }
+        });
       }
     });
   }
@@ -664,7 +729,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return item.onlineSite === 0 ? null : item.onlineSite;
         });
 
-        new Chartist.Bar('#websiteViewsChart6', {
+        let chart = new Chartist.Bar('#websiteViewsChart6', {
           labels: [...regionList],
           series: [
             // { name: "Total", data: [...totalList] },
@@ -701,6 +766,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }),
             Chartist.plugins.legend()
           ]
+        });
+        chart.on('draw', (data: any) => {
+          if (data.type === 'bar') {
+            data.element._node.onclick = (event: any) => this.click(data);
+          }
         });
       }
     });
@@ -858,45 +928,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
 
-  initPieChart(label: any, series: any, valueList: any) {
-    let sum = (a: any, b: any) => { return a + b };
-    let data: any = {
-      labels: label,
-      series: series
-    };
-
-    let getSeriesData = (req) => {
-      return series.filter((item) => {
-        return item.label === req;
-      })[0];
-    };
-
-    let arrayList = valueList;
-    new Chartist.Pie('#websiteViewsChart', data, {
-      labelInterpolationFnc: (value: any) => {
-        let sData = getSeriesData(value);
-        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
-      },
-      // showLabel: false,
-      chartPadding: 30,
-      labelOffset: 50,
-      labelDirection: 'explode',
-      plugins: [
-        // Chartist.plugins.ctPointLabels({
-        //   textAnchor: 'middle'
-        // }),
-        // Chartist.plugins.tooltip({
-        //   transformTooltipTextFnc: (tooltip: any) => {
-        //     // console.log(tooltip);
-        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
-        //   },
-        //   class: 'class1 class2',
-        //   appendToBody: true
-        // }),
-        Chartist.plugins.legend()
-      ],
-    });
-  }
+  
 
   loadBarChart() {
     this.totalAlarmCatCount = 0;
@@ -912,11 +944,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
           total += item[1];
         }
         this.totalAlarmCatCount = total;
-        new Chartist.Bar('#websiteViewsChart1', {
+        let chart = new Chartist.Bar('#websiteViewsChart1', {
           labels: labels,
           series: [
             dataset
           ]
+        });
+
+        chart.on('draw', (data: any) => {
+          if (data.type === 'bar') {
+            data.element._node.onclick = (event: any) => this.click(data);
+          }
         });
       }
       

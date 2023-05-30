@@ -4,7 +4,8 @@
             <div class="left-side col-5">
                 <ul>
                     <li>
-                        <button class="btn btn-default" (click)="loadAllData($event, 3)">{{latestReportStatus?.totalSite}} Total</button>
+                        <button class="btn btn-default"
+                            (click)="loadAllData($event, 3)">{{latestReportStatus?.totalSite}} Total</button>
                         <!-- <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '1']"
                             (click)="loadTowerListing($event, 1);" target="_blank">
                             <label>Online</label>
@@ -12,7 +13,8 @@
                         </a> -->
                     </li>
                     <li>
-                        <button class="btn btn-success" (click)="loadAllData($event, 1)">{{latestReportStatus?.onlineSite}} Online</button>
+                        <button class="btn btn-success"
+                            (click)="loadAllData($event, 1)">{{latestReportStatus?.onlineSite}} Online</button>
                         <!-- <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '2']"
                             (click)="loadTowerListing($event, 2);" target="_blank">
                             <label>Offline</label>
@@ -20,18 +22,22 @@
                         </a> -->
                     </li>
                     <li>
-                        <button class="btn btn-danger" (click)="loadAllData($event, 2)">{{latestReportStatus?.offlineSite}} Offline</button>
+                        <button class="btn btn-danger"
+                            (click)="loadAllData($event, 2)">{{latestReportStatus?.offlineSite}} Offline</button>
                     </li>
                 </ul>
             </div>
             <div class="right-side col-6">
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" [style.width]="latestReportStatus?.percentage" [title]="latestReportStatus?.percentage"
-                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" [style.width]="latestReportStatus?.percentage"
+                        [title]="latestReportStatus?.percentage" aria-valuenow="75" aria-valuemin="0"
+                        aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
     </div>
+    
+
     <div class="row summary-data">
         <div class="col-6">
             <div class="box online-stat">
@@ -67,23 +73,46 @@
 
                 </div>
             </div>
+        </div>
 
-            <div class="box tower-chart">
+        <!-- <div class="col-6 google-chart">
+            <app-google-data-studio [isReqToShowSiteList]="false"></app-google-data-studio>
+        </div> -->
+
+        <div class="col-6">
+            <div class="box online-stat">
                 <div class="box-title">
                     <h4>Tower Status: Pie Chart: By Power</h4>
                 </div>
-                <div class="box-body" [ngClass]="{'open': isReqToOpenFilter}">
-                    <div class="ct-chart" id="websiteViewsChart"></div>
-                    <app-tower-filter-wrapper [filterType]=1 [(isReqToOpenFilter)]="isReqToOpenFilter"
+                <div class="box-body online-stat-data">
+                    <div class="col-12">
+                        <div class="ct-chart" id="websiteViewsChart"></div>
+                        <div class="right-side">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary"
+                                        (click)="refreshLatestStatusData($event);">REFRESH</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <app-tower-filter-wrapper [filterType]=1 [(isReqToOpenFilter)]="isReqToOpenFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
-                    </app-tower-filter-wrapper>
+                    </app-tower-filter-wrapper> -->
                 </div>
-                <div class="box-footer tower-actions-btn">
+                <!-- <div class="box-footer tower-actions-btn">
                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                     <button class="btn btn-primary" (click)="openFilter($event);">FILTERS</button>
-                </div>
+                </div> -->
             </div>
+        </div>
+    </div>
 
+    <div class="row summary-data">
+        <div class="col-6">
             <div class="box online-stat">
                 <div class="box-title">
                     <h4>Tower Status: Multi Lines Label: By Device</h4>
@@ -105,14 +134,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-        <!-- <div class="col-6 google-chart">
-            <app-google-data-studio [isReqToShowSiteList]="false"></app-google-data-studio>
-        </div> -->
-
-
 
         <div class="col-6">
             <div class="box tower-chart">
@@ -127,8 +149,11 @@
                     <div class="ct-chart" id="websiteViewsChart1"></div>
                 </div>
             </div>
+        </div>
+    </div>
 
-
+    <div class="row summary-data">
+        <div class="col-6">
             <div class="box online-stat">
                 <div class="box-title">
                     <h4>Tower Status: Stacked Bar Chart: By Customer</h4>
@@ -150,7 +175,8 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="col-6">
             <div class="box online-stat">
                 <div class="box-title">
                     <h4>Tower Status: Stacked Bar Chart: By Site Type</h4>
@@ -172,7 +198,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="row summary-data">
+        <div class="col-6">
             <div class="box online-stat">
                 <div class="box-title">
                     <h4>Tower Status: Stacked Bar Chart: By Region</h4>
@@ -196,12 +226,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="row summary-data">
-        <div class="col-6">
-
-        </div>
-    </div> -->
 
     <div class="tower-listing">
         <div class="header">

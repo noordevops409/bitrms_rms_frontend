@@ -27,7 +27,7 @@ export class WindowsNotificationService {
     } else if (permission === "default") {
       this.requestAndShowPermission();
     } else {
-      alert("Use normal alert");
+      // alert("Use normal alert");
     }
     // setInterval(() => {
     //   this.showNotification();

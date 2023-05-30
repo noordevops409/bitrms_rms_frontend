@@ -1,147 +1,98 @@
 <div class="parent-container">
-    <div class="row" style="margin-bottom: 30px;">
-        <div class="col-7">
-            <div class="tower-listing">
-                <div class="header">
-                    <div class="back-filter">
-                        <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
-                    </div>
-                    <div class="export">
-                        <label>Export</label>
-                        <select class="mini">
-                            <option value="1">Excel</option>
-                            <option value="2">CSV</option>
-                            <option value="3">PDF</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="box-title">
-                        <h4>Tower Status</h4>
-                    </div>
-                    <div class="box-body">
-                        <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                            <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
-                                [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
-                            </app-tower-filter-wrapper>
-                        </div>
-                        <div class="list-wrap">
-                            <div class="view-holder">
-                                <div class="listing-container"
-                                    [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
-                                    <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                        [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
-                                        (onRowSelectionChange)="onRowSelectionChanged($event)"
-                                        (onSelectionChange)="loadListing($event)">
-                                    </app-table-listing>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="header">
+        <div class="left-side back-filter">
+            <button class="btn btn-default" (click)="goBack($event);">
+                <span class="material-icons">
+                    arrow_back_ios
+                </span> DASHBOARD
+            </button>
+            <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
         </div>
-
-        <div class="col-1">&nbsp;</div>
-
-        <div class="col-4">
-            <div class="tower-listing">
-                <div class="header">
-                    <div class="back-filter">
-                        <div class="dropdown custom-dd-group" [ngClass]="{'open': isAlarmCategoryOpen}">
-                            <button class="select-button dropdown-toggle" (click)="toggle($event);" type="button"
-                                id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Alarm Category
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li *ngFor="let item of alarmCategoryList" (click)="selectCategory($event, item);"><a
-                                        class="dropdown-item" href="javascript:void(0);">{{item.category}}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="export">
-                        <select class="mini">
-                            <option value="1">Excel</option>
-                            <option value="2">CSV</option>
-                            <option value="3">PDF</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="box-title">
-                        <h4>Alarm Status</h4>
-                    </div>
-                    <div class="box-body">
-                        <!-- <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenAlarmStatusFilter}">
-                            <app-tower-filter-wrapper [filterType]=2
-                                [(isOpenTabularFilter)]="isOpenAlarmStatusFilter"
-                                [defaultFilterList]="defaultFilterListAlarmStatus"
-                                (onFilter)="applyTowerStatusFilter($event)">
-                            </app-tower-filter-wrapper>
-                        </div> -->
-
-                        <div class="list-wrap">
-                            <div class="view-holder">
-                                <div class="listing-container"
-                                    [ngClass]="{'aLoader': isAlarmStatusLoading, 'failed': isAlarmStatusListServerError}">
-                                    <div class="listingContainer" #alarmElem>
-                                        <div class="table-grid scroller-outer">
-                                            <div class="ghead">
-                                                <ul>
-                                                    <li>Site ID</li>
-                                                    <li>Alarm Name</li>
-                                                    <li>Alarm Open Time</li>
-                                                    <li>Age</li>
-                                                </ul>
-                                            </div>
-                                            <div class="gbody scroller">
-                                                <div class="list-item-container scroller-inner">
-                                                    <ul *ngFor="let item of alarmStatusList">
-                                                        <li>{{item.smSiteCode}}</li>
-                                                        <li>{{item.alName}}</li>
-                                                        <li>{{item.alOpentime}}</li>
-                                                        <li>{{item.age}}</li>
-                                                    </ul>
-                                                    <p class="noRecordMsg" *ngIf="!alarmStatusList.length">No record
-                                                        available!</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="right-side">
+            <div class="export">
+                <label>Export</label>
+                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+                    <option value="-1">Please Select</option>
+                    <option value="1">Excel</option>
+                    <option value="2">CSV</option>
+                    <!-- <option value="3">PDF</option> -->
+                </select>
             </div>
         </div>
     </div>
 
-    <div class="row hourly-report">
-        <div class="col-12">
-            <div class="box">
-                <div class="box-title">
-                    <h4>Hourly Report</h4>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                            <input matStartDate formControlName="start" placeholder="Start date">
-                            <input matEndDate formControlName="end" (dateChange)="dateRangeChange('change', $event)" placeholder="End date">
-                        </mat-date-range-input>
-                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-
-                        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date
-                        </mat-error>
-                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date
-                        </mat-error>
-                    </mat-form-field>
+    <div class="table-listing">
+        <div class="box">
+            <div class="box-title">
+                <h4>Tower Status</h4>
+            </div>
+            <div class="box-body">
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                    </app-tower-filter-wrapper>
                 </div>
+                <div class="list-wrap">
+                    <div class="view-holder">
 
-                <div class="box-body" style="min-height: 350px;">
-                    <div class="ct-chart hourly-chart" id="websiteViewsChart2"></div>
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Last Updated</th>
+                                        <th>Site Id</th>
+                                        <th>Site Name</th>
+                                        <th>Power Source</th>
+                                        <th>Customer Name</th>
+                                        <th>Engineer Name</th>
+                                        <th>Battery SOC</th>
+                                        <th>DC Load</th>
+                                        <th>DC Voltage</th>
+                                        <th>DG Power (Kw)</th>
+                                        <th>Solar Kw</th>
+                                        <th>Total AC</th>
+                                        <th>Critical</th>
+                                        <th>Major</th>
+                                        <th>Minor</th>
+                                        <th>Offline Duration</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.lastUpdated}}</td>
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.siteName}}</td>
+                                        <td>{{item.powerSource}}</td>
+                                        <td>{{item.customerName}}</td>
+                                        <td>{{item.engineerName}}</td>
+                                        <td>{{item.batterySOC}}</td>
+                                        <td>{{item.dcLoad}}</td>
+                                        <td>{{item.dcVoltage}}</td>
+                                        <td>{{item.dgPower}}</td>
+                                        <td>{{item.fuelLevel}}</td>
+                                        <td>{{item.solarKw}}</td>
+                                        <td>{{item.totalac}}</td>
+                                        <td>{{item.critical}}</td>
+                                        <td>{{item.major}}</td>
+                                        <td>{{item.minor}}</td>
+                                        <td>{{item.age}}</td>
+                                        <td>{{item.location}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
