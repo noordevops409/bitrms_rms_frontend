@@ -140,11 +140,11 @@ export class ListingApiService {
   }
 
   openUserMasterDataForEdit(data: any) {
-    this.broadcast.broadcast('OPEN_SITE_MASTER_FOR_EDIT', data);
+    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_EDIT', data);
   }
 
   openUserMasterDataForDelete(data: any) {
-    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_EDIT', data);
+    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_DELETE', data);
   }
 
   openClusterDataForEdit(data: any) {

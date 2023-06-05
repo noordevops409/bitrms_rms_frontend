@@ -132,7 +132,16 @@ export const ApiConstant = {
   viewRemoteSiteFilter: `${GATEWAY}/api/remote/view_site_data_json`,
   viewWriteMasterCommand: `${GATEWAY}/api/remote/view_write_master_command`,
   saveOutgoingData: `${GATEWAY}/api/remote/save-outgoingdata`,
-  getEnergyBillingReport: `${GATEWAY}/api/energy-biling/report/pageNumber`
+  getEnergyBillingReport: `${GATEWAY}/api/energy-biling/report/pageNumber`,
+
+
+  getCustomerNameList: `${GATEWAY}/api/userregistration/all-getcustomernamelist`,
+  getCustomerRoleList: `${GATEWAY}/api/userregistration/all-getcustomerrolelist`,
+  getRoleList: `${GATEWAY}/api/userregistration/all-getroleuserlist`,
+  getAllUserData: `${GATEWAY}/api/userregistration/view_user_form`,
+  getUserDetails: `${GATEWAY}/api/userregistration/get_user_details`,
+  deleteUserDetails: `${GATEWAY}/api/userregistration/delete_user_details`,
+  saveEditUserDetails: `${GATEWAY}/api/userregistration/usercreate`,
 
 };
 

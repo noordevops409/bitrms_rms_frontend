@@ -23,14 +23,6 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   public isSaving: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
-  public isSiteTypeDDOpen: boolean = false;
-  public isClusterDDOpen: boolean = false;
-  public isEmployeeDDOpen: boolean = false;
-  public isDeviceTypeDDOpen: boolean = false;
-  public isSimDDOpen: boolean = false;
-  public isSiteStatusDDOpen: boolean = false;
-  public isCustomerDDOpen: boolean = false;
-  public isSiteClassificationDDOpen: boolean = false;
 
   public siteTypeList: any = [];
   public deviceTypeList: any = [];

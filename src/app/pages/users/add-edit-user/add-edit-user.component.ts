@@ -1,7 +1,7 @@
 import { Inject, Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { iif, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -24,10 +24,14 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
 
+  public customerList: any = [];
+  public customerRoleList: any = [];
+  public userRoleList: any = [];
+
   public masterForm!: FormGroup;
 
   private selUser: any = null;
-  private userId: any = null;
+  private umID: any = null;
 
   constructor(
     private util: CommonUtilService,
@@ -52,23 +56,157 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    
+
+  }
+
+  passwordConfirming(c: any): any {
+    if (c.get('password').value !== c.get('cnfPassword').value) {
+      return { invalid: true };
+    }
   }
 
   init() {
-
+    this.loadCustomer();
+    this.loadCustomerRole();
+    this.loadUserRole();
+    setTimeout(() => {
+      this.getData();
+    }, 1000);
   }
 
   initForm() {
+    this.masterForm = this.formBuilder.group({
+      'firstName': [null, [Validators.required]],
+      'lastName': [null, [Validators.required]],
+      'umEmailid': [null, [Validators.required, Validators.email]],
+      'username': [null, [Validators.required]],
+      passwords: this.formBuilder.group({
+        password: ['', [Validators.required]],
+        cnfPassword: ['', [Validators.required]],
+      }, { validator: this.passwordConfirming }),
+      'selCustomer': [null],
+      'selCustomerRole': [null],
+      'selUserRole': [null],
+      'mobile': [null, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      'umAactivationstatus': [null],
+      'umDescription': [null],
+      'umLoginType': [0],
+      'umType': [0],
+      'utID': [0]
+    });
+  }
 
+  loadCustomer() {
+    const url = ApiConstant.getCustomerNameList;
+    this.httpClient.get(url).subscribe((data: any) => {
+      if (data && data.customername && data.customername.length) {
+        this.customerList = data.customername;
+        this.masterForm.controls['selCustomer'].setValue(data.customername[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading customer name list!'
+      });
+    });
+  }
+
+  loadCustomerRole() {
+    const url = ApiConstant.getCustomerRoleList;
+    this.httpClient.get(url).subscribe((data: any) => {
+      if (data && data.customerrole && data.customerrole.length) {
+        this.customerRoleList = data.customerrole;
+        this.masterForm.controls['selCustomerRole'].setValue(data.customerrole[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading customer role list!'
+      });
+    });
+  }
+
+  loadUserRole() {
+    const url = ApiConstant.getRoleList;
+    this.httpClient.get(url).subscribe((data: any) => {
+      if (data && data.roleuser && data.roleuser.length) {
+        this.userRoleList = data.roleuser;
+        this.masterForm.controls['selUserRole'].setValue(data.roleuser[0]);
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading user role list!'
+      });
+    });
+  }
+
+  setCustomer(req) {
+    for (let item of this.customerList) {
+      if (item.customerid === req.customerId) {
+        req.customerName = item.customername;
+        this.masterForm.controls['selCustomer'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setCustomerRole(req) {
+    for (let item of this.customerRoleList) {
+      if (item.customerroleid === req.customerRoleId) {
+        req.customerRoleName = item.customerdesc;
+        this.masterForm.controls['selCustomerRole'].setValue(item);
+        break;
+      }
+    }
+  }
+
+  setUserRole(req) {
+    for (let item of this.userRoleList) {
+      if (item.roleid === req.roleId) {
+        req.roleName = item.rolename;
+        this.masterForm.controls['selUserRole'].setValue(item);
+        break;
+      }
+    }
   }
 
   getData() {
-
+    if (this.data) {
+      this.isForEdit = true;
+      this.selUser = this.data;
+      this.setFormData();
+    } else {
+      this.isForEdit = false;
+    }
   }
 
   setFormData() {
+    this.umID = this.selUser.umID;
 
+    let nameList = this.selUser.umName.split(" ");
+    this.masterForm.controls['firstName'].setValue(nameList[0]);
+    this.masterForm.controls['lastName'].setValue(nameList[1]);
+    this.masterForm.controls['umEmailid'].setValue(this.selUser.umEmailid);
+
+    this.masterForm.controls['username'].setValue(this.selUser.username);
+    this.masterForm.controls['password'].setValue(this.selUser.password);
+    this.masterForm.controls['cnfPassword'].setValue(this.selUser.cnfPassword);
+    
+    this.masterForm.controls['mobile'].setValue(this.selUser.umMobileNumber);
+    this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
+    this.masterForm.controls['umDescription'].setValue(this.selUser.umDescription);
+
+    this.masterForm.controls['umLoginType'].setValue(this.selUser.umLoginType);
+    this.masterForm.controls['umType'].setValue(this.selUser.umType);
+    this.masterForm.controls['utID'].setValue(this.selUser.utID);
+
+    this.setCustomer(this.selUser);
+    this.setCustomerRole(this.selUser);
+    this.setUserRole(this.selUser);
   }
 
   close(evt?: any) {
@@ -77,6 +215,49 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   cancel(evt?: any) {
     this.close();
+  }
+
+  save(evt?: any) {
+    if (this.isSaving) {
+      return;
+    }
+    this.isSaving = true;
+    const formData = this.masterForm.value;
+    const url = ApiConstant.saveEditUserDetails;
+
+    let params: any = {
+      customerId: formData.selCustomer.customerid,
+      customerRoleId: formData.selCustomerRole.customerroleid,
+      roleId: formData.selUserRole.roleid,
+      password: formData.password,
+      umAactivationstatus: formData.umAactivationstatus,
+      umDescription: formData.umDescription,
+      umEmailid: formData.umEmailid,
+      umLoginType: formData.umLoginType,
+      umMobileNumber: formData.mobile,
+      umName: formData.firstName + ' ' + formData.lastName,
+      umType: formData.umType,
+      username: formData.username
+    };
+
+    if (this.isForEdit) {
+      params.umID = this.selUser.umID;
+    }
+
+    this.httpClient.post(url, params).subscribe((data: any) => {
+      this.isSaving = false;
+      this.dialogRef.close(data);
+      this.util.notification.success({
+        title: 'Success',
+        msg: 'User details saved successfully...'
+      });
+    }, (err) => {
+      this.isSaving = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while saving user details!'
+      });
+    });
   }
 
 }

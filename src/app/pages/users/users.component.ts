@@ -46,10 +46,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public isFilterDataLoaded: boolean = false;
 
-  private clusterList: any = [];
-  private simList: any = [];
   private customerList: any = [];
-  private employeeList: any = [];
+  private customerRoleList: any = [];
+  private userRoleList: any = [];
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
@@ -91,9 +90,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadCluster();
-    this.loadSim();
-    this.loadEmployee();
+    this.loadCustomer();
+    this.loadCustomerRole();
+    this.loadUserRole();
     // this.loadSiteType();
     // this.loadCustomer();
     setTimeout(() => {
@@ -115,70 +114,76 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadCluster() {
-    const url = ApiConstant.getClusterMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
-      if (data && data.clusterMasterList && data.clusterMasterList.length) {
-        this.clusterList = data.clusterMasterList;
-      }
-    }, (err) => {
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading cluster list!'
-      });
-    });
-  }
-
-  loadSim() {
-    const url = ApiConstant.getSimMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
-      if (data && data.simMasterList && data.simMasterList.length) {
-        this.simList = data.simMasterList;
-      }
-    }, (err) => {
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading sim list!'
-      });
-    });
-  }
-
-  loadSiteType() {
-    const url = ApiConstant.getSiteType;
-    this.httpClient.get(url).subscribe((data: any) => {
-      this.siteTypeList = data;
-    }, (err) => {
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading site type list!'
-      });
-    });
-  }
-
   loadCustomer() {
-    const url = ApiConstant.getCustomerMaster;
+    const url = ApiConstant.getCustomerNameList;
     this.httpClient.get(url).subscribe((data: any) => {
-      this.customerList = data;
+      if (data && data.customername && data.customername.length) {
+        this.customerList = data.customername;
+      }
     }, (err) => {
+      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading customer list!'
+        msg: 'Error while loading customer name list!'
       });
     });
   }
 
-  loadEmployee() {
-    const url = ApiConstant.getEmployeeMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
-      if (data && data.employeeMasterList && data.employeeMasterList.length) {
-        this.employeeList = data.employeeMasterList;
+  loadCustomerRole() {
+    const url = ApiConstant.getCustomerRoleList;
+    this.httpClient.get(url).subscribe((data: any) => {
+      if (data && data.customerrole && data.customerrole.length) {
+        this.customerRoleList = data.customerrole;
       }
     }, (err) => {
+      this.isLoading = false;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading employee list!'
+        msg: 'Error while loading customer role list!'
       });
     });
+  }
+
+  loadUserRole() {
+    const url = ApiConstant.getRoleList;
+    this.httpClient.get(url).subscribe((data: any) => {
+      if (data && data.roleuser && data.roleuser.length) {
+        this.userRoleList = data.roleuser;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading user role list!'
+      });
+    });
+  }
+
+  setCustomer(req) {
+    for (let item of this.customerList) {
+      if (item.customerid === req.customerId) {
+        req.customerName = item.customername;
+        break;
+      }
+    }
+  }
+
+  setCustomerRole(req) {
+    for (let item of this.customerRoleList) {
+      if (item.customerroleid === req.customerRoleId) {
+        req.customerRoleName = item.customerdesc;
+        break;
+      }
+    }
+  }
+
+  setUserRole(req) {
+    for (let item of this.userRoleList) {
+      if (item.roleid === req.roleId) {
+        req.roleName = item.rolename;
+        break;
+      }
+    }
   }
 
   loadData() {
@@ -186,7 +191,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getSiteMasterData;
+    let apiUrl: any = ApiConstant.getAllUserData;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -205,20 +210,20 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   manipulate(res) {
-    this.setResponse(res.siteMasterList);
-    this.setColumnHeader(res.siteMasterList);
-    this.setRowData(res.siteMasterList);
+    this.setResponse(res.usermasterlist);
+    this.setColumnHeader(res.usermasterlist);
+    this.setRowData(res.usermasterlist);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.siteMasterList.length;
+    this.sampleData.totalDocs = res.totalCount || res.usermasterlist.length;
   }
 
   setResponse(resData) {
     this.sampleData.currentPageNo = this.currentPageNo;
-    this.sampleData.listingType = AppConstant.SITE_MASTER_LISTING_TYPE;
+    this.sampleData.listingType = AppConstant.USER_LISTING_TYPE;
     this.sampleData.recordBatchSize = this.pageSize || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.retainNoOfShow = this.pageSize;
-    this.sampleData.sortField = 'smSitecode';
+    this.sampleData.sortField = 'umID';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
   }
@@ -228,50 +233,19 @@ export class UsersComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (USERS_COLUMN_HEADER[key]) {
+        if (key === 'customerId') {
+          this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerName']);
+        } else if (key === 'customerRoleId') {
+          this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerRoleName']);
+        } else if (key === 'roleId') {
+          this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['roleName']);
+        } else if (USERS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER[key]);
         }
       }
       this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["delete"]);
-    }
-  }
-
-  setSiteType(req?: any) {
-    for (let item of this.siteTypeList) {
-      if (item.value === req.smSitetypeid) {
-        req.siteType = item.label;
-        break;
-      }
-    }
-  }
-
-  setSim(req?: any) {
-    for (let item of this.simList) {
-      if (item.simID === req.simID) {
-        req.simNumber = item.simNumber;
-        break;
-      }
-    }
-  }
-
-  setCluster(req?: any) {
-    for (let item of this.clusterList) {
-      if (item.crClusterID === req.crClusterID) {
-        req.clusterName = item.crName;
-        break;
-      }
-    }
-  }
-
-  setEmployeeId(req?: any) {
-    for (let item of this.employeeList) {
-      if (item.emEmpID === req.smTechEmpid) {
-        req.employeeId = item.emEmployeeID;
-        break;
-      }
     }
   }
 
@@ -281,10 +255,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       let counter = 0;
       for (let item of data) {
         counter += 1;
-        this.setSiteType(item);
-        this.setSim(item);
-        this.setCluster(item);
-        this.setEmployeeId(item);
+        this.setCustomer(item);
+        this.setCustomerRole(item);
+        this.setUserRole(item);
         item.srno = counter;
         item.delete = 'Delete';
       }
@@ -295,7 +268,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.allData.data = [];
     }
   }
-
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
@@ -346,7 +318,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `site-data.${type}`);
+    XLSX.writeFile(wb, `user-data.${type}`);
 
   }
 
@@ -367,7 +339,16 @@ export class UsersComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        return (item.smSitecode.toLowerCase().includes(value) || item.smSitename.toLowerCase().includes(value));
+        item.umName = item.umName.toString();
+        item.username = item.username.toString();
+        item.umEmailid = item.umEmailid.toString();
+        item.umMobileNumber = item.umMobileNumber.toString();
+        return (
+          item.umName.toLowerCase().includes(value) ||
+          item.username.toLowerCase().includes(value) ||
+          item.umEmailid.toLowerCase().includes(value) ||
+          item.umMobileNumber.toLowerCase().includes(value)
+        );
       });
     } else {
       this.sampleData.data = this.allData.data;
@@ -384,7 +365,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        if (data.siteMasterList && data.siteMasterList.length) {
+        if (data.usermasterlist && data.usermasterlist.length) {
           this.manipulate(data);
         } else {
           this.loadData();
@@ -402,7 +383,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        if (data.siteMasterList && data.siteMasterList.length) {
+        if (data.usermasterlist && data.usermasterlist.length) {
           this.manipulate(data);
         } else {
           this.loadData();
@@ -414,16 +395,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   delete(item?: any, i?: any) {
     var r = confirm("Are you sure you want to delete selected record");
     if (r) {
-      this.httpClient.post(ApiConstant.deleteSiteMasterData + `?smSiteID=${item.smSiteID}`, null).subscribe((data) => {
+      this.httpClient.post(ApiConstant.deleteUserDetails + `?umID=${item.umID}`, null).subscribe((data) => {
         this.util.notification.success({
           title: 'Success',
-          msg: 'Site details deleted successfully.'
+          msg: 'User details deleted successfully.'
         });
         this.loadData();
       }, (err) => {
         this.util.notification.error({
           title: 'Error',
-          msg: 'Error while deleting site details!'
+          msg: 'Error while deleting user details!'
         })
       });
     }

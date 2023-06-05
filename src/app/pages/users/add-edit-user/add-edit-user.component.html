@@ -11,6 +11,183 @@
     </div>
 
     <div class="body" [ngClass]="{'aLoader': isSaving}">
+        <form [formGroup]="masterForm" class="form">
+            <section class="panel-body">
+                <div class="form-container">
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter First Name</mat-label>
+                                <input formControlName="firstName" required matInput />
+                                <mat-error *ngIf="mf.firstName.touched && mf.firstName.invalid">
+                                    <div *ngIf="mf.firstName.errors?.required" class="italicAlign">First name is
+                                        required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
 
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Last Name</mat-label>
+                                <input formControlName="lastName" required matInput />
+                                <mat-error *ngIf="mf.lastName.touched && mf.lastName.invalid">
+                                    <div *ngIf="mf.lastName.errors?.required" class="italicAlign">Last name is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Email</mat-label>
+                                <input formControlName="umEmailid" required matInput />
+                                <mat-error *ngIf="mf.umEmailid.touched && mf.umEmailid.invalid">
+                                    <div *ngIf="mf.umEmailid.errors?.required" class="italicAlign">Email is required.
+                                    </div>
+                                    <div *ngIf="mf.umEmailid.errors?.email" class="italicAlign">Email is not valid.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Username</mat-label>
+                                <input formControlName="username" required matInput />
+                                <mat-error *ngIf="mf.username.touched && mf.username.invalid">
+                                    <div *ngIf="mf.username.errors?.required" class="italicAlign">Username is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Password</mat-label>
+                                <input formControlName="password" [readonly]="isForEdit" [disabled]="isForEdit"
+                                    type="password" required matInput />
+                                <mat-error *ngIf="mf.password.touched && mf.password.invalid">
+                                    <div *ngIf="mf.password.errors?.required" class="italicAlign">Password is required.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Confirm Password</mat-label>
+                                <input formControlName="cnfPassword" [readonly]="isForEdit" [disabled]="isForEdit"
+                                    type="password" required matInput />
+                                <mat-error *ngIf="mf.cnfPassword.touched && mf.cnfPassword.invalid">
+                                    <div *ngIf="mf.cnfPassword.errors?.required" class="italicAlign">Confirm Password is
+                                        required.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div style='color:#ff7355'
+                            *ngIf="mf.get(['passwords','password']).value != mf.get(['passwords','cnfPassword']).value && mf.get(['passwords','cnfPassword']).value != null">
+                            Password does not match</div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-label>Select Customer</mat-label>
+                            <select formControlName="selCustomer" name="selCustomer" class="input-element mini">
+                                <option *ngFor="let item of customerList" [ngValue]="item">{{item.customername}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select Customer Role</mat-label>
+                            <select formControlName="selCustomerRole" name="selCustomerRole" class="input-element mini">
+                                <option *ngFor="let item of customerRoleList" [ngValue]="item">{{item.customerdesc}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-label>Select User Role</mat-label>
+                            <select formControlName="selUserRole" name="selUserRole" class="input-element mini">
+                                <option *ngFor="let item of userRoleList" [ngValue]="item">{{item.rolename}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Mobile No</mat-label>
+                                <input formControlName="mobile" required matInput />
+                                <mat-error *ngIf="mf.mobile.touched && mf.mobile.invalid">
+                                    <div *ngIf="mf.mobile.errors?.required" class="italicAlign">Mobile number is
+                                        required.</div>
+                                    <div *ngIf="mf.mobile.errors?.pattern" class="italicAlign">Mobile number is
+                                        not valid.</div>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Activation Status</mat-label>
+                                <input formControlName="umAactivationstatus" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Description</mat-label>
+                                <input formControlName="umDescription" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Login Type</mat-label>
+                                <input formControlName="umLoginType" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Type</mat-label>
+                                <input formControlName="umType" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Enter Id</mat-label>
+                                <input formControlName="utID" type="number" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="footer">
+                <mat-dialog-actions style="padding: 15px 10px;">
+                    <button class="btn btn-primary-outline" (click)="cancel($event)">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Update
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                    <button class="btn btn-primary" *ngIf="!isForEdit" (click)="save($event)"
+                        [disabled]="masterForm.invalid">Add
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isSaving">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </section>
+        </form>
     </div>
 </div>
