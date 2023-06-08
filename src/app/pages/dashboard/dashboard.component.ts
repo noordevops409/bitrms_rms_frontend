@@ -656,8 +656,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           labels: [...siteTypeList],
           series: [
             // { name: "Total", data: [...totalList] },
-            { name: "Offline", data: [...offlineList] },
-            { name: "Online", data: [...onlineList] }
+            { name: "Online", data: [...onlineList] },
+            { name: "Offline", data: [...offlineList] }
           ]
         }, {
           seriesBarDistance: 10,
@@ -733,8 +733,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           labels: [...regionList],
           series: [
             // { name: "Total", data: [...totalList] },
-            { name: "Offline Site", data: [...offlineList] },
-            { name: "Online Site", data: [...onlineList] }
+            { name: "Online Site", data: [...onlineList] },
+            { name: "Offline Site", data: [...offlineList] }
           ]
         }, {
           seriesBarDistance: 10,
@@ -925,10 +925,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.initPieChart(label, series, valueList);
   }
-
-
-
-  
 
   loadBarChart() {
     this.totalAlarmCatCount = 0;

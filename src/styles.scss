@@ -450,6 +450,14 @@ app-root {
         stroke-width: 24px;
     }
 
+    &.ct-chart .ct-series-a .ct-bar {
+        stroke: #47a44b;
+    }
+
+    &.ct-chart .ct-series-b .ct-bar {
+        stroke: #f33527;
+    }
+
 
     .ct-legend {
         list-style: none;
@@ -478,13 +486,13 @@ app-root {
 
             &.ct-series-0 {
                 &::before {
-                    color: #00bcd4;
+                    color: #47a44b;
                 }
             }
 
             &.ct-series-1 {
                 &::before {
-                    color: #f44336;
+                    color: #f33527;
                 }
             }
 
