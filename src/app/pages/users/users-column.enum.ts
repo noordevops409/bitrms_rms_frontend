@@ -209,5 +209,21 @@ export const USERS_COLUMN_HEADER = {
     wrapData: '',
     isSortSupported: false,
     isCustomAttributeColumn: false
+  },
+  delete: {
+    id: '12',
+    fieldName: 'delete',
+    colDisplayName: 'Action',
+    colType: 'textwithlink',
+    dataType: 'text',
+    userIndex: 12,
+    imgName: '',
+    tooltipSrc: '',
+    function: 'openUserMasterDataForDelete',
+    funParams: '',
+    wrapData: '',
+    widthOfColumn: 75,
+    isSortSupported: false,
+    isCustomAttributeColumn: false
   }
 };

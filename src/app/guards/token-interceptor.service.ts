@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { AuthGuardService } from './auth-guard.service';
 import { UserService } from '../shared/services/user.service';
-import { Observable, filter, pipe, map } from 'rxjs';
+import { Observable, filter, map, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,12 @@ export class TokenInterceptorService implements HttpInterceptor {
         }
         console.log(evt.body);
         return evt.clone();
+      }),
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          this.router.navigate(['logout'], { replaceUrl: true });
+        }
+        return throwError(err.error.error_description);
       })
     )
   }

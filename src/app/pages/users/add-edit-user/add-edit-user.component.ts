@@ -79,11 +79,9 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       'firstName': [null, [Validators.required]],
       'lastName': [null, [Validators.required]],
       'umEmailid': [null, [Validators.required, Validators.email]],
-      'username': [null, [Validators.required]],
-      passwords: this.formBuilder.group({
-        password: ['', [Validators.required]],
-        cnfPassword: ['', [Validators.required]],
-      }, { validator: this.passwordConfirming }),
+      'uname': [null, [Validators.required]],
+      'pwd': ['', [Validators.required]],
+      'cnfPassword': ['', [Validators.required]],
       'selCustomer': [null],
       'selCustomerRole': [null],
       'selUserRole': [null],
@@ -93,7 +91,24 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       'umLoginType': [0],
       'umType': [0],
       'utID': [0]
-    });
+    }, {
+      validator: this.confirmedValidator('pwd', 'cnfPassword')
+    })
+  }
+
+  confirmedValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl: any = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
   }
 
   loadCustomer() {
@@ -146,7 +161,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   setCustomer(req) {
     for (let item of this.customerList) {
-      if (item.customerid === req.customerId) {
+      if (item.customerid == req.customerId) {
         req.customerName = item.customername;
         this.masterForm.controls['selCustomer'].setValue(item);
         break;
@@ -156,7 +171,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   setCustomerRole(req) {
     for (let item of this.customerRoleList) {
-      if (item.customerroleid === req.customerRoleId) {
+      if (item.customerroleid == req.customerRoleId) {
         req.customerRoleName = item.customerdesc;
         this.masterForm.controls['selCustomerRole'].setValue(item);
         break;
@@ -166,7 +181,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   setUserRole(req) {
     for (let item of this.userRoleList) {
-      if (item.roleid === req.roleId) {
+      if (item.roleid == req.roleId) {
         req.roleName = item.rolename;
         this.masterForm.controls['selUserRole'].setValue(item);
         break;
@@ -192,10 +207,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.masterForm.controls['lastName'].setValue(nameList[1]);
     this.masterForm.controls['umEmailid'].setValue(this.selUser.umEmailid);
 
-    this.masterForm.controls['username'].setValue(this.selUser.username);
-    this.masterForm.controls['password'].setValue(this.selUser.password);
-    this.masterForm.controls['cnfPassword'].setValue(this.selUser.cnfPassword);
-    
+
+
     this.masterForm.controls['mobile'].setValue(this.selUser.umMobileNumber);
     this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
     this.masterForm.controls['umDescription'].setValue(this.selUser.umDescription);
@@ -207,6 +220,12 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.setCustomer(this.selUser);
     this.setCustomerRole(this.selUser);
     this.setUserRole(this.selUser);
+
+    setTimeout(() => {
+      this.masterForm.controls['uname'].setValue(this.selUser.username);
+      this.masterForm.controls['pwd'].setValue(this.selUser.password);
+      this.masterForm.controls['cnfPassword'].setValue(this.selUser.password);
+    }, 500);
   }
 
   close(evt?: any) {
@@ -229,7 +248,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       customerId: formData.selCustomer.customerid,
       customerRoleId: formData.selCustomerRole.customerroleid,
       roleId: formData.selUserRole.roleid,
-      password: formData.password,
+      password: formData.pwd,
       umAactivationstatus: formData.umAactivationstatus,
       umDescription: formData.umDescription,
       umEmailid: formData.umEmailid,
@@ -237,7 +256,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       umMobileNumber: formData.mobile,
       umName: formData.firstName + ' ' + formData.lastName,
       umType: formData.umType,
-      username: formData.username
+      username: formData.uname
     };
 
     if (this.isForEdit) {

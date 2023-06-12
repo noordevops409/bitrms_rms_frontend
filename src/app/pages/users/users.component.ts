@@ -80,7 +80,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // this.init();
+    this.init();
     this.listen();
   }
 
@@ -161,7 +161,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   setCustomer(req) {
     for (let item of this.customerList) {
-      if (item.customerid === req.customerId) {
+      if (item.customerid == req.customerId) {
         req.customerName = item.customername;
         break;
       }
@@ -170,7 +170,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   setCustomerRole(req) {
     for (let item of this.customerRoleList) {
-      if (item.customerroleid === req.customerRoleId) {
+      if (item.customerroleid == req.customerRoleId) {
         req.customerRoleName = item.customerdesc;
         break;
       }
@@ -179,7 +179,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   setUserRole(req) {
     for (let item of this.userRoleList) {
-      if (item.roleid === req.roleId) {
+      if (item.roleid == req.roleId) {
         req.roleName = item.rolename;
         break;
       }
@@ -204,7 +204,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading Raw Data Report details!'
+        msg: 'Error while loading user data!'
       })
     });
   }
