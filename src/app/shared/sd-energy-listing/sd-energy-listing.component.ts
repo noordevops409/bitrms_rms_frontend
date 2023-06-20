@@ -450,7 +450,6 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isListingLoading = true;
-
     this.httpClient.post(this.tabData.apiUrl, this.params).subscribe((res: any) => {
       this.isListingLoading = false;
       this.manipulateTabularData(res.data);

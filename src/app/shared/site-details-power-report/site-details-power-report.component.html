@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="parent-container">
+                <div class="header">
+                    <div class="filter-btn add-report">
+                        <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+                    </div>
+                </div>
+
+                <div class="table-listing">
+                    <div class="box">
+                        <div class="box-title">
+                            <h4>Power Report: {{siteId}}</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+                                <app-tower-filter-wrapper [filterType]=2 [isTimerAvail]=true
+                                    [(isOpenTabularFilter)]="isOpenTabularFilter"
+                                    [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                                </app-tower-filter-wrapper>
+                            </div>
+
+                            <div class="list-wrap" style="background-color: transparent;">
+                                <div class="view-holder">
+                                    <div class="chart-container" [ngClass]="{'aLoader': isChartLoading}">
+                                        <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
+                                            [data]="lineChartData" [options]="lineChartOptions"
+                                            [legend]="lineChartLegend">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="parent-container">
+                <div class="header">
+                    <div class="filter-btn add-report">
+                        <button class="btn btn-primary" (click)="openTabularFilter1($event);">FILTERS</button>
+                    </div>
+                </div>
+
+                <div class="table-listing">
+                    <div class="box">
+                        <div class="box-title">
+                            <h4>Power Report</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter1}">
+                                <app-tower-filter-wrapper [filterType]=2 [isTimerAvail]=true
+                                    [(isOpenTabularFilter)]="isOpenTabularFilter1"
+                                    [defaultFilterList]="defaultFilterList1" (onFilter)="applyFilter1($event)">
+                                </app-tower-filter-wrapper>
+                            </div>
+
+                            <div class="list-wrap" style="background-color: transparent;">
+                                <div class="view-holder">
+                                    <div class="chart-container" [ngClass]="{'aLoader': isChartLoading1}">
+                                        <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
+                                            [data]="lineChartData1" [options]="lineChartOptions1"
+                                            [legend]="lineChartLegend1">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

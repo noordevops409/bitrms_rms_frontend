@@ -87,7 +87,7 @@
                             </table>
                         </div>
 
-                        <div class="listing-container" *ngIf="activeListing.list?.data" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"

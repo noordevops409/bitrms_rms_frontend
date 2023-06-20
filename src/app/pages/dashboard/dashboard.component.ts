@@ -245,6 +245,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   init() {
     this.type = (this.route.snapshot.queryParams as any).type;
     this.loadTowerLatestData();
+    this.loadWidgetChartData();
     this.loadLatestReportStatus();
   }
 
@@ -271,6 +272,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
+  loadWidgetChartData() {
+    // getDashboardWidget
+    this.httpClient.post(ApiConstant.getDashboardWidget, null).subscribe((res: any) => {
+      if (res && res.data && res.data.length) {
+        let obj = {}
+        for (let item of res.data) {
+          if (!obj[item.Category]) {
+            obj[item.Category] = {
+              data: [item]
+            };
+          } else if (obj[item.Category]) {
+            obj[item.Category].data.push(item);
+          }
+        }
+        this.loadLatestReportByDevice(obj);
+        this.loadMultiLinesLabelChartByDevice(obj);
+        this.loadStackBarChartByCustomer(obj);
+        this.loadStackBarChartBySiteType(obj);
+        this.loadStackBarChartByRegion(obj);
+        this.loadChartByPower(obj);
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading latest report data'
+      })
+    })
+  }
+
   setLatestReportStatus(res: any) {
     let obj: any = {
       percentage: null,
@@ -283,17 +313,101 @@ export class DashboardComponent implements OnInit, OnDestroy {
       obj.offlineSite += item.offlineSite;
       obj.totalSite += item.totalSite;
     }
+    // obj.onlineSite = 100;
+    obj.offliinePercentage = ((obj.offlineSite * 100) / obj.totalSite).toFixed(2) + '%';
     obj.percentage = ((obj.onlineSite * 100) / obj.totalSite).toFixed(2) + '%';
     this.latestReportStatus = obj;
-    this.loadLatestReportByDevice();
-    this.loadMultiLinesLabelChartByDevice();
-    this.loadStackBarChartByCustomer();
-    this.loadStackBarChartBySiteType();
-    this.loadStackBarChartByRegion();
-    this.loadChartByPower();
+    // this.loadLatestReportByDevice();
+    // this.loadMultiLinesLabelChartByDevice();
+    // this.loadStackBarChartByCustomer();
+    // this.loadStackBarChartBySiteType();
+    // this.loadStackBarChartByRegion();
+    // this.loadChartByPower();
   }
 
-  loadLatestReportByDevice() {
+  loadLatestReportByDevice(obj) {
+    if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
+      let chartData: any = obj.Devicetype.data;
+      let totalSite: any = 0;
+      let deviceTypeList: any = chartData.map((item: any) => {
+        return item.Category_id ? item.Category_id : 'Delta';
+      });
+      let onlineList: any = chartData.map((item: any) => {
+        if (item.onlineCount) {
+          item.onlineCount = parseInt(item.onlineCount, 10);
+        }
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      let offlineList: any = chartData.map((item: any) => {
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        return item.offlineCount === 0 ? null : item.offlineCount;
+      });
+      chartData.map((item: any) => {
+        item.totalCount = parseInt(item.totalCount, 10);
+        totalSite += item.totalCount;
+      });
+
+      var data = {
+        labels: [...deviceTypeList],
+        series: [...offlineList]
+      };
+
+      let findItem = (online: any) => {
+        return chartData.filter((item: any) => item.offlineCount === online)[0];
+      };
+
+      var options = {
+        labelInterpolationFnc: (value: any) => {
+          value = parseInt(value, 10);
+          let cData = findItem(value);
+          return Math.round(value / cData.total * 100) + '%';
+        },
+        showLabel: true,
+        chartPadding: 30,
+        labelOffset: 50,
+        labelDirection: 'explode',
+        plugins: [
+          Chartist.plugins.tooltip({
+            transformTooltipTextFnc: (tooltip: any) => {
+              // console.log(tooltip);
+              tooltip = parseInt(tooltip, 10);
+              let cData = findItem(tooltip);
+              return Math.round(tooltip / cData.total * 100) + '%';
+            },
+            class: 'class1 class2',
+            appendToBody: true
+          }),
+          Chartist.plugins.legend()
+        ]
+      };
+
+      var responsiveOptions = [
+        ['screen and (min-width: 640px)', {
+          chartPadding: 30,
+          labelOffset: 100,
+          labelDirection: 'explode',
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          }
+        }],
+        ['screen and (min-width: 1024px)', {
+          labelOffset: 80,
+          chartPadding: 20
+        }]
+      ];
+
+      let chart = new Chartist.Pie('#websiteViewsChart2', data, options, responsiveOptions);
+      chart.on('draw', (data: any) => {
+        if (data.type === 'slice') {
+          data.element._node.onclick = (event: any) => this.click(data);
+        }
+      });
+    }
+    return;
+
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -307,7 +421,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let chartData: any = res.data;
         let totalSite: any = 0;
         let deviceTypeList: any = chartData.map((item: any) => {
-          return item.deviceType ? item.deviceType : 'Delta';
+          return item.Category_id ? item.Category_id : 'Delta';
         });
         let onlineList: any = chartData.map((item: any) => {
           return item.onlineSite === 0 ? null : item.onlineSite;
@@ -384,50 +498,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  initPieChart(label: any, series: any, valueList: any) {
-    let sum = (a: any, b: any) => { return a + b };
-    let data: any = {
-      labels: label,
-      series: series
-    };
 
-    let getSeriesData = (req) => {
-      return series.filter((item) => {
-        return item.label === req;
-      })[0];
-    };
-
-    let arrayList = valueList;
-    let chart = new Chartist.Pie('#websiteViewsChart', data, {
-      labelInterpolationFnc: (value: any) => {
-        let sData = getSeriesData(value);
-        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
-      },
-      // showLabel: false,
-      chartPadding: 30,
-      labelOffset: 50,
-      labelDirection: 'explode',
-      plugins: [
-        // Chartist.plugins.ctPointLabels({
-        //   textAnchor: 'middle'
-        // }),
-        // Chartist.plugins.tooltip({
-        //   transformTooltipTextFnc: (tooltip: any) => {
-        //     // console.log(tooltip);
-        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
-        //   },
-        //   class: 'class1 class2',
-        //   appendToBody: true
-        // }),
-        Chartist.plugins.legend()
-      ],
-    });
-    chart.on('draw', (data: any) => {
-      if (data.type === 'slice') {
-        data.element._node.onclick = (event: any) => this.click(data);
-      }
-    });
-  }
 
   loadAllData(evt, type) {
     evt.preventDefault();
@@ -468,7 +539,77 @@ export class DashboardComponent implements OnInit, OnDestroy {
     (window as any).localStorage.setItem('type', '' + type);
   }
 
-  loadMultiLinesLabelChartByDevice() {
+  loadMultiLinesLabelChartByDevice(obj) {
+    if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
+      let chartData: any = obj.Devicetype.data;
+
+      let deviceTypeList: any = chartData.map((item: any) => {
+        return item.deviceType ? item.Category_id : 'Delta';
+      });
+
+      let totalList: any = chartData.map((item: any) => {
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+        return item.totalCount === 0 ? null : item.totalCount;
+      });
+
+      let onlineList: any = chartData.map((item: any) => {
+        if (item.onlineCount) {
+          item.onlineCount = parseInt(item.onlineCount, 10);
+        }
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      let offlineList: any = chartData.map((item: any) => {
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        return item.offlineCount === 0 ? null : item.offlineCount;
+      });
+
+      let chart = new Chartist.Bar('#websiteViewsChart3', {
+        labels: [...deviceTypeList],
+        series: [
+          // { name: "Total", data: [...totalList] },
+          { name: "Online", data: [...onlineList] },
+          { name: "Offline", data: [...offlineList] }
+        ]
+      }, {
+        seriesBarDistance: 10,
+        axisX: {
+          offset: 60,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          }
+        },
+        axisY: {
+          offset: 80,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          },
+          scaleMinSpace: 15
+        },
+        plugins: [
+          Chartist.plugins.legend(),
+          Chartist.plugins.tooltip({
+            transformTooltipTextFnc: (tooltip: any) => {
+              return tooltip;
+            },
+            class: 'class1 class2',
+            appendToBody: true
+          }),
+          Chartist.plugins.legend()
+        ]
+      });
+
+      chart.on('draw', (data: any) => {
+        if (data.type === 'bar') {
+          data.element._node.onclick = (event: any) => this.click(data);
+        }
+      });
+    }
+    return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -541,7 +682,81 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadStackBarChartByCustomer() {
+  loadStackBarChartByCustomer(obj) {
+    if (obj && obj.Customer && obj.Customer.data && obj.Customer.data.length) {
+      let chartData: any = obj.Customer.data;
+
+      let customerTypeList: any = chartData.map((item: any) => {
+        return item.Description;
+      });
+
+      let totalList: any = chartData.map((item: any) => {
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+        return item.totalCount === 0 ? null : item.totalCount;
+      });
+
+      let onlineList: any = chartData.map((item: any) => {
+        if (item.onlineCount) {
+          item.onlineCount = parseInt(item.onlineCount, 10);
+        }
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      let offlineList: any = chartData.map((item: any) => {
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        return item.offlineCount === 0 ? null : item.offlineCount;
+      });
+
+      let chart = new Chartist.Bar('#websiteViewsChart4', {
+        labels: [...customerTypeList],
+        series: [
+          // { name: "Total", data: [...totalList] },
+          { name: "Online", data: [...onlineList] },
+          { name: "Offline", data: [...offlineList] }
+        ]
+      }, {
+        seriesBarDistance: 10,
+        stackBars: true,
+        axisX: {
+          offset: 60,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          }
+        },
+        axisY: {
+          offset: 80,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          },
+          scaleMinSpace: 15
+        },
+        plugins: [
+          Chartist.plugins.legend(),
+          Chartist.plugins.ctPointLabels({
+            textAnchor: 'middle'
+          }),
+          Chartist.plugins.tooltip({
+            transformTooltipTextFnc: (tooltip: any) => {
+              return tooltip;
+            },
+            class: 'class1 class2',
+            appendToBody: true
+          }),
+          Chartist.plugins.legend()
+        ]
+      });
+
+      chart.on('draw', (data: any) => {
+        if (data.type === 'bar') {
+          data.element._node.onclick = (event: any) => this.click(data);
+        }
+      });
+    }
+    return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": true,
@@ -623,7 +838,81 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadStackBarChartBySiteType() {
+  loadStackBarChartBySiteType(obj) {
+    if (obj && obj.Sitetypeid && obj.Sitetypeid.data && obj.Sitetypeid.data.length) {
+      let chartData: any = obj.Sitetypeid.data;
+
+      let siteTypeList: any = chartData.map((item: any) => {
+        return item.siteType;
+      });
+
+      let totalList: any = chartData.map((item: any) => {
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+        return item.totalCount === 0 ? null : item.totalCount;
+      });
+
+      let offlineList: any = chartData.map((item: any) => {
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        return item.offlineCount === 0 ? null : item.offlineCount;
+      });
+
+      let onlineList: any = chartData.map((item: any) => {
+        if (item.onlineCount) {
+          item.onlineCount = parseInt(item.onlineCount, 10);
+        }
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      let chart = new Chartist.Bar('#websiteViewsChart5', {
+        labels: [...siteTypeList],
+        series: [
+          // { name: "Total", data: [...totalList] },
+          { name: "Online", data: [...onlineList] },
+          { name: "Offline", data: [...offlineList] }
+        ]
+      }, {
+        seriesBarDistance: 10,
+        stackBars: true,
+        axisX: {
+          offset: 60,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          }
+        },
+        axisY: {
+          offset: 80,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          },
+          scaleMinSpace: 15
+        },
+        plugins: [
+          Chartist.plugins.legend(),
+          Chartist.plugins.ctPointLabels({
+            textAnchor: 'middle'
+          }),
+          Chartist.plugins.tooltip({
+            transformTooltipTextFnc: (tooltip: any) => {
+              return tooltip;
+            },
+            class: 'class1 class2',
+            appendToBody: true
+          }),
+          Chartist.plugins.legend()
+        ]
+      });
+
+      chart.on('draw', (data: any) => {
+        if (data.type === 'bar') {
+          data.element._node.onclick = (event: any) => this.click(data);
+        }
+      });
+    }
+    return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -700,7 +989,80 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadStackBarChartByRegion() {
+  loadStackBarChartByRegion(obj) {
+    if (obj && obj.Region && obj.Region.data && obj.Region.data.length) {
+      let chartData: any = obj.Region.data;
+
+      let regionList: any = chartData.map((item: any) => {
+        return item.Category_id ? item.Category_id : "Dummy";
+      });
+
+      let totalList: any = chartData.map((item: any) => {
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+        return item.totalCount === 0 ? null : item.totalCount;
+      });
+
+      let offlineList: any = chartData.map((item: any) => {
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        return item.offlineCount === 0 ? null : item.offlineCount;
+      });
+
+      let onlineList: any = chartData.map((item: any) => {
+        if (item.onlineCount) {
+          item.onlineCount = parseInt(item.onlineCount, 10);
+        }
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      let chart = new Chartist.Bar('#websiteViewsChart6', {
+        labels: [...regionList],
+        series: [
+          // { name: "Total", data: [...totalList] },
+          { name: "Online Site", data: [...onlineList] },
+          { name: "Offline Site", data: [...offlineList] }
+        ]
+      }, {
+        seriesBarDistance: 10,
+        stackBars: true,
+        axisX: {
+          offset: 60,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          }
+        },
+        axisY: {
+          offset: 80,
+          labelInterpolationFnc: (value: any) => {
+            return value;
+          },
+          scaleMinSpace: 15
+        },
+        plugins: [
+          Chartist.plugins.legend(),
+          Chartist.plugins.ctPointLabels({
+            textAnchor: 'middle'
+          }),
+          Chartist.plugins.tooltip({
+            transformTooltipTextFnc: (tooltip: any) => {
+              return tooltip;
+            },
+            class: 'class1 class2',
+            appendToBody: true
+          }),
+          Chartist.plugins.legend()
+        ]
+      });
+      chart.on('draw', (data: any) => {
+        if (data.type === 'bar') {
+          data.element._node.onclick = (event: any) => this.click(data);
+        }
+      });
+    }
+    return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -782,12 +1144,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     const url = ApiConstant.getLatestData;
-    this.httpClient.get(url).subscribe((data: any) => {
+    this.httpClient.get(url).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(data.data);
-      setTimeout(() => {
-        this.tableListingComponent.init();
-      });
+      if (res && res.data) {
+        this.manipulate(res.data);
+        setTimeout(() => {
+          this.tableListingComponent.init();
+        });
+      }
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
@@ -870,7 +1234,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadChartByPower() {
+  loadChartByPower(obj) {
+    if (obj && obj.Powersource && obj.Powersource.data && obj.Powersource.data.length) {
+      for (let item of obj.Powersource.data) {
+        item.powerSource = item.Category_id;
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        item.offlineSite = item.offlineCount;
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+      }
+      this.maipulatePieChartData(obj.Powersource);
+    }
+    return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -891,39 +1269,58 @@ export class DashboardComponent implements OnInit, OnDestroy {
     for (let item of res.data) {
       label.push(item.powerSource);
       valueList.push(item.offlineSite);
-      if (item.powerSource === 'AC_Power') {
-        series.push({
-          label: item.powerSource,
-          value: item.offlineSite,
-          className: "ac-power"
-        });
-      } else if (item.powerSource === 'DG') {
-        series.push({
-          label: item.powerSource,
-          value: item.offlineSite,
-          className: "dc-power"
-        });
-      } else if (item.powerSource === 'Battery') {
-        series.push({
-          label: item.powerSource,
-          value: item.offlineSite,
-          className: "battery-solar"
-        });
-      } else if (item.powerSource === 'Unknown') {
-        series.push({
-          label: item.powerSource,
-          value: item.offlineSite,
-          className: "unknown"
-        });
-      } else if (item.powerSource === '.') {
-        series.push({
-          label: item.powerSource,
-          value: item.offlineSite,
-          className: "extra-dot"
-        });
-      }
+      series.push({
+        label: item.powerSource,
+        value: item.offlineSite,
+        className: item.powerSource.toLowerCase().replace(' ', '-')
+      });
     }
     this.initPieChart(label, series, valueList);
+  }
+
+  initPieChart(label: any, series: any, valueList: any) {
+    let sum = (a: any, b: any) => { return a + b };
+    let data: any = {
+      labels: label,
+      series: series
+    };
+
+    let getSeriesData = (req) => {
+      return series.filter((item) => {
+        return item.label === req;
+      })[0];
+    };
+
+    let arrayList = valueList;
+    let chart = new Chartist.Pie('#websiteViewsChart', data, {
+      labelInterpolationFnc: (value: any) => {
+        let sData = getSeriesData(value);
+        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
+      },
+      // showLabel: false,
+      chartPadding: 30,
+      labelOffset: 50,
+      labelDirection: 'explode',
+      plugins: [
+        // Chartist.plugins.ctPointLabels({
+        //   textAnchor: 'middle'
+        // }),
+        // Chartist.plugins.tooltip({
+        //   transformTooltipTextFnc: (tooltip: any) => {
+        //     // console.log(tooltip);
+        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
+        //   },
+        //   class: 'class1 class2',
+        //   appendToBody: true
+        // }),
+        Chartist.plugins.legend()
+      ],
+    });
+    chart.on('draw', (data: any) => {
+      if (data.type === 'slice') {
+        data.element._node.onclick = (event: any) => this.click(data);
+      }
+    });
   }
 
   loadBarChart() {
@@ -931,7 +1328,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const apiUrl = ApiConstant.getAlarmCatSummary;
     this.httpClient.get(apiUrl).subscribe((res: any) => {
       if (res && res.length) {
-        let labels:  any = [];
+        let labels: any = [];
         let dataset: any = [];
         let total = 0;
         for (let item of res) {
@@ -953,7 +1350,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         });
       }
-      
+
     });
   }
 
@@ -1121,7 +1518,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data: data
     });
     dialogRef.afterClosed().subscribe(data => {
-      
+
     });
   }
 

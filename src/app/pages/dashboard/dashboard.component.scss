@@ -24,24 +24,36 @@
 
 
     .online-stat-data {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        // display: flex;
+        // justify-content: space-between;
+        // align-items: center;
 
         .left-side {
             padding-left: 0px;
-
+            margin-bottom: 15px;
         }
 
         .progress {
-            height: 24px;
+            height: 35px;
             border-radius: 25px;
-            background: #fff;
+            background: #f33527;
+            position: relative;
+
+            span {
+                position: absolute;
+                right: 15px;
+                top: 8px;
+                color: #fff;
+                font-size: 1rem;
+            }
 
             .progress-bar {
                 background-color: #47a44b;
                 border: 1px solid #39843c;
                 border-radius: 16px;
+                color: #fff;
+                font-size: 1rem;
+                position: relative;
             }
         }
 

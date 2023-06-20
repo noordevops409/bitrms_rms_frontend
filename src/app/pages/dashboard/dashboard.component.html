@@ -1,17 +1,9 @@
 <div class="parent-container" [ngClass]="{'expanded': isExpanded}">
-    <div class="row summary-data">
+    <div class="row summary-data" style="margin-top: 10px;">
         <div class="box-body online-stat-data">
-            <div class="left-side col-5">
+            <div class="left-side">
                 <ul>
-                    <li>
-                        <button class="btn btn-default"
-                            (click)="loadAllData($event, 3)">{{latestReportStatus?.totalSite}} Total</button>
-                        <!-- <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '1']"
-                            (click)="loadTowerListing($event, 1);" target="_blank">
-                            <label>Online</label>
-                            <p>{{latestReportStatus.onlineSite}}</p>
-                        </a> -->
-                    </li>
+
                     <li>
                         <button class="btn btn-success"
                             (click)="loadAllData($event, 1)">{{latestReportStatus?.onlineSite}} Online</button>
@@ -25,18 +17,29 @@
                         <button class="btn btn-danger"
                             (click)="loadAllData($event, 2)">{{latestReportStatus?.offlineSite}} Offline</button>
                     </li>
+
+                    <li>
+                        <button class="btn btn-default"
+                            (click)="loadAllData($event, 3)">{{latestReportStatus?.totalSite}} Total</button>
+                        <!-- <a href="javascript:void(0);" [routerLink]="['/pages', 'dashboard', 'type', '1']"
+                            (click)="loadTowerListing($event, 1);" target="_blank">
+                            <label>Online</label>
+                            <p>{{latestReportStatus.onlineSite}}</p>
+                        </a> -->
+                    </li>
                 </ul>
             </div>
-            <div class="right-side col-6">
+            <div class="right-side">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" [style.width]="latestReportStatus?.percentage"
                         [title]="latestReportStatus?.percentage" aria-valuenow="75" aria-valuemin="0"
-                        aria-valuemax="100"></div>
+                        aria-valuemax="100"><span>{{latestReportStatus?.percentage}}</span></div>
+                        <span>{{latestReportStatus?.offliinePercentage}}</span>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <div class="row summary-data">
         <div class="col-6">
@@ -63,10 +66,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -92,10 +95,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -125,10 +128,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -166,10 +169,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -189,10 +192,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -215,10 +218,10 @@
                                 <li>
                                     <button class="btn btn-default" (click)="openTabular($event);">TABULAR VIEW</button>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <button class="btn btn-primary"
                                         (click)="refreshLatestStatusData($event);">REFRESH</button>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>

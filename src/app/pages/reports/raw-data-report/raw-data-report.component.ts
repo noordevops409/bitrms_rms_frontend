@@ -185,18 +185,26 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    "siteId": [],
-    "clusters": [],
-    "zones": [],
-    "regions": [],
-    "deviceType": [],
-    "siteStatus": 1,
-    "siteType": [],
-    "date": "2022/10/20",
-    "start": 1,
-    "length": 10,
+    "allClusters": true,
+    "allDeviceType": true,
+    "allRegions": true,
+    "allSiteId": true,
+    "allSiteStatus": true,
+    "allSiteTypes": true,
+    "allZones": true,
+    "anyFilterEmpty": true,
+    "clusters": ["All"],
+    "date": "2023/06/15 00:01:00 - 2023/06/16 23:54:00",
+    "deviceType": ["All"],
     "draw": 5,
-    "page": 15
+    "length": this.pageSize,
+    "page": this.currentPageNo,
+    "regions": ["All"],
+    "siteId": ["All"],
+    "siteStatus": 1,
+    "siteType": ["All"],
+    "start": this.recordStartFrom,
+    "zones": ["All"]
   };
 
   constructor(
@@ -232,12 +240,14 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRawDataReport, this.filterParam).subscribe((data: any) => {
+    this.httpClient.post(ApiConstant.getRawDataReport, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(data.data);
-      setTimeout(() => {
-        this.tableListingComponent.init();
-      });
+      if (res && res.data) {
+        this.manipulate(res.data);
+        setTimeout(() => {
+          this.tableListingComponent.init();
+        });
+      }
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
@@ -342,10 +352,18 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       "siteStatus": 1,
       "siteType": siteType,
       "date": rangeDate,
+      "allClusters": true,
+      "allDeviceType": true,
+      "allRegions": true,
+      "allSiteId": true,
+      "allSiteStatus": true,
+      "allSiteTypes": true,
+      "allZones": true,
+      "anyFilterEmpty": true,
       "start": 1,
-      "length": 10,
       "draw": 5,
-      "page": 15
+      "length": 10,
+      "page": 2
     };
   }
 

@@ -191,6 +191,14 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   private forDeleteListener!: Subscription;
 
   private filterParam: any = {
+    "categories": ["All"],
+    "siteId": ["All"],
+    "deviceType": ["All"],
+    "regions": ["All"],
+    "zones": ["All"],
+    "customers": ["All"],
+    "siteType": ["All"],
+    "date": "2023/06/14 - 2023/06/15",
     "alarmStatus": ["All"],
     "all": "ALL",
     "allAlarmStatus": true,
@@ -199,14 +207,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     "allRegions": true,
     "allSiteId": true,
     "allSiteType": true,
-    "anyFilterEmpty": true,
-    "customers": ["All"],
-    "date": "2019/10/04-2019/10/05",
-    "deviceType": ["All"],
-    "regions": ["All"],
-    "siteId": ["MGT20711A"],
-    "siteType": ["All"],
-    "zones": ["All"]
+    "anyFilterEmpty": true
   };
 
   constructor(
@@ -438,7 +439,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "deviceType": deviceType,
       "regions": regions,
       "zones": zones,
-      "customer": customer,
+      "customers": customer,
       "siteType": siteType,
       "date": rangeDate,
       "alarmStatus": ["All"],
@@ -449,7 +450,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "allRegions": true,
       "allSiteId": true,
       "allSiteType": true,
-      "anyFilterEmpty": true,
+      "anyFilterEmpty": true
     };
   }
 

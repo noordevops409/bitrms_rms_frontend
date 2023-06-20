@@ -267,9 +267,25 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
       component: 'app-sd-fuel-consumption'
     },
     {
-      displayName: { name: 'No Load Outage' },
+      displayName: { name: 'Power Report' },
       type: 10,
       position: 10,
+      id: "nav-fuel-consumption",
+      apiUrl: ApiConstant.getPowerReport,
+      param: {
+        tabId: "nav-power-report",
+        siteId: "",
+        startDate: "",
+        endDate: "",
+        dateMonth: "",
+        dateYear: ""
+      },
+      component: 'app-site-details-power-report'
+    },
+    {
+      displayName: { name: 'No Load Outage' },
+      type: 11,
+      position: 11,
       id: "nav-load-outage",
       apiUrl: ApiConstant.getSiteNoLoadOutageReport,
       param: {
@@ -284,8 +300,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     },
     {
       displayName: { name: 'Remote' },
-      type: 11,
-      position: 11,
+      type: 12,
+      position: 12,
       id: "nav-remote-tab",
       apiUrl: ApiConstant.getSiteGetRemoteData,
       param: {

@@ -40,6 +40,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { AlarmCategoryComponent } from './alarm-category/alarm-category.component';
 import { EnergyReportComponent } from './energy-report/energy-report.component';
+import { SiteDetailsPowerReportComponent } from './site-details-power-report/site-details-power-report.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -80,7 +81,8 @@ export const MY_MOMENT_FORMATS = {
     SidebarComponent,
     AlarmCategoryComponent,
     EnergyReportComponent,
-    MaxDateRangeDirective
+    MaxDateRangeDirective,
+    SiteDetailsPowerReportComponent
   ],
   imports: [
     CommonModule,
@@ -122,7 +124,8 @@ export const MY_MOMENT_FORMATS = {
     SidebarComponent,
     AlarmCategoryComponent,
     EnergyReportComponent,
-    MaxDateRangeDirective
+    MaxDateRangeDirective,
+    SiteDetailsPowerReportComponent
   ]
 })
 export class SharedModule { }

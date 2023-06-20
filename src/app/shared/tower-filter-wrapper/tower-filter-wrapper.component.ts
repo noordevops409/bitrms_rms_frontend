@@ -74,8 +74,8 @@ export class TowerFilterWrapperComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-  public startTime: any = null;
-  public endTime: any = null;
+  public startTime: any = "00:00";
+  public endTime: any = "23:59";
 
   private reqSiteIdObj: any = {
     startDate: null,
