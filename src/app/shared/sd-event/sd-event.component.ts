@@ -36,7 +36,8 @@ export class SdEventComponent implements OnInit, OnDestroy {
   private $: any = (window as any)['jQuery'];
   private scrollTimer: any = undefined;
   private scrollAreaHeight = 30;
-  
+  private siteId: any = null;
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -44,7 +45,11 @@ export class SdEventComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+    this.route.paramMap.subscribe(paramMap => {
+      this.siteId = paramMap.get('siteId');
+    });
+  }
 
   ngOnInit(): void {
     this.init();
@@ -58,21 +63,46 @@ export class SdEventComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  secondsToDhms(seconds) {
+    seconds = Number(seconds);
+    var d = Math.floor(seconds / (3600 * 24));
+    var h = Math.floor(seconds % (3600 * 24) / 3600);
+    var m = Math.floor(seconds % 3600 / 60);
+    var s = Math.floor(seconds % 60);
+
+    var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return dDisplay + hDisplay + mDisplay + sDisplay;
+  }
+
   loadData() {
     if (this.isLoading) {
       return;
     }
     let params: any = {
       "tabId": "nav-event-tab",
-      "siteId": "MDM01113A" || this.smSiteCode,
-      "username":"harish1"
+      "siteId": this.siteId || "AYM00657T",
+      "series2": "",
+      "series3": "",
+      "series4": "",
+      "series5": "",
+      "series6": "",
+      "series7": "",
+      "reportType": "Daily",
+      "startDate": "",
+      "endDate": "",
+      "dateMonth": "",
+      "dateYear": ""
     };
 
-    const url = ApiConstant.getNoLoadOutageReport;
-    this.httpClient.post(url, params).subscribe((data: any) => {
-      console.log(data);
+    const url = ApiConstant.getPerfDashEvent;
+    this.httpClient.post(url, params).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(data);
+      if (res && res.data && res.data.length) {
+        this.manipulate(res.data);
+      }
     }, (err) => {
       this.isLoading = false;
       this.util.notification.error({
@@ -84,6 +114,9 @@ export class SdEventComponent implements OnInit, OnDestroy {
 
 
   manipulate(data: any) {
+    for (let item of data) {
+      item.displayAge = this.secondsToDhms(item.age);
+    }
     this.dataSource = data;
   }
 

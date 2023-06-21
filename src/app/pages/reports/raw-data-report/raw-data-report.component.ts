@@ -10,6 +10,7 @@ import { ApiConstant } from '../../../shared/api-constant.enum';
 import { AppConstant } from '../../../shared/app-constant.enum';
 
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-raw-data-report',
@@ -220,6 +221,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
     this.init();
   }
 

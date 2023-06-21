@@ -14,6 +14,7 @@ import { TableListingComponent } from '../../../shared/table-listing/table-listi
 import { customerMaster } from '../../data/customer-master';
 import { siteTypeMaster } from '../../data/site-type-master';
 import { powerSourceMaster } from '../../data/power-source-master';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tee-power-tracker',
@@ -196,8 +197,8 @@ export class TeePowerTrackerComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": "2020-10-11",
-    "endDate": "2020-12-12"
+    "startDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
+    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
   };
 
 

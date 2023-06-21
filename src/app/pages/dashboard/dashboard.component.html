@@ -34,11 +34,17 @@
                     <div class="progress-bar" role="progressbar" [style.width]="latestReportStatus?.percentage"
                         [title]="latestReportStatus?.percentage" aria-valuenow="75" aria-valuemin="0"
                         aria-valuemax="100"><span>{{latestReportStatus?.percentage}}</span></div>
-                        <span>{{latestReportStatus?.offliinePercentage}}</span>
+                    <span>{{latestReportStatus?.offliinePercentage}}</span>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- <div class="row summary-data">
+        <div class="col-12 google-chart">
+            <app-google-data-studio [isReqToShowSiteList]="false"></app-google-data-studio>
+        </div>
+    </div> -->
 
 
     <div class="row summary-data">
@@ -78,9 +84,7 @@
             </div>
         </div>
 
-        <!-- <div class="col-6 google-chart">
-            <app-google-data-studio [isReqToShowSiteList]="false"></app-google-data-studio>
-        </div> -->
+
 
         <div class="col-6">
             <div class="box online-stat">

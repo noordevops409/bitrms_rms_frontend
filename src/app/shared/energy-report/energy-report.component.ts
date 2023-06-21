@@ -179,8 +179,8 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     siteId: ["SGT31055A"],
     siteType: [],
     deviceType: [],
-    startDate: "2020/01/01",
-    endDate: "2020/01/01"
+    startDate: moment().add(-1, 'days').format('YYYY/MM/DD'),
+    endDate: moment().add(-1, 'days').format('YYYY/MM/DD')
   };
 
   constructor(

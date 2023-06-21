@@ -118,7 +118,10 @@ export class GoogleDataStudioComponent implements OnInit {
 
   setMarkers() {
     let list: any = [];
-    for (let item of this.siteList) {
+    let siteList = this.siteList.filter((item) => {
+      return !(item.smLongitude > -90 && item.smLongitude < 90) && (item.smLatitude > -90 && item.smLatitude < 90);
+    });
+    for (let item of siteList) {
       this.getColorSiteWise(item);
       let obj = {
         'type': 'Feature',

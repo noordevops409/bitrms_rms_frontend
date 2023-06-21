@@ -97,6 +97,8 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
   };
   public lineChartLegend = true;
 
+  private siteId: any = null;
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -104,7 +106,12 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+
+    this.route.paramMap.subscribe(paramMap => {
+      this.siteId = paramMap.get('siteId');
+    });
+  }
 
   ngOnInit(): void {
     this.init();
@@ -134,7 +141,7 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
   loadChart(req?: any) {
     let params: any = {
       "tabId": "nav-fuel-consumption",
-      "siteId": "MGT20421A" || this.smSiteCode,
+      "siteId": this.siteId || "MGT20421A",
       "startDate": moment(this.startDate.value).format('YYYY-MM-DD'),
       "endDate": moment(this.endDate.value).format('YYYY-MM-DD'),
       "dateMonth": moment(this.startDate.value).format('YYYY-MM-DD'),
@@ -162,7 +169,7 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
   loadPowerSourceChart() {
     let params: any = {
       "tabId": "nav-fuel-consumption",
-      "siteId": "MGT20421A" || this.smSiteCode,
+      "siteId": this.siteId || "MGT20421A",
       "startDate": moment(this.startDate.value).format('YYYY-MM-DD'),
       "endDate": moment(this.endDate.value).format('YYYY-MM-DD'),
       "dateMonth": moment(this.startDate.value).format('YYYY-MM-DD'),

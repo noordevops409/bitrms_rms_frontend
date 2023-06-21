@@ -281,7 +281,6 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
   }
 
   calDuration(evt?: any) {
-    debugger;
     let formData: any = this.masterForm.value;
     // formData.inputSiteDownTime = moment(new Date(formData.inputSiteDownTime));
     // formData.inputRestoredTime = moment(new Date(formData.inputRestoredTime));

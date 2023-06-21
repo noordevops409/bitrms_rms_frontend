@@ -1,7 +1,7 @@
-import { Inject, Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Inject, Component, OnInit, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from "@angular/router";
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 import * as XLSX from 'xlsx';
 
@@ -43,15 +43,16 @@ export const MY_FORMATS = {
   templateUrl: './site-details-power-report.component.html',
   styleUrls: ['./site-details-power-report.component.scss']
 })
-export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
+export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isLoading: boolean = false;
-  public startDate: any = new FormControl(moment());
-  public endDate: any = new FormControl(moment());
+  public isFilterSelNotValid: boolean = false;
   public listData: any = null;
   public isChartLoading: boolean = false;
+  public isChartLoading1: boolean = false;
   public selTabIndex: any = 0;
   public selTabData: any = null;
+  public masterForm!: FormGroup;
 
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
@@ -162,6 +163,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
     }
   };
 
+  public siteList: any = [];
   private params: any = null;
   public siteId: any = null;
   private filterParam: any = {
@@ -172,72 +174,13 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
     endDate: "2020/01/01"
   };
 
-
-
-  public startDate1: any = new FormControl(moment());
-  public endDate1: any = new FormControl(moment());
-  public listData1: any = null;
-  public isChartLoading1: boolean = false;
-  public selTabIndex1: any = 0;
-  public selTabData1: any = null;
-
-  public isReqToOpenFilter1: boolean = false;
-  public isOpenTabularFilter1: boolean = false;
-  public isExpanded1: boolean = false;
-  public defaultFilterList1: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'siteId',
-      indexField: 'siteId',
-      labelName: 'Site Id',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'siteId',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getSiteCode,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'code',
-        value: 'code'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    }
-  ];
+  private filterParam1: any = {
+    siteId: [],
+    siteType: [],
+    deviceType: [],
+    startDate: "2020/01/01",
+    endDate: "2020/01/01"
+  };
 
   public lineChartData1: ChartConfiguration<'line'>['data'] = {
     labels: [],
@@ -276,30 +219,6 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
   };
   public lineChartLegend1 = true;
 
-  public tabView1: any = {
-    columnHeader: [],
-    listingData: [],
-    footer: {
-      series1: 0,
-      series2: 0,
-      series3: 0,
-      series4: 0,
-      series5: 0,
-      series6: 0,
-      series7: 0
-    }
-  };
-
-  private params1: any = null;
-  private siteId1: any = null;
-  private filterParam1: any = {
-    siteId: ["SGT31055A"],
-    siteType: [],
-    deviceType: [],
-    startDate: "2020/01/01",
-    endDate: "2020/01/01"
-  };
-
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -315,14 +234,52 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.filterParam.siteId.push(this.siteId);
+    this.initForm();
+    this.loadSiteList();
     this.setDefaultFilter();
-    this.setDefaultFilter1();
     this.loadHourlyReport();
     this.loadHourlyReport1();
   }
 
+  ngAfterViewInit(): void {
+    this.initDateParam();
+  }
+
   ngOnDestroy(): void {
 
+  }
+
+  get mf() {
+    return (this.masterForm as any).controls;
+  }
+
+  initDateParam() {
+    // this.startDate.value = moment().add(1, "days");
+    // this.masterForm.controls['startDate'].setValue(moment());
+  }
+
+  initForm() {
+    this.masterForm = this.formBuilder.group({
+      'selSiteId': [null, [Validators.required]],
+      'startDate': [moment().add(-1, 'days').format('YYYY-MM-DD')],
+      'endDate': [moment().add(-1, 'days').format('YYYY-MM-DD')]
+    })
+  }
+
+  loadSiteList() {
+    let apiUrl: any = ApiConstant.getSiteMasterData;
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+      if (res && res.siteMasterList && res.siteMasterList.length) {
+        this.siteList = res.siteMasterList;
+        this.masterForm.controls['selSiteId'].setValue(res.siteMasterList[0]);
+      }
+    }, (err) => {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading site details!'
+      })
+    });
   }
 
   setDefaultFilter() {
@@ -332,11 +289,6 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
       this.filterParam.siteId = ["SGT31055A"];
     }
   }
-
-  setDefaultFilter1() {
-    this.filterParam1.siteId = ["SGT31055A"];
-  }
-
 
   loadHourlyReport() {
     if (this.isChartLoading) {
@@ -360,19 +312,19 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
   }
 
   loadHourlyReport1() {
-    if (this.isChartLoading) {
+    if (this.isChartLoading1) {
       return;
     }
-    this.isChartLoading = true;
+    this.isChartLoading1 = true;
     this.httpClient.post(ApiConstant.getPowerReport, this.filterParam1).subscribe((res: any) => {
-      this.isChartLoading = false;
+      this.isChartLoading1 = false;
       for (let item of res.dataSets) {
         item.label = item.label.replace(" Energy", " Power");
       }
       res.datasets = res.dataSets;
-      this.lineChartData = res;
+      this.lineChartData1 = res;
     }, (err) => {
-      this.isChartLoading = false;
+      this.isChartLoading1 = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading power report!'
@@ -384,115 +336,51 @@ export class SiteDetailsPowerReportComponent implements OnInit, OnDestroy {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
-  openTabularFilter1(evt?: any) {
-    this.isOpenTabularFilter1 = !this.isOpenTabularFilter1;
-  }
-
-  setFilterParam(fData) {
-
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
-    let startDate: any = null;
-    let endDate: any = null;
-    let rangeDate: any = "";
-    if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      deviceType = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
-
-      // clusters = fData[2].popupTo.data.map((item) => {
-      //   return item.id;
-      // });
-
-      // siteId = fData[3].popupTo.data.map((item) => {
-      //   return item.id;
-      // });
-
-      // deviceType = fData[4].popupTo.data.map((item) => {
-      //   return item.id;
-      // });
-
-      // siteType = fData[5].filter((item) => {
-      //   return item.isChecked && item.text;
-      // }).map((item) => {
-      //   return item.text;
-      // });
-
-      if (fData[3] && fData[3].startDate && fData[3].endDate) {
-        startDate = fData[3].startDate.replace(/-/g, '/');
-        endDate = fData[3].endDate.replace(/-/g, '/');
-        rangeDate = fData[3].startDate.replace(/-/g, '/') + ' - ' + fData[3].endDate.replace(/-/g, '/');
-      }
-    }
-    this.filterParam = {
-      "siteId": siteId,
-      "deviceType": deviceType,
-      "siteType": siteType,
-      "startDate": startDate,
-      "endDate": endDate
-    };
-  }
-
-  setFilterParam1(fData) {
-
-    let siteId: any = [];
-    let deviceType: any = [];
-    let startDate: any = null;
-    let endDate: any = null;
-    let rangeDate: any = "";
-    if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      deviceType = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
-
-      if (fData[3] && fData[3].startDate && fData[3].endDate) {
-        startDate = fData[3].startDate.replace(/-/g, '/');
-        endDate = fData[3].endDate.replace(/-/g, '/');
-        rangeDate = fData[3].startDate.replace(/-/g, '/') + ' - ' + fData[3].endDate.replace(/-/g, '/');
-      }
-    }
-    this.filterParam1 = {
-      "siteId": siteId,
-      "deviceType": deviceType,
-      "startDate": startDate,
-      "endDate": endDate
-    };
-  }
-
-  applyFilter(evt?: any) {
-    this.isReqToOpenFilter = false;
-    this.isOpenTabularFilter = false;
-    if (evt) {
-      this.setFilterParam(evt);
-    } else {
-      this.setDefaultFilter();
-    }
-    this.loadHourlyReport();
-  }
-
-  applyFilter1(evt?: any) {
-    this.isReqToOpenFilter1 = false;
-    this.isOpenTabularFilter1 = false;
-    if (evt) {
-      this.setFilterParam1(evt);
-    } else {
-      this.setDefaultFilter1();
-    }
-    this.loadHourlyReport1();
-  }
 
   tabChanged(evt) {
     this.selTabIndex = evt.index;
+  }
+
+  reset(evt?: any) {
+    this.masterForm.reset();
+    this.filterParam = {
+      "siteId": [this.siteId],
+      "deviceType": [],
+      "siteType": [],
+      "startDate": moment().add(-1, "days").format('YYYY-MM-DD'),
+      "endDate": moment().add(-1, "days").format('YYYY-MM-DD')
+    };
+
+    this.filterParam = {
+      "siteId": [],
+      "deviceType": [],
+      "siteType": [],
+      "startDate": moment().add(-1, "days").format('YYYY-MM-DD'),
+      "endDate": moment().add(-1, "days").format('YYYY-MM-DD')
+    };
+    this.loadHourlyReport();
+    this.loadHourlyReport1();
+  }
+
+  fetch(evt?: any) {
+    const formData = this.masterForm.value;
+    this.filterParam = {
+      "siteId": [this.siteId],
+      "deviceType": [],
+      "siteType": [],
+      "startDate": moment(formData.startDate).format('YYYY-MM-DD'),
+      "endDate": moment(formData.endDate).format('YYYY-MM-DD')
+    };
+
+    this.filterParam1 = {
+      "siteId": [formData.selSiteId.smSitecode],
+      "deviceType": [],
+      "siteType": [],
+      "startDate": moment(formData.startDate).format('YYYY-MM-DD'),
+      "endDate": moment(formData.endDate).format('YYYY-MM-DD')
+    }
+    this.loadHourlyReport();
+    this.loadHourlyReport1();
   }
 
 }

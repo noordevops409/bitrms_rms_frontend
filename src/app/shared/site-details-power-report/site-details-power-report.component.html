@@ -1,75 +1,69 @@
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <div class="parent-container">
-                <div class="header">
-                    <div class="filter-btn add-report">
-                        <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
-                    </div>
+<div class="filter-wrapper">
+    <form [formGroup]="masterForm" class="form">
+        <div class="form-container">
+            <div class="form-group filter-row row" style="margin-bottom: 0px;">
+                <div class="form-field col-3">
+                    <label for="selectSiteName" class="label">Select Site Name</label>
+                    <select formControlName="selSiteId" name="selSiteId" class="input-element mini">
+                        <option *ngFor="let c of siteList" [ngValue]="c">{{c.smSitename}}</option>
+                    </select>
                 </div>
 
-                <div class="table-listing">
-                    <div class="box">
-                        <div class="box-title">
-                            <h4>Power Report: {{siteId}}</h4>
-                        </div>
-                        <div class="box-body">
-                            <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                                <app-tower-filter-wrapper [filterType]=2 [isTimerAvail]=true
-                                    [(isOpenTabularFilter)]="isOpenTabularFilter"
-                                    [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
-                                </app-tower-filter-wrapper>
-                            </div>
+                <mat-form-field class="form-field col-3" appearance="fill">
+                    <mat-label>Start date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="startDate" placeholder="Start Date" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
 
-                            <div class="list-wrap" style="background-color: transparent;">
-                                <div class="view-holder">
-                                    <div class="chart-container" [ngClass]="{'aLoader': isChartLoading}">
-                                        <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
-                                            [data]="lineChartData" [options]="lineChartOptions"
-                                            [legend]="lineChartLegend">
-                                        </canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <mat-form-field class="form-field col-3" appearance="fill">
+                    <mat-label>End date</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="endDate" placeholder="End Date" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+                <div class="form-field col-3">
+                    <button class="btn btn-primary-outline" (click)="reset($event);">Reset</button>
+                    <button class="btn btn-primary" [disabled]="masterForm.invalid" (click)="fetch($event);">
+                        Fetch
+                        <mat-icon class="imgPreIcon rotating" *ngIf="isLoading">
+                            autorenew
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="error" *ngIf="isFilterSelNotValid">
+                <p>Please select all</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="row">
+    <div class="col-6">
+        <div class="chart-container">
+            <div class="box">
+                <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isChartLoading}">
+                    <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
+                        [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend">
+                    </canvas>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-6">
-            <div class="parent-container">
-                <div class="header">
-                    <div class="filter-btn add-report">
-                        <button class="btn btn-primary" (click)="openTabularFilter1($event);">FILTERS</button>
-                    </div>
-                </div>
-
-                <div class="table-listing">
-                    <div class="box">
-                        <div class="box-title">
-                            <h4>Power Report</h4>
-                        </div>
-                        <div class="box-body">
-                            <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter1}">
-                                <app-tower-filter-wrapper [filterType]=2 [isTimerAvail]=true
-                                    [(isOpenTabularFilter)]="isOpenTabularFilter1"
-                                    [defaultFilterList]="defaultFilterList1" (onFilter)="applyFilter1($event)">
-                                </app-tower-filter-wrapper>
-                            </div>
-
-                            <div class="list-wrap" style="background-color: transparent;">
-                                <div class="view-holder">
-                                    <div class="chart-container" [ngClass]="{'aLoader': isChartLoading1}">
-                                        <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
-                                            [data]="lineChartData1" [options]="lineChartOptions1"
-                                            [legend]="lineChartLegend1">
-                                        </canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-6">
+        <div class="chart-container">
+            <div class="box">
+                <div class="box-body" style="min-height: 350px;" [ngClass]="{'aLoader': isChartLoading}">
+                    <canvas class="ct-chart hourly-chart fuel-consumption" baseChart [type]="'line'"
+                        [data]="lineChartData1" [options]="lineChartOptions1" [legend]="lineChartLegend1">
+                    </canvas>
                 </div>
             </div>
         </div>

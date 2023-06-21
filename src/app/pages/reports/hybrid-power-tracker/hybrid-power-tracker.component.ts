@@ -10,6 +10,7 @@ import { ApiConstant } from '../../../shared/api-constant.enum';
 import { AppConstant } from '../../../shared/app-constant.enum';
 
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-hybrid-power-tracker',
@@ -191,8 +192,8 @@ export class HybridPowerTrackerComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": "2020-10-11",
-    "endDate": "2020-12-12"
+    "startDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
+    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
   };
 
 

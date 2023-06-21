@@ -15,6 +15,7 @@ import { AppConstant } from '../../shared/app-constant.enum';
 import { ENERGY_BILLING_COLUMN_HEADER } from './energy-billing-column.enum';
 
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-energy-billing-report',
@@ -172,8 +173,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     "regions": [],
     "deviceType": [],
     "customers": [],
-    "startDate": null,
-    "endDate": null
+    "startDate": moment().add(-1, 'days').format('YYYY/MM/DD'),
+    "endDate": moment().add(-1, 'days').format('YYYY/MM/DD')
   };
 
   constructor(

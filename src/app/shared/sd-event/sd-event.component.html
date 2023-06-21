@@ -2,18 +2,18 @@
     <div class="listing" #sdEvent>
         <div class="head">
             <ul>
+                <li>Site Id</li>
+                <li>Alarm Name</li>
                 <li>Last Updated</li>
-                <li>Power Source</li>
-                <li>Region</li>
-                <li>Site ID</li>
+                <li>Age</li>
             </ul>
         </div>
         <div class="body" [ngClass]="{'aLoader': isLoading}">
             <ul *ngFor="let item of dataSource">
-                <li [title]="item?.lastUpdated">{{item?.lastUpdated}}</li>
-                <li [title]="item?.powerSource">{{item?.powerSource}}</li>
-                <li [title]="item?.region">{{item?.region}}</li>
                 <li [title]="item?.smSiteCode">{{item?.smSiteCode}}</li>
+                <li [title]="item?.alName">{{item?.alName}}</li>
+                <li [title]="item?.alOpentime">{{item?.alOpentime}}</li>
+                <li [title]="item?.displayAge">{{item?.displayAge}}</li>
             </ul>
         </div>
     </div>

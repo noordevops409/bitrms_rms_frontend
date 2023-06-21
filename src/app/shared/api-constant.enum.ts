@@ -44,7 +44,7 @@ export const ApiConstant = {
   getZoneByRegionId: `${GATEWAY}/api/dashboard/getZoneByRegionId`,
   getPowerSourceCount: `${GATEWAY}/api/dashboard/powersource-count`,
   getSiteName: `${GATEWAY}/api/dashboard/site-name`,
-
+  getPerfDashEvent: `${GATEWAY}/api/alarm-report/alarm-status`,
   getDashboardWidget: `${GATEWAY}/api/master_data/categorywiseofflinecounttotalcount`,
 
   getSiteSummaryData: `${GATEWAY}/api/prf-dashboard/site-summary`,

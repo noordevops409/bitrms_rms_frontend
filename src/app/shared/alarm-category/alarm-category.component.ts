@@ -15,6 +15,7 @@ import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
 
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-alarm-category',
@@ -225,6 +226,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    this.filterParam.date = `${startDate} - ${endDate}`;
     this.init();
     this.listen();
   }
