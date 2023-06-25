@@ -42,10 +42,26 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
       component: 'app-sd-summary-listing'
     },
     {
-      displayName: { name: 'Solar Energy' },
-      value: 1,
+      displayName: { name: 'Power Report' },
       type: 2,
       position: 2,
+      id: "nav-fuel-consumption",
+      apiUrl: ApiConstant.getPowerReport,
+      param: {
+        tabId: "nav-power-report",
+        siteId: "",
+        startDate: "",
+        endDate: "",
+        dateMonth: "",
+        dateYear: ""
+      },
+      component: 'app-site-details-power-report'
+    },
+    {
+      displayName: { name: 'Solar Energy' },
+      value: 1,
+      type: 3,
+      position: 3,
       id: "nav-solar-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -75,8 +91,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     {
       displayName: { name: 'Generator Energy' },
       value: 2,
-      type: 3,
-      position: 3,
+      type: 4,
+      position: 4,
       id: "nav-generator-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -106,8 +122,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     {
       displayName: { name: 'DC Load' },
       value: 5,
-      type: 4,
-      position: 4,
+      type: 5,
+      position: 5,
       id: "nav-dc-load-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -137,8 +153,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     {
       displayName: { name: 'AC Load' },
       value: 4,
-      type: 5,
-      position: 5,
+      type: 6,
+      position: 6,
       id: "nav-ac-load-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -168,8 +184,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     {
       displayName: { name: 'Battery Energy' },
       value: 12,
-      type: 6,
-      position: 6,
+      type: 7,
+      position: 7,
       id: "nav-battery-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -199,8 +215,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     {
       displayName: { name: 'Inverter Energy' },
       value: 14,
-      type: 7,
-      position: 7,
+      type: 8,
+      position: 8,
       id: "nav-invertor-tab",
       apiUrl: ApiConstant.getSiteTabSummary,
       param: {
@@ -229,8 +245,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     },
     {
       displayName: { name: 'Event' },
-      type: 8,
-      position: 8,
+      type: 9,
+      position: 9,
       id: "nav-event-tab",
       apiUrl: ApiConstant.getSiteAlarmStatus,
       param: {
@@ -252,8 +268,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     },
     {
       displayName: { name: 'Fuel Consumption' },
-      type: 9,
-      position: 9,
+      type: 10,
+      position: 10,
       id: "nav-fuel-consumption",
       apiUrl: ApiConstant.getSiteFuelConsumptionReport,
       param: {
@@ -265,22 +281,6 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
         dateYear: ""
       },
       component: 'app-sd-fuel-consumption'
-    },
-    {
-      displayName: { name: 'Power Report' },
-      type: 10,
-      position: 10,
-      id: "nav-fuel-consumption",
-      apiUrl: ApiConstant.getPowerReport,
-      param: {
-        tabId: "nav-power-report",
-        siteId: "",
-        startDate: "",
-        endDate: "",
-        dateMonth: "",
-        dateYear: ""
-      },
-      component: 'app-site-details-power-report'
     },
     {
       displayName: { name: 'No Load Outage' },

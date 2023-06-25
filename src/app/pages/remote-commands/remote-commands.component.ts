@@ -206,9 +206,11 @@ export class RemoteCommandsComponent implements OnInit {
     let siteId: any = ["All"];
 
     if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        siteId = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
     }
     this.filterParam = {
       "siteId": siteId

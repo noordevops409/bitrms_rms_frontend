@@ -200,14 +200,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    "siteId": [],
-    "clusters": [],
-    "zones": [],
-    "regions": [],
-    "deviceType": [],
-    "siteType": [],
-    "siteStatus": [],
-    "customers": [],
+    "siteId": ['All'],
+    "clusters": ['All'],
+    "zones": ['All'],
+    "regions": ['All'],
+    "deviceType": ['All'],
+    "siteType": ['All'],
+    "siteStatus": ['All'],
+    "customers": ['All'],
     "date": null
   };
   private hasFilterData: boolean = false;
@@ -246,7 +246,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.type = (this.route.snapshot.queryParams as any).type;
     this.loadTowerLatestData();
     this.loadWidgetChartData();
-    this.loadLatestReportStatus();
+    // this.loadLatestReportStatus();
   }
 
   refreshLatestStatusData(evt?: any) {
@@ -286,6 +286,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             obj[item.Category].data.push(item);
           }
         }
+        this.setLatestReportStatus(obj);
         this.loadLatestReportByDevice(obj);
         this.loadMultiLinesLabelChartByDevice(obj);
         this.loadStackBarChartByCustomer(obj);
@@ -308,11 +309,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       totalSite: 0,
       offlineSite: 0
     };
-    for (let item of res.data) {
-      obj.onlineSite += item.onlineSite;
-      obj.offlineSite += item.offlineSite;
-      obj.totalSite += item.totalSite;
+    for (let item of res.all.data) {
+      item.offlineCount = parseInt(item.offlineCount, 10);
+      item.totalCount = parseInt(item.totalCount, 10);
+      obj.offlineSite += item.offlineCount;
+      obj.totalSite += item.totalCount;
     }
+    obj.onlineSite = obj.totalSite - obj.offlineSite;
     // obj.onlineSite = 100;
     obj.offliinePercentage = ((obj.offlineSite * 100) / obj.totalSite).toFixed(2) + '%';
     obj.percentage = ((obj.onlineSite * 100) / obj.totalSite).toFixed(2) + '%';
@@ -516,6 +519,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['pages', 'dashboard', 'type', '1']);
     }
+  }
+
+  clickAlarmStatus(item: any) {
+    this.router.navigate(['pages', 'alarm-status']);
   }
 
   searchGlobally(event) {
@@ -1346,7 +1353,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         chart.on('draw', (data: any) => {
           if (data.type === 'bar') {
-            data.element._node.onclick = (event: any) => this.click(data);
+            data.element._node.onclick = (event: any) => this.clickAlarmStatus(data);
           }
         });
       }
@@ -1372,40 +1379,53 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let clusters: any = ["All"];
+    let siteId: any = ["All"];
+    let deviceType: any = ["All"];
+    let siteType: any = ["All"];
     let siteStatus: any = null;
-    let customer: any = [];
+    let customer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      clusters = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        clusters = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      deviceType = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
@@ -1413,11 +1433,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       siteStatus = parseInt(fData[7], 10);
 
-      customer = fData[8].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[8] && fData[8].length) {
+        customer = fData[8].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
     }
     this.filterParam = {
       "siteId": siteId,
@@ -1425,9 +1447,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteType": siteType,
-      "siteStatus": siteStatus,
-      "customers": customer,
+      "siteStatus": siteStatus ? siteStatus : ['All'],
+      "siteType": siteType.length === 0 ? ['All'] : siteType,
+      "customers": customer.length === 0 ? ['All'] : customer,
       "date": rangeDate
     };
   }

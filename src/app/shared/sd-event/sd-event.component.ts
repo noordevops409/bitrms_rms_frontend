@@ -112,7 +112,6 @@ export class SdEventComponent implements OnInit, OnDestroy {
     });
   }
 
-
   manipulate(data: any) {
     for (let item of data) {
       item.displayAge = this.secondsToDhms(item.age);

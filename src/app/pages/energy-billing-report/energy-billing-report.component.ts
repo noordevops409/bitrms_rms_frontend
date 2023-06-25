@@ -168,11 +168,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   private forDeleteListener!: Subscription;
 
   private filterParam: any = {
-    "siteId": [],
-    "zones": [],
-    "regions": [],
-    "deviceType": [],
-    "customers": [],
+    "siteId": ['All'],
+    "zones": ['All'],
+    "regions": ['All'],
+    "deviceType": ['All'],
+    "customers": ['All'],
     "startDate": moment().add(-1, 'days').format('YYYY/MM/DD'),
     "endDate": moment().add(-1, 'days').format('YYYY/MM/DD')
   };
@@ -313,37 +313,49 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     }
   }
 
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  }
+
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let siteId: any = ["All"];
+    let deviceType: any = ["All"];
     let startDate: any = null;
     let endDate: any = null;
-    let customer: any = [];
+    let customer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
 
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
       // clusters = fData[2].popupTo.data.map((item) => {
       //   return item.id;
       // });
 
-      siteId = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        siteId = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      deviceType = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        deviceType = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
       // siteType = fData[5].filter((item) => {
       //   return item.isChecked && item.text;
@@ -359,18 +371,20 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
       // siteStatus = parseInt(fData[7], 10);
 
-      customer = fData[7].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[7] && fData[7].length) {
+        customer = fData[7].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
     }
     this.filterParam = {
       "siteId": siteId,
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "customers": customer,
+      "customers": customer.length === 0 ? ['All'] : customer,
       "startDate": rangeDate,
       "endDate": rangeDate
     };
@@ -478,8 +492,18 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.country = item.country.toString();
-        return (item.country.toLowerCase().includes(value));
+        if (!!item.rgRegion) {
+          return item.rgRegion.toLowerCase().includes(value);
+        }
+        if (!!item.smsitecode) {
+          return item.smsitecode.toLowerCase().includes(value);
+        }
+        if (!!item.znZone) {
+          return item.znZone.toLowerCase().includes(value);
+        }
+        if (!!item.devicetype) {
+          return item.devicetype.toLowerCase().includes(value);
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

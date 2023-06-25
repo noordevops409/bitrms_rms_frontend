@@ -318,30 +318,42 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     let siteType: any = [];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      clusters = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        clusters = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      deviceType = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
@@ -354,7 +366,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       "regions": regions,
       "deviceType": deviceType,
       "siteStatus": 1,
-      "siteType": siteType,
+      "siteType": siteType.length ? siteType : ['All'],
       "date": rangeDate,
       "allClusters": true,
       "allDeviceType": true,

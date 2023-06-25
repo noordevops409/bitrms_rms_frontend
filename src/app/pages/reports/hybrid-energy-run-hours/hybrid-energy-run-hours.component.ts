@@ -185,12 +185,12 @@ export class HybridEnergyRunHoursComponent implements OnInit {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    "regions": [],
-    "zones": [],
-    "clusters": [],
-    "siteId": [],
-    "deviceType": [],
-    "siteType": [],
+    "regions": ['All'],
+    "zones": ['All'],
+    "clusters": ['All'],
+    "siteId": ['All'],
+    "deviceType": ['All'],
+    "siteType": ['All'],
     "siteStatus": 1,
     "startDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
     "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
@@ -327,12 +327,12 @@ export class HybridEnergyRunHoursComponent implements OnInit {
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
+    let regions: any = ['All'];
+    let zones: any = ['All'];
+    let clusters: any = ['All'];
+    let siteId: any = ['All'];
+    let deviceType: any = ['All'];
+    let siteType: any = ['All'];
     let rangeDate: any = "";
     if (fData && fData.length) {
       regions = fData[0].popupTo.data.map((item) => {
@@ -371,7 +371,7 @@ export class HybridEnergyRunHoursComponent implements OnInit {
       "regions": regions,
       "deviceType": deviceType,
       "siteStatus": 1,
-      "siteType": siteType,
+      "siteType": siteType.length ? siteType : ['All'],
       "date": rangeDate,
       "start": 1,
       "length": 10,

@@ -176,9 +176,9 @@ export class PowerReportComponent implements OnInit, OnDestroy {
   private params: any = null;
   private siteId: any = null;
   private filterParam: any = {
-    siteId: ["SGT31055A"],
-    siteType: [],
-    deviceType: [],
+    siteId: ['All'],
+    siteType: ['All'],
+    deviceType: ['All'],
     startDate: moment().add(-1, 'days').format('YYYY-MM-DD'),
     endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
   };
@@ -272,22 +272,27 @@ export class PowerReportComponent implements OnInit, OnDestroy {
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
+    let regions: any = ['All'];
+    let zones: any = ['All'];
+    let clusters: any = ['All'];
+    let siteId: any = ['All'];
+    let deviceType: any = ['All'];
+    let siteType: any = ['All'];
     let startDate: any = null;
     let endDate: any = null;
     let rangeDate: any = "";
     if (fData && fData.length) {
-      siteId = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      deviceType = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        siteId = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        deviceType = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
       // clusters = fData[2].popupTo.data.map((item) => {
       //   return item.id;

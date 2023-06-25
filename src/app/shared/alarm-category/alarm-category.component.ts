@@ -401,41 +401,56 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
 
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
 
-      deviceType = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        deviceType = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      categories = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        categories = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
 
-      customer = fData[8].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[8] && fData[8].length) {
+        customer = fData[8].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
     }
     this.filterParam = {
       "categories": categories,
@@ -443,8 +458,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "deviceType": deviceType,
       "regions": regions,
       "zones": zones,
-      "customers": customer,
-      "siteType": siteType,
+      "siteType": siteType.length === 0 ? ['All'] : siteType,
+      "customers": customer.length === 0 ? ['All'] : customer,
       "date": rangeDate,
       "alarmStatus": ["All"],
       "all": "ALL",
