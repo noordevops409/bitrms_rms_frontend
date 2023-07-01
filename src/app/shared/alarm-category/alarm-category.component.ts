@@ -193,7 +193,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
   private filterParam: any = {
     "categories": ["All"],
-    "siteId": ["All"],
+    "siteId": ["BAT10209A"],
     "deviceType": ["All"],
     "regions": ["All"],
     "zones": ["All"],
@@ -226,9 +226,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-    this.filterParam.date = `${startDate} - ${endDate}`;
+    // let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    // let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    // this.filterParam.date = `${startDate} - ${endDate}`;
     this.init();
     this.listen();
   }
@@ -263,7 +263,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getAlarmData;
+    let apiUrl: any = ApiConstant.getAlarmData + `?page=${this.currentPageNo}&size=${this.pageSize}`;
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;

@@ -202,9 +202,11 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   setFormData() {
     this.umID = this.selUser.umID;
 
-    let nameList = this.selUser.umName.split(" ");
-    this.masterForm.controls['firstName'].setValue(nameList[0]);
-    this.masterForm.controls['lastName'].setValue(nameList[1]);
+    if (this.selUser.umName) {
+      let nameList = this.selUser.umName.split(" ");
+      this.masterForm.controls['firstName'].setValue(nameList[0]);
+      this.masterForm.controls['lastName'].setValue(nameList[1]);
+    }
     this.masterForm.controls['umEmailid'].setValue(this.selUser.umEmailid);
 
 
