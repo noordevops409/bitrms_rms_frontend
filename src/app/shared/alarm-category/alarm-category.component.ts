@@ -237,6 +237,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.setDefaultFilter();
     this.loadData();
     this.loadSummaryCounts();
