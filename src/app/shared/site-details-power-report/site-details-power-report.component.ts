@@ -261,7 +261,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
   initForm() {
     this.masterForm = this.formBuilder.group({
       'selSiteId': [null, [Validators.required]],
-      'startDate': [moment().add(-1, 'days').format('YYYY-MM-DD')],
+      'startDate': [moment().add(-2, 'days').format('YYYY-MM-DD')],
       'endDate': [moment().add(-1, 'days').format('YYYY-MM-DD')]
     })
   }

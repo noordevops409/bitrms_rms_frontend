@@ -173,7 +173,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     "regions": ['All'],
     "deviceType": ['All'],
     "customers": ['All'],
-    "startDate": moment().add(-1, 'days').format('YYYY/MM/DD'),
+    "startDate": moment().add(-2, 'days').format('YYYY/MM/DD'),
     "endDate": moment().add(-1, 'days').format('YYYY/MM/DD')
   };
 

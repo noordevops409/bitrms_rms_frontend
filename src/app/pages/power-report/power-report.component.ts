@@ -57,7 +57,7 @@ export const MY_FORMATS = {
 })
 export class PowerReportComponent implements OnInit, OnDestroy {
 
-  public startDate: any = new FormControl(moment().add(-1, 'days').format('YYYY-MM-DD'));
+  public startDate: any = new FormControl(moment().add(-2, 'days').format('YYYY-MM-DD'));
   public endDate: any = new FormControl(moment().add(-1, 'days').format('YYYY-MM-DD'));
   public listData: any = null;
   public isChartLoading: boolean = false;
@@ -179,7 +179,7 @@ export class PowerReportComponent implements OnInit, OnDestroy {
     siteId: ['All'],
     siteType: ['All'],
     deviceType: ['All'],
-    startDate: moment().add(-1, 'days').format('YYYY-MM-DD'),
+    startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
     endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
   };
 
