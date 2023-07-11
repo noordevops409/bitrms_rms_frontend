@@ -180,7 +180,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   private sampleData: any = {};
   private allData: any = {};
-  private currentPageNo: number = 0;
+  private currentPageNo: number = 1;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
@@ -244,7 +244,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRawDataReport, this.filterParam).subscribe((res: any) => {
+    let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       if (res && res.data) {
         this.manipulate(res.data);

@@ -176,7 +176,7 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
   private params: any = null;
   private siteId: any = null;
   private filterParam: any = {
-    siteId: ["SGT31055A"],
+    siteId: [],
     siteType: [],
     deviceType: [],
     startDate: moment().add(-2, 'days').format('YYYY/MM/DD'),
@@ -210,7 +210,7 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      this.filterParam.siteId = ["SGT31055A"];
+      this.filterParam.siteId = [];
     }
   }
 

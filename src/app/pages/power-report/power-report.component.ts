@@ -210,7 +210,7 @@ export class PowerReportComponent implements OnInit, OnDestroy {
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      this.filterParam.siteId = ["SGT31055A"];
+      this.filterParam.siteId = [];
     }
   }
 

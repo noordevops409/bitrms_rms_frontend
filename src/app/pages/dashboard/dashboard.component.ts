@@ -1430,8 +1430,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
-
-      siteStatus = parseInt(fData[7], 10);
+      // siteStatus = parseInt(fData[7], 10);
+      siteStatus = fData[7];
 
       if (fData[8] && fData[8].length) {
         customer = fData[8].filter((item) => {
@@ -1447,7 +1447,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteStatus": siteStatus ? siteStatus : ['All'],
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
       "date": rangeDate

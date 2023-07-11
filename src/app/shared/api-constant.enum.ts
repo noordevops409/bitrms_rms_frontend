@@ -71,7 +71,7 @@ export const ApiConstant = {
   getOutageCategory: `${GATEWAY}/api/rca_master_data/outage_category`,
   getFaultCategory: `${GATEWAY}/api/rca_master_data/fault_category`,
 
-  getRawDataReport: `${GATEWAY}/api/raw-report/raw-data`,
+  getRawDataReport: `${GATEWAY}/api/raw-report/raw-data/pageNumber`,
   getTeePowerTrackerReport: `${GATEWAY}/api/power-tracker/tee/pageNumber`,
   getHybridPowerTrackerReport: `${GATEWAY}/api/power-tracker/hybrid/pageNumber`,
   getTeeEnergyRunHoursReport: `${GATEWAY}/api/energy-runhours/tee/pageNumber`,
