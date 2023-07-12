@@ -357,7 +357,7 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
       return;
     }
     let param: any = this.tabs[0].param;
-    param.siteId = "MGT20421A" || this.siteId;
+    param.siteId = this.siteId;
     this.isLoading = true;
     this.httpClient.post(ApiConstant.getSiteSummaryData, param).subscribe((res: any) => {
       this.isLoading = false;

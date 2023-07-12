@@ -180,7 +180,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   private sampleData: any = {};
   private allData: any = {};
-  private currentPageNo: number = 1;
+  private currentPageNo: number = 0;
   private pageSize: number = 10;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
@@ -248,7 +248,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       if (res && res.data) {
-        this.manipulate(res.data);
+        this.manipulate(res);
         setTimeout(() => {
           this.tableListingComponent.init();
         });
@@ -263,10 +263,10 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     });
   }
 
-  manipulate(data) {
-    this.setResponse(data);
-    this.setColumnHeader(data);
-    this.setRowData(data);
+  manipulate(res) {
+    this.setResponse(res);
+    this.setColumnHeader(res.data);
+    this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
   }
 
@@ -278,7 +278,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.sampleData.sortField = 'rcaid';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
-    this.sampleData.totalDocs = resData.totalElements || resData.length;
+    this.sampleData.totalDocs = resData.recordsTotal || resData.length;
   }
 
   setColumnHeader(resData) {

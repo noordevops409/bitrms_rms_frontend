@@ -165,9 +165,11 @@ export class TowerFilterWrapperComponent implements OnInit {
       if (!this.defaultFilterList[6]) {
         this.defaultFilterList.push(this.reqSiteIdObj);
       }
-
+      
       if (!this.defaultFilterList[7]) {
         this.defaultFilterList.push(this.selectedSiteStatus);
+      } else if (this.selectedSiteStatus) {
+        this.defaultFilterList[7] = this.selectedSiteStatus;
       }
 
       if (!this.defaultFilterList[8]) {
