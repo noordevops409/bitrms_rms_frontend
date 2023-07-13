@@ -311,12 +311,12 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   setFilterParam(fData) {
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
+    let regions: any = ['All'];
+    let zones: any = ['All'];
+    let clusters: any = ['All'];
+    let siteId: any = ['All'];
+    let deviceType: any = ['All'];
+    let siteType: any = ['All'];
     let rangeDate: any = "";
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {

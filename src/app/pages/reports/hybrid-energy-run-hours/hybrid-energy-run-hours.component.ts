@@ -335,30 +335,43 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     let siteType: any = ['All'];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      clusters = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        clusters = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      deviceType = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
@@ -423,17 +436,17 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     value = value.toUpperCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if(!!item.rgRegion) {
+        if (!!item.rgRegion) {
           return item.rgRegion.toLowerCase().includes(value);
         }
-        if(!!item.smsitecode) {
+        if (!!item.smsitecode) {
           return item.smsitecode.toLowerCase().includes(value);
         }
-        if(!!item.znZone) {
+        if (!!item.znZone) {
           return item.znZone.toLowerCase().includes(value);
         }
-        if(!!item.devicetype) {
-          return item.devicetype.toLowerCase().includes(value);  
+        if (!!item.devicetype) {
+          return item.devicetype.toLowerCase().includes(value);
         }
       });
     } else {
