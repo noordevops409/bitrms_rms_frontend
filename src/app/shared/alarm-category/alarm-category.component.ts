@@ -193,14 +193,15 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
   private filterParam: any = {
     "categories": ["All"],
-    "siteId": ["BAT10209A"],
+    "siteId": ["All"],
     "deviceType": ["All"],
     "regions": ["All"],
     "zones": ["All"],
     "customers": ["All"],
     "siteType": ["All"],
-    "date": "2023/06/14 - 2023/06/15",
+    "date": null,
     "alarmStatus": ["All"],
+    "siteStatus": ['All'],
     "all": "ALL",
     "allAlarmStatus": true,
     "allCustomers": true,
@@ -238,9 +239,35 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
   init() {
     // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.initFilterParam();
     this.setDefaultFilter();
     this.loadData();
     this.loadSummaryCounts();
+  }
+
+  initFilterParam() {
+    let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    this.filterParam = {
+      "categories": ["All"],
+      "siteId": ["All"],
+      "deviceType": ["All"],
+      "regions": ["All"],
+      "zones": ["All"],
+      "customers": ["All"],
+      "siteType": ["All"],
+      "date": `${startDate} - ${endDate}`,
+      "alarmStatus": ["All"],
+      "siteStatus": ['All'],
+      "all": "ALL",
+      "allAlarmStatus": true,
+      "allCustomers": true,
+      "allDeviceType": true,
+      "allRegions": true,
+      "allSiteId": true,
+      "allSiteType": true,
+      "anyFilterEmpty": true
+    };
   }
 
   listen() {
@@ -252,10 +279,11 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   setDefaultFilter() {
+    this.initFilterParam();
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      // this.filterParam.siteId = ["MGT20711A"];
+      this.filterParam.siteId = ["All"];
     }
   }
 
@@ -445,6 +473,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
 
+      siteStatus = fData[7];
+
       if (fData[8] && fData[8].length) {
         customer = fData[8].filter((item) => {
           return item.isChecked && item.text;
@@ -459,6 +489,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "deviceType": deviceType,
       "regions": regions,
       "zones": zones,
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
       "date": rangeDate,

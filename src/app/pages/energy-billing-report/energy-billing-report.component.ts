@@ -164,6 +164,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
+  public startTime: any = "00:00";
+  public endTime: any = "23:59";
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
 
@@ -173,8 +175,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     "regions": ['All'],
     "deviceType": ['All'],
     "customers": ['All'],
-    "startDate": moment().add(-2, 'days').format('YYYY/MM/DD'),
-    "endDate": moment().add(-1, 'days').format('YYYY/MM/DD')
+    "startDate": moment(moment().add(-2, 'days').format('YYYY-MM-DD') + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss'),
+    "endDate": moment(moment().add(-1, 'days').format('YYYY-MM-DD') + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss')
   };
 
   constructor(
@@ -213,6 +215,18 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
   init() {
     this.loadData();
+  }
+
+  setDefaultFilter() {
+    this.filterParam = {
+      "siteId": ['All'],
+      "zones": ['All'],
+      "regions": ['All'],
+      "deviceType": ['All'],
+      "customers": ['All'],
+      "startDate": moment(moment().add(-2, 'days').format('YYYY-MM-DD') + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss'),
+      "endDate": moment(moment().add(-1, 'days').format('YYYY-MM-DD') + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss')
+    };
   }
 
   loadData() {
@@ -364,8 +378,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       // });
 
       if (fData[5] && fData[5].startDate && fData[5].endDate) {
-        startDate = fData[5].startDate.replace(/-/g, '/');
-        endDate = fData[5].endDate.replace(/-/g, '/');
+        startDate = fData[5].startDate;
+        endDate = fData[5].endDate;
         rangeDate = fData[5].startDate.replace(/-/g, '/') + ' - ' + fData[5].endDate.replace(/-/g, '/');
       }
 
@@ -385,17 +399,19 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       "regions": regions,
       "deviceType": deviceType,
       "customers": customer.length === 0 ? ['All'] : customer,
-      "startDate": rangeDate,
-      "endDate": rangeDate
+      "startDate": startDate ? startDate : this.filterParam.startDate,
+      "endDate": endDate ? endDate : this.filterParam.endDate
     };
   }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.isOpenTabularFilter = false;
     if (evt) {
       this.setFilterParam(evt);
       this.loadData();
     } else {
+      this.setDefaultFilter();
       this.loadData();
     }
   }

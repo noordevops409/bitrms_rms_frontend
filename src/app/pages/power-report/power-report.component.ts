@@ -207,10 +207,17 @@ export class PowerReportComponent implements OnInit, OnDestroy {
   }
 
   setDefaultFilter() {
+    this.filterParam = {
+      siteId: ['All'],
+      siteType: ['All'],
+      deviceType: ['All'],
+      startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
+      endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
+    };
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
     } else {
-      this.filterParam.siteId = [];
+      this.filterParam.siteId = ['All'];
     }
   }
 

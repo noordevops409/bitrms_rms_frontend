@@ -234,6 +234,20 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     });
   }
 
+  setDefaultFilter() {
+    this.filterParam = {
+      "siteId": ['All'],
+      "clusters": ['All'],
+      "zones": ['All'],
+      "regions": ['All'],
+      "deviceType": ['All'],
+      "siteType": ['All'],
+      "siteStatus": ['All'],
+      "customers": ['All'],
+      "date": null
+    };
+  }
+
   loadData() {
     if (this.isLoading) {
       return;
@@ -389,10 +403,12 @@ export class RcaReportComponent implements OnInit, OnDestroy {
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.isOpenTabularFilter = false;
     if (evt) {
       this.setFilterParam(evt);
       this.loadData();
     } else {
+      this.setDefaultFilter();
       this.loadData();
     }
   }

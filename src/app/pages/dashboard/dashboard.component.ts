@@ -1145,6 +1145,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  setDefaultFilter() {
+    this.filterParam = {
+      "siteId": ['All'],
+      "clusters": ['All'],
+      "zones": ['All'],
+      "regions": ['All'],
+      "deviceType": ['All'],
+      "siteType": ['All'],
+      "siteStatus": ['All'],
+      "customers": ['All'],
+      "date": null
+    };
+  }
+
   loadTowerLatestData() {
     if (this.isLoading) {
       return;
@@ -1456,11 +1470,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.isOpenTabularFilter = false;
     if (evt) {
       this.setFilterParam(evt);
       this.loadFilterTowerStatusData();
     } else {
-      this.loadTowerLatestData();
+      this.setDefaultFilter();
+      this.loadFilterTowerStatusData();
     }
   }
 
