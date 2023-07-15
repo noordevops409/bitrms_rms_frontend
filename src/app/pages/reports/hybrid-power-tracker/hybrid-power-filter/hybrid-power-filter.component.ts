@@ -20,7 +20,7 @@ export class HybridPowerFilterComponent implements OnInit {
   public siteType: any = [
     {
       isChecked: false,
-      text: 'All'
+      text: ''
     },
     {
       isChecked: false,

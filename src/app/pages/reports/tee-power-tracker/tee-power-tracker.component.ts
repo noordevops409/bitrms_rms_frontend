@@ -332,12 +332,12 @@ export class TeePowerTrackerComponent implements OnInit {
 
   setFilterParam(fData) {
 
-    let regions: any = ['All'];
-    let zones: any = ['All'];
-    let clusters: any = ['All'];
-    let siteId: any = ['All'];
-    let deviceType: any = ['All'];
-    let siteType: any = ['All'];
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
     let rangeDate: any = "";
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -389,7 +389,7 @@ export class TeePowerTrackerComponent implements OnInit {
       "regions": regions,
       "deviceType": deviceType,
       "siteStatus": 1,
-      "siteType": siteType.length ? siteType : ['All'],
+      "siteType": siteType.length ? siteType : [],
       "date": rangeDate,
       "start": 1,
       "length": 10,
