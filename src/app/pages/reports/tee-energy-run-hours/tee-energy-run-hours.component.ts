@@ -241,7 +241,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
   }
 
   fetchData(evt?: any) {
-    this.setDefaultFilter();
+    // this.setDefaultFilter();
     this.loadData();
   }
 
@@ -459,17 +459,8 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if (!!item.rgRegion) {
-          return item.rgRegion.toLowerCase().includes(value);
-        }
-        if (!!item.smsitecode) {
-          return item.smsitecode.toLowerCase().includes(value);
-        }
-        if (!!item.znZone) {
-          return item.znZone.toLowerCase().includes(value);
-        }
-        if (!!item.devicetype) {
-          return item.devicetype.toLowerCase().includes(value);
+        if (!!item.rgRegion && !!item.smsitecode && !!item.znZone && !!item.devicetype) {
+          return (item.rgRegion.includes(value) || item.smsitecode.includes(value) || item.znZone.includes(value) || item.devicetype.includes(value));
         }
       });
     } else {

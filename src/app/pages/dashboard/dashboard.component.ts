@@ -245,7 +245,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   init() {
     this.type = (this.route.snapshot.queryParams as any).type;
-    this.loadTowerLatestData();
+    // this.loadTowerLatestData();
     this.loadWidgetChartData();
     // this.loadLatestReportStatus();
   }
@@ -552,7 +552,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       let chartData: any = obj.Devicetype.data;
 
       let deviceTypeList: any = chartData.map((item: any) => {
-        return item.deviceType ? item.Category_id : 'Delta';
+        return item.Category_id;
       });
 
       let totalList: any = chartData.map((item: any) => {
@@ -1391,7 +1391,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openTabular(evt?: any) {
-    this.isExpanded = !this.isExpanded;
+    // this.isExpanded = !this.isExpanded;
+    evt.preventDefault();
+    this.router.navigate(['pages', 'dashboard', 'type', '' + 3]);
   }
 
   openTabularFilter(evt?: any) {

@@ -241,7 +241,7 @@ export class HybridPowerTrackerComponent implements OnInit {
   }
 
   fetchData(evt?: any) {
-    this.setDefaultFilter();
+    // this.setDefaultFilter();
     this.loadData();
   }
 

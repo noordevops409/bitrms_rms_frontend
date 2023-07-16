@@ -181,6 +181,12 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public siteId: any = null;
   public alarmCounts: any = [];
 
+  public ddExport: any = "-1";
+  public exportData: any = {
+    data: []
+  };
+  public isExporting: boolean = false;
+
   private countryList: any = [];
   private sampleData: any = {};
   private allData: any = {};
@@ -309,6 +315,41 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         title: 'Error',
         msg: 'Error while loading alarm category details!'
       })
+    });
+  }
+
+  loadAllData() {
+    return new Promise((resolve, reject) => {
+      let list: any = [];
+      let pageSize = 100;
+      let getAll = () => {
+        let apiUrl: any = ApiConstant.getAlarmData + `?page=${this.currentPageNo}&size=${pageSize}`;
+        this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
+          if (res.data && res.data.length) {
+            list.push(...res.data);
+          } else {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          }
+          this.currentPageNo += 1;
+          pageSize = Math.min(100, (res.totalCount - list.length));
+          if (res.totalCount === list.length) {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          } else {
+            getAll();
+          }
+        }, (err: any) => {
+          reject(err);
+        });
+      }
+      getAll();
     });
   }
 
@@ -562,6 +603,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
     /* save to file */
     XLSX.writeFile(wb, `alarm-status-data.${type}`);
+    this.isExporting = false;
 
   }
 
@@ -575,6 +617,36 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("csv");
+  }
+
+  exportOptSelected(evt?: any) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    this.isExporting = true;
+    if (this.exportData.data.length === 0) {
+      this.loadAllData().then((res: any) => {
+        this.exportData.data = res.data;
+        setTimeout(() => {
+          let selVal = this.ddExport;
+          if (selVal === "1") {
+            this.exportExcel(evt);
+          } else if (selVal === "2") {
+            this.exportCSV(evt);
+          }
+        }, 500);
+      }).catch((err: any) => {
+
+      })
+    } else {
+      setTimeout(() => {
+        let selVal = this.ddExport;
+        if (selVal === "1") {
+          this.exportExcel(evt);
+        } else if (selVal === "2") {
+          this.exportCSV(evt);
+        }
+      }, 500);
+    }
   }
 
   searchGlobally(event) {

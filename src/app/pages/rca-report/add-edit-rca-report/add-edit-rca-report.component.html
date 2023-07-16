@@ -17,6 +17,7 @@
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
+                                <label for="selectDate" class="label">Select Date</label>
                                 <input matInput [ngxMatDatetimePicker]="picker" placeholder="Select Date"
                                     formControlName="selectDate" [min]="minDate" [max]="maxDate" [disabled]="disabled">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -29,6 +30,7 @@
 
                         <div class="form-field col-4">
                             <mat-form-field>
+                                <label for="inputSiteDownTime" class="label">Input Site Down Time</label>
                                 <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Input Site Down Time"
                                     (dateChange)="calDuration($event);" formControlName="inputSiteDownTime" [min]="minDate"
                                     [max]="maxDate" [disabled]="disabled">
@@ -42,6 +44,7 @@
 
                         <div class="form-field col-4">
                             <mat-form-field>
+                                <label for="inputRestoredTime" class="label">Input Restored Time</label>
                                 <input matInput [ngxMatDatetimePicker]="picker2" placeholder="Input Restored Time"
                                     (dateChange)="calDuration($event);" formControlName="inputRestoredTime" [min]="minDate"
                                     [max]="maxDate" [disabled]="disabled">
@@ -108,7 +111,7 @@
         
                         <div class="form-field col-4">
                             <label for="enterOutageMinutes" class="label">Enter Outage Minutes</label>
-                            <input type="number" formControlName="enterOutageMinutes" name="enterOutageMinutes"
+                            <input type="number"  formControlName="enterOutageMinutes" name="enterOutageMinutes"
                                 class="input-element" placeholder="Enter Outage Minutes" />
                         </div>
         

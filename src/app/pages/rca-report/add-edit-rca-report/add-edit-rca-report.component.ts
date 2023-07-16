@@ -286,7 +286,12 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
     // formData.inputRestoredTime = moment(new Date(formData.inputRestoredTime));
     let downTime: any = moment(new Date(formData.inputSiteDownTime), "HH:mm:ss");
     let restoreTime: any = moment(new Date(formData.inputRestoredTime), "HH:mm:ss");
-    let diff: any = moment.utc(restoreTime.diff(downTime, "minutes"));
+    let diffInMinutes = restoreTime.diff(downTime, "minutes");
+    let diff: any = moment.utc(diffInMinutes);
+    if (diffInMinutes > 0) {
+      this.masterForm.controls['enterOutageMinutes'].setValue(diffInMinutes);
+      this.masterForm.controls['enterSLA'].setValue(diffInMinutes);
+    }
     let convert: any = this.splitTime(diff);
     let format: any = "";
     if (convert.days > 0) {

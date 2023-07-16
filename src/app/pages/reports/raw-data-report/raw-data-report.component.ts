@@ -265,7 +265,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   fetchData(evt?: any) {
-    this.setDefaultFilter();
+    // this.setDefaultFilter();
     this.loadData();
   }
 

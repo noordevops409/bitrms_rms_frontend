@@ -247,7 +247,7 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   fetchData(evt?: any) {
-    this.setDefaultFilter();
+    // this.setDefaultFilter();
     this.loadData();
   }
 

@@ -200,19 +200,20 @@ export class ListingComponent implements OnInit, OnDestroy {
   private isMultipleRowSelected: boolean = false;
 
   private filterParam: any = {
-    "siteId": [],
-    "clusters": [],
-    "zones": [],
-    "regions": [],
-    "deviceType": [],
-    "siteType": [],
-    "siteStatus": [],
-    "customers": [],
+    "siteId": ['All'],
+    "clusters": ['All'],
+    "zones": ['All'],
+    "regions": ['All'],
+    "deviceType": ['All'],
+    "siteType": ['All'],
+    "siteStatus": ['All'],
+    "customers": ['All'],
     "date": null
   };
   private hasFilterData: boolean = false;
   private type: any = null;
   private forImgPreview!: Subscription;
+  private ageLimit: any = 10000;
 
   constructor(
     private util: CommonUtilService,
@@ -249,18 +250,34 @@ export class ListingComponent implements OnInit, OnDestroy {
     this.loadTowerLatestData();
   }
 
+  setDefaultFilter() {
+    this.filterParam = {
+      "siteId": ['All'],
+      "clusters": ['All'],
+      "zones": ['All'],
+      "regions": ['All'],
+      "deviceType": ['All'],
+      "siteType": ['All'],
+      "siteStatus": ['All'],
+      "customers": ['All'],
+      "date": null
+    };
+  }
+
   loadTowerLatestData() {
     if (this.isLoading) {
       return;
     }
     this.isLoading = true;
     const url = ApiConstant.getLatestData;
-    this.httpClient.get(url).subscribe((data: any) => {
+    this.httpClient.get(url).subscribe((res: any) => {
       this.isLoading = false;
-      this.manipulate(data.data);
-      setTimeout(() => {
-        this.tableListingComponent.init();
-      });
+      if (res && res.data) {
+        this.manipulate(res.data);
+        setTimeout(() => {
+          this.tableListingComponent.init();
+        });
+      }
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
@@ -331,6 +348,12 @@ export class ListingComponent implements OnInit, OnDestroy {
     const data = resData || [];
     if (data.length) {
       for (let item of data) {
+        item.age = parseInt(item.age, 10);
+        if (item.age > this.ageLimit) {
+          item.isDataOnline = false;
+        } else {
+          item.isDataOnline = true;
+        }
         item.alarmCategory = 'Alarm Category';
         item.hourlyReport = 'Hourly Report';
         item.imgPath = 'View Image';
@@ -341,6 +364,10 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.sampleData.data = [];
       this.allData.data = data;
     }
+  }
+
+  goBack(evt?: any) {
+    (window as any).history.back();
   }
 
   openFilter(evt?: any) {
@@ -355,62 +382,73 @@ export class ListingComponent implements OnInit, OnDestroy {
     this.isExpanded = !this.isExpanded;
   }
 
-  goBack(evt?: any) {
-    window.history.back();
-  }
-
   openTabularFilter(evt?: any) {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let clusters: any = ["All"];
+    let siteId: any = ["All"];
+    let deviceType: any = ["All"];
+    let siteType: any = ["All"];
     let siteStatus: any = null;
-    let customer: any = [];
+    let customer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      regions = fData[0].popupTo.data.map((item) => {
-        return item.id;
-      });
-      zones = fData[1].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+        regions = fData[0].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      clusters = fData[2].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteId = fData[3].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        clusters = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      deviceType = fData[4].popupTo.data.map((item) => {
-        return item.id;
-      });
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
-      siteType = fData[5].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
+      // siteStatus = parseInt(fData[7], 10);
+      siteStatus = fData[7];
 
-      siteStatus = parseInt(fData[7], 10);
-
-      customer = fData[8].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
+      if (fData[8] && fData[8].length) {
+        customer = fData[8].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
     }
     this.filterParam = {
       "siteId": siteId,
@@ -418,20 +456,22 @@ export class ListingComponent implements OnInit, OnDestroy {
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteType": siteType,
-      "siteStatus": siteStatus,
-      "customers": customer,
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
+      "siteType": siteType.length === 0 ? ['All'] : siteType,
+      "customers": customer.length === 0 ? ['All'] : customer,
       "date": rangeDate
     };
   }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
+    this.isOpenTabularFilter = false;
     if (evt) {
       this.setFilterParam(evt);
       this.loadFilterTowerStatusData();
     } else {
-      this.loadTowerLatestData();
+      this.setDefaultFilter();
+      this.loadFilterTowerStatusData();
     }
   }
 
