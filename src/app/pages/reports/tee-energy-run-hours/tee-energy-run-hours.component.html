@@ -126,9 +126,9 @@
                             </table>
                         </div>
 
-                        <div class="listing-container" *ngIf="activeListing.list?.data"
+                        <div class="listing-container"
                             [ngClass]="{'aLoader': isLoading || isExporting, 'failed': isListServerError}">
-                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                            <app-table-listing [ngClass]="{'hasNoData': hasNoData}" [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">

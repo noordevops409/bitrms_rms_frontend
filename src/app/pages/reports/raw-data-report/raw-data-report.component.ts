@@ -31,6 +31,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
 
   public activeListing: any = {};
+  public hasNoData: boolean = true;
   public data: any;
   public listingTemplate: any = {};
   public ddExport: any = "-1";
@@ -235,7 +236,36 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     // this.loadData();
   }
 
+  setDefaultFilter() {
+    this.filterParam = {
+      "allClusters": true,
+      "allDeviceType": true,
+      "allRegions": true,
+      "allSiteId": true,
+      "allSiteStatus": true,
+      "allSiteTypes": true,
+      "allZones": true,
+      "anyFilterEmpty": true,
+      "clusters": ["All"],
+      "date": "2023/06/15 00:01:00 - 2023/06/16 23:54:00",
+      "deviceType": ["All"],
+      "draw": 5,
+      "length": this.pageSize,
+      "page": this.currentPageNo,
+      "regions": ["All"],
+      "siteId": ["All"],
+      "siteStatus": 1,
+      "siteType": ["All"],
+      "start": this.recordStartFrom,
+      "zones": ["All"]
+    };
+    let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+  }
+
   fetchData(evt?: any) {
+    this.setDefaultFilter();
     this.loadData();
   }
 
@@ -247,6 +277,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
+      this.hasNoData = false;
       if (res && res.data) {
         this.manipulate(res);
         setTimeout(() => {
@@ -255,6 +286,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       }
     }, (err) => {
       this.isLoading = false;
+      this.hasNoData = false;
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',

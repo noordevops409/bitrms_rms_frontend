@@ -31,6 +31,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
   public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
 
   public activeListing: any = {};
+  public hasNoData: boolean = true;
   public data: any;
   public listingTemplate: any = {};
   public ddExport: any = "-1";
@@ -222,7 +223,25 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     // this.loadData();
   }
 
+  setDefaultFilter() {
+    this.filterParam = {
+      "regions": [],
+      "zones": [],
+      "clusters": [],
+      "siteId": [],
+      "deviceType": [],
+      "siteType": [],
+      "siteStatus": 1,
+      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+    };
+    let startDate = this.filterParam.startDate;
+    let endDate = this.filterParam.endDate;
+    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+  }
+
   fetchData(evt?: any) {
+    this.setDefaultFilter();
     this.loadData();
   }
 
@@ -235,12 +254,14 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
+      this.hasNoData = false;
       this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
       });
     }, (err) => {
       this.isLoading = false;
+      this.hasNoData = false;
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
@@ -332,6 +353,8 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     let deviceType: any = [];
     let siteType: any = [];
     let rangeDate: any = "";
+    let startDate = this.filterParam.startDate;
+    let endDate = this.filterParam.endDate;
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
         regions = fData[0].popupTo.data.map((item) => {
@@ -371,6 +394,8 @@ export class TeeEnergyRunHoursComponent implements OnInit {
       }
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        startDate = fData[6].startDate.replace(/-/g, '/');
+        endDate = fData[6].endDate.replace(/-/g, '/');
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
     }
@@ -383,6 +408,8 @@ export class TeeEnergyRunHoursComponent implements OnInit {
       "siteStatus": 1,
       "siteType": siteType.length ? siteType : [],
       "date": rangeDate,
+      "startDate": startDate,
+      "endDate": endDate,
       "start": 1,
       "length": 10,
       "draw": 5,

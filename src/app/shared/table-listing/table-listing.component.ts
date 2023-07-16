@@ -1822,6 +1822,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
         li.addClass('text-center');
       }
 
+      // if()
+
       if (['checkbox'].indexOf(itemH.colType) > -1) {
         li.addClass('relative');
       }

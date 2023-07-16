@@ -11,6 +11,10 @@
         // border-bottom: 42px solid #fff;
         .listing-container {
             height: 100%;
+
+            .hasNoData {
+                display: none;
+            }
         }
     }
 }

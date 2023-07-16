@@ -213,6 +213,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private hasFilterData: boolean = false;
   private type: any = null;
   private forImgPreview!: Subscription;
+  private ageLimit: any = 10000;
 
   constructor(
     private util: CommonUtilService,
@@ -1243,6 +1244,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const data = resData || [];
     if (data.length) {
       for (let item of data) {
+        item.age = parseInt(item.age, 10);
+        if (item.age > this.ageLimit) {
+          item.isDataOnline = false;
+        } else {
+          item.isDataOnline = true;
+        }
         item.alarmCategory = 'Alarm Category';
         item.hourlyReport = 'Hourly Report';
         item.imgPath = 'View Image';
