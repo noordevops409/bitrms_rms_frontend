@@ -346,10 +346,12 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     let zones: any = ["All"];
     let siteId: any = ["All"];
     let deviceType: any = ["All"];
+    let siteType: any = ["All"];
     let startDate: any = null;
     let endDate: any = null;
     let customer: any = ["All"];
     let rangeDate: any = "";
+    let siteStatus: any = null;
     if (fData && fData.length) {
 
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -380,11 +382,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
         });
       }
 
-      // siteType = fData[5].filter((item) => {
-      //   return item.isChecked && item.text;
-      // }).map((item) => {
-      //   return item.text;
-      // });
+      siteType = fData[4].filter((item) => {
+        return item.isChecked && item.text;
+      }).map((item) => {
+        return item.text;
+      });
 
       if (fData[5] && fData[5].startDate && fData[5].endDate) {
         startDate = fData[5].startDate;
@@ -392,7 +394,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
         rangeDate = fData[5].startDate.replace(/-/g, '/') + ' - ' + fData[5].endDate.replace(/-/g, '/');
       }
 
-      // siteStatus = parseInt(fData[7], 10);
+      siteStatus = fData[6];
 
       if (fData[7] && fData[7].length) {
         customer = fData[7].filter((item) => {
@@ -409,7 +411,9 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       "deviceType": deviceType,
       "customers": customer.length === 0 ? ['All'] : customer,
       "startDate": startDate ? startDate : this.filterParam.startDate,
-      "endDate": endDate ? endDate : this.filterParam.endDate
+      "endDate": endDate ? endDate : this.filterParam.endDate,
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
+      "siteType": siteType.length === 0 ? ['All'] : siteType,
     };
   }
 
