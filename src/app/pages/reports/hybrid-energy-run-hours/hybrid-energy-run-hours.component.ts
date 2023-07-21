@@ -277,7 +277,15 @@ export class HybridEnergyRunHoursComponent implements OnInit {
       let getAll = () => {
         let apiUrl: any = ApiConstant.getHybridEnergyRunHoursReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
-          list.push(...res.data);
+          if (res.data && res.data.length) {
+            list.push(...res.data);
+          } else {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          }
           this.currentPageNo += 1;
           pageSize = Math.min(100, (res.totalCount - list.length));
           if (res.totalCount === list.length) {
@@ -285,6 +293,7 @@ export class HybridEnergyRunHoursComponent implements OnInit {
             this.currentPageNo = 1;
             pageSize = 10;
             resolve(res);
+            return;
           } else {
             getAll();
           }

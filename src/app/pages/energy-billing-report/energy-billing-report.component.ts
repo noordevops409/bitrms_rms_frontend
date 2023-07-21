@@ -259,7 +259,15 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       let getAll = () => {
         let apiUrl: any = ApiConstant.getEnergyBillingReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
-          list.push(...res.data);
+          if (res.data && res.data.length) {
+            list.push(...res.data);
+          } else {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          }
           this.currentPageNo += 1;
           pageSize = Math.min(100, (res.totalCount - list.length));
           if (res.totalCount === list.length) {
@@ -267,6 +275,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
             this.currentPageNo = 1;
             pageSize = 10;
             resolve(res);
+            return;
           } else {
             getAll();
           }
@@ -508,17 +517,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if (!!item.rgRegion) {
-          return item.rgRegion.toLowerCase().includes(value);
-        }
-        if (!!item.smsitecode) {
-          return item.smsitecode.toLowerCase().includes(value);
-        }
-        if (!!item.znZone) {
-          return item.znZone.toLowerCase().includes(value);
-        }
-        if (!!item.devicetype) {
-          return item.devicetype.toLowerCase().includes(value);
+        if (!!item.rgRegion || !!item.smSiteCode || !!item.znZone || !!item.devicetype) {
+          return item.rgRegion.toLowerCase().includes(value) ||
+            item.smSiteCode.toLowerCase().includes(value) ||
+            item.znZone.toLowerCase().includes(value) ||
+            item.devicetype.toLowerCase().includes(value);
         }
       });
     } else {
