@@ -214,6 +214,7 @@ export class ListingComponent implements OnInit, OnDestroy {
   private type: any = null;
   private forImgPreview!: Subscription;
   private ageLimit: any = 10000;
+  private dashboardChartFilter: any = null;
 
   constructor(
     private util: CommonUtilService,
@@ -247,7 +248,16 @@ export class ListingComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadTowerLatestData();
+    this.dashboardChartFilter = this.util.getDashboardChartFilter();
+    if (this.dashboardChartFilter) {
+      const groupBy = this.dashboardChartFilter.groupBy;
+      const groupValue = this.dashboardChartFilter.groupValue;
+      this.filterParam[groupBy] = [groupValue];
+      this.util.setDashboardChartFilter(null);
+      this.loadFilterTowerStatusData();
+    } else {
+      this.loadTowerLatestData();
+    }
   }
 
   setDefaultFilter() {

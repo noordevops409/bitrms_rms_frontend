@@ -295,8 +295,10 @@ export class RemoteCommandsComponent implements OnInit {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.country = item.country.toString();
-        return (item.country.toLowerCase().includes(value));
+        // item.country = item.country.toString();
+        if (!!item.smSitecode) {
+          return item.smSitecode.toLowerCase().includes(value);
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

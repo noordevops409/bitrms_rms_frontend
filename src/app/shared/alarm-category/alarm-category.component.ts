@@ -217,6 +217,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     "allSiteType": true,
     "anyFilterEmpty": true
   };
+  private dashboardChartFilter: any = null;
 
   constructor(
     private util: CommonUtilService,
@@ -247,6 +248,13 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.initFilterParam();
     this.setDefaultFilter();
+    this.dashboardChartFilter = this.util.getDashboardAlarmStatusChartFilter();
+    if (this.dashboardChartFilter) {
+      const groupBy = this.dashboardChartFilter.groupBy;
+      const groupValue = this.dashboardChartFilter.groupValue;
+      this.filterParam[groupBy] = [groupValue];
+      this.util.setDashboardAlarmStatusChartFilter(null);
+    }
     this.loadData();
     this.loadSummaryCounts();
   }
@@ -654,8 +662,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if (!!item.smSiteCode && !!item.alName) {
-          return (item.smSiteCode.includes(value) || item.alName.includes(value))
+        if (item.smsiteCode || item.alName) {
+          return item.smsiteCode.toLowerCase().includes(value) ||
+            item.alName.toLowerCase().includes(value);
         }
       });
     } else {

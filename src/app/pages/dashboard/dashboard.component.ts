@@ -360,14 +360,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       };
 
       let findItem = (online: any) => {
-        return chartData.filter((item: any) => item.offlineCount === online)[0];
+        return chartData.filter((item) => {
+          return item.offlineCount === online;
+        })[0];
       };
 
       var options = {
         labelInterpolationFnc: (value: any) => {
           value = parseInt(value, 10);
           let cData = findItem(value);
-          return Math.round(value / cData.total * 100) + '%';
+          return Math.round(value / cData.totalCount * 100) + '%';
         },
         showLabel: true,
         chartPadding: 30,
@@ -379,7 +381,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               // console.log(tooltip);
               tooltip = parseInt(tooltip, 10);
               let cData = findItem(tooltip);
-              return Math.round(tooltip / cData.total * 100) + '%';
+              return Math.round(tooltip / cData.totalCount * 100) + '%';
             },
             class: 'class1 class2',
             appendToBody: true
@@ -404,9 +406,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ];
 
       let chart = new Chartist.Pie('#websiteViewsChart2', data, options, responsiveOptions);
-      chart.on('draw', (data: any) => {
-        if (data.type === 'slice') {
-          data.element._node.onclick = (event: any) => this.click(data);
+      chart.on('draw', (item: any) => {
+        if (item.type === 'slice') {
+          item.element._node.onclick = (event: any) => this.click(item, data, "deviceType");
         }
       });
     }
@@ -509,17 +511,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['pages', 'dashboard', 'type', '' + type]);
   }
 
-  click(item: any) {
+  click(item: any, data?: any, type?: string) {
     // console.log(item);
+
+    if (type) {
+      let labelValue = null;
+      if (data && data.labels && data.labels.length) {
+        labelValue = data.labels[item.index];
+      } else if (data && data.length) {
+        labelValue = data[item.index];
+      }
+      this.util.setDashboardChartFilter({
+        groupBy: type,
+        groupValue: labelValue
+      });
+    }
     var elem = document.querySelectorAll('.chartist-tooltip.tooltip-show');
     elem.forEach(item => item.remove());
     if (item && item.index === 0) {
-      this.router.navigate(['pages', 'dashboard', 'type', '2']);
+      this.router.navigate(['pages', 'dashboard', 'type', '3']);
     } else if (item.index === 1) {
-      this.router.navigate(['pages', 'dashboard', 'type', '1']);
+      this.router.navigate(['pages', 'dashboard', 'type', '3']);
     } else {
-      this.router.navigate(['pages', 'dashboard', 'type', '1']);
+      this.router.navigate(['pages', 'dashboard', 'type', '3']);
     }
+  }
+
+  alarmPieChartClick(item: any, data?: any, type?: string) {
+    // console.log(item);
+    if (type) {
+      this.util.setDashboardAlarmStatusChartFilter({
+        groupBy: type,
+        groupValue: data[item.index]
+      });
+    }
+    var elem = document.querySelectorAll('.chartist-tooltip.tooltip-show');
+    elem.forEach(item => item.remove());
+    this.router.navigate(['pages', 'alarm-status']);
   }
 
   clickAlarmStatus(item: any) {
@@ -611,9 +639,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ]
       });
 
-      chart.on('draw', (data: any) => {
-        if (data.type === 'bar') {
-          data.element._node.onclick = (event: any) => this.click(data);
+      chart.on('draw', (item: any) => {
+        if (item.type === 'bar') {
+          item.element._node.onclick = (event: any) => this.click(item, deviceTypeList, "deviceType");
         }
       });
     }
@@ -758,9 +786,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ]
       });
 
-      chart.on('draw', (data: any) => {
-        if (data.type === 'bar') {
-          data.element._node.onclick = (event: any) => this.click(data);
+      chart.on('draw', (item: any) => {
+        if (item.type === 'bar') {
+          item.element._node.onclick = (event: any) => this.click(item, customerTypeList, 'customers');
         }
       });
     }
@@ -914,9 +942,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ]
       });
 
-      chart.on('draw', (data: any) => {
-        if (data.type === 'bar') {
-          data.element._node.onclick = (event: any) => this.click(data);
+      chart.on('draw', (item: any) => {
+        if (item.type === 'bar') {
+          item.element._node.onclick = (event: any) => this.click(item, siteTypeList, 'siteType');
         }
       });
     }
@@ -1064,9 +1092,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           Chartist.plugins.legend()
         ]
       });
-      chart.on('draw', (data: any) => {
-        if (data.type === 'bar') {
-          data.element._node.onclick = (event: any) => this.click(data);
+      chart.on('draw', (item: any) => {
+        if (item.type === 'bar') {
+          item.element._node.onclick = (event: any) => this.click(item, regionList, 'regions');
         }
       });
     }
@@ -1344,9 +1372,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         Chartist.plugins.legend()
       ],
     });
-    chart.on('draw', (data: any) => {
-      if (data.type === 'slice') {
-        data.element._node.onclick = (event: any) => this.click(data);
+    chart.on('draw', (item: any) => {
+      if (item.type === 'slice') {
+        item.element._node.onclick = (event: any) => this.alarmPieChartClick(item, label, 'categories');
       }
     });
   }
@@ -1372,9 +1400,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ]
         });
 
-        chart.on('draw', (data: any) => {
-          if (data.type === 'bar') {
-            data.element._node.onclick = (event: any) => this.clickAlarmStatus(data);
+        chart.on('draw', (item: any) => {
+          if (item.type === 'bar') {
+            item.element._node.onclick = (event: any) => this.alarmPieChartClick(item, labels, 'categories');
           }
         });
       }
