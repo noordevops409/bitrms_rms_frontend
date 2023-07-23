@@ -12,6 +12,8 @@ import { BroadcastService } from '../../shared/broadcast.service';
 import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
 
+import { engineerNameList } from '../data/engineerName';
+import { customerMaster } from '../data/customer-master';
 import { ENERGY_BILLING_COLUMN_HEADER } from './energy-billing-column.enum';
 
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
@@ -50,7 +52,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   };
   public isExporting: boolean = false;
 
-  public defaultFilterList: any = [
+  defaultFilterList: any = [
     {
       id: 'FMF01',
       fieldName: 'regions',
@@ -105,6 +107,32 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     },
     {
       id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crName',
+        value: 'crName'
+      }
+    },
+    {
+      id: 'FMF04',
       fieldName: 'siteId',
       indexField: 'siteId',
       labelName: 'Site Id',
@@ -130,7 +158,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       }
     },
     {
-      id: 'FMF04',
+      id: 'FMF05',
       fieldName: 'deviceType',
       indexField: 'deviceType',
       labelName: 'Device Type',
@@ -154,13 +182,65 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
         id: 'deviceType',
         value: 'deviceType'
       }
+    },
+    {
+      id: 'FMF06',
+      fieldName: 'customers',
+      indexField: 'customers',
+      labelName: 'Customer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'customers',
+      data: customerMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
+    },
+    {
+      id: 'FMF07',
+      fieldName: 'engineerName',
+      indexField: 'engineerName',
+      labelName: 'Engineer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'engineerName',
+      data: engineerNameList,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
     }
   ];
 
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
@@ -171,10 +251,14 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
   private filterParam: any = {
     "siteId": ['All'],
+    "clusters": ['All'],
     "zones": ['All'],
     "regions": ['All'],
     "deviceType": ['All'],
+    "siteType": ['All'],
+    "siteStatus": ['All'],
     "customers": ['All'],
+    "engineer": ['All'],
     "startDate": moment(moment().add(-2, 'days').format('YYYY-MM-DD') + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss'),
     "endDate": moment(moment().add(-1, 'days').format('YYYY-MM-DD') + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss')
   };
@@ -220,10 +304,14 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   setDefaultFilter() {
     this.filterParam = {
       "siteId": ['All'],
+      "clusters": ['All'],
       "zones": ['All'],
       "regions": ['All'],
       "deviceType": ['All'],
+      "siteType": ['All'],
+      "siteStatus": ['All'],
       "customers": ['All'],
+      "engineer": ['All'],
       "startDate": moment(moment().add(-2, 'days').format('YYYY-MM-DD') + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss'),
       "endDate": moment(moment().add(-1, 'days').format('YYYY-MM-DD') + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss')
     };
@@ -352,6 +440,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     let customer: any = ["All"];
     let rangeDate: any = "";
     let siteStatus: any = null;
+    let clusters: any = ["All"];
+    let engineer: any = ["All"];
     if (fData && fData.length) {
 
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -366,54 +456,62 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
         });
       }
 
-      // clusters = fData[2].popupTo.data.map((item) => {
-      //   return item.id;
-      // });
-
       if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        siteId = fData[2].popupTo.data.map((item) => {
+        clusters = fData[2].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
       if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        deviceType = fData[3].popupTo.data.map((item) => {
+        siteId = fData[3].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
-      siteType = fData[4].filter((item) => {
-        return item.isChecked && item.text;
-      }).map((item) => {
-        return item.text;
-      });
-
-      if (fData[5] && fData[5].startDate && fData[5].endDate) {
-        startDate = fData[5].startDate;
-        endDate = fData[5].endDate;
-        rangeDate = fData[5].startDate.replace(/-/g, '/') + ' - ' + fData[5].endDate.replace(/-/g, '/');
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
       }
 
-      siteStatus = fData[6];
+      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+        customer = fData[5].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+        engineer = fData[6].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
 
       if (fData[7] && fData[7].length) {
-        customer = fData[7].filter((item) => {
+        siteType = fData[7].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
+
+      siteStatus = fData[8];
+
+      if (fData[9] && fData[9].startDate && fData[9].endDate) {
+        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      }
+      // siteStatus = parseInt(fData[7], 10);
     }
     this.filterParam = {
       "siteId": siteId,
+      "clusters": clusters,
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "customers": customer.length === 0 ? ['All'] : customer,
-      "startDate": startDate ? startDate : this.filterParam.startDate,
-      "endDate": endDate ? endDate : this.filterParam.endDate,
       "siteStatus": siteStatus ? [siteStatus] : ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
+      "customers": customer.length === 0 ? ['All'] : customer,
+      "engineer": engineer.length === 0 ? ['All'] : engineer,
+      "date": rangeDate
     };
   }
 

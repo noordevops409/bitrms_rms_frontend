@@ -2,9 +2,15 @@
     <h4>Filters</h4>
     <div class="filter-criteria">
         <div class="dropdown-container">
-            <app-filter-wrapper class="filter-container fit-to-parent" [defaultFilterList]="defaultFilterList"
-                [listingType]="1" (onSelectionChange)="onFilterChange($event)"
-                (onFilterChange)="onFilterChange($event)">
+            <app-filter-wrapper class="filter-container fit-to-parent"
+                [defaultFilterList]="defaultFilterList.slice(0, 5)" [listingType]="1"
+                (onSelectionChange)="onFilterChange($event)" (onFilterChange)="onFilterChange($event)">
+            </app-filter-wrapper>
+        </div>
+        <div class="dropdown-container">
+            <app-filter-wrapper class="filter-container fit-to-parent"
+                [defaultFilterList]="defaultFilterList.slice(5, 9)" [listingType]="1"
+                (onSelectionChange)="onFilterChange($event)" (onFilterChange)="onFilterChange($event)">
             </app-filter-wrapper>
         </div>
         <div class="checkbox-container" *ngIf="filterType === 1 || filterType === 2">
@@ -31,7 +37,20 @@
                 </ul>
             </div>
 
-            <div class="elem-row customer">
+            <div class="elem-row alarm-status">
+                <label>Alarm Status</label>
+                <ul>
+                    <li>
+                        <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedAlarmStatus">
+                            <mat-radio-button value="All">All</mat-radio-button>
+                            <mat-radio-button value="1">Open</mat-radio-button>
+                            <mat-radio-button value="0">Close</mat-radio-button>
+                        </mat-radio-group>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- <div class="elem-row customer">
                 <label>Customer</label>
                 <ul>
                     <li *ngFor="let item of customer">
@@ -39,7 +58,7 @@
                         </app-checkbox>
                     </li>
                 </ul>
-            </div>
+            </div> -->
 
             <div class="elem-row date-range">
                 <label>Date</label>
@@ -64,9 +83,11 @@
 
             <div class="elem-row" *ngIf="isTimerAvail">
                 <label>Start Time</label>
-                <input type="time" id="startTime" (change)="dateRangeChange('change', $event);" name="startTime" [(ngModel)]="startTime" />
+                <input type="time" id="startTime" (change)="dateRangeChange('change', $event);" name="startTime"
+                    [(ngModel)]="startTime" />
                 <label style="margin-left: 15px;">End Time</label>
-                <input type="time" id="endTime" (change)="dateRangeChange('change', $event);" name="endTime" [(ngModel)]="endTime" />
+                <input type="time" id="endTime" (change)="dateRangeChange('change', $event);" name="endTime"
+                    [(ngModel)]="endTime" />
             </div>
         </div>
     </div>

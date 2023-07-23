@@ -8,6 +8,8 @@ import { BroadcastService } from '../../../shared/broadcast.service';
 
 import * as XLSX from 'xlsx';
 
+import { engineerNameList } from '../../data/engineerName';
+import { customerMaster } from '../../data/customer-master';
 import { TOWER_STATUS_COLUMN_HEADER } from '../tower-status-column.enum';
 // import { ALARM_STATUS_COLUMN_HEADER } from './alarm-status-column.enum';
 
@@ -184,6 +186,58 @@ export class ListingComponent implements OnInit, OnDestroy {
         id: 'deviceType',
         value: 'deviceType'
       }
+    },
+    {
+      id: 'FMF06',
+      fieldName: 'customers',
+      indexField: 'customers',
+      labelName: 'Customer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'customers',
+      data: customerMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
+    },
+    {
+      id: 'FMF07',
+      fieldName: 'engineerName',
+      indexField: 'engineerName',
+      labelName: 'Engineer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'engineerName',
+      data: engineerNameList,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
     }
   ];
 
@@ -208,6 +262,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     "siteType": ['All'],
     "siteStatus": ['All'],
     "customers": ['All'],
+    "engineer": ['All'],
     "date": null
   };
   private hasFilterData: boolean = false;
@@ -270,6 +325,7 @@ export class ListingComponent implements OnInit, OnDestroy {
       "siteType": ['All'],
       "siteStatus": ['All'],
       "customers": ['All'],
+      "engineer": ['All'],
       "date": null
     };
   }
@@ -406,6 +462,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     let siteType: any = ["All"];
     let siteStatus: any = null;
     let customer: any = ["All"];
+    let engineer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -438,27 +495,34 @@ export class ListingComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+        customer = fData[5].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+        engineer = fData[6].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[7] && fData[7].length) {
+        siteType = fData[7].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+      siteStatus = fData[8];
+
+      if (fData[9] && fData[9].startDate && fData[9].endDate) {
+        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       }
       // siteStatus = parseInt(fData[7], 10);
-      siteStatus = fData[7];
 
-      if (fData[8] && fData[8].length) {
-        customer = fData[8].filter((item) => {
-          return item.isChecked && item.text;
-        }).map((item) => {
-          return item.text;
-        });
-      }
+
     }
     this.filterParam = {
       "siteId": siteId,
@@ -469,6 +533,7 @@ export class ListingComponent implements OnInit, OnDestroy {
       "siteStatus": siteStatus ? [siteStatus] : ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
+      "engineer": engineer.length === 0 ? ['All'] : engineer,
       "date": rangeDate
     };
   }

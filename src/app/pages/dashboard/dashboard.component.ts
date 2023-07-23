@@ -336,11 +336,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       let deviceTypeList: any = chartData.map((item: any) => {
         return item.Category_id ? item.Category_id : 'Delta';
       });
-      let onlineList: any = chartData.map((item: any) => {
-        if (item.onlineCount) {
-          item.onlineCount = parseInt(item.onlineCount, 10);
-        }
-        return item.onlineCount === 0 ? null : item.onlineCount;
+
+      chartData.map((item: any) => {
+        item.totalCount = parseInt(item.totalCount, 10);
+        totalSite += item.totalCount;
       });
 
       let offlineList: any = chartData.map((item: any) => {
@@ -349,14 +348,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         return item.offlineCount === 0 ? null : item.offlineCount;
       });
-      chartData.map((item: any) => {
-        item.totalCount = parseInt(item.totalCount, 10);
-        totalSite += item.totalCount;
+
+      let onlineList: any = chartData.map((item: any) => {
+        item.onlineCount = item.totalCount - item.offlineCount;
+        return item.onlineCount === 0 ? null : item.onlineCount;
       });
 
       var data = {
         labels: [...deviceTypeList],
-        series: [...offlineList]
+        series: [...offlineList],
       };
 
       let findItem = (online: any) => {
@@ -590,19 +590,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return item.totalCount === 0 ? null : item.totalCount;
       });
 
-      let onlineList: any = chartData.map((item: any) => {
-        if (item.onlineCount) {
-          item.onlineCount = parseInt(item.onlineCount, 10);
-        }
-        return item.onlineCount === 0 ? null : item.onlineCount;
-      });
-
       let offlineList: any = chartData.map((item: any) => {
         if (item.offlineCount) {
           item.offlineCount = parseInt(item.offlineCount, 10);
         }
         return item.offlineCount === 0 ? null : item.offlineCount;
       });
+
+      let onlineList: any = chartData.map((item: any) => {
+        item.onlineCount = item.totalCount - item.offlineCount;
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      
 
       let chart = new Chartist.Bar('#websiteViewsChart3', {
         labels: [...deviceTypeList],
@@ -733,19 +733,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return item.totalCount === 0 ? null : item.totalCount;
       });
 
-      let onlineList: any = chartData.map((item: any) => {
-        if (item.onlineCount) {
-          item.onlineCount = parseInt(item.onlineCount, 10);
-        }
-        return item.onlineCount === 0 ? null : item.onlineCount;
-      });
-
       let offlineList: any = chartData.map((item: any) => {
         if (item.offlineCount) {
           item.offlineCount = parseInt(item.offlineCount, 10);
         }
         return item.offlineCount === 0 ? null : item.offlineCount;
       });
+
+      let onlineList: any = chartData.map((item: any) => {
+        item.onlineCount = item.totalCount - item.offlineCount;
+        return item.onlineCount === 0 ? null : item.onlineCount;
+      });
+
+      
 
       let chart = new Chartist.Bar('#websiteViewsChart4', {
         labels: [...customerTypeList],
@@ -897,9 +897,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
 
       let onlineList: any = chartData.map((item: any) => {
-        if (item.onlineCount) {
-          item.onlineCount = parseInt(item.onlineCount, 10);
-        }
+        item.onlineCount = item.totalCount - item.offlineCount;
         return item.onlineCount === 0 ? null : item.onlineCount;
       });
 
@@ -1048,9 +1046,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
 
       let onlineList: any = chartData.map((item: any) => {
-        if (item.onlineCount) {
-          item.onlineCount = parseInt(item.onlineCount, 10);
-        }
+        item.onlineCount = item.totalCount - item.offlineCount;
         return item.onlineCount === 0 ? null : item.onlineCount;
       });
 

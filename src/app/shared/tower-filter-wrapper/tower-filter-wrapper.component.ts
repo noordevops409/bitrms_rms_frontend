@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { BroadcastService } from '../broadcast.service';
 import * as moment from 'moment';
 
 @Component({
@@ -20,6 +21,7 @@ export class TowerFilterWrapperComponent implements OnInit {
   @Output() isOpenTabularFilterChange = new EventEmitter();
 
   public selectedSiteStatus: any = null;
+  public selectedAlarmStatus: any = null;
 
   public siteType: any = [
     {
@@ -82,37 +84,46 @@ export class TowerFilterWrapperComponent implements OnInit {
     endDate: null
   };
 
-  constructor() { }
+  constructor(
+    private broadcast: BroadcastService
+  ) { }
 
   ngOnInit(): void {
     this.setSiteType();
     this.setSiteStatus();
-    this.setCustomer();
+    this.setAlarmStatus();
+    // this.setCustomer();
     this.setDateRange();
   }
 
   setSiteType() {
-    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[5]) {
-      this.siteType = this.defaultFilterList[5];
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[7]) {
+      this.siteType = this.defaultFilterList[7];
     }
   }
 
   setSiteStatus() {
-    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[7]) {
-      this.selectedSiteStatus = this.defaultFilterList[7];
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[8]) {
+      this.selectedSiteStatus = this.defaultFilterList[8];
+    }
+  }
+
+  setAlarmStatus() {
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[8]) {
+      this.selectedAlarmStatus = this.defaultFilterList[8];
     }
   }
 
   setCustomer() {
-    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[8]) {
-      this.customer = this.defaultFilterList[8];
+    if (this.defaultFilterList && this.defaultFilterList.length && this.defaultFilterList[5]) {
+      this.customer = this.defaultFilterList[5];
     }
   }
 
   setDateRange() {
     let t1: any = this.defaultFilterList;
-    if (t1 && t1.length && t1[6]) {
-      let t2: any = t1[6];
+    if (t1 && t1.length && t1[9]) {
+      let t2: any = t1[9];
       if (t2.startDate && t2.endDate) {
         let split1 = t2.startDate.toString().split(" ");
         let split2 = t2.endDate.toString().split(" ");
@@ -151,37 +162,54 @@ export class TowerFilterWrapperComponent implements OnInit {
   }
 
   applyFilter(evt?: any) {
-    if (this.filterType === 1) {
-      this.isReqToOpenFilter = false;
-      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
-    } else if (this.filterType === 2) {
-      this.isOpenTabularFilter = false;
-      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
-    }
-    if (this.defaultFilterList && this.filterType !== 3) {
-      if (!this.defaultFilterList[5]) {
-        this.defaultFilterList.push(this.siteType);
+    setTimeout(() => {
+      if (this.filterType === 1) {
+        this.isReqToOpenFilter = false;
+        this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+      } else if (this.filterType === 2) {
+        this.isOpenTabularFilter = false;
+        this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
       }
-      if (!this.defaultFilterList[6]) {
-        this.defaultFilterList.push(this.reqSiteIdObj);
-      }
-      
-      if (!this.defaultFilterList[7]) {
-        this.defaultFilterList.push(this.selectedSiteStatus);
-      } else if (this.selectedSiteStatus) {
-        this.defaultFilterList[7] = this.selectedSiteStatus;
-      }
+      if (this.defaultFilterList && this.filterType !== 3) {
+        if (!this.defaultFilterList[7]) {
+          this.defaultFilterList.push(this.siteType);
+        }
 
-      if (!this.defaultFilterList[8]) {
-        this.defaultFilterList.push(this.customer);
+        if (!this.defaultFilterList[8]) {
+          this.defaultFilterList.push(this.selectedSiteStatus || this.selectedAlarmStatus);
+        } else if (this.selectedSiteStatus) {
+          this.defaultFilterList[8] = this.selectedSiteStatus || this.selectedAlarmStatus;
+        }
+
+        if (!this.defaultFilterList[9]) {
+          this.defaultFilterList.push(this.reqSiteIdObj);
+        }
+      }
+      this.onFilter.emit(this.defaultFilterList);
+    }, 500);
+  }
+
+  clearSelection() {
+    for (let item of this.defaultFilterList) {
+      if (item && item.popupTo && item.popupTo.data && item.popupTo.data.length) {
+        this.broadcast.broadcast('CLEAR_FILTER_SELECTION', item);
+        item.popupTo.data = [];
       }
     }
-    this.onFilter.emit(this.defaultFilterList);
+
+    for (let item of this.siteType) {
+      item.isChecked = false;
+    }
+
+    this.selectedSiteStatus = null;
+    this.selectedAlarmStatus = null;
+    this.defaultFilterList[9] = null;
   }
 
   reset(evt?: any) {
     this.isReqToOpenFilter = false;
     this.isOpenTabularFilter = false;
+    this.clearSelection();
     this.onFilter.emit(null);
   }
 
@@ -190,7 +218,6 @@ export class TowerFilterWrapperComponent implements OnInit {
   }
 
   onFilterChange(evt?: any) {
-
   }
 
 }

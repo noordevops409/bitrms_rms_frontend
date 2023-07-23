@@ -54,6 +54,17 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
 
   }
 
+  initMap() {
+    this.map = new mapboxgl.Map({
+      accessToken: environment.mapbox.accessToken,
+      container: 'mapbox',
+      // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+      style: this.mapStyle,
+      center: [this.center.lng, this.center.lat],
+      zoom: 6
+    });
+  }
+
   init() {
     this.initMap();
     this.loadSiteData();
@@ -89,17 +100,6 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
     });
   }
 
-  initMap() {
-    this.map = new mapboxgl.Map({
-      accessToken: environment.mapbox.accessToken,
-      container: 'mapbox',
-      // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-      style: this.mapStyle,
-      center: [this.center.lng, this.center.lat],
-      zoom: 6
-    });
-  }
-
   getColorSiteWise(req) {
     for (let item of geoLocation) {
       if (item.smsitecode === req.smSitecode) {
@@ -114,6 +114,78 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  createMarker(marker: any) {
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundColor = marker.properties.bgColor;
+    el.style.width = `${15}px`;
+    el.style.height = `${15}px`;
+    el.style.borderRadius = '15px';
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.router.navigate(['pages', 'dashboard', 'prfdash', marker.properties.title]);
+    });
+
+    // Add markers to the map.
+    this.markers.push(new mapboxgl.Marker(el)
+      .setLngLat(marker.geometry.coordinates)
+      .addTo(this.map));
+  }
+
+  addPopupOnMarker() {
+
+    // Add a layer showing the places.
+    this.map.addLayer({
+      'id': 'places',
+      'type': 'circle',
+      'source': 'places',
+      'layout': {
+        // Make the layer visible by default.
+        'visibility': 'visible'
+      },
+      'paint': {
+        'circle-color': '#4264fb',
+        'circle-radius': 6,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff'
+      }
+    });
+
+    // Create a popup, but don't add it to the map yet.
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+    });
+
+
+    this.map.on('mouseenter', 'places', (e) => {
+      // Change the cursor style as a UI indicator.
+      this.map.getCanvas().style.cursor = 'pointer';
+
+      // Copy coordinates array.
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
+    });
+
+    this.map.on('mouseleave', 'places', () => {
+      this.map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
   }
 
   setMarkers() {
@@ -151,76 +223,18 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
     this.addPopupOnMarker();
   }
 
-  createMarker(marker: any) {
-    const el = document.createElement('div');
-    el.className = 'marker';
-    el.style.backgroundColor = marker.properties.bgColor;
-    el.style.width = `${15}px`;
-    el.style.height = `${15}px`;
-    el.style.borderRadius = '15px';
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.router.navigate(['pages', 'dashboard', 'prfdash', marker.properties.title]);
-    });
-
-    // Add markers to the map.
-    this.markers.push(new mapboxgl.Marker(el)
-      .setLngLat(marker.geometry.coordinates)
-      .addTo(this.map));
-  }
-
   removeAllMarker() {
     for (let item of this.markers) {
       item.remove();
     }
   }
 
-  addPopupOnMarker() {
-
-    // Add a layer showing the places.
-    this.map.addLayer({
-      'id': 'places',
-      'type': 'circle',
-      'source': 'places',
-      'paint': {
-        'circle-color': '#4264fb',
-        'circle-radius': 6,
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff'
-      }
-    });
-
-    // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });
-
-    this.map.on('mouseenter', 'places', (e) => {
-      // Change the cursor style as a UI indicator.
-      this.map.getCanvas().style.cursor = 'pointer';
-
-      // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
-
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-
-      // Populate the popup and set its coordinates
-      // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
-    });
-
-    this.map.on('mouseleave', 'places', () => {
-      this.map.getCanvas().style.cursor = '';
-      popup.remove();
-    });
+  removeAllPopup() {
+    // for (let item of this.popupList) {
+    //   item.remove();
+    // }
+    this.map.setLayoutProperty('places', 'visibility', 'none');
+    // this.map.removeLayer('places');
   }
 
   search(evt?: any) {
@@ -234,8 +248,11 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
       } else {
         this.siteList = this.allList;
       }
+      this.removeAllPopup();
       this.removeAllMarker();
-      this.setMarkers();
+      setTimeout(() => {
+        this.setMarkers();
+      }, 500);
     }, 500);
   }
 

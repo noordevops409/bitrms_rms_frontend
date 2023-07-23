@@ -652,7 +652,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     Object.assign(this.templateMap, this.template);
     this.inifiniteScrollLocal = this.inifiniteScroll;
     this.onRowSelectionChangedDebouncer = debounce(this.onRowSelectionChanged, 100);
-    this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 10;
+    this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 100;
 
     this.setLazyLoadBatchSize();
     this.uniqueId;
