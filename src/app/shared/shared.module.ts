@@ -41,6 +41,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-mat
 import { AlarmCategoryComponent } from './alarm-category/alarm-category.component';
 import { EnergyReportComponent } from './energy-report/energy-report.component';
 import { SiteDetailsPowerReportComponent } from './site-details-power-report/site-details-power-report.component';
+import { AlertsTableComponent } from './alarm-category/alerts-table/alerts-table.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -82,7 +83,8 @@ export const MY_MOMENT_FORMATS = {
     AlarmCategoryComponent,
     EnergyReportComponent,
     MaxDateRangeDirective,
-    SiteDetailsPowerReportComponent
+    SiteDetailsPowerReportComponent,
+    AlertsTableComponent
   ],
   imports: [
     CommonModule,
@@ -127,5 +129,5 @@ export const MY_MOMENT_FORMATS = {
     MaxDateRangeDirective,
     SiteDetailsPowerReportComponent
   ]
-})
+})  
 export class SharedModule { }

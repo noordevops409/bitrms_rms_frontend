@@ -22,28 +22,34 @@
 
     <div class="table-listing">
         <div class="box alarm-summary">
-            <div class="box-title">
-                <h4>Alarm Status</h4>
-                <div class="summary-data">
-                    <ul>
-                        <li *ngFor="let item of alarmCounts">
-                            <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType($event, item)">
-                                {{item?.count}} {{item.type}}
-                            </button>
-                        </li>
-                    </ul>
+            <div>
+                <div class="button-container">
+                    <div class="right-align">
+                        <h4 class="table-title">Alarm Status</h4>
+                      </div>
+                    <li *ngFor="let item of alertsCounts">
+                        <button class="btn btn-default" [ngClass]="item.cssClass" (click)="openTabular(item.type)">
+                            {{item?.count}} {{item.type}}
+                        </button>
+                    </li>
+                    <li *ngFor="let item of alarmCounts">
+                        <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType($event, item)">
+                            {{item?.count}} {{item.type}}
+                        </button>
+                    </li>
                 </div>
-            </div>
-            <div class="box-body">
-                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+
+
+                <!-- <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
-                </div>
+                </div> -->
                 <div class="list-wrap">
                     <div class="view-holder">
 
-                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                        <div class="export-container" [ngClass]="{'show': isExporting}"
+                            *ngIf="activeListing.list && activeListing.list.data">
                             <table id="export-data">
                                 <thead>
                                     <tr>
