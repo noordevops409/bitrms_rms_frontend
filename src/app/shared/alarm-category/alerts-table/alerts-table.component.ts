@@ -183,5 +183,11 @@ apiUrl:any;
     };
   }
 
-
+   handleResize() {
+    const tblContent = document.querySelector('.tbl-content')as HTMLDivElement;
+    const tblTable = tblContent.querySelector('table')as HTMLDivElement;
+    const scrollWidth = tblContent.offsetWidth - tblTable.offsetWidth;
+    const tblHeader = document.querySelector('.tbl-header')as HTMLDivElement;
+    tblHeader.style.paddingRight = scrollWidth + 'px';
+  }
 }

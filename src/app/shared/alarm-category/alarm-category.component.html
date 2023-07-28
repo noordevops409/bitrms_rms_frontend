@@ -27,11 +27,11 @@
                     <div class="right-align">
                         <h4 class="table-title">Alarm Status</h4>
                       </div>
-                    <li *ngFor="let item of alertsCounts">
-                        <button class="btn btn-default" [ngClass]="item.cssClass" (click)="openTabular(item.type)">
-                            {{item?.count}} {{item.type}}
+                      <li *ngFor="let item of alertsCounts">
+                        <button class="btn" [ngClass]="item.cssClass" (click)="item.isClickable ? openTabular(item.type) : null" [disabled]="!item.isClickable">
+                          {{item?.count}} {{item.type}}
                         </button>
-                    </li>
+                      </li>
                     <li *ngFor="let item of alarmCounts">
                         <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType($event, item)">
                             {{item?.count}} {{item.type}}
@@ -40,11 +40,11 @@
                 </div>
 
 
-                <!-- <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
-                </div> -->
+                </div>
                 <div class="list-wrap">
                     <div class="view-holder">
 

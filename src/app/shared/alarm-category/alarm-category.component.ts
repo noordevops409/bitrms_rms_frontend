@@ -676,40 +676,53 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     this.httpClient.get(apiUrl).subscribe((res: any) => {
       // Initialize the list with all alerts and default count 0
       let list: any[] = [
-        { type: "fuellvl", count: 0 },
-        { type: "dcload", count: 0 },
-        { type: "dgcount", count: 0 },
-        { type: "Run hours", count: 0 }
+        { type: "fuellvl", count: 0, cssClass: 'btn-danger', isClickable: false },
+        { type: "dcload", count: 0, cssClass: 'btn-warning', isClickable: false },
+        { type: "dgcount", count: 0, cssClass: 'btn-default', isClickable: false },
+        { type: "Run hours", count: 0, cssClass: 'btn-primary', isClickable: false }
       ];
   
       if (res && res.length) {
         for (let item of res) {
           let obj: any = {
             type: item[0],
-            count: item[1]
+            count: item[1],
+            cssClass: '',
+            isClickable: item[1] > 0 // Set isClickable to true if count is greater than 0
           };
-          
-          // Update the corresponding alert count from the API response
+  
+          // Update the corresponding alert count and cssClass from the API response
           const index = list.findIndex(alert => alert.type === obj.type);
           if (index !== -1) {
             list[index].count = obj.count;
+            // Set the appropriate CSS class based on the type (you can customize this logic)
+            if (obj.type === 'fuellvl') {
+              list[index].cssClass = 'btn-danger';
+            } else if (obj.type === 'dcload') {
+              list[index].cssClass = 'btn-warning';
+            } else if (obj.type === 'dgcount') {
+              list[index].cssClass = 'btn-default';
+            } else if (obj.type === 'Run hours') {
+              list[index].cssClass = 'btn-primary';
+            }
+            // Update the isClickable property based on the count value
+            list[index].isClickable = obj.count > 0;
           }
         }
       }
   
       // Set the updated list to alertsCounts
       this.alertsCounts = list;
-    
-
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading alarm summary count details!'
-      })
+      });
     });
   }
+  
 
   openTabular(type?: any) {
     this.router.navigate(['alerts-table',type],{

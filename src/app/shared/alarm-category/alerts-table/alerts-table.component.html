@@ -1,147 +1,119 @@
 <div class="parent-container">
-  <div class="header">
-
-    <div class="filter-btn add-report">
+<div class="header">
+  <div class="left-side back-filter">
+      <button class="btn btn-default" (click)="goBack($event);">
+          <span class="material-icons">
+              arrow_back_ios
+          </span> ALARM STATUS
+      </button>
       <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
       <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
-    </div>
-
-    <div class="right-side">
+  </div>
+  <div class="right-side">
       <div class="export">
-        <label>Export</label>
-        <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
-          <option value="-1">Please Select</option>
-          <option value="1">Export Excel</option>
-          <option value="2">Export CSV</option>
-          <!-- <option value="3">PDF</option> -->
-        </select>
+          <label>Export</label>
+          <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+              <option value="-1">Please Select</option>
+              <option value="1">Excel</option>
+              <option value="2">CSV</option>
+              <!-- <option value="3">PDF</option> -->
+          </select>
       </div>
-    </div>
-
   </div>
-  
-    <div class="box alarm-summary">
-      <div>
-        <div class="button-container">
-          <div class="right-align">
-            <h4 class="table-title">{{type}}</h4>
-
-          </div>
-          <div class="table">
-         
-            <div *ngIf="loading; else dataTable" class="loading-message">Loading...</div>
-
-            <!-- Table 1 -->
-            <ng-template #dataTable>
-              <table  *ngIf="type === 'dgcount' && !loading" class="data-table ">
-
-                <tr>
-                  <th>Category</th>
-                  <th>ID</th>
-                  <th>Sm Site ID</th>
-                  <th>Sm Site Code</th>
-                  <!-- <th>Timestamp</th> -->
-                  <th>PowerSource</th>
-                  <!-- <th>Column 6</th> -->
-                  <!-- <th>Column 7</th> -->
-                </tr>
-
-                <tbody>
-                  <tr *ngFor="let item of tableData1;let i=index">
-                    <td>{{ item[0] }}</td>
-                    <td>{{ item[1] }}</td>
-                    <td>{{ item[2] }}</td>
-                    <td>{{ item[3] }}</td>
-                    <td>{{ item[4] }}</td>
-                    <!-- <td>{{ item[5] }}</td> -->
-                    <!-- <td>{{ item[6] }}</td> -->
-                  </tr>
-                </tbody>
-              </table>
-
-              <!-- Table 2 -->
-              <table *ngIf="type === 'Run hours' && !loading" class="data-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>ID</th>
-                    <th>Sm Site ID</th>
-                    <th>Sm Site Code</th>
-                    <th>Timestamp</th>
-                    <th>DG RunHrs</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of tableData1">
-                    <td>{{ item[0] }}</td>
-                    <td>{{ item[1] }}</td>
-                    <td>{{ item[2] }}</td>
-                    <td>{{ item[3] }}</td>
-                    <td>{{ item[4] }}</td>
-                    <td>{{ item[5] }}</td>
-                    <!-- <td>{{ item[6] }}</td> -->
-                  </tr>
-                </tbody>
-              </table>
-
-              <!-- Table 3 -->
-              <table *ngIf="type === 'fuellvl' && !loading" class="data-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>ID</th>
-                    <th>Sm Site ID</th>
-                    <th>Sm Site Code</th>
-                    <th>Timestamp</th>
-                    <th>Fuellevel_Percentage</th>
-                    <!-- <th>Column 6</th>
-                    <th>Column 7</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of tableData1">
-                    <td>{{ item[0] }}</td>
-                    <td>{{ item[1] }}</td>
-                    <td>{{ item[2] }}</td>
-                    <td>{{ item[3] }}</td>
-                    <td>{{ item[4] }}</td>
-                    <td>{{ item[5] }}</td>
-                    <!--<td>{{ item[6] }}</td> -->
-                  </tr>
-                </tbody>
-              </table>
-
-              <!-- Table 4 -->
-              <table *ngIf="type === 'dcload' && !loading" class="data-table">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>ID</th>
-                    <th>Sm Site ID</th>
-                    <th>Sm Site Code</th>
-                    <th>Timestamp</th>
-                    <th>Total_DCLoad_Energy</th>
-                    <!-- <th>Column 6</th>
-                    <th>Column 7</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of tableData1">
-                    <td>{{ item[0] }}</td>
-                    <td>{{ item[1] }}</td>
-                    <td>{{ item[2] }}</td>
-                    <td>{{ item[3] }}</td>
-                    <td>{{ item[4] }}</td>
-                    <td>{{ item[5] }}</td>
-                    <!-- <td>{{ item[6] }}</td> -->
-                  </tr>
-                </tbody>
-              </table>
-            </ng-template>
-          </div>
-
-        </div>
-      </div>
-    </div>
+</div>
+<section>
+  <!--for demo wrap-->
+  <h1>{{type}}</h1>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0">
+      <thead>
+        <tr *ngIf="type === 'dgcount'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>PowerSource</th>
+        </tr>
+        <tr *ngIf="type === 'Run hours'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>DG RunHrs</th>
+        </tr>
+        <tr *ngIf="type === 'fuellvl'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>Fuellevel_Percentage</th>
+        </tr>
+        <tr *ngIf="type === 'dcload'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>Total_DCLoad_Energy</th>
+        </tr>
+      </thead>
+    </table>
   </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0">
+      <tbody>
+        <ng-container *ngIf="type === 'dgcount'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'Run hours'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'fuellvl'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'dcload'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</div>
