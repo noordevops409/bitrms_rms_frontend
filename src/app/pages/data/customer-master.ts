@@ -1,14 +1,14 @@
 export const customerMaster = [
     {
-        "name": null
+        "id": "All",
+        "value": "All"
     },
     {
-        "name": ""
+        "id": "Apollo",
+        "value": "Apollo"
     },
     {
-        "name": "Apollo"
-    },
-    {
-        "name": "IGT"
+        "id": "IGT",
+        "value": "IGT"
     }
 ];

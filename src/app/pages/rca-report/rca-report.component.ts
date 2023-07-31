@@ -11,6 +11,8 @@ import { BroadcastService } from '../../shared/broadcast.service';
 import { RCA_REPORT_COLUMN_HEADER } from './rca-report-column.enum';
 import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
+import { engineerNameList } from '../data/engineerName';
+import { customerMaster } from '../data/customer-master';
 
 import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-report.component';
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
@@ -170,6 +172,58 @@ export class RcaReportComponent implements OnInit, OnDestroy {
         id: 'deviceType',
         value: 'deviceType'
       }
+    },
+    {
+      id: 'FMF06',
+      fieldName: 'customers',
+      indexField: 'customers',
+      labelName: 'Customer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'customers',
+      data: customerMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
+    },
+    {
+      id: 'FMF07',
+      fieldName: 'engineerName',
+      indexField: 'engineerName',
+      labelName: 'Engineer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'engineerName',
+      data: engineerNameList,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
     }
   ];
 
@@ -193,6 +247,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     "siteType": ['All'],
     "siteStatus": ['All'],
     "customers": ['All'],
+    "engineer": ['All'],
     "date": null
   };
 
@@ -244,6 +299,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "siteType": ['All'],
       "siteStatus": ['All'],
       "customers": ['All'],
+      "engineer": ['All'],
       "date": null
     };
   }
@@ -326,14 +382,15 @@ export class RcaReportComponent implements OnInit, OnDestroy {
 
   setFilterParam(fData) {
 
-    let regions: any = ['All'];
-    let zones: any = ['All'];
-    let clusters: any = ['All'];
-    let siteId: any = ['All'];
-    let deviceType: any = ['All'];
-    let siteType: any = ['All'];
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let clusters: any = ["All"];
+    let siteId: any = ["All"];
+    let deviceType: any = ["All"];
+    let siteType: any = ["All"];
     let siteStatus: any = null;
-    let customer: any = ['All'];
+    let customer: any = ["All"];
+    let engineer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -366,27 +423,34 @@ export class RcaReportComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+        customer = fData[5].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+        engineer = fData[6].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[7] && fData[7].length) {
+        siteType = fData[7].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
-      }
+      siteStatus = fData[8];
 
-      siteStatus = parseInt(fData[7], 10);
-
-      if (fData[8] && fData[8].length) {
-        customer = fData[8].filter((item) => {
-          return item.isChecked && item.text;
-        }).map((item) => {
-          return item.text;
-        });
+      if (fData[9] && fData[9].startDate && fData[9].endDate) {
+        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       }
+      // siteStatus = parseInt(fData[7], 10);
+
+
     }
     this.filterParam = {
       "siteId": siteId,
@@ -394,9 +458,10 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteStatus": siteStatus ? siteStatus : ['All'],
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
+      "engineer": engineer.length === 0 ? ['All'] : engineer,
       "date": rangeDate
     };
   }

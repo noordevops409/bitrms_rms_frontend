@@ -12,6 +12,8 @@ import { BroadcastService } from '../../shared/broadcast.service';
 import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
 
+import { engineerNameList } from '../data/engineerName';
+import { customerMaster } from '../data/customer-master';
 import { REMOTE_COMMANDS_COLUMN_HEADER } from './remote-commands.enum';
 
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
@@ -46,6 +48,84 @@ export class RemoteCommandsComponent implements OnInit {
   public defaultFilterList: any = [
     {
       id: 'FMF01',
+      fieldName: 'regions',
+      indexField: 'regions',
+      labelName: 'Region',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'regions',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getRegionMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'rgRegion',
+        value: 'rgRegion'
+      }
+    },
+    {
+      id: 'FMF02',
+      fieldName: 'zones',
+      indexField: 'zones',
+      labelName: 'Zone',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'zones',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getZoneMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'znZone',
+        value: 'znZone'
+      }
+    },
+    {
+      id: 'FMF03',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crName',
+        value: 'crName'
+      }
+    },
+    {
+      id: 'FMF04',
       fieldName: 'siteId',
       indexField: 'siteId',
       labelName: 'Site Id',
@@ -69,6 +149,84 @@ export class RemoteCommandsComponent implements OnInit {
         id: 'code',
         value: 'code'
       }
+    },
+    {
+      id: 'FMF05',
+      fieldName: 'deviceType',
+      indexField: 'deviceType',
+      labelName: 'Device Type',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'deviceType',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getDeviceTypeMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'deviceType',
+        value: 'deviceType'
+      }
+    },
+    {
+      id: 'FMF06',
+      fieldName: 'customers',
+      indexField: 'customers',
+      labelName: 'Customer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'customers',
+      data: customerMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
+    },
+    {
+      id: 'FMF07',
+      fieldName: 'engineerName',
+      indexField: 'engineerName',
+      labelName: 'Engineer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'engineerName',
+      data: engineerNameList,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
     }
   ];
 
@@ -84,7 +242,15 @@ export class RemoteCommandsComponent implements OnInit {
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
   private filterParam: any = {
-    "siteId": ["All"]
+    "siteId": ['All'],
+    "clusters": ['All'],
+    "zones": ['All'],
+    "regions": ['All'],
+    "deviceType": ['All'],
+    "siteType": ['All'],
+    "siteStatus": ['All'],
+    "customers": ['All'],
+    "engineer": ['All']
   };
 
   constructor(
@@ -109,7 +275,17 @@ export class RemoteCommandsComponent implements OnInit {
 
 
   setDefaultFilter() {
-    this.filterParam.siteId = ['All'];
+    this.filterParam = {
+      "siteId": ['All'],
+      "clusters": ['All'],
+      "zones": ['All'],
+      "regions": ['All'],
+      "deviceType": ['All'],
+      "siteType": ['All'],
+      "siteStatus": ['All'],
+      "customers": ['All'],
+      "engineer": ['All']
+    };
   }
 
   listen() {
@@ -203,17 +379,86 @@ export class RemoteCommandsComponent implements OnInit {
   }
 
   setFilterParam(fData) {
+    let regions: any = ["All"];
+    let zones: any = ["All"];
+    let clusters: any = ["All"];
     let siteId: any = ["All"];
-
+    let deviceType: any = ["All"];
+    let siteType: any = ["All"];
+    let siteStatus: any = null;
+    let customer: any = ["All"];
+    let engineer: any = ["All"];
+    let rangeDate: any = "";
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        siteId = fData[0].popupTo.data.map((item) => {
+        regions = fData[0].popupTo.data.map((item) => {
           return item.id;
         });
       }
+
+      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+        zones = fData[1].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+        clusters = fData[2].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
+        siteId = fData[3].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+        deviceType = fData[4].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+        customer = fData[5].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+        engineer = fData[6].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[7] && fData[7].length) {
+        siteType = fData[7].filter((item) => {
+          return item.isChecked && item.text;
+        }).map((item) => {
+          return item.text;
+        });
+      }
+
+      siteStatus = fData[8];
+
+      // if (fData[9] && fData[9].startDate && fData[9].endDate) {
+      //   rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      // }
+      // siteStatus = parseInt(fData[7], 10);
+
+
     }
     this.filterParam = {
-      "siteId": siteId
+      "siteId": siteId,
+      "clusters": clusters,
+      "zones": zones,
+      "regions": regions,
+      "deviceType": deviceType,
+      "siteStatus": siteStatus ? [siteStatus] : ['All'],
+      "siteType": siteType.length === 0 ? ['All'] : siteType,
+      "customers": customer.length === 0 ? ['All'] : customer,
+      "engineer": engineer.length === 0 ? ['All'] : engineer
     };
   }
 
@@ -295,8 +540,10 @@ export class RemoteCommandsComponent implements OnInit {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.country = item.country.toString();
-        return (item.country.toLowerCase().includes(value));
+        // item.country = item.country.toString();
+        if (!!item.smSitecode) {
+          return item.smSitecode.toLowerCase().includes(value);
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;

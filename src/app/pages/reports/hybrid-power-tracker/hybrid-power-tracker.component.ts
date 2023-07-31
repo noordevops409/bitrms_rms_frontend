@@ -181,7 +181,7 @@ export class HybridPowerTrackerComponent implements OnInit {
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
@@ -277,7 +277,15 @@ export class HybridPowerTrackerComponent implements OnInit {
       let getAll = () => {
         let apiUrl: any = ApiConstant.getHybridPowerTrackerReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
-          list.push(...res.data);
+          if (res.data && res.data.length) {
+            list.push(...res.data);
+          } else {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          }
           this.currentPageNo += 1;
           pageSize = Math.min(100, (res.totalCount - list.length));
           if (res.totalCount === list.length) {
@@ -285,6 +293,7 @@ export class HybridPowerTrackerComponent implements OnInit {
             this.currentPageNo = 1;
             pageSize = 10;
             resolve(res);
+            return;
           } else {
             getAll();
           }

@@ -11,6 +11,9 @@ import { catchError, map, tap } from "rxjs/operators";
 })
 export class CommonUtilService {
 
+  private dashboardChartFilter: any = null;
+  private dashboardAlarmChartFilter: any = null;
+
   constructor(
     private http: HttpClient,
     private notifyService: NotificationsService
@@ -703,6 +706,22 @@ export class CommonUtilService {
 
   makeSepRefOfObj(obj: any) {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  setDashboardChartFilter(data) {
+    this.dashboardChartFilter = data;
+  }
+
+  getDashboardChartFilter() {
+    return this.dashboardChartFilter;
+  }
+
+  setDashboardAlarmStatusChartFilter(data) {
+    this.dashboardAlarmChartFilter = data;
+  }
+
+  getDashboardAlarmStatusChartFilter() {
+    return this.dashboardAlarmChartFilter;
   }
 
   fileUpload(fileItem: File): any {

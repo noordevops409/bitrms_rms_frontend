@@ -9,6 +9,8 @@ import * as XLSX from 'xlsx';
 import { CommonUtilService } from '../../shared/common-util.service';
 import { BroadcastService } from '../../shared/broadcast.service';
 
+import { engineerNameList } from '../../pages/data/engineerName';
+import { customerMaster } from '../../pages/data/customer-master';
 import { ALARM_CATEGORY_COLUMN_HEADER } from './alarm-category-column.enum';
 
 import { ApiConstant } from '../../shared/api-constant.enum';
@@ -173,6 +175,58 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         id: 'category',
         value: 'category'
       }
+    },
+    {
+      id: 'FMF06',
+      fieldName: 'customers',
+      indexField: 'customers',
+      labelName: 'Customer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'customers',
+      data: customerMaster,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
+    },
+    {
+      id: 'FMF07',
+      fieldName: 'engineerName',
+      indexField: 'engineerName',
+      labelName: 'Engineer',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'engineerName',
+      data: engineerNameList,
+      isDataLoaded: true,
+      isDynamic: false,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: null,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'id',
+        value: 'value'
+      }
     }
   ];
 
@@ -192,7 +246,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
@@ -206,7 +260,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     "deviceType": ["All"],
     "regions": ["All"],
     "zones": ["All"],
-    "customers": ["All"],
+    "customers": ['All'],
+    "engineer": ['All'],
     "siteType": ["All"],
     "date": null,
     "alarmStatus": ["All"],
@@ -220,6 +275,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     "allSiteType": true,
     "anyFilterEmpty": true
   };
+  private dashboardChartFilter: any = null;
 
   constructor(
     private util: CommonUtilService,
@@ -251,6 +307,13 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.initFilterParam();
     this.setDefaultFilter();
+    this.dashboardChartFilter = this.util.getDashboardAlarmStatusChartFilter();
+    if (this.dashboardChartFilter) {
+      const groupBy = this.dashboardChartFilter.groupBy;
+      const groupValue = this.dashboardChartFilter.groupValue;
+      this.filterParam[groupBy] = [groupValue];
+      this.util.setDashboardAlarmStatusChartFilter(null);
+    }
     this.loadData();
     this.loadSummaryCounts();
     this.loadAlertsCounts();
@@ -265,7 +328,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "deviceType": ["All"],
       "regions": ["All"],
       "zones": ["All"],
-      "customers": ["All"],
+      "customers": ['All'],
+      "engineer": ['All'],
       "siteType": ["All"],
       "date": `${startDate} - ${endDate}`,
       "alarmStatus": ["All"],
@@ -470,8 +534,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     let deviceType: any = ["All"];
     let siteType: any = ["All"];
     let severities: any = [];
-    let siteStatus: any = null;
-    let customer: any = [];
+    let alarmStatus: any = null;
+    let customer: any = ["All"];
+    let engineer: any = ["All"];
     let rangeDate: any = "";
 
 
@@ -507,26 +572,30 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+        customer = fData[5].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+        engineer = fData[6].popupTo.data.map((item) => {
+          return item.id;
+        });
+      }
+
+      if (fData[7] && fData[7].length) {
+        siteType = fData[7].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
-      }
+      alarmStatus = fData[8];
 
-      siteStatus = fData[7];
-
-      if (fData[8] && fData[8].length) {
-        customer = fData[8].filter((item) => {
-          return item.isChecked && item.text;
-        }).map((item) => {
-          return item.text;
-        });
+      if (fData[9] && fData[9].startDate && fData[9].endDate) {
+        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       }
     }
     this.filterParam = {
@@ -535,11 +604,12 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "deviceType": deviceType,
       "regions": regions,
       "zones": zones,
-      "siteStatus": siteStatus ? [siteStatus] : ['All'],
+      "siteStatus": ['All'],
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
+      "engineer": engineer.length === 0 ? ['All'] : engineer,
       "date": rangeDate,
-      "alarmStatus": ["All"],
+      "alarmStatus": alarmStatus ? [alarmStatus] : ['All'],
       "all": "ALL",
       "allAlarmStatus": true,
       "allCustomers": true,
@@ -659,8 +729,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if (!!item.smSiteCode && !!item.alName) {
-          return (item.smSiteCode.includes(value) || item.alName.includes(value))
+        if (item.smsiteCode || item.alName) {
+          return item.smsiteCode.toLowerCase().includes(value) ||
+            item.alName.toLowerCase().includes(value);
         }
       });
     } else {

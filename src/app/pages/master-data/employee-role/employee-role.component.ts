@@ -50,7 +50,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;

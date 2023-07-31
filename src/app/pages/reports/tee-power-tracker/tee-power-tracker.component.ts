@@ -186,7 +186,7 @@ export class TeePowerTrackerComponent implements OnInit {
 
   private sampleData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
 
@@ -283,7 +283,15 @@ export class TeePowerTrackerComponent implements OnInit {
       let getAll = () => {
         let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
-          list.push(...res.data);
+          if (res.data && res.data.length) {
+            list.push(...res.data);
+          } else {
+            res.data = list;
+            this.currentPageNo = 1;
+            pageSize = 10;
+            resolve(res);
+            return;
+          }
           this.currentPageNo += 1;
           pageSize = Math.min(100, (res.totalCount - list.length));
           if (res.totalCount === list.length) {
@@ -291,6 +299,7 @@ export class TeePowerTrackerComponent implements OnInit {
             this.currentPageNo = 1;
             pageSize = 10;
             resolve(res);
+            return;
           } else {
             getAll();
           }

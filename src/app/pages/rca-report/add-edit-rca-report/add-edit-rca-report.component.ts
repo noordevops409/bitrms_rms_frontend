@@ -290,7 +290,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
     let diff: any = moment.utc(diffInMinutes);
     if (diffInMinutes > 0) {
       this.masterForm.controls['enterOutageMinutes'].setValue(diffInMinutes);
-      this.masterForm.controls['enterSLA'].setValue(diffInMinutes);
+      this.masterForm.controls['enterSLA'].setValue((1 - (diffInMinutes / 1440)) * 100);
     }
     let convert: any = this.splitTime(diff);
     let format: any = "";

@@ -339,16 +339,18 @@ export class UsersComponent implements OnInit, OnDestroy {
     value = value.toLowerCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        item.umName = item.umName.toString();
-        item.username = item.username.toString();
-        item.umEmailid = item.umEmailid.toString();
-        item.umMobileNumber = item.umMobileNumber.toString();
-        return (
-          item.umName.toLowerCase().includes(value) ||
-          item.username.toLowerCase().includes(value) ||
-          item.umEmailid.toLowerCase().includes(value) ||
-          item.umMobileNumber.toLowerCase().includes(value)
-        );
+        // item.umName = item.umName.toString();
+        // item.username = item.username.toString();
+        // item.umEmailid = item.umEmailid.toString();
+        // item.umMobileNumber = item.umMobileNumber.toString();
+        if (!!item.umName || !!item.username || !!item.umEmailid || !!item.umMobileNumber) {
+          return (
+            item.umName && item.umName.includes(value) ||
+            item.username && item.username.includes(value) ||
+            item.umEmailid && item.umEmailid.includes(value) ||
+            item.umMobileNumber && item.umMobileNumber.includes(value)
+          );
+        }
       });
     } else {
       this.sampleData.data = this.allData.data;
