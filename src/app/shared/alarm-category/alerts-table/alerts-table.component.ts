@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiConstant } from '../../api-constant.enum';
 import { Observable } from 'rxjs';
 import { AppConstant } from '../../app-constant.enum';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-alerts-table',
@@ -11,39 +13,35 @@ import { AppConstant } from '../../app-constant.enum';
   styleUrls: ['./alerts-table.component.scss']
 })
 export class AlertsTableComponent {
-isOpenTabularFilter: any;
-activeListing: any = {};
-public listingTemplate: any = {};
-public appType1: Number = AppConstant.ALARM_STATUS_APP_TYPE;
-private isMultipleRowSelected: boolean = false;
-private multipleSelRow: any;
-private selectedRow: any;
+
+  isOpenTabularFilter: any;
+  activeListing: any = {};
+  public listingTemplate: any = {};
+  public appType1: Number = AppConstant.ALARM_STATUS_APP_TYPE;
+  private isMultipleRowSelected: boolean = false;
+  private multipleSelRow: any;
+  private selectedRow: any;
   currentPageNo: any;
+  globalFilterValue: string = '';
   pageSize: any;
   recordStartFrom: any;
-  isReqToOpenFilter: boolean = false;filterParam!: { siteId: any; clusters: any; zones: any; regions: any; deviceType: any; siteStatus: any[]; siteType: any; customers: any; date: any; };
-ddExport: any;
-  loading: boolean=true;
-;
+  isReqToOpenFilter: boolean = false; filterParam!: { siteId: any; clusters: any; zones: any; regions: any; deviceType: any; siteStatus: any[]; siteType: any; customers: any; date: any; };
+  ddExport: any = -1;
+  loading: boolean = true;
+  ;
 
-exportOptSelected($event: any) {
-throw new Error('Method not implemented.');
-}
-searchGlobally($event: any) {
-throw new Error('Method not implemented.');
-}
-openTabularFilter($event: any) {
-throw new Error('Method not implemented.');
-}
-goBack($event: any) {
-throw new Error('Method not implemented.');
-}
-tableData: any;
-tableData1: any;
-type:any;
-apiUrl:any;
+  exportOptSelected($event: any) {
+    throw new Error('Method not implemented.');
+  }
+  openTabularFilter(evt?: any) {
+    this.isOpenTabularFilter = !this.isOpenTabularFilter;
+  }
+  tableData: any;
+  tableData1: any;
+  type: any;
+  apiUrl: any;
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient, ) {}
+  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private location: Location) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -54,11 +52,14 @@ apiUrl:any;
       this.getAlertsTableDataByType(this.type); // Assign the observable
     });
   }
-  
+  goBack(): void {
+    this.location.back();
+  }
+
   private getAlertsTableDataByType(type: any) {
     this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; // Use backticks to create the template string
     console.log('line 23', this.apiUrl);
-  
+
     // const url = ApiConstant.getLatestData;
     this.httpClient.get(this.apiUrl).subscribe((data) => {
       this.tableData1 = data;
@@ -66,7 +67,7 @@ apiUrl:any;
       this.loading = false; // Set loading to false once data is fetched
     });
   }
-  
+
   onRowSelectionChanged(data: any) {
     if (data && data.length) {
       this.isMultipleRowSelected = data.length > 1;
@@ -95,99 +96,20 @@ apiUrl:any;
     //   this.loadTowerLatestData();
     // }
   }
-  applyFilter(evt?: any) {
-    this.isReqToOpenFilter = false;
-    this.isOpenTabularFilter = false;
-    if (evt) {
-      this.setFilterParam(evt);
-     // this.loadFilterTowerStatusData();
-    } else {
-      // this.setDefaultFilter();
-      // this.loadFilterTowerStatusData();
-    }
-  }
-  setFilterParam(fData) {
 
-    let regions: any = ["All"];
-    let zones: any = ["All"];
-    let clusters: any = ["All"];
-    let siteId: any = ["All"];
-    let deviceType: any = ["All"];
-    let siteType: any = ["All"];
-    let siteStatus: any = null;
-    let customer: any = ["All"];
-    let rangeDate: any = "";
-    if (fData && fData.length) {
-      if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        regions = fData[0].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
-          return item.isChecked && item.text;
-        }).map((item) => {
-          return item.text;
-        });
-      }
-
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
-      }
-      // siteStatus = parseInt(fData[7], 10);
-      siteStatus = fData[7];
-
-      if (fData[8] && fData[8].length) {
-        customer = fData[8].filter((item) => {
-          return item.isChecked && item.text;
-        }).map((item) => {
-          return item.text;
-        });
-      }
-    }
-    this.filterParam = {
-      "siteId": siteId,
-      "clusters": clusters,
-      "zones": zones,
-      "regions": regions,
-      "deviceType": deviceType,
-      "siteStatus": siteStatus ? [siteStatus] : ['All'],
-      "siteType": siteType.length === 0 ? ['All'] : siteType,
-      "customers": customer.length === 0 ? ['All'] : customer,
-      "date": rangeDate
-    };
-  }
-
-   handleResize() {
-    const tblContent = document.querySelector('.tbl-content')as HTMLDivElement;
-    const tblTable = tblContent.querySelector('table')as HTMLDivElement;
+  handleResize() {
+    const tblContent = document.querySelector('.tbl-content') as HTMLDivElement;
+    const tblTable = tblContent.querySelector('table') as HTMLDivElement;
     const scrollWidth = tblContent.offsetWidth - tblTable.offsetWidth;
-    const tblHeader = document.querySelector('.tbl-header')as HTMLDivElement;
+    const tblHeader = document.querySelector('.tbl-header') as HTMLDivElement;
     tblHeader.style.paddingRight = scrollWidth + 'px';
   }
+  searchGlobally($event: any) {
+    const filterValue = this.globalFilterValue.toLowerCase();
+    this.tableData1 = this.tableData1.filter((item: any[]) => {
+      // Loop through each column value and check if it contains the filter value
+      return item.some((value: any) => value.toString().toLowerCase().includes(filterValue));
+    });
+  }
+
 }
