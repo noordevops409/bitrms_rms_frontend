@@ -1371,9 +1371,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     chart.on('draw', (item: any) => {
       if (item.type === 'slice') {
-        item.element._node.onclick = (event: any) => this.alarmPieChartClick(item, label, 'categories');
+        item.element._node.onclick = (event: any) => this.click(item, data, "powerSource");
       }
     });
+    // chart.on('draw', (item: any) => {
+    //   if (item.type === 'slice') {
+    //     item.element._node.onclick = (event: any) => this.alarmPieChartClick(item, label, 'categories');
+    //   }
+    // });
   }
 
   loadBarChart() {
