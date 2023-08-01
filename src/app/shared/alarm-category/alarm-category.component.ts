@@ -234,7 +234,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public siteData: any = null;
   public siteId: any = null;
   public alarmCounts: any = [];
-  public alertsCounts:any=[];
+  public alertsCounts: any = [];
 
   public ddExport: any = "-1";
   public exportData: any = {
@@ -285,7 +285,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private ngZone: NgZone,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.siteId = paramMap.get('siteId');
@@ -593,6 +593,15 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }
 
       alarmStatus = fData[8];
+      // if (alarmStatus) {
+      //   if (alarmStatus == '1') {
+      //     alarmStatus = 'Open'
+      //   } else if (alarmStatus == '0') {
+      //     alarmStatus = 'Close';
+      //   } else {
+      //     alarmStatus = 'All';
+      //   }
+      // }
 
       if (fData[9] && fData[9].startDate && fData[9].endDate) {
         rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
@@ -752,7 +761,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         { type: "dgcount", count: 0, cssClass: 'btn-default', isClickable: false },
         { type: "Run hours", count: 0, cssClass: 'btn-primary', isClickable: false }
       ];
-  
+
       if (res && res.length) {
         for (let item of res) {
           let obj: any = {
@@ -761,7 +770,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
             cssClass: '',
             isClickable: item[1] > 0 // Set isClickable to true if count is greater than 0
           };
-  
+
           // Update the corresponding alert count and cssClass from the API response
           const index = list.findIndex(alert => alert.type === obj.type);
           if (index !== -1) {
@@ -781,7 +790,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
           }
         }
       }
-  
+
       // Set the updated list to alertsCounts
       this.alertsCounts = list;
     }, (err) => {
@@ -793,14 +802,14 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       });
     });
   }
-  
+
 
   openTabular(type?: any) {
-    this.router.navigate(['alerts-table',type],{
+    this.router.navigate(['alerts-table', type], {
       relativeTo: this.activatedRoute.parent
     });
-   // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
-         console.log('alertType', type);
+    // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
+    console.log('alertType', type);
 
   }
 
