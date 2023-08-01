@@ -1,0 +1,145 @@
+.parent-container {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Add other styles for the header if needed */
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
+  padding-left: 48px;
+
+}
+
+.left-side button,
+.right-side {
+  margin-right: 10px;
+  /* Add some spacing between elements */
+}
+
+.export {
+  padding-right: 38px;
+
+  label {
+      font-size: 0.9375rem;
+      margin-right: 24px;
+      color: white;
+  }
+
+  select {
+      background-color: #192038;
+      color: white;
+      border: 1px solid #101426;
+      border-radius: 4px;
+      font-size: 0.9375rem;
+      padding: 8px 16px;
+      text-align: left;
+      width: 175px;
+      font-weight: bold;
+
+      &.mini {
+          background-image: linear-gradient(45deg, transparent 50%, #8F9BB3 50%), linear-gradient(135deg, #8F9BB3 50%, transparent 50%), linear-gradient(to right, #8F9BB3, #ccc);
+          background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+          background-size: 5px 5px, 5px 5px, 1px 1.5em;
+          background-repeat: no-repeat;
+
+          * {
+              font-size: 0.875rem;
+          }
+      }
+  }
+}
+
+.export-container {
+  display: none;
+
+  &.show {
+      display: block;
+  }
+}
+
+
+h1 {
+  font-size: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 15px;
+  // margin-top: 99px;
+  padding-top: 15px;
+  font-weight: 400;
+  padding-left: 20px;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.tbl-header {
+  background-color: rgb(34, 43, 69);
+  border-bottom: solid 1px rgb(21 26 48);
+  border-top: solid 1px rgb(21 26 48);
+
+}
+
+.tbl-content {
+  height: 550px;
+  overflow-y: auto;
+  margin-top: 0px;
+  // border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgb(34, 43, 69);
+}
+th {
+  padding: 15px 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 300;
+  font-size: 13px;
+  color: #fff;
+  border-bottom: solid 1px rgb(21 26 48);
+}
+
+
+/* demo styles */
+
+section {
+  margin: 50px;
+  background-color: rgb(34, 43, 69);
+  border-radius: 5px; /* Add rounded corners to the section */
+  overflow: hidden; /* Ensure content inside the section is not clipped */
+  margin-top: 83px;
+
+}
+
+/* For custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: .3125rem;
+  height: .3125rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f51b5;
+  cursor: pointer;
+  border-radius: .15625rem;
+}

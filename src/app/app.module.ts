@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorService } from './guards/token-interceptor.service';
 import { LogoutComponent } from './logout/logout.component';
+import { AlarmCategoryAppRoutingModule } from './shared/alarm-category/alarm-category-app-routing.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LogoutComponent } from './logout/logout.component';
     SimpleNotificationsModule.forRoot(),
     ChartistModule,
     NgChartsModule,
-    MaterialModule
+    MaterialModule,
+    // AlarmCategoryAppRoutingModule
   ],
   providers: [
     {

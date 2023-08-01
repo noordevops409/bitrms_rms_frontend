@@ -1,0 +1,119 @@
+<div class="parent-container">
+<div class="header">
+  <div class="left-side back-filter">
+      <button class="btn btn-default" (click)="goBack();">
+          <span class="material-icons">
+              arrow_back_ios
+          </span> ALARM STATUS
+      </button>
+      <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+      <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+  </div>
+  <div class="right-side">
+      <div class="export">
+          <label>Export</label>
+          <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+              <option value="-1">Please Select</option>
+              <option value="1">Excel</option>
+              <option value="2">CSV</option>
+              <!-- <option value="3">PDF</option> -->
+          </select>
+      </div>
+  </div>
+</div>
+<section>
+  <!--for demo wrap-->
+  <h1>{{type}}</h1>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0">
+      <thead>
+        <tr *ngIf="type === 'dgcount'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>PowerSource</th>
+        </tr>
+        <tr *ngIf="type === 'Run hours'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>DG RunHrs</th>
+        </tr>
+        <tr *ngIf="type === 'fuellvl'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>Fuellevel_Percentage</th>
+        </tr>
+        <tr *ngIf="type === 'dcload'">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Sm Site ID</th>
+          <th>Sm Site Code</th>
+          <th>Timestamp</th>
+          <th>Total_DCLoad_Energy</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0">
+      <tbody>
+        <ng-container *ngIf="type === 'dgcount'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'Run hours'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'fuellvl'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="type === 'dcload'">
+
+          <tr *ngFor="let item of tableData1;let i=index">
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+            <!-- <td>{{ item[6] }}</td> -->
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</div>

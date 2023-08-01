@@ -145,5 +145,9 @@ export const ApiConstant = {
   deleteUserDetails: `${GATEWAY}/api/userregistration/delete_user_details`,
   saveEditUserDetails: `${GATEWAY}/api/userregistration/usercreate`,
 
+  getAlertsCounts:`${GATEWAY}/api/alarm-report/get_views_alerts_counts`, 
+  getAlertsDetails:`${GATEWAY}/api/alarm-report/get_views_alerts`,
+
+
 };
 

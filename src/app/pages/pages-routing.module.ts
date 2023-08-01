@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
-import { AlarmCategoryComponent } from '../shared/alarm-category/alarm-category.component';
 import { EnergyReportComponent } from '../shared/energy-report/energy-report.component';
+import { AlarmCategoryComponent } from '../shared/alarm-category/alarm-category.component';
+import { AlertsTableComponent } from '../shared/alarm-category/alerts-table/alerts-table.component';
 
 const routes: Routes = [
   { 
@@ -12,8 +13,12 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+      //{ path: 'alarm-status', loadChildren: () => import('src/app/shared/alarm-category/alarm-category.module').then(m => m.AlarmCategoryModule) },
+
       { path: 'alarm-status', component: AlarmCategoryComponent },
       { path: 'energy-report', component: EnergyReportComponent },
+      // { path: 'alarm-status', component: AlarmCategoryComponent },
+      { path: 'alerts-table/:type', component: AlertsTableComponent },
       { path: 'power-report', loadChildren: () => import('./power-report/power-report.module').then(m => m.PowerReportModule) },
       { path: 'energy-billing-report', loadChildren: () => import('./energy-billing-report/energy-billing-report.module').then(m => m.EnergyBillingReportModule) },
       { path: 'rca-report', loadChildren: () => import('./rca-report/rca-report.module').then(m => m.RcaReportModule) },

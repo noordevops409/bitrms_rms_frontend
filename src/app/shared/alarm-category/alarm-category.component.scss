@@ -202,6 +202,7 @@
 
 .export-container {
     display: none;
+
     &.show {
         display: block;
     }
@@ -209,6 +210,11 @@
 
 .alarm-summary {
     position: relative;
+
+    .content-data
+    {
+        height: 650px;
+    }
     .box-title {
         display: flex;
         justify-content: space-between;
@@ -223,9 +229,46 @@
             margin: 0px;
             display: flex;
             column-gap: 15px;
-            li {
-                
-            }
+
+            li {}
         }
     }
+
+   /* Add a fixed width and flex-wrap to .button-container */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+   // width: 100%; /* Adjust the width as needed */
+}
+
+.button-container li {
+    margin: 5px;
+    list-style-type: none;
+}
+
+.button-container button {
+    height: auto;
+    padding: 12px;
+    font-size: 12px;
+}
+
+/* Style for the table title */
+.table-title {
+    display: inline-block;
+    margin-right: 10px;
+    margin: 0;
+}
+
+/* Adjust the padding for .button-container h4 */
+// div .button-container h4 {
+//     padding-right: 20px; /* Adjust the padding as needed */
+//     padding-left: 20px;
+//     padding-top: 19px;
+// }
+.right-align {
+    flex: 1; /* Use the available space on the left side */
+    text-align: left; /* Align the content to the right */
+    padding-left: 20px;
+    padding-top: 19px;
+  }
 }
