@@ -135,24 +135,7 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
       .addTo(this.map));
   }
 
-  addPopupOnMarker() {
-
-    // Add a layer showing the places.
-    this.map.addLayer({
-      'id': 'places',
-      'type': 'circle',
-      'source': 'places',
-      'layout': {
-        // Make the layer visible by default.
-        'visibility': 'visible'
-      },
-      'paint': {
-        'circle-color': '#4264fb',
-        'circle-radius': 6,
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff'
-      }
-    });
+  addPopupOnMarker(list) {
 
     // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
@@ -213,14 +196,32 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
       list.push(obj);
       this.createMarker(obj);
     }
-    this.map.addSource('places', {
-      'type': 'geojson',
-      'data': {
-        'type': 'FeatureCollection',
-        'features': list
-      }
-    })
-    this.addPopupOnMarker();
+    const placeSource = this.map.getSource('places');
+    if (placeSource) {
+      placeSource.setData(list);
+    } else {
+      this.map.addSource('places', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': list
+        }
+      });
+
+      // Add a layer showing the places.
+      this.map.addLayer({
+        'id': 'places',
+        'type': 'circle',
+        'source': 'places',
+        'paint': {
+          'circle-color': '#4264fb',
+          'circle-radius': 6,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff'
+        }
+      });
+    }
+    this.addPopupOnMarker(list);
   }
 
   removeAllMarker() {
@@ -233,7 +234,7 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
     // for (let item of this.popupList) {
     //   item.remove();
     // }
-    this.map.setLayoutProperty('places', 'visibility', 'none');
+    // this.map.setLayoutProperty('places', 'visibility', 'none');
     // this.map.removeLayer('places');
   }
 
@@ -248,8 +249,8 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
       } else {
         this.siteList = this.allList;
       }
-      this.removeAllPopup();
       this.removeAllMarker();
+      this.removeAllPopup();
       setTimeout(() => {
         this.setMarkers();
       }, 500);

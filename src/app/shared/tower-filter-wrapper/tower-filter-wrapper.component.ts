@@ -177,7 +177,7 @@ export class TowerFilterWrapperComponent implements OnInit {
 
         if (!this.defaultFilterList[8]) {
           this.defaultFilterList.push(this.selectedSiteStatus || this.selectedAlarmStatus);
-        } else if (this.selectedSiteStatus) {
+        } else if (this.selectedSiteStatus || this.selectedAlarmStatus) {
           this.defaultFilterList[8] = this.selectedSiteStatus || this.selectedAlarmStatus;
         }
 
