@@ -1327,7 +1327,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         className: item.powerSource.toLowerCase().replace(' ', '-')
       });
     }
-    // this.initPieChart(label, series, valueList);
+    this.initPieChart(label, series, valueList);
     
   }
 
