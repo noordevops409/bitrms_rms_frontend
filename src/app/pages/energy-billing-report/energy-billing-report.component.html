@@ -17,6 +17,8 @@
                     <option value="2">Export CSV</option>
                     <!-- <option value="3">PDF</option> -->
                 </select>
+                <button class="btn btn-primary" (click)="fetchData($event);">FETCH</button>
+
             </div>
 
             <!-- <div class="export">
@@ -44,7 +46,7 @@
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
-
+ 
                         <div class="export-container" [ngClass]="{'show': isExporting}">
                             <table id="export-data" *ngIf="exportData.data && exportData.data.length">
                                 <thead>
@@ -128,7 +130,7 @@
                             </table>
                         </div>
 
-                        <div class="listing-container" [ngClass]="{'aLoader': isLoading || isExporting, 'failed': isListServerError}">
+                        <div class="listing-container" [ngClass]="{'failed': isListServerError, 'white-background': !isDataFetched}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"

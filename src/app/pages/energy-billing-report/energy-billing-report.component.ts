@@ -230,6 +230,7 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       xhrParam: [],
       isReqManipulate: true,
       isAllDataLoaded: true,
+      
       maniObj: {
         id: 'id',
         value: 'value'
@@ -243,6 +244,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
+  public  isDataFetched: boolean = false;
+
 
   public startTime: any = "00:00";
   public endTime: any = "23:59";
@@ -298,6 +301,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   }
 
   init() {
+   
+  }
+  fetchData(evt?: any) {
+    this.isDataFetched = true;
+
     this.loadData();
   }
 

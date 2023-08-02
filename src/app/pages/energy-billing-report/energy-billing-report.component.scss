@@ -95,7 +95,7 @@
     top: 0px;
     left: 0px;
     z-index: 2;
-    width: 75%;
+    width: 87% !important;
     height: 0px;
     opacity: 0;
 
@@ -142,4 +142,28 @@
     &.show {
         display: block;
     }
+}
+
+.tabular-filter-wrapper.open .filter-wrapper {
+    background: linear-gradient(331.78deg, #151a30 0%, #222b45 100%) !important;
+    top: 0px !important;
+    width: 87%;
+}
+
+/* your-component.component.css or global styles */
+.right-side .button-and-export {
+    display: flex !important;
+    align-items: center !important; /* Optional: Align items vertically in the center */
+}
+
+.right-side .button-and-export button {
+    margin-right: 10px !important; /* Optional: Add some spacing between the button and the export label */
+}
+
+.right-side .button-and-export .export {
+    display: flex !important;
+    align-items: center !important; /* Optional: Align items vertically in the center */
+}
+.white-background {
+    background-color: white;
 }
