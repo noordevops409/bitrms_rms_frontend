@@ -1802,13 +1802,15 @@ export class TableListingComponent implements OnInit, OnDestroy {
    * @memberof TableListingComponent
    */
   private addRow(itemB: any, i: any) {
-
     const row = this.$(`<ul class="repeated-item" />`);
-    // this.setStyle(row, itemB, true);
-
+  
+    if (itemB.isOffline === 1) {
+      row.css('background-color', 'red');
+    }
+  
     itemB.columns = this.util.copy(this.listingData.itemHeader);
     itemB.listingType = this.listingData.listingType;
-
+  
     itemB.columns.forEach((itemH: any) => {
       let callback;
       if (this.customColumns[itemH.fieldName]) {
@@ -1817,38 +1819,29 @@ export class TableListingComponent implements OnInit, OnDestroy {
         callback = this.templateMap[itemH.colType];
       }
       const li = this.$('<li />');
-
+  
       if (['checkbox', 'img'].indexOf(itemH.colType) > -1) {
         li.addClass('text-center');
       }
-
-      // if()
-
+  
       if (['checkbox'].indexOf(itemH.colType) > -1) {
         li.addClass('relative');
       }
+  
       itemH.$el = callback(itemB, itemH, i);
-
+  
       li.width(['checkbox', 'img'].indexOf(itemH.colType) > -1 ? 35 : itemH.widthOfColumn).append(itemH.$el);
       (itemH.fieldName == 'attachmentImageName' || itemH.fieldName == 'assocFormImgName') && li.addClass('overflow-visible');
       itemH.fieldName == 'status' && this.setStyle(li, itemB, false);
       row.append(li);
     });
-
+  
     itemB.checked && row.addClass('row-selected');
-
-    // if (this.contextMenu) {
-    //   this.bindContextMenu({
-    //     $html: row,
-    //     rowData: itemB,
-    //     index: i
-    //   });
-    // }
-
+  
     itemB.$el = row;
     return row;
   }
-
+  
   /**
    * @description Change selection on contextmenu click
    * @private
