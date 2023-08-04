@@ -1802,10 +1802,10 @@ export class TableListingComponent implements OnInit, OnDestroy {
    * @memberof TableListingComponent
    */
   private addRow(itemB: any, i: any) {
-    const row = this.$(`<ul class="repeated-item" />`);
+    const row = this.$(`<ul class="repeated-item"/>`);
   
     if (itemB.isOffline === 1) {
-      row.css('background-color', 'red');
+      row.css('background-color', 'rgb(199 132 132)');
     }
   
     itemB.columns = this.util.copy(this.listingData.itemHeader);
@@ -1832,6 +1832,21 @@ export class TableListingComponent implements OnInit, OnDestroy {
   
       li.width(['checkbox', 'img'].indexOf(itemH.colType) > -1 ? 35 : itemH.widthOfColumn).append(itemH.$el);
       (itemH.fieldName == 'attachmentImageName' || itemH.fieldName == 'assocFormImgName') && li.addClass('overflow-visible');
+  
+      // Check if the field is dcVoltage and its value is under 50, then set text color and font weight to red
+      if (itemH.fieldName === 'dcVoltage' && itemB.dcVoltage < 50) {
+        itemH.$el.css({
+          'color': '#a71515',
+          'font-weight': 'bold' // You can use 'normal', 'bold', 'bolder', etc. for different font weights.
+        });
+      } else {
+        // Reset the text color and font weight to their default values (e.g., black and normal) when the condition is not met
+        itemH.$el.css({
+          'color': '',
+          'font-weight': ''
+        });
+      }
+  
       itemH.fieldName == 'status' && this.setStyle(li, itemB, false);
       row.append(li);
     });
@@ -1841,6 +1856,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
     itemB.$el = row;
     return row;
   }
+  
+  
+  
   
   /**
    * @description Change selection on contextmenu click
