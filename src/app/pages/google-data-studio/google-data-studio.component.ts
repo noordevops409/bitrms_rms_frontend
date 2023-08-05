@@ -66,8 +66,9 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.initMap();
     this.loadSiteData();
+    this.initMap();
+    this.listen();
   }
 
   listen() {
@@ -117,6 +118,15 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
   }
 
   createMarker(marker: any) {
+
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+    });
+
+    const coordinates = marker.geometry.coordinates.slice();
+    const description = marker.properties.description;
+
     const el = document.createElement('div');
     el.className = 'marker';
     el.style.backgroundColor = marker.properties.bgColor;
@@ -129,6 +139,23 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
       this.router.navigate(['pages', 'dashboard', 'prfdash', marker.properties.title]);
     });
 
+    el.addEventListener('mouseenter', (e) => {
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(this.center.lng - coordinates[0]) > 180) {
+        coordinates[0] += this.center.lng > coordinates[0] ? 360 : -360;
+      }
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
+    });
+
+    el.addEventListener('mouseleave', (e) => {
+      this.map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
     // Add markers to the map.
     this.markers.push(new mapboxgl.Marker(el)
       .setLngLat(marker.geometry.coordinates)
@@ -136,7 +163,6 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
   }
 
   addPopupOnMarker(list) {
-
     // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
       closeButton: false,
@@ -176,6 +202,14 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
     let siteList = this.siteList.filter((item) => {
       return !(item.smLongitude > -90 && item.smLongitude < 90) && (item.smLatitude > -90 && item.smLatitude < 90);
     });
+
+    const placeLayer = this.map.getLayer('places');
+    if (placeLayer) {
+      this.map.removeLayer('places');
+    }
+
+
+
     for (let item of siteList) {
       this.getColorSiteWise(item);
       let obj = {
@@ -198,7 +232,10 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
     }
     const placeSource = this.map.getSource('places');
     if (placeSource) {
-      placeSource.setData(list);
+      placeSource.setData({
+        "type": "FeatureCollection",
+        "features": list
+      });
     } else {
       this.map.addSource('places', {
         'type': 'geojson',
@@ -207,21 +244,21 @@ export class GoogleDataStudioComponent implements OnInit, OnDestroy {
           'features': list
         }
       });
-
-      // Add a layer showing the places.
-      this.map.addLayer({
-        'id': 'places',
-        'type': 'circle',
-        'source': 'places',
-        'paint': {
-          'circle-color': '#4264fb',
-          'circle-radius': 6,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff'
-        }
-      });
     }
-    this.addPopupOnMarker(list);
+
+    // Add a layer showing the places.
+    this.map.addLayer({
+      'id': 'places',
+      'type': 'circle',
+      'source': 'places',
+      'paint': {
+        'circle-color': '#4264fb',
+        'circle-radius': 6,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff'
+      }
+    });
+    // this.addPopupOnMarker(list);
   }
 
   removeAllMarker() {
