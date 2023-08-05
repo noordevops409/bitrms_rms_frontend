@@ -273,6 +273,14 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     if (this.isLoading) {
       return;
     }
+
+    if (this.filterParam && this.filterParam.siteId[0] === 'All') {
+      this.util.notification.warn({
+        title: 'Warning',
+        msg: 'Please select at least one site'
+      });
+      return;
+    }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
@@ -409,10 +417,10 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       "allSiteTypes": true,
       "allZones": true,
       "anyFilterEmpty": true,
-      "start": 1,
+      "start": this.recordStartFrom,
       "draw": 5,
-      "length": 10,
-      "page": 2
+      "length": this.pageSize,
+      "page": this.currentPageNo,
     };
   }
 

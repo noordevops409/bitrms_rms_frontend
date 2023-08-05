@@ -94,16 +94,18 @@ export class TeeEnergyFilterComponent implements OnInit {
   }
 
   applyFilter(evt?: any) {
-    if (this.filterType === 1) {
-      this.isReqToOpenFilter = false;
-      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
-    } else if (this.filterType === 2) {
-      this.isOpenTabularFilter = false;
-      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
-    }
-    this.defaultFilterList.push(this.siteType);
-    this.defaultFilterList.push(this.reqSiteIdObj);
-    this.onFilter.emit(this.defaultFilterList);
+    setTimeout(() => {
+      if (this.filterType === 1) {
+        this.isReqToOpenFilter = false;
+        this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+      } else if (this.filterType === 2) {
+        this.isOpenTabularFilter = false;
+        this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+      }
+      this.defaultFilterList.push(this.siteType);
+      this.defaultFilterList.push(this.reqSiteIdObj);
+      this.onFilter.emit(this.defaultFilterList);
+    }, 500);
   }
 
   applyTabularFilter(evt?: any) {
