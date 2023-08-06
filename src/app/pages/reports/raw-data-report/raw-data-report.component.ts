@@ -398,6 +398,10 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
       if (fData[6] && fData[6].startDate && fData[6].endDate) {
         rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+      } else {
+        let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+        let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+        rangeDate = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
       }
     }
     this.filterParam = {
