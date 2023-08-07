@@ -43,7 +43,7 @@ export class WindowsNotificationService {
   }
 
   showNotification() {
-    return;
+    // return;
     //  if(document.visibilityState === "visible") {
     //      return;
     //  }
