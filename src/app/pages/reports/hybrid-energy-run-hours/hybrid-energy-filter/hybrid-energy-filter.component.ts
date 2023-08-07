@@ -37,8 +37,8 @@ export class HybridEnergyFilterComponent implements OnInit {
   ];
 
   range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
   });
 
   private reqSiteIdObj: any = {
@@ -70,6 +70,9 @@ export class HybridEnergyFilterComponent implements OnInit {
         this.range.controls['start'].setValue(this.reqSiteIdObj.startDate);
         this.range.controls['end'].setValue(this.reqSiteIdObj.endDate);
       }
+    } else {
+      this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
+      this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
     }
   }
 
@@ -83,6 +86,8 @@ export class HybridEnergyFilterComponent implements OnInit {
   }
 
   reset(evt?: any) {
+    this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
+    this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
     if (this.filterType === 1) {
       this.isReqToOpenFilter = false;
       this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);

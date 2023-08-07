@@ -73,8 +73,8 @@ export class TowerFilterWrapperComponent implements OnInit {
   ];
 
   range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
   });
   public startTime: any = "00:00";
   public endTime: any = "23:59";
@@ -133,6 +133,9 @@ export class TowerFilterWrapperComponent implements OnInit {
         this.range.controls['start'].setValue(this.reqSiteIdObj.startDate);
         this.range.controls['end'].setValue(this.reqSiteIdObj.endDate);
       }
+    } else {
+      this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
+      this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
     }
   }
 
@@ -209,6 +212,8 @@ export class TowerFilterWrapperComponent implements OnInit {
   reset(evt?: any) {
     this.isReqToOpenFilter = false;
     this.isOpenTabularFilter = false;
+    this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
+    this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
     this.clearSelection();
     this.onFilter.emit(null);
   }
