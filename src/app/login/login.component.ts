@@ -97,7 +97,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         msg: 'Error while login!'
       });
       this.router.navigate(['login']);
-
     });
   }
 
