@@ -138,6 +138,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
+      isDisableMultipeSelection: true,
       xhrMethod: 'GET',
       xhrUrl: ApiConstant.getSiteCode,
       xhrParam: [],

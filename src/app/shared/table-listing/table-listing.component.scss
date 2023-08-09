@@ -96,6 +96,14 @@
         }
       }
     }
+
+    &.no-records {
+      .gbody {
+        .loading-text {
+          display: none;
+        }
+      }
+    }
   }
 
   &.hasPager {

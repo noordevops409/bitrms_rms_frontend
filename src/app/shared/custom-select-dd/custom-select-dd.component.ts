@@ -33,6 +33,7 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
   @Output() onDropdownClose: EventEmitter<any> = new EventEmitter<any>();
 
   public backup: any = undefined;
+  public isDisableMultipeSelection: boolean = false;
 
   dd: any = {
     dynamic: false,
@@ -57,6 +58,7 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
 
   private $: any = (window as any)['jQuery'];
   private selection: any = [];
+  private prevSelection: any = [];
   private isDirty: boolean = false;
   private sub1!: Subscription;
 
@@ -100,6 +102,12 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
     this.dd.isReqManipulate = this.ddData.isReqManipulate;
     this.dd.isAllDataLoaded = this.ddData.isAllDataLoaded;
     this.dd.maniObj = this.ddData.maniObj;
+
+    if (this.ddData.isDisableMultipeSelection) {
+      this.isDisableMultipeSelection = true;
+    } else {
+      this.isDisableMultipeSelection = false;
+    }
 
     if (this.ddData.data && this.ddData.data.length) {
       this.dd.dynamic = false;
@@ -514,13 +522,17 @@ export class CustomSelectDdComponent implements OnInit, OnDestroy {
    */
   select(item: any) {
     item.isSelected = !item.isSelected;
-
     // set dirty flag
     if (!this.isDirty) {
       this.isDirty = true;
     }
 
+
     if (item.isSelected) {
+      if (this.isDisableMultipeSelection) {
+        this.clear();
+      }
+      item.isSelected = true;
       this.selection.push(item);
       this.uniqueList();
     } else {
