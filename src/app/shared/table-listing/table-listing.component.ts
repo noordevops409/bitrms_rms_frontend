@@ -1827,25 +1827,30 @@ export class TableListingComponent implements OnInit, OnDestroy {
       if (['checkbox'].indexOf(itemH.colType) > -1) {
         li.addClass('relative');
       }
-  
       itemH.$el = callback(itemB, itemH, i);
-  
+
       li.width(['checkbox', 'img'].indexOf(itemH.colType) > -1 ? 35 : itemH.widthOfColumn).append(itemH.$el);
       (itemH.fieldName == 'attachmentImageName' || itemH.fieldName == 'assocFormImgName') && li.addClass('overflow-visible');
-  
-      // Check if the field is dcVoltage and its value is under 50, then set text color and font weight to red
+      
+      // Check if the field is dcVoltage and its value is under 50, then set text color and font weight
       if (itemH.fieldName === 'dcVoltage' && itemB.dcVoltage < 50) {
-        itemH.$el.css({
-          'color': '#a71515',
-          'font-weight': 'bold' // You can use 'normal', 'bold', 'bolder', etc. for different font weights.
-        });
+          // Ensure itemH.$el is a valid jQuery or DOM element
+          if (itemH.$el && itemH.$el.css) {
+              itemH.$el.css({
+                  'color': '#a71515',
+                  'font-weight': 'bold'
+              });
+          }
       } else {
-        // Reset the text color and font weight to their default values (e.g., black and normal) when the condition is not met
-        itemH.$el.css({
-          'color': '',
-          'font-weight': ''
-        });
+          if (itemH.$el && itemH.$el.css) {
+              // Reset the text color and font weight
+              itemH.$el.css({
+                  'color': '',
+                  'font-weight': ''
+              });
+          }
       }
+      
   
       itemH.fieldName == 'status' && this.setStyle(li, itemB, false);
       row.append(li);

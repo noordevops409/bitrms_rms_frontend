@@ -1,7 +1,5 @@
-import { Component, OnInit, OnDestroy, Inject, Input, ViewChild, Output, EventEmitter, NgZone } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute, Params, NavigationEnd } from "@angular/router";
-import { CommonUtilService } from '../../shared/common-util.service';
+import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core';
+import { Router, NavigationEnd } from "@angular/router";
 import { BroadcastService } from '../../shared/broadcast.service';
 import { Subscription } from 'rxjs';
 
@@ -14,6 +12,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   @Input() isToggle: boolean = true;
 
+  // Define the menu items in the desired order
   public menu: any = [
     { id: 1, value: 'Dashboard', href: 'dashboard', matIcon: 'pie_chart' },
     { id: 2, value: 'RCA Report', href: 'rca-report', matIcon: 'view_compact' },
@@ -107,20 +106,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
       matIcon: 'logout'
     }
   ];
-
-  private prevSel: any = null;
   private prevIndex: any = null;
+  private prevSel: any = null;
+
+  // Define the desired order of main menu items
+  private mainSortOrder: string[] = [
+    'Dashboard', 'Alarm Status', 'Reports', 'Power Report', 
+    'Energy Report', 'Energy Billing Report', 'RCA Report', 
+    'RCA Master', 'Map Site List', 'Master Data', 
+    'Remote Commands', 'Users', 'Logout'
+  ];
+
   private toggleSidebar!: Subscription;
 
   constructor(
-    private util: CommonUtilService,
     private broadcast: BroadcastService,
-    private httpClient: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
     private ngZone: NgZone
   ) {
-
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         setTimeout(() => {
@@ -132,9 +135,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.listen();
+    // Sort the menu items based on sortOrder
+    this.sortMenuItems();
   }
 
   ngOnDestroy(): void {
+    // ... OnDestroy logic ...
   }
 
   listen() {
@@ -149,14 +155,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   setActiveMenuOnLoad(data: any) {
-    let counter = 0;
     for (let item of this.menu) {
       if (data.url.indexOf(item.href) > -1) {
         item.isActive = true;
         this.prevSel = item;
-        this.prevIndex = counter;
       }
-      counter += 1;
     }
   }
 
@@ -169,7 +172,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.router.navigate(['pages', item.href]);
     }
   }
-
   expandCollapse(evt: any, item: any, index: any) {
     evt.preventDefault();
     evt.stopPropagation();
@@ -187,4 +189,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.router.navigate(['pages', item.href, subMenuItem.href]);
   }
 
+  private sortMenuItems() {
+    this.menu.sort((a: any, b: any) => {
+      const indexA = this.mainSortOrder.indexOf(a.value);
+      const indexB = this.mainSortOrder.indexOf(b.value);
+      return indexA - indexB;
+    });
+
+    for (const item of this.menu) {
+      if (item.subMenu) {
+        item.subMenu.sort((a: any, b: any) => {
+          const indexA = this.mainSortOrder.indexOf(a.value);
+          const indexB = this.mainSortOrder.indexOf(b.value);
+          return indexA - indexB;
+        });
+      }
+    }
+  }
 }

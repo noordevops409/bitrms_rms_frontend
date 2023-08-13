@@ -267,8 +267,10 @@ app-root {
 }
 
 .scrollable-container::-webkit-scrollbar {
-    width: 0.3125rem;
-    height: 0.3125rem;
+    // width: 0.3125rem;
+    // height: 0.3125rem;
+    width: 0.7rem;
+    height: 0.7rem;
 }
 
 .scrollable-container::-webkit-scrollbar-thumb {
@@ -1371,7 +1373,7 @@ app-sd-energy-listing {
 app-reports {
     .header {
         .filter-btn {
-            margin-left: 285px;
+            margin-left: 95px;
         }
     }
 }
