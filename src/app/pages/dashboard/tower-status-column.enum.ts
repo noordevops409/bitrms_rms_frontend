@@ -1,21 +1,4 @@
-
-export const TOWER_STATUS_COLUMN_HEADER: any = {
-  checkbox: {
-    id: '0',
-    fieldName: 'smSiteCode',
-    colDisplayName: '',
-    colType: 'checkbox',
-    userIndex: -1,
-    imgName: '',
-    tooltipSrc: '',
-    dataType: 'checkbox',
-    function: '',
-    funParams: '',
-    wrapData: '',
-    widthOfColumn: 35,
-    isSortSupported: false,
-    isCustomAttributeColumn: false
-  },
+export const TOWER_STATUS_COLUMN_HEADER = {
   lastUpdated: {
     userIndex: 1,
     fieldName: 'lastUpdated',
@@ -101,16 +84,16 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  engineerName: {
+  dcVoltage: {
     userIndex: 6,
-    fieldName: 'engineerName',
-    colDisplayName: 'Engineer Name',
-    title: 'Engineer Name',
-    widthOfColumn: 125,
+    fieldName: 'dcVoltage',
+    colDisplayName: 'DC Voltage',
+    title: 'DC Voltage',
+    widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
-    id: '17',
+    id: '6',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -128,7 +111,7 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
-    id: '6',
+    id: '7',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -137,11 +120,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dgBatteryVoltage: {
+  dcLoad: {
     userIndex: 8,
-    fieldName: 'dgBatteryVoltage',
-    colDisplayName: 'DG Battery Voltage',
-    title: 'DG Battery Voltage',
+    fieldName: 'dcLoad',
+    colDisplayName: 'DC Load',
+    title: 'DC Load',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -155,11 +138,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dcLoad: {
+  dgBatteryVoltage: {
     userIndex: 9,
-    fieldName: 'dcLoad',
-    colDisplayName: 'DC Load',
-    title: 'DC Load',
+    fieldName: 'dgBatteryVoltage',
+    colDisplayName: 'DG Start Voltage',
+    title: 'DG Start Voltage',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -173,11 +156,12 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dcVoltage: {
+
+  dgStartSOC: {
     userIndex: 10,
-    fieldName: 'dcVoltage',
-    colDisplayName: 'DC Voltage',
-    title: 'DC Voltage',
+    fieldName: 'dgStartSOC',
+    colDisplayName: 'DG Start SOC',
+    title: 'DG Start SOC',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -191,11 +175,12 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dgPower: {
+ 
+  solarKw: {
     userIndex: 11,
-    fieldName: 'dgPower',
-    colDisplayName: 'DG Power (Kw)',
-    title: 'DG Power (KW)',
+    fieldName: 'solarKw',
+    colDisplayName: 'Solar Kw',
+    title: 'Solar (KW)',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -209,11 +194,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  fuelLevel: {
+  dgPower: {
     userIndex: 12,
-    fieldName: 'fuelLevel',
-    colDisplayName: 'Fuel Level',
-    title: 'Fuel Level (Ltrs.)',
+    fieldName: 'dgPower',
+    colDisplayName: 'DG Power (Kw)',
+    title: 'DG Power (KW)',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -227,11 +212,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  solarKw: {
+  fuelLevel: {
     userIndex: 13,
-    fieldName: 'solarKw',
-    colDisplayName: 'Solar Kw',
-    title: 'Solar (KW)',
+    fieldName: 'fuelLevel',
+    colDisplayName: 'Fuel Liter',
+    title: 'Fuel Liter',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -263,11 +248,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  critical: {
+  ambAirTemp: {
     userIndex: 15,
-    fieldName: 'critical',
-    colDisplayName: 'Critical',
-    title: 'Critical',
+    fieldName: 'ambAirTemp',
+    colDisplayName: 'Amb Air Temp*C(WS)',
+    title: 'Amb Air Temp*C(WS)',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -281,11 +266,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  major: {
+  pvUpperSideTemp: {
     userIndex: 16,
-    fieldName: 'major',
-    colDisplayName: 'Major',
-    title: 'Major',
+    fieldName: 'pvUpperSideTemp',
+    colDisplayName: 'PV Upper Side Temp*C(WS)',
+    title: 'PV Upper Side Temp*C(WS)',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -299,11 +284,11 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  minor: {
+  pvLowerSideTemp: {
     userIndex: 17,
-    fieldName: 'minor',
-    colDisplayName: 'Minor',
-    title: 'Minor',
+    fieldName: 'pvLowerSideTemp',
+    colDisplayName: 'PV Lower Side Temp*C(WS)',
+    title: 'PV Lower Side Temp*C(WS)',
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
@@ -317,12 +302,12 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  age: {
+  engineerName: {
     userIndex: 18,
-    fieldName: 'age',
-    colDisplayName: 'Offline Duration',
-    title: 'Offline Duration',
-    widthOfColumn: 100,
+    fieldName: 'engineerName',
+    colDisplayName: 'Engineer Name',
+    title: 'Engineer Name',
+    widthOfColumn: 125,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -335,12 +320,12 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  location: {
+  critical: {
     userIndex: 19,
-    fieldName: 'location',
-    colDisplayName: 'Location',
-    title: 'Location',
-    widthOfColumn: 150,
+    fieldName: 'critical',
+    colDisplayName: 'Critical',
+    title: 'Critical',
+    widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -353,15 +338,87 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  alarmCategory: {
+  major: {
     userIndex: 20,
+    fieldName: 'major',
+    colDisplayName: 'Major',
+    title: 'Major',
+    widthOfColumn: 100,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '20',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  minor: {
+    userIndex: 21,
+    fieldName: 'minor',
+    colDisplayName: 'Minor',
+    title: 'Minor',
+    widthOfColumn: 100,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '22',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  age: {
+    userIndex: 23,
+    fieldName: 'age',
+    colDisplayName: 'Offline Duration',
+    title: 'Offline Duration',
+    widthOfColumn: 100,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '23',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  location: {
+    userIndex: 24,
+    fieldName: 'location',
+    colDisplayName: 'Location',
+    title: 'Location',
+    widthOfColumn: 150,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '24',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  alarmCategory: {
+    userIndex: 25,
     fieldName: 'alarmCategory',
     colDisplayName: 'Alarm Category',
     title: 'Alarm Category',
     widthOfColumn: 125,
     colType: 'textwithlink',
     dataType: 'text',
-    id: '20',
+    id: '25',
     imgName: '',
     tooltipSrc: '',
     function: 'viewAlarmCategory',
@@ -371,14 +428,14 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isCustomAttributeColumn: false
   },
   hourlyReport: {
-    userIndex: 21,
+    userIndex: 26,
     fieldName: 'hourlyReport',
     colDisplayName: 'Hourly Report',
     title: 'Hourly Report',
     widthOfColumn: 125,
     colType: 'textwithlink',
     dataType: 'text',
-    id: '21',
+    id: '26',
     imgName: '',
     tooltipSrc: '',
     function: 'viewHourlyReport',
@@ -388,14 +445,14 @@ export const TOWER_STATUS_COLUMN_HEADER: any = {
     isCustomAttributeColumn: false
   },
   imgPath: {
-    userIndex: 22,
+    userIndex: 27,
     fieldName: 'imgPath',
     colDisplayName: 'Image',
     title: 'Image',
     widthOfColumn: 125,
     colType: 'textwithlink',
     dataType: 'text',
-    id: '22',
+    id: '27',
     imgName: '',
     tooltipSrc: '',
     function: 'viewImagePath',
