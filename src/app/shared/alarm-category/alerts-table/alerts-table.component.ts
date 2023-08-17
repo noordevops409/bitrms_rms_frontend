@@ -5,6 +5,8 @@ import { ApiConstant } from '../../api-constant.enum';
 import { Observable } from 'rxjs';
 import { AppConstant } from '../../app-constant.enum';
 import { Location } from '@angular/common';
+import * as XLSX from 'xlsx';
+//import { CsvExportService } from './csv-export.service'; 
 
 
 @Component({
@@ -30,9 +32,7 @@ export class AlertsTableComponent {
   loading: boolean = true;
   ;
 
-  exportOptSelected($event: any) {
-    throw new Error('Method not implemented.');
-  }
+
   openTabularFilter(evt?: any) {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
@@ -50,6 +50,7 @@ export class AlertsTableComponent {
       console.log('line 23', this.type);
       this.loading = true; // Set loading to true before making the request
       this.getAlertsTableDataByType(this.type); // Assign the observable
+      
     });
   }
   goBack(): void {
@@ -111,5 +112,107 @@ export class AlertsTableComponent {
       return item.some((value: any) => value.toString().toLowerCase().includes(filterValue));
     });
   }
+ exportOptSelected($event: any) {
+  if (this.ddExport == 1) {
+    this.exportToExcel();
+  } else if (this.ddExport == 2) {
+    this.exportToCSV();
+  }
+  setTimeout(() => {
+    this.ddExport = -1;
+  }, 2000); // 2000 milliseconds = 2 seconds
+
 
 }
+
+  exportToExcel() {
+    // Select the table header and content elements
+    const tblHeader = document.querySelector('.tbl-header') as HTMLTableElement;
+    const tblContent = document.querySelector('.tbl-content table') as HTMLTableElement;
+  
+    if (!tblHeader || !tblContent) {
+      console.error("Header or content element not found.");
+      return;
+    }
+  
+    // Create a new Workbook and add the Worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tblContent);
+  
+    // Get the header row data
+    const headerData = Array.from(tblHeader.querySelectorAll('th')).map(cell => cell.textContent);
+  
+    // Get the existing content rows
+    const existingContentRows: any[] = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
+  
+    // Create a copy of the existing content rows array
+    const modifiedContentRows = [...existingContentRows];
+  
+    // Add the header data only if it doesn't match the first row of content
+    if (!headerData.every((value, index) => value === modifiedContentRows[0][index])) {
+      modifiedContentRows.unshift(headerData);
+    }
+  
+    // Write the modified content back to the worksheet
+    XLSX.utils.sheet_add_json(ws, modifiedContentRows, { skipHeader: true, origin: "A1" });
+  
+    // Add the Worksheet to the Workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
+    // Create a Blob object to save the Excel file
+    const blob = new Blob([XLSX.write(wb, { bookType: 'xlsx', type: 'array' })], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+  
+    // Create a download link for the Blob and simulate a click event to trigger the download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = this.type,'exported_data.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+    a.remove();
+ 
+  }
+  
+  exportToCSV() {
+    // Select the table header and content elements
+    const tblHeader = document.querySelector('.tbl-header') as HTMLTableElement;
+    const tblContent = document.querySelector('.tbl-content table') as HTMLTableElement;
+  
+    if (!tblHeader || !tblContent) {
+      console.error("Header or content element not found.");
+      return;
+    }
+  
+    // Get the header row data
+    const headerData = Array.from(tblHeader.querySelectorAll('th')).map(cell => cell.textContent);
+  
+    // Get the existing content rows
+    const existingContentRows: any[] = Array.from(tblContent.querySelectorAll('tr')).map(row => {
+      return Array.from(row.querySelectorAll('td')).map(cell => cell.textContent);
+    });
+  
+    // Create a CSV content string
+    const csvContent = [headerData.join(',')];
+    existingContentRows.forEach(row => {
+      csvContent.push(row.join(','));
+    });
+  
+    // Create a Blob object to save the CSV file
+    const blob = new Blob([csvContent.join('\n')], {
+      type: 'text/csv'
+    });
+  
+    // Create a download link for the Blob and simulate a click event to trigger the download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = this.type,'exported_data.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    a.remove();
+  }
+  
+  
+}  
