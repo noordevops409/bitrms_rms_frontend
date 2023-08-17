@@ -422,18 +422,17 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
   }
 
-  setFilterParam(fData) {
+   setFilterParam(fData) {
 
-    let regions: any = ["All"];
-    let zones: any = ["All"];
-    let clusters: any = ["All"];
-    let siteId: any = ["All"];
-    let deviceType: any = ["All"];
-    let siteType: any = ["All"];
-    let siteStatus: any = null;
-    let customer: any = ["All"];
-    let engineer: any = ["All"];
+    let regions: any = [];
+    let zones: any = [];
+    let clusters: any = [];
+    let siteId: any = [];
+    let deviceType: any = [];
+    let siteType: any = [];
     let rangeDate: any = "";
+    let startDate = this.filterParam.startDate;
+    let endDate = this.filterParam.endDate;
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
         regions = fData[0].popupTo.data.map((item) => {
@@ -465,45 +464,35 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
-        customer = fData[5].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
-        engineer = fData[6].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[7] && fData[7].length) {
-        siteType = fData[7].filter((item) => {
+      if (fData[5] && fData[5].length) {
+        siteType = fData[5].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      siteStatus = fData[8];
-
-      if (fData[9] && fData[9].startDate && fData[9].endDate) {
-        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+        startDate = fData[6].startDate.replace(/-/g, '/');
+        endDate = fData[6].endDate.replace(/-/g, '/');
+        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
       }
-      // siteStatus = parseInt(fData[7], 10);
     }
-    
     this.filterParam = {
       "siteId": siteId,
       "clusters": clusters,
       "zones": zones,
       "regions": regions,
       "deviceType": deviceType,
-      "siteStatus": siteStatus ? [siteStatus] : ['All'],
-      "siteType": siteType.length === 0 ? ['All'] : siteType,
-      "customers": customer.length === 0 ? ['All'] : customer,
-      "engineer": engineer.length === 0 ? ['All'] : engineer,
-      "date": rangeDate
+      "siteStatus": 1,
+      "siteType": siteType.length ? siteType : [],
+      "date": rangeDate,
+      "startDate": startDate,
+      "endDate": endDate,
+      "start": 1,
+      "length": 10,
+      "draw": 5,
+      "page": 15
     };
   }
 
