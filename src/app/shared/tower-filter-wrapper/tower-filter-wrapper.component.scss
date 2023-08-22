@@ -46,6 +46,10 @@
                 font-weight: normal;
                 margin-bottom: 0px;
             }
+
+            &.alarm-status {
+                display: none;
+            }
         }
 
         ul {

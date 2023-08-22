@@ -11,7 +11,6 @@ import * as moment from 'moment';
 export class TowerFilterWrapperComponent implements OnInit {
 
   @Input() filterType: number = 1;
-  @Input() filterSubType: number = 0;
   @Input() isTimerAvail: boolean = false;
 
   @Input() isReqToOpenFilter: boolean = false;

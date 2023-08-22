@@ -1711,6 +1711,14 @@ app-login {
     }
 }
 
+app-alarm-category {
+    .elem-row {
+        &.alarm-status {
+            display: flex !important;
+        }
+    }
+}
+
 app-hourly-report {
     .elem-row {
         &.site-status {
