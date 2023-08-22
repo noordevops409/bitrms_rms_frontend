@@ -241,6 +241,13 @@
             margin-right: 10px;
         }
     }
+
+    .right-side {
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+        justify-content: space-between;
+    }
 }
 
 
