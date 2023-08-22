@@ -41,7 +41,7 @@
 
 
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                    <app-tower-filter-wrapper [filterType]=2 [filterSubType]=2.1 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
                 </div>
