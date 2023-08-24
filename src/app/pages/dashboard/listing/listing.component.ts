@@ -271,6 +271,10 @@ export class ListingComponent implements OnInit, OnDestroy {
   private ageLimit: any = 10000;
   private dashboardChartFilter: any = null;
 
+  private _interval: any = null;
+  private sortField: string = 'lastUpdated';
+  private sortOrder: string = 'desc';
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -292,6 +296,7 @@ export class ListingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.forImgPreview.unsubscribe();
+    // this._interval.clearInterval();
   }
 
   listen() {
@@ -313,6 +318,19 @@ export class ListingComponent implements OnInit, OnDestroy {
     } else {
       this.loadTowerLatestData();
     }
+
+    // if (this._interval) {
+    //   this._interval.clearInterval();
+    // }
+
+    this._interval = setInterval(() => {
+      this.init();
+    }, AppConstant.REFRESH_ALARM_LISTING_INTERVAL)
+
+  }
+
+  refresh(evt?: any) {
+    this.init();
   }
 
   setDefaultFilter() {
@@ -365,7 +383,7 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.manipulate(data.data);
       setTimeout(() => {
         this.tableListingComponent.init();
-      });
+      }, 1000);
     }, (err) => {
       this.isLoading = false;
       this.isListServerError = true;
@@ -388,7 +406,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     this.sampleData.listingType = AppConstant.LATEST_DATA1_LISTING_TYPE;
     this.sampleData.recordBatchSize = 50 || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
-    this.sampleData.sortField = 'smSiteCode';
+    this.sampleData.sortField = 'lastUpdated';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
     this.sampleData.totalDocs = resData.totalElements || resData.length;
@@ -412,6 +430,7 @@ export class ListingComponent implements OnInit, OnDestroy {
 
   setRowData(resData: any) {
     const data = resData || [];
+
     if (data.length) {
       for (let item of data) {
         item.age = parseInt(item.age, 10);
@@ -430,6 +449,13 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.sampleData.data = [];
       this.allData.data = data;
     }
+
+    this.applySorting({
+      isSortingApply: true,
+      sortField: this.sortField,
+      sortFieldType: 'date',
+      sortOrder: this.sortOrder
+    })
   }
 
   goBack(evt?: any) {
@@ -550,6 +576,56 @@ export class ListingComponent implements OnInit, OnDestroy {
     }
   }
 
+  getColumnData(req?: any) {
+    if (req.isPreventToUpdateColumn) {
+      return;
+    }
+    for (let item of this.sampleData.columnHeader) {
+      if (item.fieldName === req.sortField) {
+        if (item.order === 'asc') {
+          item.order = 'desc';
+        } else if (item.order === 'desc') {
+          item.order = 'asc';
+        }
+      }
+    }
+  }
+
+  applySorting(req?: any) {
+    if (req.isSortingApply) {
+      if (req.sortFieldType === 'date') {
+        if (req.sortOrder === 'desc') {
+          this.sampleData.data.sort((a, b) => new Date(b[req.sortField]).getTime() - new Date(a[req.sortField]).getTime())
+        } else if (req.sortOrder === 'asc') {
+          this.sampleData.data.sort((a, b) => new Date(a[req.sortField]).getTime() - new Date(b[req.sortField]).getTime())
+        }
+      } else if (req.sortFieldType === 'text') {
+        const property = req.sortField;
+        this.sampleData.data.sort((a, b) => {
+          if (req.sortOrder === 'asc') {
+            return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+          }
+
+          if (req.sortOrder === 'desc') {
+            return (a[property] > b[property]) ? -1 : (a[property] < b[property]) ? 1 : 0;
+          }
+          return 0;
+        });
+      } else if (req.sortFieldType === 'number') {
+        if (req.sortOrder === 'desc') {
+          this.sampleData.data.sort((a, b) => parseFloat(b[req.sortField]) - parseFloat(a[req.sortField]))
+        } else if (req.sortOrder === 'asc') {
+          this.sampleData.data.sort((a, b) => parseFloat(a[req.sortField]) - parseFloat(b[req.sortField]))
+        }
+      }
+
+      this.getColumnData(req);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+      });
+    }
+  }
+
   updateListParam(data: any) {
     this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
     this.pageSize = data.pageSize || this.pageSize;
@@ -557,6 +633,8 @@ export class ListingComponent implements OnInit, OnDestroy {
 
     if (data && data.popupTo) {
       this.applyFilter(data);
+    } else if (data.isSortingApply) {
+      this.applySorting(data);
     } else {
       this.loadTowerLatestData();
     }

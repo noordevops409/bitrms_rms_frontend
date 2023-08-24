@@ -50,6 +50,10 @@
           font-size: 0.9375rem;
           padding: 0px 36px 0px 0px;
 
+          &.sortable {
+            cursor: pointer;
+          }
+
           b {
             font-weight: bold;
           }

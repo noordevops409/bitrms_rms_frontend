@@ -1,8 +1,11 @@
 .filter-wrapper {
     position: absolute;
     bottom: 0px;
+
     height: 76%;
   //  width: 75%;
+
+   
     left: 0px;
     transition: 0.5s;
     top: 100%;
@@ -45,6 +48,10 @@
                 font-size: 00.9375rem;
                 font-weight: normal;
                 margin-bottom: 0px;
+            }
+
+            &.alarm-status {
+                display: none;
             }
         }
 

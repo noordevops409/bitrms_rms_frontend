@@ -52,4 +52,10 @@ export const AppConstant = {
   FIRST_MEETING_MOM: {
     LOAD_DATA_FOR_EDIT: 'LOAD_DATA_FOR_EDIT_MOM'
   },
+
+  REFRESH_ALARM_LISTING_INTERVAL: 120000, // 2 mins,
+  ROUTE_ROLE_ID: {
+    ADMIN_ROLE: '1',
+    USER_ROLE: '9'
+  }
 };

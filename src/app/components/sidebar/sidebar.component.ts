@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from "@angular/router";
 import { BroadcastService } from '../../shared/broadcast.service';
 import { Subscription } from 'rxjs';
 
+import { AppConstant } from '../../shared/app-constant.enum';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -14,13 +16,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the menu items in the desired order
   public menu: any = [
-    { id: 1, value: 'Dashboard', href: 'dashboard', matIcon: 'pie_chart' },
-    { id: 2, value: 'RCA Report', href: 'rca-report', matIcon: 'view_compact' },
+    { id: 1, value: 'Dashboard', href: 'dashboard', matIcon: 'pie_chart', roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    { id: 2, value: 'RCA Report', href: 'rca-report', matIcon: 'view_compact', roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
     {
       id: 3,
       value: 'RCA Master',
       href: 'rca-master',
       matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
       subMenu: [
         { id: 3.1, value: "Add Issue Category", href: "issue-category" },
         { id: 3.2, value: "Add Outage Category", href: "outage-category" },
@@ -32,6 +35,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Reports',
       href: 'reports',
       matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE],
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
         { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker" },
@@ -44,13 +48,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 5,
       value: 'Map Site List',
       href: 'google-data-studio',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 6,
       value: 'Master Data',
       href: 'master-data',
       matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
       subMenu: [
         { id: 6.1, value: "Country Master", href: "country" },
         { id: 6.2, value: "Region Master", href: "region" },
@@ -67,43 +73,50 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 7,
       value: 'Remote Commands',
       href: 'remote-commands',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
     },
     {
       id: 8,
       value: 'Alarm Status',
       href: 'alarm-status',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 9,
       value: 'Energy Report',
       href: 'energy-report',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 10,
       value: 'Power Report',
       href: 'power-report',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 11,
       value: 'Energy Billing Report',
       href: 'energy-billing-report',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 12,
       value: 'Users',
       href: 'users',
-      matIcon: 'view_quilt'
+      matIcon: 'view_quilt',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
     },
     {
       id: 13,
       value: 'Logout',
       href: 'logout',
-      matIcon: 'logout'
+      matIcon: 'logout',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     }
   ];
   private prevIndex: any = null;
@@ -111,9 +124,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the desired order of main menu items
   private mainSortOrder: string[] = [
-    'Dashboard', 'Alarm Status', 'Reports', 'Power Report', 
-    'Energy Report', 'Energy Billing Report', 'RCA Report', 
-    'RCA Master', 'Map Site List', 'Master Data', 
+    'Dashboard', 'Alarm Status', 'Reports', 'Power Report',
+    'Energy Report', 'Energy Billing Report', 'RCA Report',
+    'RCA Master', 'Map Site List', 'Master Data',
     'Remote Commands', 'Users', 'Logout'
   ];
 
@@ -134,6 +147,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.setMenuByRoleId();
     this.listen();
     // Sort the menu items based on sortOrder
     this.sortMenuItems();
@@ -141,6 +155,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // ... OnDestroy logic ...
+  }
+
+  setMenuByRoleId() {
+    let authToken: any = null;
+    if ((window as any).localStorage.getItem('authToken')) {
+      authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+    }
+    this.menu = this.menu.filter((item: any) => {
+      return item.roleIds.includes(authToken.roleId);
+    });
   }
 
   listen() {

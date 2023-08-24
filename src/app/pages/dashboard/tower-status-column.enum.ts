@@ -6,14 +6,15 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     title: 'Last Updated',
     widthOfColumn: 175,
     colType: 'text',
-    dataType: 'text',
+    dataType: 'date',
     id: '1',
     imgName: '',
     tooltipSrc: '',
     function: '',
     funParams: '',
     wrapData: '',
-    isSortSupported: false,
+    isSortSupported: true,
+    order: 'asc',
     isCustomAttributeColumn: false
   },
   smSiteCode: {
@@ -47,7 +48,8 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     function: 'loadSiteDetails',
     funParams: '',
     wrapData: '',
-    isSortSupported: false,
+    order: 'asc',
+    isSortSupported: true,
     isCustomAttributeColumn: false
   },
   powerSource: {
@@ -64,7 +66,8 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     function: '',
     funParams: '',
     wrapData: '',
-    isSortSupported: false,
+    order: 'asc',
+    isSortSupported: true,
     isCustomAttributeColumn: false
   },
   customerName: {
@@ -92,14 +95,15 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     widthOfColumn: 100,
     colType: 'text',
     isAvailTooltip: true,
-    dataType: 'text',
+    dataType: 'number',
     id: '6',
     imgName: '',
     tooltipSrc: '',
     function: '',
     funParams: '',
     wrapData: '',
-    isSortSupported: false,
+    order: 'asc',
+    isSortSupported: true,
     isCustomAttributeColumn: false
   },
   batterySOC: {
