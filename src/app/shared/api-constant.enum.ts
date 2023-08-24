@@ -78,7 +78,7 @@ export const ApiConstant = {
   getHybridEnergyRunHoursReport: `${GATEWAY}/api/energy-runhours/hybrid/pageNumber`,
   getRawDataReportDropboxLink: `${GATEWAY}/api/raw-report/dropboxlink`,
   getRawDataReportExportEmail: `${GATEWAY}/api/raw-report/export_email`,
-  getRawDataReportExcel: `${GATEWAY}/api/raw-report/raw-data-exel`,
+  getRawDataReportExcel: `${GATEWAY}/api/raw-report/raw-data-excel`,
 
 
   getCountryMasterData: `${GATEWAY}/api/master_data/view_countrymaster_form`,

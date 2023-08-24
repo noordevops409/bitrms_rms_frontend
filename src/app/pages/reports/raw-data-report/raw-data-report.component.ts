@@ -11,6 +11,7 @@ import { AppConstant } from '../../../shared/app-constant.enum';
 
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 import * as moment from 'moment';
+import { reject } from 'lodash';
 
 @Component({
   selector: 'app-raw-data-report',
@@ -23,6 +24,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   public isLoading: boolean = false;
   public isListServerError: boolean = false;
+  public isDownloading = false;
+
 
   public parentHeight: any = null;
   public selectedRow: any = null;
@@ -43,6 +46,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
+  fetchClicked: boolean = false;
+
   defaultFilterList: any = [
     {
       id: 'FMF01',
@@ -270,41 +275,55 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  loadData() {
-    if (this.isLoading) {
-      return;
-    }
-
-    if (this.filterParam && this.filterParam.siteId[0] === 'All') {
-      this.util.notification.warn({
-        title: 'Warning',
-        msg: 'Please select at least one site'
-      });
-      return;
-    }
-    this.isLoading = true;
-    let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
-    this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
-      this.isLoading = false;
-      this.hasNoData = false;
-      if (res && res.data) {
-        this.manipulate(res);
-        setTimeout(() => {
-          this.tableListingComponent.init();
-        });
+  loadData(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (this.isLoading) {
+        reject("Loading is already in progress.");
+        return;
       }
-    }, (err) => {
-      this.isLoading = false;
-      this.hasNoData = false;
-      this.isListServerError = true;
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading Raw Data Report details!'
-      })
+
+      if (this.filterParam && this.filterParam.siteId[0] === 'All') {
+        // Handle the warning case
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Please select at least one site'
+        });
+        reject("Please select at least one site.");
+        return;
+      }
+
+      this.isLoading = true;
+      let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
+      this.httpClient.post(apiUrl, this.filterParam).subscribe(
+        (res: any) => {
+          this.isLoading = false;
+          this.hasNoData = false;
+          if (res && res.data) {
+            this.manipulate(res);
+            this.exportData.data = res.data;
+            setTimeout(() => {
+              this.tableListingComponent.init();
+            });
+            resolve(res.data); // Resolve with the loaded data
+          }
+        },
+        (err) => {
+          this.isLoading = false;
+          this.hasNoData = false;
+          this.isListServerError = true;
+          this.util.notification.error({
+            title: 'Error',
+            msg: 'Error while loading Raw Data Report details!'
+          });
+          reject("Error while loading data: " + err); // Reject with an error message
+        }
+      );
     });
   }
 
+
   manipulate(res) {
+    //this.exportData.data=res.data;
     this.setResponse(res);
     this.setColumnHeader(res.data);
     this.setRowData(res.data);
@@ -511,12 +530,77 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   exportOptSelected(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    let selVal = this.ddExport;
+    //this.isExporting = true;
+
+    const selVal = this.ddExport;
     if (selVal === "1") {
-      this.exportExcel(evt);
+      this.exportExcelApi(evt);
     } else if (selVal === "2") {
       this.exportCSV(evt);
     }
+    // const performExport = () => {
+
+    // };
   }
 
+  exportExcelApi(evt?: any):  Promise<void> {
+    return new Promise((resolve, reject) => {
+      let apiUrl: string = ApiConstant.getRawDataReportExcel;
+  
+      if (!this.fetchClicked) {
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Please Fetch at least one site'
+        });
+        reject("Please Fetch at least one site.");
+        return;
+      } else if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) || 
+                 (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
+        // Show a popup to select at least one site
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Please select at least one site'
+        });
+        reject("Please select at least one site.");
+        return;
+      }
+  
+    this.isDownloading = true;
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
+      (response: ArrayBuffer) => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'excel_data.xlsx'; // set the desired file name
+        a.click();
+        this.isDownloading = false;
+        URL.revokeObjectURL(url);
+      },
+      (error: any) => {
+        console.error('Error exporting Excel data:', error);
+        // Handle the error appropriately (show a message, log it, etc.)
+        this.isDownloading = false;
+      }
+    );
+  });
+
+
+
+}
+  //   if (this.exportData.data.length === 0) {
+  //     this.loadData()
+  //       .then((res: any) => {
+  //         this.exportData.data = res.data;
+  //         setTimeout(performExport, 500);
+  //       })
+  //       .catch((err: any) => {
+  //         // Handle error loading data
+  //         console.error("Error loading data:", err);
+  //       });
+  //   } else {
+  //     setTimeout(performExport, 500);
+  //   }
+  // }
 }

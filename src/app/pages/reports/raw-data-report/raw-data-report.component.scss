@@ -142,3 +142,61 @@
         }
     }
 }
+.export {
+    display: flex;
+    align-items: center;
+  }
+  
+  .export label {
+    margin-right: 10px;
+  }
+  
+  .loading-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-top: 5px; /* Adjust as needed */
+  }
+  
+  .loading-spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin linear infinite;
+    visibility: visible; /* Initially set to visible */
+  }
+  
+  .loading-indicator:not(.show-spinner) .loading-spinner {
+    visibility: hidden; /* Hide the spinner when the indicator is not active */
+    animation: none; /* Pause the animation */
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .tooltip-wrapper {
+    position: relative;
+  }
+  
+  .tooltip-active .fetch-tooltip {
+    display: block;
+  }
+  
+  .fetch-tooltip {
+    display: none;
+    position: absolute;
+    top: -25px;
+    left: 0;
+    background-color: #ffcccb;
+    border: 1px solid #ff6347;
+    padding: 5px;
+    border-radius: 3px;
+  }
+  

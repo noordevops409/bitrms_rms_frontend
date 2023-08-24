@@ -638,6 +638,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
   private scrollTimer: any = undefined;
   private resizeTimer: any = undefined;
   private resizing: boolean = false;
+  private currentSortColumn: string = ''; 
+  private currentSortOrder: string = 'asc';
+  private elelen: number =0;
 
   constructor(
     private util: CommonUtilService,
@@ -1801,66 +1804,76 @@ export class TableListingComponent implements OnInit, OnDestroy {
    * @returns
    * @memberof TableListingComponent
    */
+  dataitems: any[] = [];  
   private addRow(itemB: any, i: any) {
     const row = this.$(`<ul class="repeated-item"/>`);
-  
+
     if (itemB.isOffline === 1) {
-      row.css('background-color', 'rgb(199 132 132)');
+        row.css('background-color', 'rgb(199 132 132)');
     }
-  
+
     itemB.columns = this.util.copy(this.listingData.itemHeader);
     itemB.listingType = this.listingData.listingType;
-  
-    itemB.columns.forEach((itemH: any) => {
-      let callback;
-      if (this.customColumns[itemH.fieldName]) {
-        callback = this.customColumns[itemH.fieldName];
-      } else {
-        callback = this.templateMap[itemH.colType];
-      }
-      const li = this.$('<li />');
-  
-      if (['checkbox', 'img'].indexOf(itemH.colType) > -1) {
-        li.addClass('text-center');
-      }
-  
-      if (['checkbox'].indexOf(itemH.colType) > -1) {
-        li.addClass('relative');
-      }
-      itemH.$el = callback(itemB, itemH, i);
 
-      li.width(['checkbox', 'img'].indexOf(itemH.colType) > -1 ? 35 : itemH.widthOfColumn).append(itemH.$el);
-      (itemH.fieldName == 'attachmentImageName' || itemH.fieldName == 'assocFormImgName') && li.addClass('overflow-visible');
-      
-      // Check if the field is dcVoltage and its value is under 50, then set text color and font weight
-      if (itemH.fieldName === 'dcVoltage' && itemB.dcVoltage < 50) {
-          // Ensure itemH.$el is a valid jQuery or DOM element
-          if (itemH.$el && itemH.$el.css) {
-              itemH.$el.css({
-                  'color': '#a71515',
-                  'font-weight': 'bold'
-              });
-          }
-      } else {
-          if (itemH.$el && itemH.$el.css) {
-              // Reset the text color and font weight
-              itemH.$el.css({
-                  'color': '',
-                  'font-weight': ''
-              });
-          }
-      }
-      
-  
-      itemH.fieldName == 'status' && this.setStyle(li, itemB, false);
-      row.append(li);
+ 
+
+    itemB.columns.forEach((itemH: any) => {
+        let callback;
+        if (this.customColumns[itemH.fieldName]) {
+            callback = this.customColumns[itemH.fieldName];
+        } else {
+            callback = this.templateMap[itemH.colType];
+        }
+        const li = this.$('<li />');
+
+        if (['checkbox', 'img'].indexOf(itemH.colType) > -1) {
+            li.addClass('text-center');
+        }
+
+        if (['checkbox'].indexOf(itemH.colType) > -1) {
+            li.addClass('relative');
+        }
+        itemH.$el = callback(itemB, itemH, i);
+
+        li.width(['checkbox', 'img'].indexOf(itemH.colType) > -1 ? 35 : itemH.widthOfColumn).append(itemH.$el);
+        (itemH.fieldName == 'attachmentImageName' || itemH.fieldName == 'assocFormImgName') && li.addClass('overflow-visible');
+
+        // Check if the field is dcVoltage and its value is under 50, then set text color and font weight
+        if (itemH.fieldName === 'dcVoltage' && itemB.dcVoltage < 50) {
+            // Ensure itemH.$el is a valid jQuery or DOM element
+            if (itemH.$el && itemH.$el.css) {
+                itemH.$el.css({
+                    'color': '#a71515',
+                    'font-weight': 'bold'
+                });
+            }
+        } else {
+            if (itemH.$el && itemH.$el.css) {
+                // Reset the text color and font weight
+                itemH.$el.css({
+                    'color': '',
+                    'font-weight': ''
+                });
+            }
+        }
+        
+        itemH.fieldName == 'status' && this.setStyle(li, itemB, false);
+        row.append(li);
     });
-  
+    this.dataitems.push(itemB);
+   this.elelen++;
+   
+   
     itemB.checked && row.addClass('row-selected');
+    console.log("1863", this.dataitems);
   
     itemB.$el = row;
+   
     return row;
-  }
+
+}
+
+
   
   
   
@@ -2774,4 +2787,29 @@ export class TableListingComponent implements OnInit, OnDestroy {
       listingTypeChanged: true
     });
   }
+
+  headerCellClickk(event: Event, itemH: any) {
+    if (itemH.colType !== 'checkbox' && itemH.colType !== 'img' && itemH.isSortSupported) {
+      if (this.currentSortColumn === itemH.fieldName) {
+        this.currentSortOrder = this.currentSortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.currentSortColumn = itemH.fieldName;
+        this.currentSortOrder = 'asc';
+      }
+  
+      // Sort the data array based on the currentSortColumn and currentSortOrder
+      this.listingData.allItem.sort((a, b) => {
+        const aValue = a[this.currentSortColumn];
+        const bValue = b[this.currentSortColumn];
+  
+        if (this.currentSortOrder === 'asc') {
+          return aValue.localeCompare(bValue);
+        } else {
+          return bValue.localeCompare(aValue);
+        }
+      });
+    }
+  }
+  
+
 }

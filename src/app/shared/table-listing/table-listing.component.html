@@ -31,10 +31,16 @@
                 width=16 />
               <b *ngIf="itemH.colType == 'img' && !itemH.imgName">{{itemH.colDisplayName.substr(0,1)}}</b>
               <b *ngIf="['checkbox', 'img'].indexOf(itemH.colType) == -1">{{itemH.colDisplayName}}</b>
-              <i *ngIf="itemH.order && enableSorting" class="fa"
-                [ngClass]="{'fa-chevron-up': (itemH.order == 'asc'), 'fa-chevron-down': (itemH.order == 'desc')}"></i>
-              <i *ngIf="enableSorting && itemH.fieldName == 'actions#actionTime'" class="fa fa-info-circle" title="sorting-continue-msg-popover"></i>
-  
+              <i
+              *ngIf="itemH.order && enableSorting"
+              class="fa"
+              [ngClass]="{
+                'fa-chevron-up': itemH.order === 'asc',
+                'fa-chevron-down': itemH.order === 'desc'
+              }"
+              (click)="headerCellClickk($event, itemH)"
+            ></i>
+            
               <!-- <ng-container *ngIf="enableColumnFilter">
                 <ng-container *ngTemplateOutlet="quickFilter; context: {itemH: itemH}"></ng-container>
               </ng-container>

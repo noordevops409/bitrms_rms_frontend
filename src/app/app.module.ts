@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { TokenInterceptorService } from './guards/token-interceptor.service';
 import { LogoutComponent } from './logout/logout.component';
 import { AlarmCategoryAppRoutingModule } from './shared/alarm-category/alarm-category-app-routing.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AlarmCategoryAppRoutingModule } from './shared/alarm-category/alarm-cat
     ChartistModule,
     NgChartsModule,
     MaterialModule,
+    MatProgressSpinnerModule
     // AlarmCategoryAppRoutingModule
   ],
   providers: [
