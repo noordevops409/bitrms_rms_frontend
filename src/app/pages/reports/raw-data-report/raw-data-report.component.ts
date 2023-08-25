@@ -530,32 +530,21 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   exportOptSelected(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    //this.isExporting = true;
 
     const selVal = this.ddExport;
     if (selVal === "1") {
       this.exportExcelApi(evt);
     } else if (selVal === "2") {
-      this.exportCSV(evt);
+      this.exportCsvApi(evt);
     }
-    // const performExport = () => {
-
-    // };
   }
 
-  exportExcelApi(evt?: any):  Promise<void> {
+  exportExcelApi(evt?: any): Promise<void> {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportExcel;
-  
-      if (!this.fetchClicked) {
-        this.util.notification.warn({
-          title: 'Warning',
-          msg: 'Please Fetch at least one site'
-        });
-        reject("Please Fetch at least one site.");
-        return;
-      } else if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) || 
-                 (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
+
+    if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
+        (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
         // Show a popup to select at least one site
         this.util.notification.warn({
           title: 'Warning',
@@ -564,43 +553,71 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         reject("Please select at least one site.");
         return;
       }
-  
+
+      this.isDownloading = true;
+      this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
+        (response: ArrayBuffer) => {
+          const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = URL.createObjectURL(blob);
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'excel_data.xlsx'; // set the desired file name
+          a.click();
+          this.isDownloading = false;
+          URL.revokeObjectURL(url);
+        },
+        (error: any) => {
+          console.error('Error exporting Excel data:', error);
+          // Handle the error appropriately (show a message, log it, etc.)
+          this.isDownloading = false;
+        }
+      );
+    });
+
+
+
+  }
+
+  exportCsvApi(evt: any) {
+    return new Promise((resolve, reject) => {
+      let apiUrl: string = ApiConstant.getRawDataReportCsv;
+
+  if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
+        (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
+        // Show a popup to select at least one site
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Please select at least one site'
+        });
+        reject("Please select at least one site.");
+        return;
+      }
+
     this.isDownloading = true;
-    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
-      (response: ArrayBuffer) => {
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+   // let apiUrl: string = ApiConstant.getRawDataReportExcel;
+
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+      (response: string) => {
+        const blob = new Blob([response], { type: 'application/vnd.ms-excel' })
+
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'excel_data.xlsx'; // set the desired file name
+        a.download = 'csv_data.csv'; // set the desired file name
         a.click();
+
         this.isDownloading = false;
         URL.revokeObjectURL(url);
       },
       (error: any) => {
-        console.error('Error exporting Excel data:', error);
+        console.error('Error exporting CSV data:', error);
         // Handle the error appropriately (show a message, log it, etc.)
         this.isDownloading = false;
       }
     );
   });
-
-
-
-}
-  //   if (this.exportData.data.length === 0) {
-  //     this.loadData()
-  //       .then((res: any) => {
-  //         this.exportData.data = res.data;
-  //         setTimeout(performExport, 500);
-  //       })
-  //       .catch((err: any) => {
-  //         // Handle error loading data
-  //         console.error("Error loading data:", err);
-  //       });
-  //   } else {
-  //     setTimeout(performExport, 500);
-  //   }
-  // }
+  }
+  
 }

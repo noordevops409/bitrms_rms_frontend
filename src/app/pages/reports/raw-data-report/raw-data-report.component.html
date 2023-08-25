@@ -7,26 +7,27 @@
         </div>
 
         <div class="right-side">
-            <button class="btn btn-primary" (click)="fetchData($event); fetchClicked = true;">FETCH</button>
+            <button class="btn btn-primary" (click)="fetchData($event)">FETCH</button>
 
             <div class="export">
                 <label>Export</label>
-                <div class="tooltip-wrapper" [class.tooltip-active]="!fetchClicked">
-
-                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport"
-                   >
-                    <option value="-1"matTooltip="Please fetch data first">Please Select</option>
-                    <option value="1" matTooltip="Please fetch data first">Export Excel</option>
-                    <option value="2" matTooltip="Please fetch data first">Export CSV</option>
+                <div class="select-container">
+                  <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport" [disabled]="isDownloading">
+                    <option value="-1">Please Select</option>
+                    <option value="1">Export Excel</option>
+                    <option value="2">Export CSV</option>
                     <!-- <option value="3">PDF</option> -->
-                </select>
+                  </select>
+                 
+                </div>
+                <div class="loading-container" *ngIf="isDownloading">
+                    <div class="loading-spinner"></div>
+                  </div>
+              </div>
+              
+            <!-- </div>   -->
 
-            </div>
-            </div>  
-
-            <div *ngIf="isDownloading" class="loading-indicator">
-                <div class="loading-spinner"></div>
-            </div>
+           
 
 
 

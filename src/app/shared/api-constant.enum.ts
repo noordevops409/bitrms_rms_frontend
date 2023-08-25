@@ -79,6 +79,7 @@ export const ApiConstant = {
   getRawDataReportDropboxLink: `${GATEWAY}/api/raw-report/dropboxlink`,
   getRawDataReportExportEmail: `${GATEWAY}/api/raw-report/export_email`,
   getRawDataReportExcel: `${GATEWAY}/api/raw-report/raw-data-excel`,
+  getRawDataReportCsv: `${GATEWAY}/api/raw-report/raw-data-csv`,
 
 
   getCountryMasterData: `${GATEWAY}/api/master_data/view_countrymaster_form`,
