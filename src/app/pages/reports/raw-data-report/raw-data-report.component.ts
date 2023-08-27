@@ -282,15 +282,15 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (this.filterParam && this.filterParam.siteId[0] === 'All') {
-        // Handle the warning case
-        this.util.notification.warn({
-          title: 'Warning',
-          msg: 'Please select at least one site'
-        });
-        reject("Please select at least one site.");
-        return;
-      }
+      // if (this.filterParam && this.filterParam.siteId[0] === 'All') {
+      //   // Handle the warning case
+      //   this.util.notification.warn({
+      //     title: 'Warning',
+      //     msg: 'Please select at least one site'
+      //   });
+      //   reject("Please select at least one site.");
+      //   return;
+      // }
 
       this.isLoading = true;
       let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
@@ -543,16 +543,16 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportExcel;
 
-    if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
-        (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
-        // Show a popup to select at least one site
-        this.util.notification.warn({
-          title: 'Warning',
-          msg: 'Please select at least one site'
-        });
-        reject("Please select at least one site.");
-        return;
-      }
+    // if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
+    //     (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
+    //     // Show a popup to select at least one site
+    //     this.util.notification.warn({
+    //       title: 'Warning',
+    //       msg: 'Please select at least one site'
+    //     });
+    //     reject("Please select at least one site.");
+    //     return;
+    //   }
 
       this.isDownloading = true;
       this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
@@ -583,16 +583,15 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportCsv;
 
-  if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
-        (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
-        // Show a popup to select at least one site
-        this.util.notification.warn({
-          title: 'Warning',
-          msg: 'Please select at least one site'
-        });
-        reject("Please select at least one site.");
-        return;
-      }
+  // if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
+  //       (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
+  //       this.util.notification.warn({
+  //         title: 'Warning',
+  //         msg: 'Please select at least one site'
+  //       });
+  //       reject("Please select at least one site.");
+  //       return;
+  //     }
 
     this.isDownloading = true;
    // let apiUrl: string = ApiConstant.getRawDataReportExcel;
