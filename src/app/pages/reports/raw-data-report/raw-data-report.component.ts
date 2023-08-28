@@ -666,6 +666,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         }
       );
     }
-    
-
+    goToLink() {
+      window.open(this.dropboxLink, '_blank');
+    }
 }

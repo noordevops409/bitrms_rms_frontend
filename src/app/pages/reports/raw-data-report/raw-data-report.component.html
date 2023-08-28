@@ -50,11 +50,15 @@
             <div class="box-title">
                 <h4>Raw Data Report</h4>
                 <div class="summary-data">
-                    <ul>
-                        <li>
-                            <a class="btn btn-success" [href]="dropboxLink" target="_blank">Dropbox Link</a>
-                        </li>
-                    </ul>
+                   
+                       
+                    <button class="btn btn-success" style="text-decoration: none;">
+                        <span style="text-transform: uppercase;">Dropbox Link : </span> 
+                        <a href="{{ dropboxLink }}" target="_blank" style="text-transform: lowercase; text-decoration: underline; font-size: 16px;">{{ dropboxLink }}</a>
+                    </button>
+                    
+                    
+                    
                 </div>
             </div>
 
