@@ -5,7 +5,7 @@
                 <li *ngFor="let item of menu;let i = index" class="menu-item"
                     [ngClass]="{'expanded': item.isExpanded, 'active': item.isActive}">
                     <a href="javascript:void(0);" (click)="menuClick($event, item);">
-						<mat-icon aria-hidden="false" aria-label="Example home icon">{{item.matIcon}}</mat-icon>
+                        <img [src]="item.logo" alt="{{ item.value }} Logo" class="menu-logo" />
 						<span class="menu-title">{{item.value}}</span>
                         <span class="pull-right-container" *ngIf="item.subMenu"
                             (click)="expandCollapse($event, item, i);">

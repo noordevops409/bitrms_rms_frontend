@@ -16,13 +16,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the menu items in the desired order
   public menu: any = [
-    { id: 1, value: 'Dashboard', href: 'dashboard', matIcon: 'pie_chart', roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
-    { id: 2, value: 'RCA Report', href: 'rca-report', matIcon: 'view_compact', roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    { id: 1, value: 'Dashboard', 
+    href: 'dashboard', 
+    logo: 'assets/images/dashboard_rms.png',
+    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    { id: 2, value: 'RCA Report', 
+    href: 'rca-report', 
+    logo: 'assets/images/energy_billing_report.png',
+    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
     {
       id: 3,
       value: 'RCA Master',
       href: 'rca-master',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/energy_billing_report.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
       subMenu: [
         { id: 3.1, value: "Add Issue Category", href: "issue-category" },
@@ -34,7 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 4,
       value: 'Reports',
       href: 'reports',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/rms_report_icon.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE],
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
@@ -48,14 +54,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 5,
       value: 'Map Site List',
       href: 'google-data-studio',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/map_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 6,
       value: 'Master Data',
       href: 'master-data',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/Master.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
       subMenu: [
         { id: 6.1, value: "Country Master", href: "country" },
@@ -73,49 +79,49 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 7,
       value: 'Remote Commands',
       href: 'remote-commands',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/remote_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
     },
     {
       id: 8,
       value: 'Alarm Status',
       href: 'alarm-status',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/energy_billing_report.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 9,
       value: 'Energy Report',
       href: 'energy-report',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/energy_report.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 10,
       value: 'Power Report',
       href: 'power-report',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/power_report_rms (1).png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 11,
       value: 'Energy Billing Report',
       href: 'energy-billing-report',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/energy_billing_report_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {
       id: 12,
       value: 'Users',
       href: 'users',
-      matIcon: 'view_quilt',
+      logo: 'assets/images/Users_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
     },
     {
       id: 13,
       value: 'Logout',
       href: 'logout',
-      matIcon: 'logout',
+      logo: 'assets/images/logout.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     }
   ];

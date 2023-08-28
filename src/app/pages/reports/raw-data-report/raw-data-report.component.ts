@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -240,6 +240,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
   init() {
     // this.loadData();
+    this.dropboxReportLink();
   }
 
   setDefaultFilter() {
@@ -618,5 +619,53 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     );
   });
   }
-  
+  dropboxReport(evt?: any) {
+    let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
+    
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+      (response) => {
+          // This code will be executed when the API call is successful
+          console.log('API call successful:', response);
+
+          this.util.notification.success({
+                     title: 'Success',
+                    msg: 'Request Save Successfully'
+                 });
+          // Execute your "like" action or any other action here
+          
+      },
+      (error) => {
+          // This code will be executed when there is an error with the API call
+          console.error('API call failed:', error);
+
+          this.util.notification.warn({
+            title: 'warning',
+           msg: 'Failed to save the Request'
+        });
+      }
+  );
+    }
+
+    dropboxReportLink(evt?: any) {
+      let apiUrl: string = ApiConstant.getRawDataReportDropboxLink;
+      
+      this.httpClient.get(apiUrl).subscribe(
+        (response: any) => {
+          // This code will be executed when the API call is successful
+          console.log('API call successful:', response);
+          this.dropboxLink = response.data.dropboxlink;
+          console.log("line 657",this.dropboxLink)
+
+          // Update the link's href attribute with the response
+          const dropboxLinkElement = document.getElementById('dropboxLink') as HTMLAnchorElement;
+          //dropboxLinkElement.href = this.dropboxLink;
+        },
+        (error) => {
+          // This code will be executed when there is an error with the API call
+          console.error('API call error:', error);
+        }
+      );
+    }
+    
+
 }
