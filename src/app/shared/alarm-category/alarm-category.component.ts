@@ -555,13 +555,13 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }
 
       if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        deviceType = fData[2].popupTo.data.map((item) => {
+        siteId = fData[2].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
       if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
+        deviceType    = fData[3].popupTo.data.map((item) => {
           return item.id;
         });
       }
@@ -602,9 +602,12 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       //     alarmStatus = 'All';
       //   }
       // }
-
       if (fData[9] && fData[9].startDate && fData[9].endDate) {
         rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      } else {
+        let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+        let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+        rangeDate = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
       }
     }
     this.filterParam = {
