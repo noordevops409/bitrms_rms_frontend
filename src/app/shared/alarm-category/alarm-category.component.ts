@@ -39,6 +39,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
   public activeListing: any = {};
   public data: any;
+  public index=1;
   public listingTemplate: any = {};
 
   public isReqToOpenFilter: boolean = false;
@@ -713,6 +714,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
+        console.log(this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {

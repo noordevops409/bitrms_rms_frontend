@@ -71,9 +71,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of exportData.data">
-                                        <td>{{item.srno}}</td>
-                                        <td>{{item.smSiteCode}}</td>
+                                    <tr *ngFor="let item of exportData.data;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.smsiteCode}}</td>
                                         <td>{{item.alName}}</td>
                                         <td>{{item.opentime}}</td>
                                         <td>{{item.closeitem}}</td>

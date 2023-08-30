@@ -1,99 +1,84 @@
 <div class="listingContainer" #element [ngClass]="{'hasPager': pager}">
-    <div class="listing-header clearfix">
-      <div class="filter-row settings">
-        <app-filter-wrapper class="filter-container fit-to-parent" 
-          [defaultFilterList]="defaultFilterList" [listingType]="1" 
-          (onSelectionChange)="onFilterChange($event)" (onFilterChange)="onFilterChange($event)">
-        </app-filter-wrapper>
-      </div>
+  <div class="listing-header clearfix">
+    <div class="filter-row settings">
+      <app-filter-wrapper class="filter-container fit-to-parent" 
+        [defaultFilterList]="defaultFilterList" [listingType]="1" 
+        (onSelectionChange)="onFilterChange($event)" (onFilterChange)="onFilterChange($event)">
+      </app-filter-wrapper>
     </div>
-    <div class="table-grid scroller-outer" [ngClass]="{'no-records': !listingData.allItem.length}" *ngIf="activeViewType === ViewType.LIST">
-      <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : 'block'">
-        <ul>
-          <li *ngIf="listingData.itemHeader.length && listingData.itemHeader[0].colType === 'checkbox'"
-            [style.width.px]="listingData.itemHeader[0].widthColumn || 35" class="text-center"
-            [title]="listingData.itemHeader[0].altTitle || listingData.itemHeader[0].colDisplayName">
-              <input *ngIf="listingData.itemHeader[0].colType === 'checkbox'"
-                type="checkbox" [(ngModel)]="listingData.checkAll" (change)="checkall()" />
+  </div>
+  <div class="table-grid scroller-outer" [ngClass]="{'no-records': !listingData.allItem.length}" *ngIf="activeViewType === ViewType.LIST">
+    <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : '-webkit-inline-box'">
+      <ul>
+        <li *ngIf="listingData.itemHeader.length && listingData.itemHeader[0].colType === 'checkbox'"
+          [style.width.px]="listingData.itemHeader[0].widthColumn || 35" class="text-center">
+          <input *ngIf="listingData.itemHeader[0].colType === 'checkbox'"
+            type="checkbox" [(ngModel)]="listingData.checkAll" (change)="checkall()" />
+        </li>
+        <ng-container *ngFor="let itemH of listingData.itemHeader; trackBy: headerTrackBy; let $index = index;">
+          <li *ngIf="!($index == 0 && itemH.colType == 'checkbox')" [attr.uindex]="$index"
+            [style.display]="!($index == 0 && itemH.colType == 'checkbox') ? '-webkit-inline-box' : 'none'"
+            [style.width.px]="itemH.widthOfColumn" class="field-name-{{itemH.fieldName}} header-cell"
+            [ngClass]="{'sortable': itemH.colType != 'checkbox', 'text-center': ['checkbox', 'img'].indexOf(itemH.colType) > -1 }">
+            <a *ngIf="itemH.fieldName == 'removeAssocflag'" href="javascript:void(0)" title="Remove"><i
+                class="fa fa-trash"></i></a>
+            <input *ngIf="itemH.colType == 'checkbox'" type="checkbox" [(ngModel)]="listingData.checkAll"
+              (change)="checkall()" />
+            <img *ngIf="itemH.colType == 'img' && itemH.imgName" src="/images/icons/{{itemH.imgName}}" height=16
+              width=16 />
+            <b *ngIf="itemH.colType == 'img' && !itemH.imgName">{{itemH.colDisplayName.substr(0,1)}}</b>
+            <b *ngIf="['checkbox', 'img'].indexOf(itemH.colType) == -1">{{itemH.colDisplayName}}</b>
           </li>
-          <ng-container *ngFor="let itemH of listingData.itemHeader;trackBy: headerTrackBy;let $index = index;">
-            <li *ngIf="!($index == 0 && itemH.colType == 'checkbox')" [attr.uindex]="$index"
-              [style.display]="!($index == 0 && itemH.colType == 'checkbox') ? 'inline-block' : 'none'"
-              [style.width.px]="itemH.widthOfColumn" class="field-name-{{itemH.fieldName}}"
-              [ngClass]="{'sortable': itemH.colType != 'checkbox', 'text-center': ['checkbox', 'img'].indexOf(itemH.colType) > -1 }"
-              [title]="(itemH.altTitle || itemH.colDisplayName) + (itemH.isSortSupported ? (' - ' + (!itemH.order ? 'Click to sort by' : (itemH.order == 'asc' ? 'Ascending Sort' : 'Descending Sort'))) : '')"
-              (click)="headerCellClick($event, itemH)">
-              <a *ngIf="itemH.fieldName == 'removeAssocflag'" href="javascript:void(0)" title="Remove"><i
-                  class="fa fa-trash"></i></a>
-              <input *ngIf="itemH.colType == 'checkbox'" type="checkbox" [(ngModel)]="listingData.checkAll"
-                (change)="checkall()" />
-              <img *ngIf="itemH.colType == 'img' && itemH.imgName" src="/images/icons/{{itemH.imgName}}" height=16
-                width=16 />
-              <b *ngIf="itemH.colType == 'img' && !itemH.imgName">{{itemH.colDisplayName.substr(0,1)}}</b>
-
-              <b *ngIf="['checkbox', 'img'].indexOf(itemH.colType) == -1">{{itemH.colDisplayName}}
-              </b>
-
-            
-              <!-- <ng-container *ngIf="enableColumnFilter">
-                <ng-container *ngTemplateOutlet="quickFilter; context: {itemH: itemH}"></ng-container>
-              </ng-container>
-  
-              <div *ngIf="['checkbox', 'img'].indexOf(itemH.colType) == -1" class="resize-handle"
-                (mousedown)="resizeColumn($event, itemH, $index)"></div> -->
-            </li>
-          </ng-container>
-        </ul>
-      </div>
-      <div class="gbody scroller">
-        <div class="list-item-container scroller-inner"></div>
-        <p *ngIf="((!listingData.allItem.length && !listingData.noRecordMsg) || (!inifiniteScroll && !lazyLoadCompleted) || (listingData.allItem.length && listingData.itemBody.length !== listingData.allItem.length))"
-          class="text-center loading-text">Loading...</p>
-        <p *ngIf="!listingData.allItem.length && listingData.noRecordMsg" class="no-record text-center">
-          <span>{{listingData.noRecordMsg}}</span>
-        </p>
-      </div>
+        </ng-container>
+      </ul>
     </div>
-    <div class="gfooter clearfix">
-      <div class="pagerDom pull-left" *ngIf="listingData.itemBody.length && pager">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === 1}">
-            <a class="page-link" href="javascript:void(0);" (click)="prevPage()">
-              <i class="fa fa-chevron-left">
-                <mat-icon aria-hidden="false" aria-label="Prev Page">keyboard_arrow_left</mat-icon>
-              </i>
-            </a>
-          </li>
-          <li class="page-item" *ngFor="let n of range()" [ngClass]="{'active': n === listingData.currentPage}">
-            <a class="page-link" href="javascript:void(0);" (click)="setPage(n)">{{n}}</a>
-          </li>
-          <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === totalPages()}">
-            <a class="page-link" href="javascript:void(0);" (click)="nextPage()">
-              <i class="fa fa-chevron-right">
-                <mat-icon aria-hidden="false" aria-label="Next Page">keyboard_arrow_right</mat-icon>
-              </i>
-            </a>
-          </li>
-        </ul>
-        <span *ngIf="recordCounter && listingData.recEndfrom && listingData.totalDocs" class="record-counter">
-          ('Showing' <span>{{((listingData.currentPage - 1) * listingApi.retainNoOfShow) + 1}}</span> - <span>{{listingData.recEndfrom}}</span> of <span>{{listingData.totalDocs}}</span>)</span>
-      </div>
-  
-      <div class="pull-right settings right-align"
-        [ngClass]="{'allow-resize': allowResizeWin}" *ngIf="rpp || customizable || allowResizeWin">
-        <div *ngIf="rpp" class="dropdown rpp-dd" ngbDropdown>
-          <button class="btn btn-default dropdown-toggle" [disabled]="!listingData.listingType" type="button" ngbDropdownToggle>
-            Show: <span>{{listingData.recordBatchSize}}</span>
-          </button>
-          <div class="dropdown-menu" ngbDropdownMenu>
-            <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 10}" (click)="changeRpp(10)">10</a>
-            <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 25}" (click)="changeRpp(25)">25</a>
-            <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 50}" (click)="changeRpp(50)">50</a>
-            <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 100}" (click)="changeRpp(100)">100</a>
-            <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 250}" (click)="changeRpp(250)">250</a>
-          </div>
+    <div class="gbody scroller">
+      <div class="list-item-container scroller-inner"></div>
+      <p *ngIf="((!listingData.allItem.length && !listingData.noRecordMsg) || (!inifiniteScroll && !lazyLoadCompleted) || (listingData.allItem.length && listingData.itemBody.length !== listingData.allItem.length))"
+        class="text-center loading-text">Loading...</p>
+      <p *ngIf="!listingData.allItem.length && listingData.noRecordMsg" class="no-record text-center">
+        <span>{{listingData.noRecordMsg}}</span>
+      </p>
+    </div>
+  </div>
+  <div class="gfooter clearfix">
+    <div class="pagerDom pull-left" *ngIf="listingData.itemBody.length && pager">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === 1}">
+          <a class="page-link" href="javascript:void(0);" (click)="prevPage()">
+            <i class="fa fa-chevron-left">
+              <mat-icon aria-hidden="false" aria-label="Prev Page">keyboard_arrow_left</mat-icon>
+            </i>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let n of range()" [ngClass]="{'active': n === listingData.currentPage}">
+          <a class="page-link" href="javascript:void(0);" (click)="setPage(n)">{{n}}</a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === totalPages()}">
+          <a class="page-link" href="javascript:void(0);" (click)="nextPage()">
+            <i class="fa fa-chevron-right">
+              <mat-icon aria-hidden="false" aria-label="Next Page">keyboard_arrow_right</mat-icon>
+            </i>
+          </a>
+        </li>
+      </ul>
+      <span *ngIf="recordCounter && listingData.recEndfrom && listingData.totalDocs" class="record-counter">
+        ('Showing' <span>{{((listingData.currentPage - 1) * listingApi.retainNoOfShow) + 1}}</span> - <span>{{listingData.recEndfrom}}</span> of <span>{{listingData.totalDocs}}</span>)</span>
+    </div>
+    <div class="pull-right settings right-align"
+      [ngClass]="{'allow-resize': allowResizeWin}" *ngIf="rpp || customizable || allowResizeWin">
+      <div *ngIf="rpp" class="dropdown rpp-dd" ngbDropdown>
+        <button class="btn btn-default dropdown-toggle" [disabled]="!listingData.listingType" type="button" ngbDropdownToggle>
+          Show: <span>{{listingData.recordBatchSize}}</span>
+        </button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 10}" (click)="changeRpp(10)">10</a>
+          <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 25}" (click)="changeRpp(25)">25</a>
+          <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 50}" (click)="changeRpp(50)">50</a>
+          <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 100}" (click)="changeRpp(100)">100</a>
+          <a ngbDropdownItem href="javascript:void(0)" [ngClass]="{active: listingData.recordBatchSize == 250}" (click)="changeRpp(250)">250</a>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
