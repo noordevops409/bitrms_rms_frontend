@@ -143,7 +143,7 @@ export const USERS_COLUMN_HEADER = {
     fieldName: 'umAactivationstatus',
     colDisplayName: 'Status',
     title: 'Status',
-    widthOfColumn: 100,
+    widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',

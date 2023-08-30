@@ -34,7 +34,9 @@
         // height: 80px;
         li {
             vertical-align: middle;
-            display: inline-block;
+           // display: inline-block;
+           display: -webkit-inline-box;
+
             width: 200px;
             text-overflow: ellipsis;
             overflow: hidden;
