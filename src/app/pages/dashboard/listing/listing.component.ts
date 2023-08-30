@@ -450,12 +450,12 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.allData.data = data;
     }
 
-    this.applySorting({
-      isSortingApply: true,
-      sortField: this.sortField,
-      sortFieldType: 'date',
-      sortOrder: this.sortOrder
-    })
+    // this.applySorting({
+    //   isSortingApply: true,
+    //   sortField: this.sortField,
+    //   sortFieldType: 'date',
+    //   sortOrder: this.sortOrder
+    // })
   }
 
   goBack(evt?: any) {

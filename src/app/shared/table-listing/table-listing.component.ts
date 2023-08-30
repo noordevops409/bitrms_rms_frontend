@@ -662,7 +662,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.timestamp = (new Date()).getTime();
     this.init();
     this.broadcast.on<String>('searchResult').subscribe(data => {
-      console.log
+    //  console.log
+    
     })
   }
 
@@ -861,6 +862,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
       }
       this.onRowSelectionChanged();
     });
+    
   }
 
   /**
@@ -924,7 +926,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.treeBackup.folderId = folderId;
 
     this.columnFilterXhr = this.util.ajax({
-      url: ApiConstant.SEARCH_FILTER_CONTROLLER,
+      //url: ApiConstant.SEARCH_FILTER_CONTROLLER,
       method: 'POST',
       data: {
         action_id: AppConstant.GET_USER_SEARCH_FILTERS_COLUMNS,
@@ -1865,7 +1867,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
    
    
     itemB.checked && row.addClass('row-selected');
-    console.log("1863", this.dataitems);
+   // console.log("1863", this.dataitems);
   
     itemB.$el = row;
    
@@ -2291,44 +2293,87 @@ export class TableListingComponent implements OnInit, OnDestroy {
    * @returns
    * @memberof TableListingComponent
    */
+  // headerCellClick(e: any, itemH: any) {
+  //   if (!this.enableSorting || itemH.quickSearchFreezed) {
+  //     return;
+  //   }
+
+  //   if (this.resizing) {
+  //     this.resizing = false;
+  //     return;
+  //   }
+
+  //   if (itemH.fieldName === 'removeAssocflag') {
+  //     const fn = (this.listingApi as any)[itemH['function']];
+  //     fn && fn.call(this.listingApi, this.listingData.itemBody, 'all', null, (array: any, el: any, index: any) => {
+  //       this.onDeleteAll.emit({ e: e, array: array, type: this.listingData.listingType });
+  //     });
+
+  //     return;
+  //   }
+
+  //   if (!itemH.isSortSupported) {
+  //     return;
+  //   }
+
+  //   if (itemH.fieldName === 'actions#actionTime') {
+  //     this.pendingSortingColumn = itemH;
+  //     this.$(this.$element.nativeElement).find('#taskTimeSortConfirmation').modal('show');
+  //     return;
+  //   }
+
+  //   this.sortColumnData(itemH);
+  // }
   headerCellClick(e: any, itemH: any) {
+    console.log('headerCellClick called');
+    
     if (!this.enableSorting || itemH.quickSearchFreezed) {
+      console.log('Sorting disabled or quick search frozen');
       return;
     }
-
+  
     if (this.resizing) {
+      console.log('Resizing in progress');
       this.resizing = false;
       return;
     }
-
+  
     if (itemH.fieldName === 'removeAssocflag') {
+      console.log('Field name is removeAssocflag');
       const fn = (this.listingApi as any)[itemH['function']];
-      fn && fn.call(this.listingApi, this.listingData.itemBody, 'all', null, (array: any, el: any, index: any) => {
-        this.onDeleteAll.emit({ e: e, array: array, type: this.listingData.listingType });
-      });
-
+      if (fn) {
+        fn.call(this.listingApi, this.listingData.itemBody, 'all', null, (array: any, el: any, index: any) => {
+          console.log('Calling onDeleteAll.emit');
+          this.onDeleteAll.emit({ e: e, array: array, type: this.listingData.listingType });
+        });
+      }
+  
       return;
     }
-
+  
     if (!itemH.isSortSupported) {
+      console.log('Sort not supported');
       return;
     }
-
+  
     if (itemH.fieldName === 'actions#actionTime') {
+      console.log('Field name is actions#actionTime');
       this.pendingSortingColumn = itemH;
       this.$(this.$element.nativeElement).find('#taskTimeSortConfirmation').modal('show');
       return;
     }
-
+  
     this.sortColumnData(itemH);
   }
-
+  
   sortColumnData(itemH: any) {
     if (!itemH || !itemH.isSortSupported) {
       return;
     }
 
     this.pendingSortingColumn = undefined;
+
+   
 
     let sortOrder = 'asc';
     if (itemH.order && itemH.order === 'asc') {
@@ -2403,6 +2448,10 @@ export class TableListingComponent implements OnInit, OnDestroy {
       }
     });
   }
+ 
+
+
+
 
   /**
    * @description Add or remove filter from main filter criteria list based on filter query has value or not
@@ -2787,29 +2836,5 @@ export class TableListingComponent implements OnInit, OnDestroy {
       listingTypeChanged: true
     });
   }
-
-  headerCellClickk(event: Event, itemH: any) {
-    if (itemH.colType !== 'checkbox' && itemH.colType !== 'img' && itemH.isSortSupported) {
-      if (this.currentSortColumn === itemH.fieldName) {
-        this.currentSortOrder = this.currentSortOrder === 'asc' ? 'desc' : 'asc';
-      } else {
-        this.currentSortColumn = itemH.fieldName;
-        this.currentSortOrder = 'asc';
-      }
-  
-      // Sort the data array based on the currentSortColumn and currentSortOrder
-      this.listingData.allItem.sort((a, b) => {
-        const aValue = a[this.currentSortColumn];
-        const bValue = b[this.currentSortColumn];
-  
-        if (this.currentSortOrder === 'asc') {
-          return aValue.localeCompare(bValue);
-        } else {
-          return bValue.localeCompare(aValue);
-        }
-      });
-    }
-  }
-  
 
 }

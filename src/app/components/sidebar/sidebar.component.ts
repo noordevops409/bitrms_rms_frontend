@@ -22,13 +22,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
     { id: 2, value: 'RCA Report', 
     href: 'rca-report', 
-    logo: 'assets/images/energy_billing_report.png',
+    logo: 'assets/images/root_cause.png',
     roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
     {
       id: 3,
       value: 'RCA Master',
       href: 'rca-master',
-      logo: 'assets/images/energy_billing_report.png',
+      logo: 'assets/images/root_cause.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
       subMenu: [
         { id: 3.1, value: "Add Issue Category", href: "issue-category" },
@@ -86,7 +86,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       id: 8,
       value: 'Alarm Status',
       href: 'alarm-status',
-      logo: 'assets/images/energy_billing_report.png',
+      logo: 'assets/images/alarm_status_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
     {

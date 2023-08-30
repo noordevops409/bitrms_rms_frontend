@@ -1192,6 +1192,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const url = ApiConstant.getLatestData;
     this.httpClient.get(url).subscribe((res: any) => {
       this.isLoading = false;
+      console.log("1195",res);
       if (res && res.data) {
         this.manipulate(res.data);
         setTimeout(() => {
