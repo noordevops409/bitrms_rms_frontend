@@ -71,7 +71,7 @@
                 <div class="list-wrap">
                     <div class="view-holder">
 
-                        <div class="export-container" [ngClass]="{'show': isExporting}">
+                        <!-- <div class="export-container" [ngClass]="{'show': isExporting}">
                             <table id="export-data" *ngIf="exportData.data && exportData.data.length">
                                 <thead>
                                     <tr>
@@ -811,8 +811,8 @@
                                         <td>{{item.bomtemp2}}</td>
                                     </tr>
                                 </tbody>
-                            </table>
-                        </div>
+                            </table> 
+                        </div>-->
 
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [ngClass]="{'hasNoData': hasNoData}" [listData]="activeListing.list"
