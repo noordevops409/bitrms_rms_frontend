@@ -14,6 +14,8 @@ import { AppConstant } from './app-constant.enum';
 })
 export class WindowsNotificationService {
 
+  private notificationList: any = [];
+
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
@@ -42,8 +44,16 @@ export class WindowsNotificationService {
     });
   }
 
+  closeAll() {
+    for (let item of this.notificationList) {
+      if (item) {
+        item.close();
+      }
+    }
+  }
+
   showNotification() {
-    return;
+    // return;
     //  if(document.visibilityState === "visible") {
     //      return;
     //  }
@@ -68,13 +78,14 @@ export class WindowsNotificationService {
           // let icon = 'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'; //this is a large image may take more time to show notifiction, replace with small size icon
           let icon = 'http://54.254.44.119:8080/digitrinity/resources/assets/images/yoma_logo.png'; //this is a large image may take more time to show notifiction, replace with small size icon
           let body = `${obj.alName}, ${obj.alStatus}, ${obj.alarmCat} \n ${obj.region}, ${obj.zone}`;
-  
+
           let notification = new Notification(title, { body, icon });
-  
+
           notification.onclick = () => {
             notification.close();
             window.parent.focus();
           }
+          this.notificationList.push(notification);
         }, AppConstant.NOTIFICATION_TIMEOUT);
       }
     }, (err) => {

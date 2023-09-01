@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from "@angular/router";
+import { WindowsNotificationService } from '../shared/windows-notification.service';
 
 @Component({
   selector: 'app-logout',
@@ -10,13 +11,15 @@ export class LogoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private winNotification: WindowsNotificationService
   ) {
 
   }
 
   ngOnInit(): void {
     (window as any).localStorage.clear();
+    this.winNotification.closeAll();
     this.router.navigate(['login']);
   }
 

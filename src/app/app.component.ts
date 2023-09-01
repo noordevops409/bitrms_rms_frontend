@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { BroadcastService } from './shared/broadcast.service';
 import { Subscription } from 'rxjs';
-import { WindowsNotificationService } from './shared/windows-notification.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,8 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private broadcast: BroadcastService,
-    private ngZone: NgZone,
-    private winNotification: WindowsNotificationService
+    private ngZone: NgZone
   ) {
 
   }
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.winNotification.init();
+    
   }
 
 }

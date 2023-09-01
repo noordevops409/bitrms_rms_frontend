@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonUtilService } from '../shared/common-util.service';
 import { UserService } from '../shared/services/user.service';
 import { BroadcastService } from '../shared/broadcast.service';
+import { WindowsNotificationService } from '../shared/windows-notification.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private broadcast: BroadcastService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private winNotification: WindowsNotificationService
   ) { }
 
 
@@ -79,6 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.userService.login(param).subscribe((res?: any) => {
       this.isLogining = false;
       this.userService.setData(res.data);
+      this.winNotification.init();
       this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });
       // param.grant_type = "password";
       // this.userService.authToken(param).subscribe((authRes?: any) => {
