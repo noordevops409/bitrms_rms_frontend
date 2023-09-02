@@ -710,11 +710,11 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   exportOptSelected(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
-    this.isExporting = true;
+    this.isExporting = false;
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
-        console.log(this.exportData.data);
+        console.log("717line",this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
