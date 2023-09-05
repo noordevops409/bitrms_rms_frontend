@@ -320,9 +320,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
       "siteStatus": ['All'],
       "customers": ['All'],
       "engineer": ['All'],
-      "startDate": moment(moment().add(-2, 'days').format('YYYY-MM-DD') + ' ' + this.startTime + ':00').format('YYYY-MM-DD HH:mm:ss'),
-      "endDate": moment(moment().add(-1, 'days').format('YYYY-MM-DD') + ' ' + this.endTime + ':00').format('YYYY-MM-DD HH:mm:ss')
-    };
+      "date": "2023/06/15 00:01:00 - 2023/06/16 23:54:00"  
+     };
+      let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+      let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+      this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   loadData() {
@@ -443,8 +445,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     let siteId: any = ["All"];
     let deviceType: any = ["All"];
     let siteType: any = ["All"];
-    let startDate: any = null;
-    let endDate: any = null;
+    // let startDate: any = null;
+    // let endDate: any = null;
     let customer: any = ["All"];
     let rangeDate: any = "";
     let siteStatus: any = null;
@@ -506,8 +508,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
       if (fData[9] && fData[9].startDate && fData[9].endDate) {
         rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      } else {
+        let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+        let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+        rangeDate = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
       }
-      // siteStatus = parseInt(fData[7], 10);
     }
     this.filterParam = {
       "siteId": siteId,
