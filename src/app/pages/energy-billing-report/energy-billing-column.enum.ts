@@ -1,11 +1,28 @@
 
 export const ENERGY_BILLING_COLUMN_HEADER = {
   srno: {
-    userIndex: 0,
+    userIndex: -1,
     fieldName: 'srno',
     colDisplayName: 'SrNo',
     title: 'SrNo',
     widthOfColumn: 50,
+    colType: 'text',
+    dataType: 'text',
+    id: '-1',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  smSiteCode: {
+    userIndex: 0,
+    fieldName: 'smSiteCode',
+    colDisplayName: 'Site Id',
+    title: 'Site Id',
+    widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
     id: '0',
@@ -17,15 +34,15 @@ export const ENERGY_BILLING_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteCode: {
-    userIndex: 1,
-    fieldName: 'smSiteCode',
-    colDisplayName: 'Site Id',
-    title: 'Site Id',
+  date: {
+    userIndex: 2,
+    fieldName: 'date',
+    colDisplayName: 'DATE',
+    title: 'DATE',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
-    id: '1',
+    id: '2',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -34,6 +51,7 @@ export const ENERGY_BILLING_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
+
   znZone: {
     userIndex: 2,
     fieldName: 'znZone',
