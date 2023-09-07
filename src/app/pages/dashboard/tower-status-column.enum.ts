@@ -1,13 +1,13 @@
 export const TOWER_STATUS_COLUMN_HEADER = {
   lastUpdated: {
-    userIndex: 1,
+    userIndex: 0,
     fieldName: 'lastUpdated',
     colDisplayName: 'Last Updated',
     title: 'Last Updated',
     widthOfColumn: 175,
     colType: 'text',
     dataType: 'date',
-    id: '1',
+    id: '0',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -18,7 +18,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   smSiteCode: {
-    userIndex: 2,
+    userIndex: 1,
     fieldName: 'smSiteCode',
     colDisplayName: 'Site Id',
     title: 'Site Id',
@@ -35,14 +35,14 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   siteName: {
-    userIndex: 3,
+    userIndex: 2,
     fieldName: 'siteName',
     colDisplayName: 'Site Name',
     title: 'Site Name',
     widthOfColumn: 175,
     colType: 'textwithlink',
     dataType: 'text',
-    id: '3',
+    id: '2',
     imgName: '',
     tooltipSrc: '',
     function: 'loadSiteDetails',
@@ -53,14 +53,14 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   powerSource: {
-    userIndex: 4,
+    userIndex: 3,
     fieldName: 'powerSource',
     colDisplayName: 'Power Source',
     title: 'Power Source',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
-    id: '4',
+    id: '3',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -71,14 +71,14 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   customerName: {
-    userIndex: 5,
+    userIndex: 4,
     fieldName: 'customerName',
     colDisplayName: 'Customer',
     title: 'Customer',
     widthOfColumn: 125,
     colType: 'text',
     dataType: 'text',
-    id: '5',
+    id: '4',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -88,7 +88,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   dcVoltage: {
-    userIndex: 6,
+    userIndex: 5,
     fieldName: 'dcVoltage',
     colDisplayName: 'DC Voltage (V)	',
     title: 'DC Voltage (V)	',
@@ -96,7 +96,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'number',
-    id: '6',
+    id: '5',
     imgName: '',
     tooltipSrc: '',
     function: '',
@@ -107,10 +107,28 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   batterySOC: {
-    userIndex: 7,
+    userIndex: 6,
     fieldName: 'batterySOC',
     colDisplayName: 'Battery SOC',
     title: 'Battery SOC',
+    widthOfColumn: 150,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '6',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  dcLoad: {
+    userIndex: 7,
+    fieldName: 'dcLoad',
+    colDisplayName: 'DC Load (A)	',
+    title: 'DC Load (A)	',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -124,11 +142,11 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dcLoad: {
+  dgBatteryVoltage: {
     userIndex: 8,
-    fieldName: 'dcLoad',
-    colDisplayName: 'DC Load (A)	',
-    title: 'DC Load (A)	',
+    fieldName: 'dgBatteryVoltage',
+    colDisplayName: 'DG Start Voltage',
+    title: 'DG Start Voltage',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -142,11 +160,12 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dgBatteryVoltage: {
+
+  dgStartSOC: {
     userIndex: 9,
-    fieldName: 'dgBatteryVoltage',
-    colDisplayName: 'DG Start Voltage',
-    title: 'DG Start Voltage',
+    fieldName: 'dgStartSOC',
+    colDisplayName: 'DG Start SOC',
+    title: 'DG Start SOC',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -160,12 +179,12 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-
-  dgStartSOC: {
+ 
+  solarKw: {
     userIndex: 10,
-    fieldName: 'dgStartSOC',
-    colDisplayName: 'DG Start SOC',
-    title: 'DG Start SOC',
+    fieldName: 'solarKw',
+    colDisplayName: 'Solar (kW)	',
+    title: 'Solar (kW)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -179,12 +198,11 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
- 
-  solarKw: {
+  dgPower: {
     userIndex: 11,
-    fieldName: 'solarKw',
-    colDisplayName: 'Solar (kW)	',
-    title: 'Solar (kW)',
+    fieldName: 'dgPower',
+    colDisplayName: 'DG Power (Kw)',
+    title: 'DG Power (KW)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -198,12 +216,12 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  dgPower: {
+  batteryLifeCycleCount: {
     userIndex: 12,
-    fieldName: 'dgPower',
-    colDisplayName: 'DG Power (Kw)',
-    title: 'DG Power (KW)',
-    widthOfColumn: 150,
+    fieldName: 'batteryLifeCycleCount',
+    colDisplayName: 'Battery Life Cycle Count',
+    title: 'Battery Life Cycle Count',
+    widthOfColumn: 170,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -275,7 +293,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'pvUpperSideTemp',
     colDisplayName: 'PV Upper Side Temp*C(WS)',
     title: 'PV Upper Side Temp*C(WS)',
-    widthOfColumn: 150,
+    widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -293,7 +311,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'pvLowerSideTemp',
     colDisplayName: 'PV Lower Side Temp*C(WS)',
     title: 'PV Lower Side Temp*C(WS)',
-    widthOfColumn: 150,
+    widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -401,7 +419,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'location',
     colDisplayName: 'Location',
     title: 'Location',
-    widthOfColumn: 150,
+    widthOfColumn: 670,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
