@@ -148,7 +148,8 @@ export const ApiConstant = {
 
   getAlertsCounts:`${GATEWAY}/api/alarm-report/get_views_alerts_counts`, 
   getAlertsDetails:`${GATEWAY}/api/alarm-report/get_views_alerts`,
-
-
+  getSuperCriticalAlertsCounts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts_counts`,
+  getSuperCriticalAlerts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts`
+ 
 };
 

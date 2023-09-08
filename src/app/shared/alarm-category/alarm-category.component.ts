@@ -39,12 +39,15 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
 
   public activeListing: any = {};
   public data: any;
-  public index=1;
+  public index = 1;
   public listingTemplate: any = {};
 
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
   public isExpanded: boolean = false;
+  public superCriticalAlertsCount: any;
+  public isClickable1 :boolean=false;
+  public superCritical:any;
 
   defaultFilterList: any = [
     {
@@ -562,7 +565,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }
 
       if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        deviceType    = fData[3].popupTo.data.map((item) => {
+        deviceType = fData[3].popupTo.data.map((item) => {
           return item.id;
         });
       }
@@ -714,7 +717,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
-        console.log("717line",this.exportData.data);
+        console.log("717line", this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -768,13 +771,13 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       ];
 
       if (res && res.length) {
-        for (let item of res) {
-          let obj: any = {
-            type: item[0],
-            count: item[1],
-            cssClass: '',
-            isClickable: item[1] > 0 // Set isClickable to true if count is greater than 0
-          };
+          for (let item of res) {
+            let obj: any = {
+              type: item[0],
+              count: item[1],
+              cssClass: '',
+              isClickable: item[1] > 0 // Set isClickable to true if count is greater than 0
+            };
 
           // Update the corresponding alert count and cssClass from the API response
           const index = list.findIndex(alert => alert.type === obj.type);
@@ -806,8 +809,33 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
         msg: 'Error while loading alarm summary count details!'
       });
     });
-  }
 
+    let apiUrl1: any = ApiConstant.getSuperCriticalAlertsCounts;
+    // (window as any)['retainNoOfShow'] = this.pageSize;
+    this.httpClient.get(apiUrl1).subscribe((res: any) => {
+      
+
+      if (res === 0) {
+        console.log('super critical alerts counts: 0');
+        this.superCriticalAlertsCount = 0;
+      this.isClickable1=true;
+      this.superCritical="Community Load"
+      } else {
+        console.log('super critical alerts counts: ', JSON.stringify(res));
+        this.superCriticalAlertsCount = res;
+       this.isClickable1=true;
+
+
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.isListServerError = true;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading alarm summary count details!'
+      });
+    });
+  }
 
   openTabular(type?: any) {
     this.router.navigate(['alerts-table', type], {
@@ -815,7 +843,14 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     });
     // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
     console.log('alertType', type);
-
+  }
+  openTabular1(evt?: any) {
+    this.router.navigate(['alerts-table',this.superCritical], {
+      relativeTo: this.activatedRoute.parent
+    });
+    // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
+    //console.log('alertType', type);
+    console.log("hello");
   }
 
 }

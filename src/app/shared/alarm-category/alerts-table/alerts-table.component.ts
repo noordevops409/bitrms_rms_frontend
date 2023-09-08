@@ -58,6 +58,21 @@ export class AlertsTableComponent {
   }
 
   private getAlertsTableDataByType(type: any) {
+    console.log("line 61",type);
+    if(type=="Community Load")
+    {
+      this.apiUrl = `${ApiConstant.getSuperCriticalAlerts}`; // Use backticks to create the template string
+      console.log('line 23', this.apiUrl);
+  
+      // const url = ApiConstant.getLatestData;
+      this.httpClient.get(this.apiUrl).subscribe((data) => {
+        this.tableData1 = data;
+        console.log('API Response:', data);
+        this.loading = false; // Set loading to false once data is fetched
+      });
+    }
+    else
+    {
     this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; // Use backticks to create the template string
     console.log('line 23', this.apiUrl);
 
@@ -68,6 +83,7 @@ export class AlertsTableComponent {
       this.loading = false; // Set loading to false once data is fetched
     });
   }
+}
 
   onRowSelectionChanged(data: any) {
     if (data && data.length) {

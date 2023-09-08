@@ -27,8 +27,11 @@
                     <div class="right-align">
                         <h4 class="table-title">Alarm Status</h4>
                       </div>
+                     
+                      <button class="btn btn-danger" style="height: 41px; margin-top: 10px;" (click)="this.isClickable1 ? openTabular1(this.superCritical) : null" >{{superCriticalAlertsCount}} Community Load </button>
+
                       <li *ngFor="let item of alertsCounts">
-                        <button class="btn" [ngClass]="item.cssClass" (click)="item.isClickable ? openTabular(item.type) : null" [disabled]="!item.isClickable">
+                        <button class="btn"  [ngClass]="item.cssClass" (click)="item.isClickable ? openTabular(item.type) : null" [disabled]="!item.isClickable">
                           {{item?.count}} {{item.type}}
                         </button>
                       </li>

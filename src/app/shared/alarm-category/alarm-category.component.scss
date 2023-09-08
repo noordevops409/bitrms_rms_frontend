@@ -249,7 +249,7 @@
 }
 
 .button-container button {
-    height: auto;
+    height: 42;
     padding: 12px;
     font-size: 12px;
 }
@@ -273,4 +273,13 @@
     padding-left: 20px;
     padding-top: 19px;
   }
+}
+.CL
+{
+    color: #fff;
+    background-color: #ff2e1f;
+    border-color: #e11b0c;
+    box-shadow: 0 2px 2px 0 rgba(244, 67, 54, 0.14), 0 3px 1px -2px rgba(244, 67, 54, 0.2), 0 1px 5px 0 rgba(244, 67, 54, 0.12);
+    height: 41px;
+    margin-top: 10px;
 }
