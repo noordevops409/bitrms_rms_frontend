@@ -47,8 +47,10 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public isExpanded: boolean = false;
   public superCriticalAlertsCount: any;
   public isClickable1 :boolean=false;
+  public alertsClicked :boolean=false;
   public superCritical:any;
   public loadedData: any[] = []; // Initialize loadedData as an empty array
+  public alertType:any;
 
 
   defaultFilterList: any = [
@@ -428,6 +430,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     });
   }
 
+  
+
   loadSummaryCounts() {
     let apiUrl: any = ApiConstant.getAlarmSummaryCount;
     // (window as any)['retainNoOfShow'] = this.pageSize;
@@ -665,10 +669,11 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   
  loadDataByType(item) {
   this.isLoading = true;
+  this.alertsClicked=true;
   let apiUrl: any = `${ApiConstant.getServrityAlarm}/${item}`;
   // (window as any)['retainNoOfShow'] = this.pageSize;
   this.loadedData = [];
-
+this.alertType=item;
   this.httpClient.get(apiUrl).subscribe((res: any) => {
     console.log("line 681", res);
     if (res && res.data && res.data.length) {
@@ -688,6 +693,35 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       title: 'Error',
       msg: 'Error while loading alarm category details!'
     });
+  });
+}
+
+loadAllDataAlerts(alertType) {
+  return new Promise((resolve, reject) => {
+    let list: any = [];
+
+    let getAll = () => {
+      let apiUrl: any = `${ApiConstant.getServrityAlarm}/${alertType}`;
+      this.httpClient.get(apiUrl).subscribe((res: any) => {
+        if (res.data && res.data.length) {
+          list.push(...res.data);
+        } else {
+          res.data = list;
+          resolve(res);
+          return;
+        }
+        if (res.totalCount === list.length) {
+          res.data = list;
+          resolve(res);
+          return;
+        } else {
+          getAll();
+        }
+      }, (err: any) => {
+        reject(err);
+      });
+    }
+    getAll();
   });
 }
 
@@ -742,7 +776,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     evt.stopPropagation();
     evt.preventDefault();
     this.isExporting = false;
-    if (this.exportData.data.length === 0) {
+    if (this.exportData.data.length === 0 && this.alertsClicked==false ) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
         console.log("717line", this.exportData.data);
@@ -757,7 +791,24 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }).catch((err: any) => {
 
       })
-    } else {
+    }else if(this.exportData.data.length === 0 && this.alertsClicked==true)
+    {
+      this.loadAllDataAlerts(this.alertType).then((res: any) => {
+        this.exportData.data = res.data;
+        console.log("717line", this.exportData.data);
+        setTimeout(() => {
+          let selVal = this.ddExport;
+          if (selVal === "1") {
+            this.exportExcel(evt);
+          } else if (selVal === "2") {
+            this.exportCSV(evt);
+          }
+        }, 500);
+      }).catch((err: any) => {
+
+      })
+    }
+     else {
       setTimeout(() => {
         let selVal = this.ddExport;
         if (selVal === "1") {

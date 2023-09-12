@@ -63,6 +63,7 @@
                                         <th>Alarm Close Time</th>
                                         <th>Elapsed Time</th>
                                         <th>Alarm Status</th>
+                                        <th>Severity</th>
                                         <th>Alarm Category</th>
                                         <th>Region</th>
                                         <th>Zone</th>
@@ -81,6 +82,8 @@
                                         <td>{{item.opentime}}</td>
                                         <td>{{item.closeitem}}</td>
                                         <td>{{ item.ageing > 59 ? (item.ageing / 60).toFixed(2) + ' minutes' : item.ageing + ' seconds'}}</td>
+                                        <td>{{item.alrstatus}}</td>
+                                        <td>{{item.severity}}</td>
                                         <td>{{item.alarmcat}}</td>
                                         <td>{{item.region}}</td>
                                         <td>{{item.zone}}</td>
