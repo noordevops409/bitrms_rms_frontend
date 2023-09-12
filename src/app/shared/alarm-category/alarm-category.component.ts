@@ -48,6 +48,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   public superCriticalAlertsCount: any;
   public isClickable1 :boolean=false;
   public superCritical:any;
+  public loadedData: any[] = []; // Initialize loadedData as an empty array
+
 
   defaultFilterList: any = [
     {
@@ -660,9 +662,35 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadDataByType(evt?: any, item?: any) {
+  
+ loadDataByType(item) {
+  this.isLoading = true;
+  let apiUrl: any = `${ApiConstant.getServrityAlarm}/${item}`;
+  // (window as any)['retainNoOfShow'] = this.pageSize;
+  this.loadedData = [];
 
-  }
+  this.httpClient.get(apiUrl).subscribe((res: any) => {
+    console.log("line 681", res);
+    if (res && res.data && res.data.length) {
+      this.manipulate(res);
+      setTimeout(() => {
+        this.tableListingComponent.init();
+        this.isLoading = false; // Set isLoading to false after data is bound to the table.
+      });
+    } else {
+      this.isLoading = false; // Set isLoading to false if no data is available.
+      this.isListServerError = false; // Reset error flag if data is successfully loaded.
+    }
+  }, (err) => {
+    this.isLoading = false; // Set isLoading to false in case of an error.
+    this.isListServerError = true;
+    this.util.notification.error({
+      title: 'Error',
+      msg: 'Error while loading alarm category details!'
+    });
+  });
+}
+
 
   loadListing(data) {
     this.updateListParam(data);

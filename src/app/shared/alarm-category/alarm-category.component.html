@@ -36,7 +36,7 @@
                         </button>
                       </li>
                     <li *ngFor="let item of alarmCounts">
-                        <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType($event, item)">
+                        <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType(item.type)">
                             {{item?.count}} {{item.type}}
                         </button>
                     </li>

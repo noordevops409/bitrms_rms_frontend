@@ -1,11 +1,11 @@
 
 export const ALARM_CATEGORY_COLUMN_HEADER = {
   srno: {
-    id: '0',
+    id: '-1',
     fieldName: 'srno',
     colDisplayName: 'SrNo',
     colType: 'text',
-    userIndex: 0,
+    userIndex: -1,
     imgName: '',
     tooltipSrc: '',
     dataType: 'text',
@@ -17,11 +17,28 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   smsiteCode: {
-    userIndex: 1,
+    userIndex: 0,
     fieldName: 'smsiteCode',
     colDisplayName: 'Site ID',
     title: 'Site ID',
     widthOfColumn: 120,
+    colType: 'text',
+    dataType: 'text',
+    id: '0',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
+  alName: {
+    userIndex: 1,
+    fieldName: 'alName',
+    colDisplayName: 'Alarm Name',
+    title: 'Alarm Name',
+    widthOfColumn: 170,
     colType: 'text',
     dataType: 'text',
     id: '1',
@@ -33,12 +50,12 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  alName: {
+  opentime: {
     userIndex: 2,
-    fieldName: 'alName',
-    colDisplayName: 'Alarm Name',
-    title: 'Alarm Name',
-    widthOfColumn: 150,
+    fieldName: 'opentime',
+    colDisplayName: 'Open Time',
+    title: 'Open Time',
+    widthOfColumn: 120,
     colType: 'text',
     dataType: 'text',
     id: '2',
@@ -50,11 +67,11 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  opentime: {
+  closeitem: {
     userIndex: 3,
-    fieldName: 'opentime',
-    colDisplayName: 'Open Time',
-    title: 'Open Time',
+    fieldName: 'closeitem',
+    colDisplayName: 'Close Time',
+    title: 'Close Time',
     widthOfColumn: 120,
     colType: 'text',
     dataType: 'text',
@@ -67,12 +84,12 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  closeitem: {
+  elapsedTime: {
     userIndex: 4,
-    fieldName: 'closeitem',
-    colDisplayName: 'Close Time',
-    title: 'Close Time',
-    widthOfColumn: 120,
+    fieldName: 'elapsedTime',
+    colDisplayName: 'Elapsed Time',
+    title: 'Elapsed Time',
+    widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
     id: '4',
@@ -84,11 +101,11 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  elapsedTime: {
+  severity: {
     userIndex: 5,
-    fieldName: 'elapsedTime',
-    colDisplayName: 'Elapsed Time',
-    title: 'Elapsed Time',
+    fieldName: 'severity',
+    colDisplayName: 'Severity',
+    title: 'Severity',
     widthOfColumn: 120,
     colType: 'text',
     dataType: 'text',
