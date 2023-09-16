@@ -126,7 +126,7 @@ export class SdNoLoadOutageComponent implements OnInit, OnDestroy {
 
     let params: any = {
       "tabId": "nav-load-outage",
-      "siteId": "MGT20421A" || this.smSiteCode,
+      "siteId":  this.smSiteCode,
       "startDate": moment(this.startDate.value).format('YYYY-MM-DD'),
       "endDate": moment(this.endDate.value).format('YYYY-MM-DD'),
       "dateMonth": moment(this.startDate.value).format('YYYY-MM-DD'),

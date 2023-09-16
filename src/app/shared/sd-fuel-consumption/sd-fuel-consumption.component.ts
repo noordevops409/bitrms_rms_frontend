@@ -169,7 +169,7 @@ export class SdFuelConsumptionComponent implements OnInit, OnDestroy {
   loadPowerSourceChart() {
     let params: any = {
       "tabId": "nav-fuel-consumption",
-      "siteId": this.siteId || "MGT20421A",
+      "siteId": this.siteId,
       "startDate": moment(this.startDate.value).format('YYYY-MM-DD'),
       "endDate": moment(this.endDate.value).format('YYYY-MM-DD'),
       "dateMonth": moment(this.startDate.value).format('YYYY-MM-DD'),

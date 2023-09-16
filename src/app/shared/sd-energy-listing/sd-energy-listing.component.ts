@@ -398,7 +398,7 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
   setParam() {
     this.params = this.tabData.param;
     this.params.reportType = this.selInterval.label;
-    this.params.siteId = "MGT20421A" || this.smSiteCode;
+    this.params.siteId = this.smSiteCode;
 
     if (this.selSeries.series2) {
       this.params.series2 = this.selSeries.series2.label;
