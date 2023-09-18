@@ -169,6 +169,35 @@
                                 <option *ngFor="let item of siteClassificationList" [ngValue]="item">{{item.label}}</option>
                             </select>
                         </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Dc Start Battery Voltage</mat-label>
+                                <input formControlName="dcStartBattVol" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Settable Comm Load</mat-label>
+                                <input formControlName="settableCommLoad" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Battery Life Cycle</mat-label>
+                                <input formControlName="battLifeCycle" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-field col-4">
+                            <mat-form-field>
+                                <mat-label>Dg Run Hour</mat-label>
+                                <input formControlName="dgRunHour" matInput />
+                            </mat-form-field>
+                        </div>
+                      
                     </div>
 
                 </div>
