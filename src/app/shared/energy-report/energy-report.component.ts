@@ -472,10 +472,10 @@ export class EnergyReportComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        startDate = fData[6].startDate.replace(/-/g, '/');
-        endDate = fData[6].endDate.replace(/-/g, '/');
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+      if (fData[6] && fData[9].startDate && fData[9].endDate) {
+        startDate = fData[9].startDate.replace(/-/g, '/');
+        endDate = fData[9].endDate.replace(/-/g, '/');
+        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       }
     }
     this.filterParam = {
