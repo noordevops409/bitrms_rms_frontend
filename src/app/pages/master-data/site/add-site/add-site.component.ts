@@ -56,9 +56,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     }
   ];
 
-  public clusterList: any = null;
-  public employeeList: any = null;
-  public simList: any = null;
+  public clusterList: any[] = [];
+  public employeeList: any[] = [];
+  public simList:any[] = [];
 
   public masterForm!: FormGroup;
 
@@ -123,7 +123,12 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       'dvUniqueId': [null],
       'accIdName': [null],
       'dgBrandName': [null],
-      'dgTankCapacity': [null]
+      'dgTankCapacity': [null],
+      'dcStartBattVolValue': [null],
+      'settableCommLoadValue': [null],
+      'battLifeCycleValue': [null],
+      'dgRunHourValue': [null]
+
     });
   }
 
@@ -150,6 +155,12 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['accIdName'].setValue(this.selSite.accID);
     this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrand);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
+    this.masterForm.controls['dcStartBattVolValue'].setValue(this.selSite.dcStartBattVol);
+    this.masterForm.controls['settableCommLoadValue'].setValue(this.selSite.settableCommLoad);
+    this.masterForm.controls['battLifeCycleValue'].setValue(this.selSite.battLifeCycle);
+    this.masterForm.controls['dgRunHourValue'].setValue(this.selSite.dgRunHour);
+
+
 
     this.setSiteType(this.selSite);
     this.setCluster(this.selSite);
@@ -368,7 +379,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       accID: formData.accIdName,
       dgBrand: formData.dgBrandName,
       dgTankCapacity: formData.dgTankCapacity,
-      username: 'harish1'
+      dcStartBattVol: formData.dcStartBattVolValue,
+      settableCommLoad: formData.settableCommLoadValue,
+      battLifeCycle: formData.battLifeCycleValue,
+      dgRunHour: formData.dgRunHourValue,
+      username: 'harish'
     };
 
     if (this.isForEdit) {
