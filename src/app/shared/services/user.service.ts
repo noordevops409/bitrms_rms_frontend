@@ -6,6 +6,7 @@ import { BroadcastService } from '../broadcast.service';
 
 import { ApiConstant } from '../api-constant.enum';
 import { AppConstant } from '../app-constant.enum';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class UserService {
   ) { }
 
 
-  login(param: any) {
+  login(param: any): Observable<any> {
     return this.httpClient.post(ApiConstant.login, param);
   }
 

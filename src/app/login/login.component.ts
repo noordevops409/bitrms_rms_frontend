@@ -80,19 +80,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLogining = true;
     this.userService.login(param).subscribe((res?: any) => {
       this.isLogining = false;
+      console.log("83",res.data)
       this.userService.setData(res.data);
       this.winNotification.init();
       this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });
       // param.grant_type = "password";
-      // this.userService.authToken(param).subscribe((authRes?: any) => {
-      //   this.userService.setAuthToken(authRes);
-      // }, (err?: any) => {
-      //   this.isLogining = false;
+      //  this.userService.authToken(param).subscribe((authRes?: any) => {
+      //    this.userService.setAuthToken(authRes);
+      //  }, (err?: any) => {
+      //   this.isLogining = false;ng
       //   this.util.notification.error({
       //     title: 'Error',
       //     msg: 'Error while getting auth token!'
       //   });
-      // });
+      //  });
     }, (err?: any) => {
       this.isLogining = false;
       this.util.notification.error({

@@ -7,7 +7,7 @@ import { AppConstant } from '../../shared/app-constant.enum';
 const routes: Routes = [
   {
     path: '',
-    data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
     component: RcaReportComponent
   }
 ];

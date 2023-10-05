@@ -19,17 +19,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { id: 1, value: 'Dashboard', 
     href: 'dashboard', 
     logo: 'assets/images/dashboard_rms.png',
-    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
     { id: 2, value: 'RCA Report', 
     href: 'rca-report', 
     logo: 'assets/images/root_cause.png',
-    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] },
+    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
     {
       id: 3,
       value: 'RCA Master',
       href: 'rca-master',
       logo: 'assets/images/root_cause.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE],
       subMenu: [
         { id: 3.1, value: "Add Issue Category", href: "issue-category" },
         { id: 3.2, value: "Add Outage Category", href: "outage-category" },
@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Reports',
       href: 'reports',
       logo: 'assets/images/rms_report_icon.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE],
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE],
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
         { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker" },
@@ -55,14 +55,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Map Site List',
       href: 'google-data-studio',
       logo: 'assets/images/map_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     },
     {
       id: 6,
       value: 'Master Data',
       href: 'master-data',
       logo: 'assets/images/Master.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE],
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE],
       subMenu: [
         { id: 6.1, value: "Country Master", href: "country" },
         { id: 6.2, value: "Region Master", href: "region" },
@@ -80,7 +80,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Remote Commands',
       href: 'remote-commands',
       logo: 'assets/images/remote_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     },
     {
       id: 8,
@@ -122,7 +122,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Logout',
       href: 'logout',
       logo: 'assets/images/logout.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     }
   ];
   private prevIndex: any = null;
