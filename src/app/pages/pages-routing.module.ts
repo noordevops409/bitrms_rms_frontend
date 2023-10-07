@@ -7,6 +7,8 @@ import { AlarmCategoryComponent } from '../shared/alarm-category/alarm-category.
 import { AlertsTableComponent } from '../shared/alarm-category/alerts-table/alerts-table.component';
 import { AppConstant } from '../shared/app-constant.enum';
 import { AuthGuardService } from '../guards/auth-guard.service';
+import { DgMaintenanceAlertModule } from './dg-maintenance-alert/dg-maintenance-alert.module';
+import { DgMaintenanceAlertComponent } from './dg-maintenance-alert/dg-maintenance-alert.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,9 @@ const routes: Routes = [
       //{ path: 'alarm-status', loadChildren: () => import('src/app/shared/alarm-category/alarm-category.module').then(m => m.AlarmCategoryModule) },
 
       { path: 'alarm-status', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: AlarmCategoryComponent },
+     { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: DgMaintenanceAlertComponent },
+     // { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, loadChildren: () => import('./dg-maintenance-alert/dg-maintenance-alert.module').then(m => m.DgMaintenanceAlertComponent) },
+
       { path: 'energy-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: EnergyReportComponent },
       // { path: 'alarm-status', component: AlarmCategoryComponent },
       { path: 'alerts-table/:type', canActivate: [AuthGuardService], component: AlertsTableComponent },

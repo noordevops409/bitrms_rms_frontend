@@ -123,14 +123,22 @@ export class SidebarComponent implements OnInit, OnDestroy {
       href: 'logout',
       logo: 'assets/images/logout.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
+    },
+    {
+      id: 14,
+      value: 'DG Maintenace Alert',
+      href: 'dg-maintenance-alert',
+      logo: 'assets/images/energy_billing_report_rms.png',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     }
+
   ];
   private prevIndex: any = null;
   private prevSel: any = null;
 
   // Define the desired order of main menu items
   private mainSortOrder: string[] = [
-    'Dashboard', 'Alarm Status', 'Reports', 'Power Report',
+    'Dashboard', 'Alarm Status','DG Maintenace Alert','Reports', 'Power Report',
     'Energy Report', 'Energy Billing Report', 'RCA Report',
     'RCA Master', 'Map Site List', 'Master Data',
     'Remote Commands', 'Users', 'Logout'
