@@ -620,6 +620,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   });
   }
   dropboxReport(evt?: any) {
+   
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
     
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
