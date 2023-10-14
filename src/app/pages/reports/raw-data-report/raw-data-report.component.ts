@@ -619,34 +619,79 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     );
   });
   }
-  dropboxReport(evt?: any) {
+  // dropboxReport(evt?: any) {
    
-    let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
+  //   let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
     
-    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
-      (response) => {
-          // This code will be executed when the API call is successful
-          console.log('API call successful:', response);
+  //   this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+  //     (response) => {
+  //         // This code will be executed when the API call is successful
+  //         console.log('API call successful:', response);
 
-          this.util.notification.success({
-                     title: 'Success',
-                    msg: 'Request Save Successfully'
-                 });
-          // Execute your "like" action or any other action here
+  //         this.util.notification.success({
+  //                    title: 'Success',
+  //                   msg: 'Request Save Successfully'
+  //                });
+  //         // Execute your "like" action or any other action here
           
+  //     },
+  //     (error) => {
+  //         // This code will be executed when there is an error with the API call
+  //         console.error('API call failed:', error);
+
+  //         this.util.notification.warn({
+  //           title: 'warning',
+  //          msg: 'Failed to save the Request'
+  //       });
+  //     }
+  // );
+  //   }
+
+  dropboxReport(evt?: any) {
+    let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
+  
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
+      (response: any) => {
+        // This code will be executed when the API call is successful
+        console.log('API call successful:', response);
+  
+        // Create a Blob from the response data
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); // Format the date and time
+  
+        // Create a download link with the filename containing current date and time
+        const filename = `raw_data_export_${formattedDate}.xlsx`;
+        // Create a download link
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename; // Set your desired file name here
+        document.body.appendChild(a);
+  
+        // Trigger a click event to download the file
+        a.click();
+  
+        // Remove the download link from the DOM
+        window.URL.revokeObjectURL(url);
+  
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Request Save Successfully'
+        });
       },
       (error) => {
-          // This code will be executed when there is an error with the API call
-          console.error('API call failed:', error);
-
-          this.util.notification.warn({
-            title: 'warning',
-           msg: 'Failed to save the Request'
+        // This code will be executed when there is an error with the API call
+        console.error('API call failed:', error);
+  
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Failed to save the Request'
         });
       }
-  );
-    }
-
+    );
+  }
+  
     dropboxReportLink(evt?: any) {
       let apiUrl: string = ApiConstant.getRawDataReportDropboxLink;
       
