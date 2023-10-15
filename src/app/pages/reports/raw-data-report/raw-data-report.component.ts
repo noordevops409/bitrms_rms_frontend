@@ -47,6 +47,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
   fetchClicked: boolean = false;
+  selectedFormat: string = '-1';
 
   defaultFilterList: any = [
     {
@@ -283,15 +284,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // if (this.filterParam && this.filterParam.siteId[0] === 'All') {
-      //   // Handle the warning case
-      //   this.util.notification.warn({
-      //     title: 'Warning',
-      //     msg: 'Please select at least one site'
-      //   });
-      //   reject("Please select at least one site.");
-      //   return;
-      // }
+      
 
       this.isLoading = true;
       let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
@@ -324,7 +317,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
 
   manipulate(res) {
-    //this.exportData.data=res.data;
+    
     this.setResponse(res);
     this.setColumnHeader(res.data);
     this.setRowData(res.data);
@@ -347,7 +340,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+      
       for (let key in rowData) {
         if (RAW_DATA_REPORT_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(RAW_DATA_REPORT_COLUMN_HEADER[key]);
@@ -476,7 +469,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       this.isMultipleRowSelected = data.length > 1;
       this.multipleSelRow = data;
       if (this.isMultipleRowSelected) {
-        // custom business logic
+        
       } else {
         this.selectedRow = data;
       }
@@ -503,15 +496,15 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   exportTableToExcel(type: string): void {
-    /* pass here the table id */
+    
     let element = document.getElementById('export-data');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-    /* generate workbook and add the worksheet */
+    
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    /* save to file */
+    
     XLSX.writeFile(wb, `raw-data-report.${type}`);
 
   }
@@ -544,17 +537,6 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportExcel;
 
-    // if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
-    //     (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
-    //     // Show a popup to select at least one site
-    //     this.util.notification.warn({
-    //       title: 'Warning',
-    //       msg: 'Please select at least one site'
-    //     });
-    //     reject("Please select at least one site.");
-    //     return;
-    //   }
-
       this.isDownloading = true;
       this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
         (response: ArrayBuffer) => {
@@ -563,20 +545,18 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'excel_data.xlsx'; // set the desired file name
+          a.download = 'excel_data.xlsx'; 
           a.click();
           this.isDownloading = false;
           URL.revokeObjectURL(url);
         },
         (error: any) => {
           console.error('Error exporting Excel data:', error);
-          // Handle the error appropriately (show a message, log it, etc.)
+          
           this.isDownloading = false;
         }
       );
     });
-
-
 
   }
 
@@ -584,19 +564,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportCsv;
 
-  // if (!this.filterParam.siteId || (this.filterParam.siteId.length === 0) ||
-  //       (this.filterParam.siteId.length === 1 && this.filterParam.siteId[0] === "All")) {
-  //       this.util.notification.warn({
-  //         title: 'Warning',
-  //         msg: 'Please select at least one site'
-  //       });
-  //       reject("Please select at least one site.");
-  //       return;
-  //     }
-
     this.isDownloading = true;
-   // let apiUrl: string = ApiConstant.getRawDataReportExcel;
-
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
       (response: string) => {
         const blob = new Blob([response], { type: 'application/vnd.ms-excel' })
@@ -605,7 +573,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'csv_data.csv'; // set the desired file name
+        a.download = 'csv_data.csv'; 
         a.click();
 
         this.isDownloading = false;
@@ -613,101 +581,90 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       },
       (error: any) => {
         console.error('Error exporting CSV data:', error);
-        // Handle the error appropriately (show a message, log it, etc.)
         this.isDownloading = false;
       }
     );
   });
   }
-  // dropboxReport(evt?: any) {
-   
-  //   let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
-    
-  //   this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
-  //     (response) => {
-  //         // This code will be executed when the API call is successful
-  //         console.log('API call successful:', response);
-
-  //         this.util.notification.success({
-  //                    title: 'Success',
-  //                   msg: 'Request Save Successfully'
-  //                });
-  //         // Execute your "like" action or any other action here
-          
-  //     },
-  //     (error) => {
-  //         // This code will be executed when there is an error with the API call
-  //         console.error('API call failed:', error);
-
-  //         this.util.notification.warn({
-  //           title: 'warning',
-  //          msg: 'Failed to save the Request'
-  //       });
-  //     }
-  // );
-  //   }
-
-  dropboxReport(evt?: any) {
+  dropboxReport(format: string, evt?: any) {
+    console.log("format",format);
+    if (format === '-1') {
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Please Select Export Format'
+      });
+      return;
+  }
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
-  
+
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
       (response: any) => {
-        // This code will be executed when the API call is successful
         console.log('API call successful:', response);
-  
-        // Create a Blob from the response data
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        let mimeType: string;
+        let fileExtension: string;
+       
+       if (format === 'csv') {
+          mimeType = 'text/csv';
+          fileExtension = 'csv';
+        } else if (format === 'excel') {
+          mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          fileExtension = 'xlsx';
+        } else {
+          console.error('Unsupported file format:', format);
+          return;
+        }
+
+        const blob = new Blob([response], { type: mimeType });
         const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); // Format the date and time
-  
-        // Create a download link with the filename containing current date and time
-        const filename = `raw_data_export_${formattedDate}.xlsx`;
-        // Create a download link
+        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); 
+
+        const filename = `raw_data_export_${formattedDate}.${fileExtension}`;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = filename; // Set your desired file name here
+        a.download = filename; 
         document.body.appendChild(a);
-  
-        // Trigger a click event to download the file
+
+        
         a.click();
-  
-        // Remove the download link from the DOM
+
+        
         window.URL.revokeObjectURL(url);
-  
+
         this.util.notification.success({
           title: 'Success',
           msg: 'Request Save Successfully'
         });
       },
       (error) => {
-        // This code will be executed when there is an error with the API call
+        
         console.error('API call failed:', error);
-  
+
         this.util.notification.warn({
           title: 'Warning',
           msg: 'Failed to save the Request'
         });
       }
     );
-  }
-  
+}
+
     dropboxReportLink(evt?: any) {
       let apiUrl: string = ApiConstant.getRawDataReportDropboxLink;
       
       this.httpClient.get(apiUrl).subscribe(
         (response: any) => {
-          // This code will be executed when the API call is successful
+          
           console.log('API call successful:', response);
           this.dropboxLink = response.data.dropboxlink;
           console.log("line 657",this.dropboxLink)
 
-          // Update the link's href attribute with the response
+          
           const dropboxLinkElement = document.getElementById('dropboxLink') as HTMLAnchorElement;
-          //dropboxLinkElement.href = this.dropboxLink;
+          
         },
         (error) => {
-          // This code will be executed when there is an error with the API call
+         
           console.error('API call error:', error);
         }
       );

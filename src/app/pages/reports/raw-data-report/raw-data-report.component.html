@@ -7,40 +7,34 @@
         </div>
 
         <div class="right-side">
-            <button class="btn btn-primary"  (click)="dropboxReport($event)">Generate Report on DropBox</button>
+            <!-- <div class="form-group">
+                <label for="fileFormat">Select File Format:</label>
+                <select id="fileFormat" class="form-control" [(ngModel)]="selectedFormat">
+                  <option value="csv">CSV</option>
+                  <option value="excel">Excel</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" (click)="dropboxReport(selectedFormat, $event)">Generate Report on DropBox</button>
+             -->
+            <!-- <button class="btn btn-primary"  (click)="dropboxReport($event)">Generate Report on DropBox</button> -->
 
             <button class="btn btn-primary" (click)="fetchData($event)">FETCH</button>
 
             <div class="export">
-                <label>Export</label>
+                <label style="padding-top: 10px;">Export</label>
                 <div class="select-container">
-                  <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport" [disabled]="isDownloading">
-                    <option value="-1">Please Select</option>
-                    <option value="1">Export Excel</option>
-                    <option value="2">Export CSV</option>
-                    <!-- <option value="3">PDF</option> -->
-                  </select>
-                 
+                    <select class="mini" [(ngModel)]="selectedFormat" style="margin-right: 10px;">
+                        <option value="-1">Please Select</option>
+                        <option value="csv">Export Excel</option>
+                        <option value="excel">Export CSV</option>
+                    </select>
+                    <button class="btn btn-primary" (click)="dropboxReport(selectedFormat, $event)">Export Raw Data</button>
                 </div>
                 <div class="loading-container" *ngIf="isDownloading">
                     <div class="loading-spinner"></div>
-                  </div>
-              </div>
-              
-            <!-- </div>   -->
-
-           
-
-
-
-            <!-- <div class="export">
-                <button class="btn btn-default" (click)="exportExcel($event);">
-                    EXPORT TO EXCEL
-                </button>
-                <button class="btn btn-default" (click)="exportCSV($event);">
-                    EXPORT TO CSV
-                </button>
-            </div> -->
+                </div>
+            </div>
+            
         </div>
 
     </div>
