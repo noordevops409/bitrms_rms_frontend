@@ -7,7 +7,7 @@ export const environment = {
   // api: 'http://54.254.44.119:8080/digitrinityApi/api'
   // api: 'http://54.254.44.119:8080/digitrinity-rest-services'
   // api: 'http://54.254.44.119:8080/digitrinity-rest-services_prod_repl',
-  api: 'http://54.254.44.119:8080/digitrinity-rest-services_prod',
+ api: 'http://54.254.44.119:8080/digitrinity-rest-services_prod',
 //api: 'http://localhost:8080/digitrinity-rest-services_prod',
 
   // http://54.254.44.119:8080/digitrinity/prf_dashboard/site_summary

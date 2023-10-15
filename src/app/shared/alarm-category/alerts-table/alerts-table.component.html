@@ -45,14 +45,14 @@
           <th>DG RunHrs</th>
         </tr>
         <tr *ngIf="type === 'fuellvl'" id="header-row">
-          <th>Sr no</th>
-          <th>Category</th>
-          <th>ID</th>
-          <th>Sm Site ID</th>
-          <th>Sm Site Code</th>
-          <!-- <th>Timestamp</th> -->
-          <th>Fuellevel_Percentage</th>
-        </tr>
+          <th class="narrow-column">Sr no</th>
+    <th class="narrow-column">Site ID</th>
+          <th>Site Code</th>
+          <th>Open Time</th> 
+          <th>Current Fuel Lvl % </th>
+          <th>Difference % </th>
+          <th>Last Updated Time</th>
+          </tr>
         <tr *ngIf="type === 'dcload'" id="header-row">
           <th>Sr no</th>
           <th>Category</th>
@@ -106,10 +106,10 @@
             <td> {{i + 1}}</td>
             <td>{{ item[0] }}</td>
             <td>{{ item[1] }}</td>
-            <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
+            <td>{{ item[2] }}</td>
             <td>{{ item[4] }}</td>
-            <!-- <td>{{ item[5] }}</td> -->
+            <td>{{ item[5] }}</td>
             <!-- <td>{{ item[6] }}</td> -->
           </tr>
         </ng-container>

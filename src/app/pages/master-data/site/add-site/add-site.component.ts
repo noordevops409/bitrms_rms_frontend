@@ -127,7 +127,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       'dcStartBattVolValue': [null],
       'settableCommLoadValue': [null],
       'battLifeCycleValue': [null],
-      'dgRunHourValue': [null]
+      'dgRunHourValue': [null],
+      'settableLoadValue':[null],
 
     });
   }
@@ -159,7 +160,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['settableCommLoadValue'].setValue(this.selSite.settableCommLoad);
     this.masterForm.controls['battLifeCycleValue'].setValue(this.selSite.battLifeCycle);
     this.masterForm.controls['dgRunHourValue'].setValue(this.selSite.dgRunHour);
-
+    this.masterForm.controls['settableLoadValue'].setValue(this.selSite.settableLoad);
 
 
     this.setSiteType(this.selSite);
@@ -383,6 +384,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       settableCommLoad: formData.settableCommLoadValue,
       battLifeCycle: formData.battLifeCycleValue,
       dgRunHour: formData.dgRunHourValue,
+      settableLoad:formData.settableLoadValue,
       username: 'harish'
     };
 

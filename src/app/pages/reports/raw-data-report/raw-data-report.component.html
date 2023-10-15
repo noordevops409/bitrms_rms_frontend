@@ -33,6 +33,7 @@
                 <div class="loading-container" *ngIf="isDownloading">
                     <div class="loading-spinner"></div>
                 </div>
+                
             </div>
             
         </div>
@@ -44,14 +45,11 @@
             <div class="box-title">
                 <h4>Raw Data Report</h4>
                 <div class="summary-data">
-                   
-                       
+                      
                     <button class="btn btn-primary" style="text-decoration: none;">
                         <span style="text-transform: uppercase;">Dropbox Link : </span> 
                         <a href="{{ dropboxLink }}" target="_blank" style="text-transform: lowercase; text-decoration: underline; font-size: 16px;">{{ dropboxLink }}</a>
                     </button>
-                    
-                    
                     
                 </div>
             </div>
@@ -59,13 +57,11 @@
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-raw-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
-                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)" (onFilterExcel)="applyFilterForExport($event)" >
                     </app-raw-filter>
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
-
-
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [ngClass]="{'hasNoData': hasNoData}" [listData]="activeListing.list"
                                 [appType]="appType" [template]="listingTemplate" [inifiniteScroll]=false [pager]=true

@@ -17,6 +17,8 @@ export class RawFilterComponent implements OnInit {
   @Input() isOpenTabularFilter: boolean = false;
   @Input() defaultFilterList: any;
   @Output() onFilter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onFilterExcel: EventEmitter<any> = new EventEmitter<any>();
+
   @Output() isReqToOpenFilterChange = new EventEmitter();
   @Output() isOpenTabularFilterChange = new EventEmitter();
 
@@ -125,6 +127,8 @@ export class RawFilterComponent implements OnInit {
       this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
     }
     this.onFilter.emit(null);
+    this.onFilterExcel.emit(null);
+
   }
 
   applyFilter(evt?: any) {
@@ -142,6 +146,23 @@ export class RawFilterComponent implements OnInit {
       this.defaultFilterList.push(this.siteType);
       this.defaultFilterList.push(this.reqSiteIdObj);
       this.onFilter.emit(this.defaultFilterList);
+    }, 500);
+  }
+  applyFilterForExport(evt?: any) {
+    setTimeout(() => {
+        if (this.filterType === 1) {
+        this.isReqToOpenFilter = false;
+         this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+       } else if (this.filterType === 2) {
+         this.isOpenTabularFilter = false;
+          this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+        }
+      if (this.startTime && this.endTime) {
+
+      }
+      this.defaultFilterList.push(this.siteType);
+      this.defaultFilterList.push(this.reqSiteIdObj);
+      this.onFilterExcel.emit(this.defaultFilterList);
     }, 500);
   }
 

@@ -38,6 +38,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   public data: any;
   public listingTemplate: any = {};
   public ddExport: any = "-1";
+  public downloadProgress: number = 0;
+
   public exportData: any = {
     data: []
   };
@@ -298,7 +300,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.tableListingComponent.init();
             });
-            resolve(res.data); // Resolve with the loaded data
+            resolve(res.data); 
           }
         },
         (err) => {
@@ -309,7 +311,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
             title: 'Error',
             msg: 'Error while loading Raw Data Report details!'
           });
-          reject("Error while loading data: " + err); // Reject with an error message
+          reject("Error while loading data: " + err); 
         }
       );
     });
@@ -447,7 +449,11 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.setFilterParam(evt);
     this.loadData();
   }
-
+  applyFilterForExport(evt?: any) {
+    this.isReqToOpenFilter = false;
+    this.setFilterParam(evt);
+    this.dropboxReportExcel();
+  }
   updateListParam(data) {
     this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
     this.pageSize = data.pageSize || this.pageSize;
@@ -586,6 +592,43 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     );
   });
   }
+
+  dropboxReportExcel(evt?: any) {
+    let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
+  this.isDownloading = true;
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
+      (response: any) => {
+        console.log('API call successful:', response);
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); 
+        const filename = `raw_data_export_${formattedDate}.xlsx`;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename; 
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'Excel Downloaded Successfully'
+        });
+        this.isDownloading = false;
+
+      },
+      (error) => {
+        console.error('API call failed:', error);
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Failed to Donload Excel'
+        });
+        this.isDownloading = false;
+
+      }
+    );
+  }
+  
   dropboxReport(format: string, evt?: any) {
     console.log("format",format);
     if (format === '-1') {
