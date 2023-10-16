@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild, OnDestroy, Injectable } from '@angular/core';
+import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import { CommonUtilService } from '../../../shared/common-util.service';
 import { BroadcastService } from '../../../shared/broadcast.service';
@@ -12,7 +12,14 @@ import { AppConstant } from '../../../shared/app-constant.enum';
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 import * as moment from 'moment';
 import { reject } from 'lodash';
+import { Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
+
+
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-raw-data-report',
   templateUrl: './raw-data-report.component.html',
@@ -593,7 +600,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   });
   }
 
-  dropboxReportExcel(evt?: any) {
+  dropboxReportExcel11(evt?: any) {
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
   this.isDownloading = true;
   this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
@@ -607,11 +614,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       // Create a data URI for the CSV content
       const dataURI = `data:text/csv;charset=utf-8,${encodeURIComponent(response)}`;
 
-      const a = document.createElement('a');
-      a.href = dataURI;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
+      
 
       this.util.notification.success({
         title: 'Success',
@@ -717,4 +720,42 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     goToLink() {
       window.open(this.dropboxLink, '_blank');
     }
+   
+  dropboxReportExcel(evt?: any): void {
+  let apiUrl2=ApiConstant.getRawDataReportExportRawRequest;
+  const requestBody = this.filterParam;
+  this.isDownloading = true;
+  this.httpClient.post(apiUrl2, requestBody, {
+    responseType: 'blob'
+  }).subscribe(
+    (response: Blob) => {
+      const blob = new Blob([response], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'downloaded_file.csv'; // Specify the desired file name
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.util.notification.success({
+        title: 'Success',
+        msg: 'CSV Downloaded Successfully'
+      });
+      this.isDownloading = false;
+    },
+    error => {
+      console.error('Error downloading file:', error);
+      this.util.notification.warn({
+        title: 'Warning',
+        msg: 'Failed to Download CSV'
+      });
+      // Handle error if needed
+      this.isDownloading = false;
+
+    }
+  );
+}
+
+  
 }
