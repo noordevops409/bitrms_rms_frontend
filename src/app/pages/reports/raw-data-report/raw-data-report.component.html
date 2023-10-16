@@ -20,8 +20,8 @@
 
             <button class="btn btn-primary" (click)="fetchData($event)">FETCH</button>
 
-            <div class="export">
-                <label style="padding-top: 10px;">Export</label>
+            <div class="export" >
+                <!-- <label style="padding-top: 10px;">Export</label>
                 <div class="select-container">
                     <select class="mini" [(ngModel)]="selectedFormat" style="margin-right: 10px;">
                         <option value="-1">Please Select</option>
@@ -29,7 +29,7 @@
                         <option value="excel">Export CSV</option>
                     </select>
                     <button class="btn btn-primary" (click)="dropboxReport(selectedFormat, $event)">Export Raw Data</button>
-                </div>
+                </div> -->
                 <div class="loading-container" *ngIf="isDownloading">
                     <div class="loading-spinner"></div>
                 </div>

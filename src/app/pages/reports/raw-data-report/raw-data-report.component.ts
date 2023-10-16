@@ -596,37 +596,39 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   dropboxReportExcel(evt?: any) {
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
   this.isDownloading = true;
-    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
-      (response: any) => {
-        console.log('API call successful:', response);
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); 
-        const filename = `raw_data_export_${formattedDate}.xlsx`;
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename; 
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        this.util.notification.success({
-          title: 'Success',
-          msg: 'Excel Downloaded Successfully'
-        });
-        this.isDownloading = false;
+  this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+    (response: any) => {
+      console.log('API call successful:', response);
 
-      },
-      (error) => {
-        console.error('API call failed:', error);
-        this.util.notification.warn({
-          title: 'Warning',
-          msg: 'Failed to Donload Excel'
-        });
-        this.isDownloading = false;
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, '');
+      const filename = `raw_data_export_${formattedDate}.csv`;
 
-      }
-    );
+      // Create a data URI for the CSV content
+      const dataURI = `data:text/csv;charset=utf-8,${encodeURIComponent(response)}`;
+
+      const a = document.createElement('a');
+      a.href = dataURI;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      this.util.notification.success({
+        title: 'Success',
+        msg: 'CSV Downloaded Successfully'
+      });
+      this.isDownloading = false;
+
+    },
+    (error) => {
+      console.error('API call failed:', error);
+      this.util.notification.warn({
+        title: 'Warning',
+        msg: 'Failed to Download CSV'
+      });
+      this.isDownloading = false;
+    }
+  );
   }
   
   dropboxReport(format: string, evt?: any) {
