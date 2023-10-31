@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
@@ -16,7 +18,7 @@ export class DgMaintenanceAlertComponent {
   isOpenTabularFilter: any;
   activeListing: any = {};
   public listingTemplate: any = {};
-  public appType1: Number = AppConstant.ALARM_STATUS_APP_TYPE;
+  //public appType1: Number = AppConstant.ALARM_STATUS_APP_TYPE;
   private isMultipleRowSelected: boolean = false;
   private multipleSelRow: any;
   private selectedRow: any;

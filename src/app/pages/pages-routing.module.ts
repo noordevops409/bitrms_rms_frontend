@@ -8,7 +8,9 @@ import { AlertsTableComponent } from '../shared/alarm-category/alerts-table/aler
 import { AppConstant } from '../shared/app-constant.enum';
 import { AuthGuardService } from '../guards/auth-guard.service';
 import { DgMaintenanceAlertModule } from './dg-maintenance-alert/dg-maintenance-alert.module';
+import { SettableLoadModule } from './settable-load/settable-load-module.module';
 import { DgMaintenanceAlertComponent } from './dg-maintenance-alert/dg-maintenance-alert.component';
+import { SettableLoadComponent } from './settable-load/settable-load.component';
 
 const routes: Routes = [
   {
@@ -20,9 +22,9 @@ const routes: Routes = [
       //{ path: 'alarm-status', loadChildren: () => import('src/app/shared/alarm-category/alarm-category.module').then(m => m.AlarmCategoryModule) },
 
       { path: 'alarm-status', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: AlarmCategoryComponent },
-     { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: DgMaintenanceAlertComponent },
+      { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: DgMaintenanceAlertComponent },
      // { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, loadChildren: () => import('./dg-maintenance-alert/dg-maintenance-alert.module').then(m => m.DgMaintenanceAlertComponent) },
-
+      { path: 'settable-load', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: SettableLoadComponent },
       { path: 'energy-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: EnergyReportComponent },
       // { path: 'alarm-status', component: AlarmCategoryComponent },
       { path: 'alerts-table/:type', canActivate: [AuthGuardService], component: AlertsTableComponent },

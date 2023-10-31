@@ -130,7 +130,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
       href: 'dg-maintenance-alert',
       logo: 'assets/images/energy_billing_report_rms.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
+    },
+
+    {
+      id: 15,
+      value: 'Settable Load',
+      href: 'settable-load',
+      logo: 'assets/images/energy_billing_report_rms.png',
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     }
+
 
   ];
   private prevIndex: any = null;
@@ -138,7 +147,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the desired order of main menu items
   private mainSortOrder: string[] = [
-    'Dashboard', 'Alarm Status','DG Maintenace Alert','Reports', 'Power Report',
+    'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Reports', 'Power Report',
     'Energy Report', 'Energy Billing Report', 'RCA Report',
     'RCA Master', 'Map Site List', 'Master Data',
     'Remote Commands', 'Users', 'Logout'

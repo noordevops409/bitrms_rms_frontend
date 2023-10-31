@@ -152,6 +152,8 @@ export const ApiConstant = {
   getAlertsDetails:`${GATEWAY}/api/alarm-report/get_views_alerts`,
   getSuperCriticalAlertsCounts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts_counts`,
   getSuperCriticalAlerts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts`,
- getDgMaintenanceAlerts:`${GATEWAY}/api/preventivemaintance/view_preventivemaintance_form`
+ getDgMaintenanceAlerts:`${GATEWAY}/api/preventivemaintance/view_preventivemaintance_form`,
+ getSettableLoad:`${GATEWAY}/api/settableload/settable-form`
+
 };
 

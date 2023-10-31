@@ -721,56 +721,10 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       window.open(this.dropboxLink, '_blank');
     }
    
-//   dropboxReportExcel(evt?: any): void {
-//   let apiUrl2=ApiConstant.getRawDataReportExportRawRequest;
-//   const requestBody = this.filterParam;
-//   this.isDownloading = true;
-//   this.httpClient.post(apiUrl2, requestBody, {
-//     responseType: 'blob'
-//   }).subscribe(
-//     (response: Blob) => {
-//       const blob = new Blob([response], { type: 'application/octet-stream' });
-//       const url = window.URL.createObjectURL(blob);
-//       const a = document.createElement('a');
-//       a.href = url;
-//       a.download = 'downloaded_file.csv'; // Specify the desired file name
-//       document.body.appendChild(a);
-//       a.click();
-//       window.URL.revokeObjectURL(url);
-//       document.body.removeChild(a);
-//       this.util.notification.success({
-//         title: 'Success',
-//         msg: 'CSV Downloaded Successfully'
-//       });
-//       this.isDownloading = false;
-//     },
-//     error => {
-//       console.error('Error downloading file:', error);
-//       this.util.notification.warn({
-//         title: 'Warning',
-//         msg: 'Failed to Download CSV'
-//       });
-//       // Handle error if needed
-//       this.isDownloading = false;
-
-//     }
-//   );
-// }
-dropboxReportExcel(evt?: any): void {
-  let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
+  dropboxReportExcel(evt?: any): void {
+  let apiUrl2=ApiConstant.getRawDataReportExportRawRequest;
   const requestBody = this.filterParam;
   this.isDownloading = true;
-
-  // Get the current date and time
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..*$/, ''); // Format as YYYY-MM-DDTHH-MM-SS
-
-  // Get the time in the format HH-MM-SS
-  const time = `${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
-
-  // Modify the file name to include the date and time
-  const fileName = `raw_data_export_${formattedDate}_${time}.csv`;
-
   this.httpClient.post(apiUrl2, requestBody, {
     responseType: 'blob'
   }).subscribe(
@@ -779,7 +733,7 @@ dropboxReportExcel(evt?: any): void {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = fileName; // Use the generated file name
+      a.download = 'downloaded_file.csv'; // Specify the desired file name
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -798,9 +752,55 @@ dropboxReportExcel(evt?: any): void {
       });
       // Handle error if needed
       this.isDownloading = false;
+
     }
   );
 }
+// dropboxReportExcel(evt?: any): void {
+//   let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
+//   const requestBody = this.filterParam;
+//   this.isDownloading = true;
+
+//   // Get the current date and time
+//   const currentDate = new Date();
+//   const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..*$/, ''); // Format as YYYY-MM-DDTHH-MM-SS
+
+//   // Get the time in the format HH-MM-SS
+//   const time = `${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
+
+//   // Modify the file name to include the date and time
+//   const fileName = `raw_data_export_${formattedDate}_${time}.csv`;
+
+//   this.httpClient.post(apiUrl2, requestBody, {
+//     responseType: 'blob'
+//   }).subscribe(
+//     (response: Blob) => {
+//       const blob = new Blob([response], { type: 'application/octet-stream' });
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement('a');
+//       a.href = url;
+//       a.download = fileName; // Use the generated file name
+//       document.body.appendChild(a);
+//       a.click();
+//       window.URL.revokeObjectURL(url);
+//       document.body.removeChild(a);
+//       this.util.notification.success({
+//         title: 'Success',
+//         msg: 'CSV Downloaded Successfully'
+//       });
+//       this.isDownloading = false;
+//     },
+//     error => {
+//       console.error('Error downloading file:', error);
+//       this.util.notification.warn({
+//         title: 'Warning',
+//         msg: 'Failed to Download CSV'
+//       });
+//       // Handle error if needed
+//       this.isDownloading = false;
+//     }
+//   );
+// }
 
   
 }
