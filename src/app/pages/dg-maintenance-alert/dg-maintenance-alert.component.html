@@ -28,12 +28,12 @@
         <table cellpadding="0" cellspacing="0">
           <thead>
             <tr id="header-row">
-              <th>Sr no</th>
+              <!-- <th>Sr no</th> -->
               <th>Create Date</th>
               <th>Site Code</th>
               <th>Updated Time </th>
               <th>DG Run Hours</th>
-              <th>Last Run Hours</th>
+              <th>Last DG Run Hours</th>
             </tr>
           </thead>
         </table>
@@ -43,7 +43,7 @@
           <tbody>
             <ng-container>
               <tr *ngFor="let item of tableData;let i=index">
-                <td>{{ item.srno }}</td>
+                <!-- <td>{{ item.srno }}</td> -->
               <td>{{ item.createDate }}</td>
               <td>{{ item.smSiteCode }}</td>
               <td>{{ item.lastupdatedTime }}</td>

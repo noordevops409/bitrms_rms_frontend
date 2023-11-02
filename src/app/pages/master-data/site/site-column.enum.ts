@@ -375,8 +375,8 @@ export const SITE_COLUMN_HEADER = {
   dcStartBattVol: {
     userIndex: 21,
     fieldName: 'dcStartBattVol',
-    colDisplayName: 'DC Start Battery Voltage',
-    title: 'DC Start Battery Voltage',
+    colDisplayName: 'DG Start Battery Voltage',
+    title: 'DG Start Battery Voltage',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
