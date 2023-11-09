@@ -55,12 +55,10 @@
           </tr>
         <tr *ngIf="type === 'dcload'" id="header-row">
           <th>Sr no</th>
-          <th>Category</th>
-          <th>ID</th>
           <th>Sm Site ID</th>
           <th>Sm Site Code</th>
-          <th>Timestamp</th>
-          <th>Total_DCLoad_Energy</th>
+          <th>Last Updated Time</th>
+          <th>DC Load</th>
         </tr>
 
         <tr *ngIf="type === 'Community Load'" id="header-row">
@@ -115,16 +113,15 @@
         </ng-container>
         <ng-container *ngIf="type === 'dcload'">
 
-          <tr *ngFor="let item of tableData1;let i=index">
-            <td> {{i + 1}}</td>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
+          <tr *ngFor="let item of tableData1; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
-            <td>{{ item[4] }}</td>
             <td>{{ item[5] }}</td>
+            <td>{{ item[4] | number:'1.2-2' }}</td>
             <!-- <td>{{ item[6] }}</td> -->
           </tr>
+          
         </ng-container>
         <ng-container *ngIf="type === 'Community Load'">
 
