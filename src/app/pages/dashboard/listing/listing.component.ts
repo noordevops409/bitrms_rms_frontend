@@ -353,8 +353,8 @@ export class ListingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    const url = ApiConstant.getLatestData;
-    this.httpClient.get(url).subscribe((res: any) => {
+    const url = ApiConstant.getLatestData1;
+    this.httpClient.post(url, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       if (res && res.data) {
         this.manipulate(res.data);
