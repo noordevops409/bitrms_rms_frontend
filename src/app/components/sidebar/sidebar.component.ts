@@ -129,7 +129,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'DG Maintenace Alert',
       href: 'dg-maintenance-alert',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     },
 
     {
@@ -137,7 +137,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Settable Load',
       href: 'settable-load',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
     }
 
 
