@@ -288,12 +288,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         }
         this.setLatestReportStatus(obj);
-        this.loadLatestReportByDevice(obj);
+      //  this.loadLatestReportByDevice(obj);
         this.loadMultiLinesLabelChartByDevice(obj);
         this.loadStackBarChartByCustomer(obj);
         this.loadStackBarChartBySiteType(obj);
         this.loadStackBarChartByRegion(obj);
         this.loadChartByPower(obj);
+        this.loadChartByDevice(obj);
       }
     }, (err) => {
       this.util.notification.error({
@@ -329,91 +330,91 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // this.loadChartByPower();
   }
 
-  loadLatestReportByDevice(obj) {
-    if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
-      let chartData: any = obj.Devicetype.data;
-      let totalSite: any = 0;
-      let deviceTypeList: any = chartData.map((item: any) => {
-        return item.Category_id ? item.Category_id : 'Delta';
-      });
+    loadLatestReportByDevice(obj) {
+      if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
+        let chartData: any = obj.Devicetype.data;
+        let totalSite: any = 0;
+        let deviceTypeList: any = chartData.map((item: any) => {
+          return item.Category_id ? item.Category_id : 'Delta';
+        });
 
-      chartData.map((item: any) => {
-        item.totalCount = parseInt(item.totalCount, 10);
-        totalSite += item.totalCount;
-      });
+        chartData.map((item: any) => {
+          item.totalCount = parseInt(item.totalCount, 10);
+          totalSite += item.totalCount;
+        });
 
-      let offlineList: any = chartData.map((item: any) => {
-        if (item.offlineCount) {
-          item.offlineCount = parseInt(item.offlineCount, 10);
-        }
-        return item.offlineCount === 0 ? null : item.offlineCount;
-      });
-
-      let onlineList: any = chartData.map((item: any) => {
-        item.onlineCount = item.totalCount - item.offlineCount;
-        return item.onlineCount === 0 ? null : item.onlineCount;
-      });
-
-      var data = {
-        labels: [...deviceTypeList],
-        series: [...offlineList],
-      };
-
-      let findItem = (online: any) => {
-        return chartData.filter((item) => {
-          return item.offlineCount === online;
-        })[0];
-      };
-
-      var options = {
-        labelInterpolationFnc: (value: any) => {
-          value = parseInt(value, 10);
-          let cData = findItem(value);
-          return Math.round(value / cData.totalCount * 100) + '%';
-        },
-        showLabel: true,
-        chartPadding: 30,
-        labelOffset: 50,
-        labelDirection: 'explode',
-        plugins: [
-          Chartist.plugins.tooltip({
-            transformTooltipTextFnc: (tooltip: any) => {
-              // console.log(tooltip);
-              tooltip = parseInt(tooltip, 10);
-              let cData = findItem(tooltip);
-              return Math.round(tooltip / cData.totalCount * 100) + '%';
-            },
-            class: 'class1 class2',
-            appendToBody: true
-          }),
-          Chartist.plugins.legend()
-        ]
-      };
-
-      var responsiveOptions = [
-        ['screen and (min-width: 640px)', {
-          chartPadding: 30,
-          labelOffset: 100,
-          labelDirection: 'explode',
-          labelInterpolationFnc: (value: any) => {
-            return value;
+        let offlineList: any = chartData.map((item: any) => {
+          if (item.offlineCount) {
+            item.offlineCount = parseInt(item.offlineCount, 10);
           }
-        }],
-        ['screen and (min-width: 1024px)', {
-          labelOffset: 80,
-          chartPadding: 20
-        }]
-      ];
+          return item.offlineCount === 0 ? null : item.offlineCount;
+        });
 
-      let chart = new Chartist.Pie('#websiteViewsChart2', data, options, responsiveOptions);
-      chart.on('draw', (item: any) => {
-        if (item.type === 'slice') {
-          item.element._node.onclick = (event: any) => this.click(item, data, "deviceType");
-        }
-      });
-    }
-    return;
+        let onlineList: any = chartData.map((item: any) => {
+          item.onlineCount = item.totalCount - item.offlineCount;
+          return item.onlineCount === 0 ? null : item.onlineCount;
+        });
 
+        var data = {
+          labels: [...deviceTypeList],
+          series: [...offlineList],
+        };
+
+        let findItem = (online: any) => {
+          return chartData.filter((item) => {
+            return item.offlineCount === online;
+          })[0];
+        };
+
+        var options = {
+          labelInterpolationFnc: (value: any) => {
+            value = parseInt(value, 10);
+            let cData = findItem(value);
+            return Math.round(value / cData.totalCount * 100) + '%';
+          },
+          showLabel: true,
+          chartPadding: 30,
+          labelOffset: 50,
+          labelDirection: 'explode',
+          plugins: [
+            Chartist.plugins.tooltip({
+              transformTooltipTextFnc: (tooltip: any) => {
+                // console.log(tooltip);
+                tooltip = parseInt(tooltip, 10);
+                let cData = findItem(tooltip);
+                return Math.round(tooltip / cData.totalCount * 100) + '%';
+              },
+              class: 'class1 class2',
+              appendToBody: true
+            }),
+            Chartist.plugins.legend()
+          ]
+        };
+
+        var responsiveOptions = [
+          ['screen and (min-width: 640px)', {
+            chartPadding: 30,
+            labelOffset: 100,
+            labelDirection: 'explode',
+            labelInterpolationFnc: (value: any) => {
+              return value;
+            }
+          }],
+          ['screen and (min-width: 1024px)', {
+            labelOffset: 80,
+            chartPadding: 20
+          }]
+        ];
+
+        let chart = new Chartist.Pie('#websiteViewsChart2', data, options, responsiveOptions);
+        chart.on('draw', (item: any) => {
+          if (item.type === 'slice') {
+            item.element._node.onclick = (event: any) => this.click(item, data, "deviceType");
+          }
+        });
+      }
+      
+return;
     this.httpClient.post(ApiConstant.getLatestReportStatus, {
       "groupByDefault": false,
       "groupByCustomer": false,
@@ -1599,5 +1600,96 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     });
   }
+
+  loadChartByDevice(obj) {
+    console.log("obj.Devicetype",obj.Devicetype);
+    if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
+      for (let item of obj.Devicetype.data) {
+        item.deviceType = item.Category_id;
+        if (item.offlineCount) {
+          item.offlineCount = parseInt(item.offlineCount, 10);
+        }
+        item.offlineSite = item.offlineCount;
+        if (item.totalCount) {
+          item.totalCount = parseInt(item.totalCount, 10);
+        }
+      }
+      this.maipulatePieChartData1(obj.Devicetype);
+    }
+    return;
+  }
+
+  maipulatePieChartData1(res: any) {
+    let label: any = [];
+    let series: any = [];
+    let valueList: any = [];
+    for (let item of res.data) {
+      console.log()
+      label.push(item.deviceType);
+      valueList.push(item.offlineSite);
+      series.push({
+        label: item.deviceType,
+        value: item.offlineSite,
+        className: item.deviceType.toLowerCase().replace(' ', '-')
+      });
+    }
+     console.log("label",label);
+     console.log("series",series);
+     console.log("valueList",valueList);
+
+     this.initPieChart1(label, series, valueList);
+    
+  }
+
+  initPieChart1(label: any, series: any, valueList: any) {
+    let sum = (a: any, b: any) => { return a + b };
+    let data: any = {
+      labels: label,
+      series: series
+    };
+
+    let getSeriesData = (req) => {
+      return series.filter((item) => {
+        return item.label === req;
+      })[0];
+    };
+
+    let arrayList = valueList;
+    let chart = new Chartist.Pie('#websiteViewsChart9', data, {
+      labelInterpolationFnc: (value: any) => {
+        let sData = getSeriesData(value);
+        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
+      },
+      // showLabel: false,
+      chartPadding: 30,
+      labelOffset: 50,
+      labelDirection: 'explode',
+      plugins: [
+        // Chartist.plugins.ctPointLabels({
+        //   textAnchor: 'middle'
+        // }),
+        // Chartist.plugins.tooltip({
+        //   transformTooltipTextFnc: (tooltip: any) => {
+        //     // console.log(tooltip);
+        //     return Math.round(tooltip / arrayList.reduce(sum) * 100) + '%';
+        //   },
+        //   class: 'class1 class2',
+        //   appendToBody: true
+        // }),
+        Chartist.plugins.legend()
+      ],
+    });
+    chart.on('draw', (item: any) => {
+      if (item.type === 'slice') {
+        item.element._node.onclick = (event: any) => this.click(item, data, "deviceType");
+      }
+    });
+    // chart.on('draw', (item: any) => {
+    //   if (item.type === 'slice') {
+    //     item.element._node.onclick = (event: any) => this.alarmPieChartClick(item, label, 'categories');
+    //   }
+    // });
+  }
+
 
 }
