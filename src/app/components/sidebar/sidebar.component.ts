@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { id: 2, value: 'RCA Report', 
     href: 'rca-report', 
     logo: 'assets/images/root_cause.png',
-    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
+    roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
     {
       id: 3,
       value: 'RCA Master',
@@ -43,11 +43,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
       logo: 'assets/images/rms_report_icon.png',
       roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE],
       subMenu: [
-        { id: 4.1, value: "Raw Data Report", href: "raw-data-report" },
-        { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker" },
-        { id: 4.3, value: "(Hybrid) Power Tracker Report", href: "hybrid-power-tracker" },
-        { id: 4.4, value: "(TEE) Energy and Run Hours Report", href: "tee-energy-run-hours" },
-        { id: 4.5, value: "(Hybrid) Energy and Run Hours Report", href: "hybrid-energy-run-hours" }
+        { id: 4.1, value: "Raw Data Report", href: "raw-data-report" , roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE],},
+        { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker", roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]    },
+        { id: 4.3, value: "(Hybrid) Power Tracker Report", href: "hybrid-power-tracker"  ,     roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE],},
+        { id: 4.4, value: "(TEE) Energy and Run Hours Report", href: "tee-energy-run-hours",roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] },
+        { id: 4.5, value: "(Hybrid) Energy and Run Hours Report", href: "hybrid-energy-run-hours",      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE],      }
       ]
     },
     {
@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Map Site List',
       href: 'google-data-studio',
       logo: 'assets/images/map_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE]
     },
     {
       id: 6,
@@ -94,21 +94,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Energy Report',
       href: 'energy-report',
       logo: 'assets/images/energy_report.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE]
     },
     {
       id: 10,
       value: 'Power Report',
       href: 'power-report',
       logo: 'assets/images/power_report_rms (1).png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, ]
     },
     {
       id: 11,
       value: 'Energy Billing Report',
       href: 'energy-billing-report',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE,]
     },
     {
       id: 12,
@@ -129,7 +129,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'DG Maintenace Alert',
       href: 'dg-maintenance-alert',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, ]
     },
 
     {
@@ -137,7 +137,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Settable Load',
       href: 'settable-load',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE]
+      roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, ]
     }
 
 
@@ -171,6 +171,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setMenuByRoleId();
+    this.setSubMenuByRoleId();
     this.listen();
     // Sort the menu items based on sortOrder
     this.sortMenuItems();
@@ -179,6 +180,34 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // ... OnDestroy logic ...
   }
+
+  setSubMenuByRoleId() {
+    let authToken: any = null;
+    if ((window as any).localStorage.getItem('authToken')) {
+      authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+    }
+
+    const reportsMenu = this.menu.find((item: any) => item.value === 'Reports');
+
+    if (reportsMenu && reportsMenu.subMenu) {
+      const initialSubMenuLength = reportsMenu.subMenu.length; // for logging
+
+      reportsMenu.subMenu = reportsMenu.subMenu.filter((subMenuItem: any) => {
+        return subMenuItem && subMenuItem.roleIds && subMenuItem.roleIds.includes && subMenuItem.roleIds.includes(authToken.roleId);
+      });
+
+      const filteredSubMenuLength = reportsMenu.subMenu.length; // for logging
+
+      if (filteredSubMenuLength === 0) {
+        delete reportsMenu.subMenu;
+        console.log(`Removed subMenu from Reports because all submenus were filtered out.`);
+      } else if (initialSubMenuLength !== filteredSubMenuLength) {
+        console.log(`Filtered submenus for Reports: ${initialSubMenuLength} -> ${filteredSubMenuLength}`);
+      }
+    }
+  }
+
+
 
   setMenuByRoleId() {
     let authToken: any = null;

@@ -1639,6 +1639,7 @@ return;
 
      this.initPieChart1(label, series, valueList);
     
+     
   }
 
   initPieChart1(label: any, series: any, valueList: any) {
@@ -1657,9 +1658,28 @@ return;
     let arrayList = valueList;
     let chart = new Chartist.Pie('#websiteViewsChart9', data, {
       labelInterpolationFnc: (value: any) => {
-        let sData = getSeriesData(value);
-        return Math.round(sData.value / arrayList.reduce(sum) * 100) + '%';
-      },
+        console.log("Calculating label interpolation for:", value);
+        
+        if (arrayList.length === 1) {
+            console.log("Only one data point. Displaying directly.");
+            return value + ': ' + series[0].value + '%';
+        } else {
+            let sData = getSeriesData(value);
+            let totalSum = arrayList.reduce(sum);
+    
+            if (totalSum === 0) {
+                console.log("Total count is 0. Displaying 0%.");
+                return '0%';
+            } else {
+                let percentage = Math.round(sData.value / totalSum * 100);
+                console.log("Calculating percentage:", percentage);
+                return percentage + '%';
+            }
+        }
+    },
+    
+
+    
       // showLabel: false,
       chartPadding: 30,
       labelOffset: 50,
