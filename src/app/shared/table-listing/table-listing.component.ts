@@ -656,7 +656,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.inifiniteScrollLocal = this.inifiniteScroll;
     this.onRowSelectionChangedDebouncer = debounce(this.onRowSelectionChanged, 100);
     this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 100;
-
+    
+    console.log("line 660",this.listingData);
     this.setLazyLoadBatchSize();
     this.uniqueId;
     this.timestamp = (new Date()).getTime();
@@ -735,6 +736,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
    */
   init() {
     if (!this.listData || !this.listData.columnHeader) {
+
       return;
     }
 
@@ -751,6 +753,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
 
     this.rpp = (this.listData.editable) ? this.rpp : false;
+
     this.draggable = (this.listData.editable) ? this.draggable : false;
 
     this.removeStatusTooltip();
@@ -875,6 +878,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     const fragment = this.$(document.createDocumentFragment());
 
     if (this.activeViewType === this.ViewType.LIST) {
+      console.log("line 880",this.listingData);
       const len = this.listingData.allItem.length - rows.length;
       rows.forEach((itemB: any, i: any) => {
         this.listingData.itemBody.push(itemB);

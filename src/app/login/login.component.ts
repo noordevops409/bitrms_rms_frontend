@@ -72,22 +72,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.isLogining) {
       return;
     }
+  
     let formData = this.loginForm.value;
     let param: any = {
       username: formData.email,
       password: formData.password
     };
+  
     this.isLogining = true;
     this.userService.login(param).subscribe((res?: any) => {
       this.isLogining = false;
-      if (res.message === 'invalid.username' || res.message === 'invalid.password' || res.status === 400) {
+  
+      if (res.status === 401 || res.status === 400) {
         // Handle invalid credentials scenario
-        if (res.message === 'invalid.username') {
-          this.loginForm.get('email')?.setErrors({ 'invalidUsername': true });
-          console.log()
-        } else if (res.message === 'invalid.password') {
-          this.loginForm.get('password')?.setErrors({ 'invalidPassword': true });
-        }
+        this.loginForm.setErrors({ 'invalidCredentials': true });
+  
+        // if (res.message === 'invalid.username') {
+        //   this.loginForm.get('email')?.setErrors({ 'invalidUsername': true });
+        // } else if (res.message === 'invalid.password') {
+        //   this.loginForm.get('password')?.setErrors({ 'invalidPassword': true });
+        // }
       } else {
         console.log("83", res.data);
         this.userService.setData(res.data);
@@ -103,4 +107,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
     });
   }
+  
 }

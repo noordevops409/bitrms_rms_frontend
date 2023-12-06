@@ -8,24 +8,21 @@
 
         <div class="form-group" style="margin-bottom: 0px;">
           <mat-form-field class="fullWidth form-field">
-            <mat-label class="label">Email Id *</mat-label>
+            <mat-label class="label">Email Id </mat-label>
             <input formControlName="email" class="input-full-width size-medium status-basic shape-rectangle nb-transition" matInput />
-            <mat-error *ngIf="lf.email.touched && lf.email.hasError('invalidUsername')">
-              <div class="italicAlign">Invalid username. Please try again.</div>
-            </mat-error>
           </mat-form-field>
         </div>
 
         <div class="form-group" style="margin-bottom: 0px;">
           <mat-form-field class="fullWidth form-field">
-            <mat-label class="label">Password *</mat-label>
+            <mat-label class="label">Password </mat-label>
             <input formControlName="password"
               class="input-full-width size-medium status-basic shape-rectangle nb-transition"
               type="password" matInput />
-            <mat-error *ngIf="lf.password.touched && lf.password.hasError('invalidPassword')">
-              <div class="italicAlign">Invalid password. Please try again.</div>
-            </mat-error>
           </mat-form-field>
+          <mat-error *ngIf="loginForm.hasError('invalidCredentials') ">
+            <div class="italicAlign">Invalid username or password. Please try again.</div>
+          </mat-error>
         </div>
 
         <div class="footer" style="padding: 15px 0px 50px 0px;">
