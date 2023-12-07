@@ -58,7 +58,7 @@ export class ListingApiService {
   }
 
   viewAlarmCategory(data: any) {
-    this.router.navigate(['pages', 'dashboard', 'alarm-status', data.smSiteCode]);
+    this.router.navigate(['pages', 'dashboard', 'alarm-status', data.smSiteCode,]);
   }
 
   viewHourlyReport(data: any) {

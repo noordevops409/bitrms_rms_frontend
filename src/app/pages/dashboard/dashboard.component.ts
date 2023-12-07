@@ -509,6 +509,9 @@ return;
 
   loadAllData(evt, type) {
     evt.preventDefault();
+    // this.util.setDashboardChartFilter({
+    //   groupBy: type,
+    // });
     this.router.navigate(['pages', 'dashboard', 'type', '' + type]);
   }
 

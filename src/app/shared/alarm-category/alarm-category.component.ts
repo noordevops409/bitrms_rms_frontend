@@ -365,9 +365,12 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     this.initFilterParam();
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
+      this.filterParam.date=null;
     } else {
       this.filterParam.siteId = ["All"];
     }
+    console.log("urllll",window.location.href);
+
   }
 
   loadData() {
