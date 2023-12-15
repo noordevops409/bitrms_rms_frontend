@@ -87,6 +87,16 @@ export class TeePowerFilterComponent implements OnInit {
   }
 
   reset(evt?: any) {
+   
+    var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;
+
+    if (closeButton) {
+      closeButton.click();
+    } else {
+      console.log('Button not found');
+    }
+    
+    
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
       this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
     if (this.filterType === 1) {

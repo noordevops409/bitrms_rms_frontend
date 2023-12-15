@@ -5,8 +5,9 @@
                 <div class="form-field col-3">
                     <label for="selectSiteName" class="label">Select Site Name</label>
                     <select formControlName="selSiteId" name="selSiteId" class="input-element mini">
-                        <option *ngFor="let c of siteList" [ngValue]="c">{{c.smSitecode}}</option>
-                    </select>
+                        <option *ngFor="let c of siteList" [ngValue]="c.smSitecode">{{c.smSitecode}}</option>
+                      </select>
+                      
                 </div>
 
                 <mat-form-field class="form-field col-3" appearance="fill">

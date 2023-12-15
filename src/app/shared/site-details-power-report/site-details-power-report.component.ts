@@ -234,6 +234,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
 
   ngOnInit(): void {
     // this.filterParam.siteId.push(this.siteId);
+   
     this.initForm();
     this.loadSiteList();
     this.setDefaultFilter();
@@ -272,8 +273,13 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.siteMasterList && res.siteMasterList.length) {
         this.siteList = res.siteMasterList;
-        this.masterForm.controls['selSiteId'].setValue(res.siteMasterList[0]);
+        const matchingSite = res.siteMasterList.find(site => site.smSitecode === this.siteId);
+       
+        if (matchingSite) {
+          this.masterForm.controls['selSiteId'].setValue(matchingSite.smSitecode);
+        }
       }
+      
     }, (err) => {
       this.util.notification.error({
         title: 'Error',

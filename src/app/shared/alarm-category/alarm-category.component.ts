@@ -301,9 +301,9 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+   //  let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
     // let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-    // this.filterParam.date = `${startDate} - ${endDate}`;
+   //  this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
     this.init();
     this.listen();
   }
@@ -339,7 +339,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       "customers": ['All'],
       "engineer": ['All'],
       "siteType": ["All"],
-      "date": `${startDate} - ${endDate}`,
+      "date": `${startDate} 00:00:00 - ${endDate} 23:59:00`,
       "alarmStatus": ["All"],
       "siteStatus": ['All'],
       "all": "ALL",
