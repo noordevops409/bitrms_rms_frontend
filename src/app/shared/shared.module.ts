@@ -42,6 +42,7 @@ import { AlarmCategoryComponent } from './alarm-category/alarm-category.componen
 import { EnergyReportComponent } from './energy-report/energy-report.component';
 import { SiteDetailsPowerReportComponent } from './site-details-power-report/site-details-power-report.component';
 import { AlertsTableComponent } from './alarm-category/alerts-table/alerts-table.component';
+import { ExportDialogComponentComponent } from './export-dialog-component/export-dialog-component.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -84,7 +85,9 @@ export const MY_MOMENT_FORMATS = {
     EnergyReportComponent,
     MaxDateRangeDirective,
     SiteDetailsPowerReportComponent,
-    AlertsTableComponent
+    AlertsTableComponent,
+    ExportDialogComponentComponent,
+    
   ],
   imports: [
     CommonModule,

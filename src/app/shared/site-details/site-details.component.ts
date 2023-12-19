@@ -1,4 +1,4 @@
-import { Inject, Component, OnInit, OnDestroy } from '@angular/core';
+import { Inject, Component, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
@@ -266,61 +266,7 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
       },
       component: 'app-sd-event'
     },
-    {
-      displayName: { name: 'Fuel Consumption' },
-      type: 10,
-      position: 10,
-      id: "nav-fuel-consumption",
-      apiUrl: ApiConstant.getSiteFuelConsumptionReport,
-      param: {
-        tabId: "nav-fuel-consumption",
-        siteId: "",
-        startDate: "",
-        endDate: "",
-        dateMonth: "",
-        dateYear: ""
-      },
-      component: 'app-sd-fuel-consumption'
-    },
-    {
-      displayName: { name: 'No Load Outage' },
-      type: 11,
-      position: 11,
-      id: "nav-load-outage",
-      apiUrl: ApiConstant.getSiteNoLoadOutageReport,
-      param: {
-        tabId: "nav-load-outage",
-        siteId: "",
-        startDate: "",
-        endDate: "",
-        dateMonth: "",
-        dateYear: ""
-      },
-      component: 'app-sd-no-load-outage'
-    },
-    {
-      displayName: { name: 'Remote' },
-      type: 12,
-      position: 12,
-      id: "nav-remote-tab",
-      apiUrl: ApiConstant.getSiteGetRemoteData,
-      param: {
-        tabId: "nav-remote-tab",
-        siteId: "",
-        series2: "",
-        series3: "",
-        series4: "",
-        series5: "",
-        series6: "",
-        series7: "",
-        reportType: "",
-        startDate: "",
-        endDate: "",
-        dateMonth: "",
-        dateYear: ""
-      },
-      component: 'app-sd-remote'
-    }
+    
   ];
 
   public siteData: any = null;
@@ -331,7 +277,8 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
     private broadcast: BroadcastService,
     private httpClient: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2, private el: ElementRef,
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.siteId = paramMap.get('siteId');
@@ -345,6 +292,26 @@ export class SiteDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
   }
+  ngAfterViewInit(): void {
+    const tabElement = this.el.nativeElement.querySelector('#mat-tab-label-0-0') ;
+    // if (tabElement) {
+    //   this.renderer.selectRootElement(tabElement).click();
+    // }
+  
+    // const spanElement = document.createElement('span');
+    // spanElement.className = 'tab-text';
+    // spanElement.style.color = 'rgba(255, 255, 255, 0.6)';
+    // spanElement.style.paddingTop = '6px';
+
+    // spanElement.textContent = 'Summary'; 
+
+    
+    //tabElement.appendChild(spanElement);
+    if (tabElement.closest('.mat-mdc-tab-group-stretch-tabs')) {
+      tabElement.style.flexGrow = '0.09';
+    }
+  }
+  
 
   init() {
     this.loadSummary();

@@ -1,0 +1,24 @@
+.custom-dialog {
+    max-width: fit-content;
+    width: auto;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+  }
+  
+  :host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

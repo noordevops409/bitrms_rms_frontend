@@ -30,20 +30,20 @@
         <div class="tab-container">
             <!-- Tab starts -->
             <mat-tab-group (selectedTabChange)="tabChanged($event);" [selectedIndex]="selTabIndex">
-                <mat-tab *ngFor="let tab of tabs" [label]="tab?.displayName?.name">
-                    <ng-template matTabContent>
+                <mat-tab *ngFor="let tab of tabs" [label]="tab?.displayName?.name" [class.summer-tab]="tab?.component === 'app-sd-summary-listing'">                   
+                     <ng-template matTabContent>
                         <app-sd-summary-listing [data]="siteData"
                             *ngIf="tab?.component === 'app-sd-summary-listing'"></app-sd-summary-listing>
                         <app-sd-energy-listing [tabData]="selTabData" [smSiteCode]="siteId"
                             *ngIf="tab?.component === 'app-sd-energy-listing'"></app-sd-energy-listing>
                         <app-sd-event [tabData]="selTabData" [smSiteCode]="siteId"
                             *ngIf="tab?.component === 'app-sd-event'"></app-sd-event>
-                        <app-sd-fuel-consumption [tabData]="selTabData" [smSiteCode]="siteId"
-                            *ngIf="tab?.component === 'app-sd-fuel-consumption'"></app-sd-fuel-consumption>
+                        <!-- <app-sd-fuel-consumption [tabData]="selTabData" [smSiteCode]="siteId"
+                            *ngIf="tab?.component === 'app-sd-fuel-consumption'"></app-sd-fuel-consumption> -->
                         <app-site-details-power-report [tabData]="selTabData" [smSiteCode]="siteId"
                             *ngIf="tab?.component === 'app-site-details-power-report'"></app-site-details-power-report>
-                        <app-sd-no-load-outage [tabData]="selTabData" [smSiteCode]="siteId"
-                            *ngIf="tab?.component === 'app-sd-no-load-outage'"></app-sd-no-load-outage>
+                        <!-- <app-sd-no-load-outage [tabData]="selTabData" [smSiteCode]="siteId"
+                            *ngIf="tab?.component === 'app-sd-no-load-outage'"></app-sd-no-load-outage> -->
                         <!-- <app-sd-remote [type]="tab.type" *ngIf="tab?.component === 'app-sd-remote'"></app-sd-remote> -->
                     </ng-template>
                 </mat-tab>

@@ -20,7 +20,7 @@ export class HybridPowerFilterComponent implements OnInit {
   public siteType: any = [
     {
       isChecked: false,
-      text: ''
+      text: 'All'
     },
     {
       isChecked: false,
@@ -86,27 +86,19 @@ export class HybridPowerFilterComponent implements OnInit {
   }
 
   reset(evt?: any) {
-    var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;
-
-    if (closeButton) {
+    var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;    if (closeButton) {
       closeButton.click();
     } else {
       console.log('Button not found');
     }
-    
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
-      this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
-    if (this.filterType === 1) {
-      this.isReqToOpenFilter = false;
-      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
-    } else if (this.filterType === 2) {
-      this.isOpenTabularFilter = false;
-      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
-    }
-    this.onFilter.emit(null);
-  }
+    this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
 
-  applyFilter(evt?: any) {
+    const formattedStartDate = moment(this.range.controls['start'].value).format('YYYY/MM/DD');
+    const formattedEndDate = moment(this.range.controls['end'].value).format('YYYY/MM/DD');
+    this.reqSiteIdObj.startDate = formattedStartDate;
+    this.reqSiteIdObj.endDate = formattedEndDate;
+
     if (this.filterType === 1) {
       this.isReqToOpenFilter = false;
       this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
@@ -114,9 +106,27 @@ export class HybridPowerFilterComponent implements OnInit {
       this.isOpenTabularFilter = false;
       this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
     }
+    this.siteType.forEach(item => {
+      item.isChecked = item.text === '';
+    });
     this.defaultFilterList.push(this.siteType);
     this.defaultFilterList.push(this.reqSiteIdObj);
     this.onFilter.emit(this.defaultFilterList);
+  }
+
+  applyFilter(evt?: any) {
+    setTimeout(() => {
+      if (this.filterType === 1) {
+        this.isReqToOpenFilter = false;
+        this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+      } else if (this.filterType === 2) {
+        this.isOpenTabularFilter = false;
+        this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+      }
+      this.defaultFilterList.push(this.siteType);
+      this.defaultFilterList.push(this.reqSiteIdObj);
+      this.onFilter.emit(this.defaultFilterList);
+    }, 500);
   }
 
   applyTabularFilter(evt?: any) {

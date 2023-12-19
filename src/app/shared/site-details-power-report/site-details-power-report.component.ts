@@ -53,6 +53,9 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
   public selTabIndex: any = 0;
   public selTabData: any = null;
   public masterForm!: FormGroup;
+  public labelGlobal: any = [];
+  public selectedSiteIdForChart2: string | null = "MDT20352A";
+
 
   public isReqToOpenFilter: boolean = false;
   public isOpenTabularFilter: boolean = false;
@@ -170,16 +173,16 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
     siteId: [],
     siteType: [],
     deviceType: [],
-    startDate: "2020/01/01",
-    endDate: "2020/01/01"
+    startDate: moment().add(-2, 'days').format('YYYY/MM/DD'),
+    endDate: moment().add(-1, 'days').format('YYYY/MM/DD')
   };
 
   private filterParam1: any = {
     siteId: [],
     siteType: [],
     deviceType: [],
-    startDate: "2020/01/01",
-    endDate: "2020/01/01"
+    startDate: moment().add(-2, 'days').format('YYYY/MM/DD'),
+    endDate: moment().add(-1, 'days').format('YYYY/MM/DD')
   };
 
   public lineChartData1: ChartConfiguration<'line'>['data'] = {
@@ -226,6 +229,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
+
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.siteId = paramMap.get('siteId');
@@ -234,7 +238,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
 
   ngOnInit(): void {
     // this.filterParam.siteId.push(this.siteId);
-   
+
     this.initForm();
     this.loadSiteList();
     this.setDefaultFilter();
@@ -273,13 +277,8 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.siteMasterList && res.siteMasterList.length) {
         this.siteList = res.siteMasterList;
-        const matchingSite = res.siteMasterList.find(site => site.smSitecode === this.siteId);
-       
-        if (matchingSite) {
-          this.masterForm.controls['selSiteId'].setValue(matchingSite.smSitecode);
-        }
+        this.masterForm.controls['selSiteId'].setValue(res.siteMasterList[0]);
       }
-      
     }, (err) => {
       this.util.notification.error({
         title: 'Error',
@@ -291,6 +290,7 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
   setDefaultFilter() {
     if (this.siteId) {
       this.filterParam.siteId = [this.siteId];
+      this.filterParam1.siteId = ["MDT20352A"];
     } else {
       this.filterParam.siteId = ["SGT31055A"];
     }
@@ -302,6 +302,8 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
     }
     this.isChartLoading = true;
     this.httpClient.post(ApiConstant.getPowerReport, this.filterParam).subscribe((res: any) => {
+
+      this.labelGlobal = res.labels;
       this.isChartLoading = false;
       for (let item of res.dataSets) {
         item.label = item.label.replace(" Energy", " Power");
@@ -322,21 +324,72 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
       return;
     }
     this.isChartLoading1 = true;
+
     this.httpClient.post(ApiConstant.getPowerReport, this.filterParam1).subscribe((res: any) => {
       this.isChartLoading1 = false;
+
+      // Check if labels array is empty or null
+      if (res.labels.length === 0) {
+        // Use start and end dates from the payload
+        const startDate = new Date(this.filterParam1.startDate.replace(/\//g, '-')); // Convert "/" to "-"
+        const endDate = new Date(this.filterParam1.endDate.replace(/\//g, '-')); // Convert "/" to "-"
+
+        // Generate labels based on startDate and endDate
+        res.labels = generateLabels(startDate, endDate);
+
+        // Iterate through dataSets and set each data array to [0.0] if empty or with 0.0 for each label
+        for (let dataSet of res.dataSets) {
+          if (!dataSet.data || dataSet.data.length === 0) {
+            dataSet.data = Array(res.labels.length).fill(0.0);
+          } else if (dataSet.data.length < res.labels.length) {
+            // If data array is shorter, fill the remaining elements with 0.0
+            dataSet.data = dataSet.data.concat(Array(res.labels.length - dataSet.data.length).fill(0.0));
+          }
+        }
+      }
+
+      // Update other properties as needed
       for (let item of res.dataSets) {
         item.label = item.label.replace(" Energy", " Power");
       }
       res.datasets = res.dataSets;
       this.lineChartData1 = res;
+
+      // Print labels array and data arrays
+      console.log('Labels:', res.labels);
+      console.log('Data Arrays:', res.dataSets.map(dataSet => dataSet.data));
+
     }, (err) => {
       this.isChartLoading1 = false;
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading power report!'
-      })
+      });
     });
+
+    // Function to generate labels based on start and end dates
+    // Function to generate labels based on start and end dates
+    function generateLabels(startDate: Date, endDate: Date): string[] {
+      const labels: string[] = [];
+      const uniqueDates = new Set();
+
+      let currentDate = new Date(startDate);
+
+      // Generate one label per day
+      while (currentDate <= endDate) {
+        const currentLabelDate = currentDate.toISOString().slice(0, 10);
+        labels.push(currentLabelDate + " 00:00:00");
+
+        currentDate.setHours(currentDate.getHours() + 24); // Move to the next day
+      }
+
+      return labels;
+    }
+
   }
+
+
+
 
   openTabularFilter(evt?: any) {
     this.isOpenTabularFilter = !this.isOpenTabularFilter;
@@ -357,8 +410,8 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
       "endDate": moment().add(-1, "days").format('YYYY-MM-DD')
     };
 
-    this.filterParam = {
-      "siteId": [],
+    this.filterParam1 = {
+      "siteId": ["MDT20352A"],
       "deviceType": [],
       "siteType": [],
       "startDate": moment().add(-1, "days").format('YYYY-MM-DD'),
@@ -369,7 +422,9 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
   }
 
   fetch(evt?: any) {
+
     const formData = this.masterForm.value;
+    this.selectedSiteIdForChart2 = this.masterForm.get('selSiteId')?.value?.smSitecode;
     this.filterParam = {
       "siteId": [this.siteId],
       "deviceType": [],

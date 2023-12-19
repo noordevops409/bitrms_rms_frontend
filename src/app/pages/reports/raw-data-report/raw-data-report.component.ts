@@ -14,6 +14,10 @@ import * as moment from 'moment';
 import { reject } from 'lodash';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { ExportDialogComponentComponent } from 'src/app/shared/export-dialog-component/export-dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
+import { takeUntil } from 'rxjs/operators';
+
 
 
 
@@ -153,7 +157,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       isDynamic: true,
       isOpen: false,
       isReqRemove: false,
-     // isDisableMultipeSelection: true,
+      // isDisableMultipeSelection: true,
       xhrMethod: 'GET',
       xhrUrl: ApiConstant.getSiteCode,
       xhrParam: [],
@@ -228,7 +232,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private dialog: MatDialog
   ) {
 
   }
@@ -293,7 +298,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         return;
       }
 
-      
+
 
       this.isLoading = true;
       let apiUrl: any = ApiConstant.getRawDataReport + `/${this.currentPageNo}/size/${this.pageSize}`;
@@ -307,7 +312,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.tableListingComponent.init();
             });
-            resolve(res.data); 
+            resolve(res.data);
           }
         },
         (err) => {
@@ -318,7 +323,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
             title: 'Error',
             msg: 'Error while loading Raw Data Report details!'
           });
-          reject("Error while loading data: " + err); 
+          reject("Error while loading data: " + err);
         }
       );
     });
@@ -326,7 +331,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
 
   manipulate(res) {
-    
+
     this.setResponse(res);
     this.setColumnHeader(res.data);
     this.setRowData(res.data);
@@ -349,7 +354,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      
+
       for (let key in rowData) {
         if (RAW_DATA_REPORT_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(RAW_DATA_REPORT_COLUMN_HEADER[key]);
@@ -482,7 +487,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       this.isMultipleRowSelected = data.length > 1;
       this.multipleSelRow = data;
       if (this.isMultipleRowSelected) {
-        
+
       } else {
         this.selectedRow = data;
       }
@@ -509,15 +514,15 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   exportTableToExcel(type: string): void {
-    
+
     let element = document.getElementById('export-data');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-    
+
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    
+
     XLSX.writeFile(wb, `raw-data-report.${type}`);
 
   }
@@ -551,6 +556,12 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       let apiUrl: string = ApiConstant.getRawDataReportExcel;
 
       this.isDownloading = true;
+
+      const dialogRef = this.dialog.open(ExportDialogComponentComponent, {
+        disableClose: true,
+        panelClass: 'custom-dialog',
+      });
+
       this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
         (response: ArrayBuffer) => {
           const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -558,91 +569,96 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'excel_data.xlsx'; 
+          a.download = 'excel_data.xlsx';
           a.click();
+
+          dialogRef.close(); // Close the dialog after the download is initiated
           this.isDownloading = false;
           URL.revokeObjectURL(url);
+
+          resolve(); // Resolve the promise when the download is complete
         },
         (error: any) => {
           console.error('Error exporting Excel data:', error);
-          
+          dialogRef.close(); // Close the dialog in case of an error
           this.isDownloading = false;
+          reject(error); // Reject the promise with the error
         }
       );
     });
-
   }
+
 
   exportCsvApi(evt: any) {
     return new Promise((resolve, reject) => {
       let apiUrl: string = ApiConstant.getRawDataReportCsv;
 
-    this.isDownloading = true;
-    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
-      (response: string) => {
-        const blob = new Blob([response], { type: 'application/vnd.ms-excel' })
+      this.isDownloading = true;
+      this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+        (response: string) => {
+          const blob = new Blob([response], { type: 'application/vnd.ms-excel' })
 
-        const url = URL.createObjectURL(blob);
+          const url = URL.createObjectURL(blob);
 
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'csv_data.csv'; 
-        a.click();
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'csv_data.csv';
+          a.click();
 
-        this.isDownloading = false;
-        URL.revokeObjectURL(url);
-      },
-      (error: any) => {
-        console.error('Error exporting CSV data:', error);
-        this.isDownloading = false;
-      }
-    );
-  });
+          this.isDownloading = false;
+          URL.revokeObjectURL(url);
+        },
+        (error: any) => {
+          console.error('Error exporting CSV data:', error);
+          this.isDownloading = false;
+        }
+      );
+    });
   }
 
   dropboxReportExcel11(evt?: any) {
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
-  this.isDownloading = true;
-  this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
-    (response: any) => {
-      console.log('API call successful:', response);
+    this.isDownloading = true;
+    this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
+      (response: any) => {
+        console.log('API call successful:', response);
 
-      const currentDate = new Date();
-      const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, '');
-      const filename = `raw_data_export_${formattedDate}.csv`;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, '');
+        const filename = `raw_data_export_${formattedDate}.csv`;
 
-      // Create a data URI for the CSV content
-      const dataURI = `data:text/csv;charset=utf-8,${encodeURIComponent(response)}`;
+        // Create a data URI for the CSV content
+        const dataURI = `data:text/csv;charset=utf-8,${encodeURIComponent(response)}`;
 
-      
 
-      this.util.notification.success({
-        title: 'Success',
-        msg: 'CSV Downloaded Successfully'
-      });
-      this.isDownloading = false;
 
-    },
-    (error) => {
-      console.error('API call failed:', error);
-      this.util.notification.warn({
-        title: 'Warning',
-        msg: 'Failed to Download CSV'
-      });
-      this.isDownloading = false;
-    }
-  );
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'CSV Downloaded Successfully'
+        });
+        this.isDownloading = false;
+
+      },
+      (error) => {
+        console.error('API call failed:', error);
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Failed to Download CSV'
+        });
+        this.isDownloading = false;
+      }
+    );
   }
-  
+
   dropboxReport(format: string, evt?: any) {
-    console.log("format",format);
+    console.log("format", format);
     if (format === '-1') {
       this.util.notification.error({
         title: 'Error',
         msg: 'Please Select Export Format'
       });
       return;
-  }
+    }
     let apiUrl: string = ApiConstant.getRawDataReportExportRawRequest;
 
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
@@ -651,8 +667,8 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
         let mimeType: string;
         let fileExtension: string;
-       
-       if (format === 'csv') {
+
+        if (format === 'csv') {
           mimeType = 'text/csv';
           fileExtension = 'csv';
         } else if (format === 'excel') {
@@ -665,19 +681,19 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
         const blob = new Blob([response], { type: mimeType });
         const currentDate = new Date();
-        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, ''); 
+        const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, '');
 
         const filename = `raw_data_export_${formattedDate}.${fileExtension}`;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = filename; 
+        a.download = filename;
         document.body.appendChild(a);
 
-        
+
         a.click();
 
-        
+
         window.URL.revokeObjectURL(url);
 
         this.util.notification.success({
@@ -686,7 +702,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         });
       },
       (error) => {
-        
+
         console.error('API call failed:', error);
 
         this.util.notification.warn({
@@ -695,112 +711,129 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         });
       }
     );
-}
+  }
 
-    dropboxReportLink(evt?: any) {
-      let apiUrl: string = ApiConstant.getRawDataReportDropboxLink;
-      
-      this.httpClient.get(apiUrl).subscribe(
-        (response: any) => {
-          
-          console.log('API call successful:', response);
-          this.dropboxLink = response.data.dropboxlink;
-          console.log("line 657",this.dropboxLink)
+  dropboxReportLink(evt?: any) {
+    let apiUrl: string = ApiConstant.getRawDataReportDropboxLink;
 
-          
-          const dropboxLinkElement = document.getElementById('dropboxLink') as HTMLAnchorElement;
-          
-        },
-        (error) => {
-         
-          console.error('API call error:', error);
-        }
-      );
-    }
-    goToLink() {
-      window.open(this.dropboxLink, '_blank');
-    }
-   
+    this.httpClient.get(apiUrl).subscribe(
+      (response: any) => {
+
+        console.log('API call successful:', response);
+        this.dropboxLink = response.data.dropboxlink;
+        console.log("line 657", this.dropboxLink)
+
+
+        const dropboxLinkElement = document.getElementById('dropboxLink') as HTMLAnchorElement;
+
+      },
+      (error) => {
+
+        console.error('API call error:', error);
+      }
+    );
+  }
+  goToLink() {
+    window.open(this.dropboxLink, '_blank');
+  }
+
   dropboxReportExcel(evt?: any): void {
-  let apiUrl2=ApiConstant.getRawDataReportExportRawRequest;
-  const requestBody = this.filterParam;
-  this.isDownloading = true;
-  this.httpClient.post(apiUrl2, requestBody, {
-    responseType: 'blob'
-  }).subscribe(
-    (response: Blob) => {
-      const blob = new Blob([response], { type: 'application/octet-stream' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'downloaded_file.csv'; // Specify the desired file name
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      this.util.notification.success({
-        title: 'Success',
-        msg: 'CSV Downloaded Successfully'
-      });
-      this.isDownloading = false;
-    },
-    error => {
-      console.error('Error downloading file:', error);
-      this.util.notification.warn({
-        title: 'Warning',
-        msg: 'Failed to Download CSV'
-      });
-      // Handle error if needed
-      this.isDownloading = false;
+    let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
+    const requestBody = this.filterParam;
+    this.isDownloading = true;
 
-    }
-  );
-}
-// dropboxReportExcel(evt?: any): void {
-//   let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
-//   const requestBody = this.filterParam;
-//   this.isDownloading = true;
+    const dialogRef = this.dialog.open(ExportDialogComponentComponent, {
+      disableClose: true,
+      panelClass: 'custom-dialog',
+    });
 
-//   // Get the current date and time
-//   const currentDate = new Date();
-//   const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..*$/, ''); // Format as YYYY-MM-DDTHH-MM-SS
+    dialogRef.componentInstance.isDownloading = this.isDownloading;
 
-//   // Get the time in the format HH-MM-SS
-//   const time = `${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
+    dialogRef.componentInstance.cancelExport.subscribe(() => {
+      console.log('Export canceled');
+      this.isDownloading = false; // Update isDownloading state if canceled
+    });
 
-//   // Modify the file name to include the date and time
-//   const fileName = `raw_data_export_${formattedDate}_${time}.csv`;
+    this.httpClient.post(apiUrl2, requestBody, {
+      responseType: 'blob'
+    }).pipe(
+      takeUntil(dialogRef.componentInstance.destroy$) 
+    ).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'downloaded_file.csv';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'CSV Downloaded Successfully'
+        });
+        dialogRef.close();
+        this.isDownloading = false;
+      },
+      error => {
+        console.error('Error downloading file:', error);
+        this.util.notification.warn({
+          title: 'Warning',
+          msg: 'Failed to Download CSV'
+        });
+        dialogRef.close();
+        this.isDownloading = false;
 
-//   this.httpClient.post(apiUrl2, requestBody, {
-//     responseType: 'blob'
-//   }).subscribe(
-//     (response: Blob) => {
-//       const blob = new Blob([response], { type: 'application/octet-stream' });
-//       const url = window.URL.createObjectURL(blob);
-//       const a = document.createElement('a');
-//       a.href = url;
-//       a.download = fileName; // Use the generated file name
-//       document.body.appendChild(a);
-//       a.click();
-//       window.URL.revokeObjectURL(url);
-//       document.body.removeChild(a);
-//       this.util.notification.success({
-//         title: 'Success',
-//         msg: 'CSV Downloaded Successfully'
-//       });
-//       this.isDownloading = false;
-//     },
-//     error => {
-//       console.error('Error downloading file:', error);
-//       this.util.notification.warn({
-//         title: 'Warning',
-//         msg: 'Failed to Download CSV'
-//       });
-//       // Handle error if needed
-//       this.isDownloading = false;
-//     }
-//   );
-// }
+      }
+    );
+  }
 
-  
+  // dropboxReportExcel(evt?: any): void {
+  //   let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
+  //   const requestBody = this.filterParam;
+  //   this.isDownloading = true;
+
+  //   // Get the current date and time
+  //   const currentDate = new Date();
+  //   const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..*$/, ''); // Format as YYYY-MM-DDTHH-MM-SS
+
+  //   // Get the time in the format HH-MM-SS
+  //   const time = `${currentDate.getHours()}-${currentDate.getMinutes()}-${currentDate.getSeconds()}`;
+
+  //   // Modify the file name to include the date and time
+  //   const fileName = `raw_data_export_${formattedDate}_${time}.csv`;
+
+  //   this.httpClient.post(apiUrl2, requestBody, {
+  //     responseType: 'blob'
+  //   }).subscribe(
+  //     (response: Blob) => {
+  //       const blob = new Blob([response], { type: 'application/octet-stream' });
+  //       const url = window.URL.createObjectURL(blob);
+  //       const a = document.createElement('a');
+  //       a.href = url;
+  //       a.download = fileName; // Use the generated file name
+  //       document.body.appendChild(a);
+  //       a.click();
+  //       window.URL.revokeObjectURL(url);
+  //       document.body.removeChild(a);
+  //       this.util.notification.success({
+  //         title: 'Success',
+  //         msg: 'CSV Downloaded Successfully'
+  //       });
+  //       this.isDownloading = false;
+  //     },
+  //     error => {
+  //       console.error('Error downloading file:', error);
+  //       this.util.notification.warn({
+  //         title: 'Warning',
+  //         msg: 'Failed to Download CSV'
+  //       });
+  //       // Handle error if needed
+  //       this.isDownloading = false;
+  //     }
+  //   );
+  // }
+
+
 }
