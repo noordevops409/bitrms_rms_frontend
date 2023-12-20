@@ -62,7 +62,7 @@ export class ListingApiService {
   }
 
   viewHourlyReport(data: any) {
-    this.router.navigate(['pages', 'dashboard', 'hourly-report', data.smSiteCode]);
+    this.router.navigate(['pages', 'dashboard', 'raw-data-report', data.smSiteCode]);
   }
 
   viewImagePath(data?: any) {

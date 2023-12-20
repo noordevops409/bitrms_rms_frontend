@@ -9,6 +9,7 @@ import { AlarmCategoryComponent } from '../../shared/alarm-category/alarm-catego
 import { EnergyReportComponent } from '../../shared/energy-report/energy-report.component';
 import { AlertsTableComponent } from 'src/app/shared/alarm-category/alerts-table/alerts-table.component';
 import { AppConstant } from '../../shared/app-constant.enum';
+import { RawDataReportComponent } from '../reports/raw-data-report/raw-data-report.component';
 
 const routes: Routes = [
   { path: '', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] }, component: DashboardComponent },
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'alarm-status/alerts-Tables/:type', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] }, component: AlertsTableComponent },
   // { path: 'alarm-status', component: AlarmCategoryComponent },
   { path: 'hourly-report/:siteId', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] }, component: EnergyReportComponent },
+  { path: 'raw-data-report/:siteId', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE,AppConstant.ROUTE_ROLE_ID.TEE_ROLE] }, component: RawDataReportComponent },
+
   // { path: 'hourly-report', component: HourlyReportComponent }
 ];
 

@@ -17,6 +17,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ExportDialogComponentComponent } from 'src/app/shared/export-dialog-component/export-dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -228,12 +229,13 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     "start": this.recordStartFrom,
     "zones": ["All"]
   };
+  siteIdFil: any;
 
   constructor(
     private util: CommonUtilService,
     private broadcast: BroadcastService,
     private httpClient: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog, private route: ActivatedRoute
   ) {
 
   }
@@ -243,11 +245,70 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
-    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
-    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
-    this.init();
+    this.route.params.subscribe(params => {
+      this.siteIdFil = params['siteId'];
+      console.log('Site ID:', this.siteIdFil);
+
+      console.log("252",this.defaultFilterList);
+
+      let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
+      let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+      this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+
+      this.init();
+      if (this.siteIdFil && this.siteIdFil.trim() !== '') {
+        this.setSiteIdFilter();
+      }    });
   }
+ 
+  setSiteIdFilter() {
+    
+    const newSiteIdFilter = {
+      "id": "FMF04",
+      "fieldName": "siteId",
+      "indexField": "siteId",
+      "labelName": "Site Id",
+      "dataType": "Dropdown",
+      "popupTo": {
+        "recordBatchSize": 25,
+        "data": [
+          {
+            "dataCenterId": 0,
+            "id": this.siteIdFil,
+            "imgId": -1,
+            "isActive": true,
+            "isSelected": true,
+            "value": this.siteIdFil
+          }
+        ]
+      },
+      "listingColumnFieldName": "siteId",
+      "data": [],
+      "isDataLoaded": false,
+      "isDynamic": true,
+      "isOpen": false,
+      "isReqRemove": false,
+      "xhrMethod": "GET",
+      "xhrUrl": "https://rmsnew.yomamicropowerservice.com:8443/digitrinity-rest-services_prod/api/dashboard/site-code-master",
+      "xhrParam": [],
+      "isReqManipulate": true,
+      "isAllDataLoaded": true,
+      "maniObj": {
+        "id": "code",
+        "value": "code"
+      },
+      "hasValue": true
+    };
+
+    const siteIdFilterIndex = this.defaultFilterList.findIndex(filter => filter.fieldName === 'siteId');
+
+    if (siteIdFilterIndex !== -1) {
+      // Replace the entire content of the siteId filter with the new data
+      this.defaultFilterList[siteIdFilterIndex] = newSiteIdFilter;
+    }
+  }
+    
+  
 
   ngOnDestroy() {
 
@@ -298,6 +359,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         return;
       }
 
+      console.log("323",this.defaultFilterList);
 
 
       this.isLoading = true;
@@ -327,6 +389,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         }
       );
     });
+    
   }
 
 

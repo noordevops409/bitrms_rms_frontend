@@ -24,7 +24,9 @@
     <div class="table-listing">
         <div class="box">
             <div class="box-title">
-                <h4>Power Report</h4>
+                <h4>
+                    {{ this.filterParam.siteId == 'All' ? 'Power Report' : 'Power Report of ' + this.filterParam.siteId }}
+                </h4>
             </div>
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">

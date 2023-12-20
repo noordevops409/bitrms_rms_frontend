@@ -39,7 +39,7 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
     SharedModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
-    NgxMatMomentModule
+    NgxMatMomentModule,
   ],
   exports: [
     RawFilterComponent

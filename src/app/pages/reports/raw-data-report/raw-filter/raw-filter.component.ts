@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import { UserService } from '../../../../shared/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ExportDialogComponentComponent } from 'src/app/shared/export-dialog-component/export-dialog-component.component';
+import { initDayOfMonth } from 'ngx-bootstrap/chronos/units/day-of-month';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-raw-filter',
@@ -11,6 +13,8 @@ import { ExportDialogComponentComponent } from 'src/app/shared/export-dialog-com
   styleUrls: ['./raw-filter.component.scss']
 })
 export class RawFilterComponent implements OnInit {
+  siteId: any;
+  siteIdFil: any;
 onFilterChange($event: any) {
 throw new Error('Method not implemented.');
 }
@@ -45,14 +49,25 @@ throw new Error('Method not implemented.');
 
   constructor(
     private userService: UserService,
-  
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    this.setSiteType();
-    this.setDateRange();
-  }
 
+
+  ngOnInit(): void {
+    
+      this.setSiteType();
+      this.setDateRange();
+      this.route.params.subscribe(params => {
+        this.siteIdFil = params['siteId'];
+        console.log('Site ID:', this.siteIdFil);
+      if (this.siteIdFil && this.siteIdFil.trim() !== '') {
+        this.applyFilter();
+      } 
+    });
+  }
+  
+  
   setMaxDateRange() {
     let authToken: any = this.userService.getAuthToken();
     if (authToken && authToken.roleId == '1') {
@@ -127,8 +142,9 @@ throw new Error('Method not implemented.');
         this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
       }
       if (this.startTime && this.endTime) {
-        // Your existing logic
+        
       }
+      
       this.defaultFilterList.push(this.siteType);
       this.defaultFilterList.push(this.reqSiteIdObj);
       this.onFilter.emit(this.defaultFilterList);
