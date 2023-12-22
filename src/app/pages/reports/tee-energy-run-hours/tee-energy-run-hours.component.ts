@@ -465,7 +465,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
 
   searchGlobally(event) {
     let { value } = event.target;
-    value = value.toLowerCase();
+    value = value.toUpperCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
         if (!!item.rgRegion && !!item.smsitecode && !!item.znZone && !!item.devicetype) {

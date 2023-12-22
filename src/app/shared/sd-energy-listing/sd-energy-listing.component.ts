@@ -483,19 +483,20 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
     this.isChartLoading = true;
     this.httpClient.post(ApiConstant.getSitePerfReport, this.params).subscribe((res: any) => {
       this.isChartLoading = false;
-      res.data.datasets = res.data.dataSets;
+      res.data.datasets = res.data.dataSets.filter(dataset => dataset !== null); // Filter out null datasets
       this.lineChartData = res.data;
+      console.log("488", this.lineChartData);
       this.loadTabular(res);
-      // this.prepareChart(res.data);
     }, (err) => {
       this.isChartLoading = false;
+      console.error("Error loading performance dashboard report:", err);
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading performance dashboard report!'
       })
     });
   }
-
+  
   loadTabular(res) {
     let columns: any = [];
     let listingData: any = [];
