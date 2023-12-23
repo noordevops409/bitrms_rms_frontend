@@ -801,33 +801,42 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   dropboxReportExcel(evt?: any): void {
-    let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
-    const requestBody = this.filterParam;
+    const apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
+  
+    // Generate export file name on the frontend
+    const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
+    const uniqueIdentifier = Math.random().toString(36).substring(2, 10);
+    const exportFileName = `export_rawdata_${timestamp}_${uniqueIdentifier}.xlsx`;
+  
+    // Include the exportFileName in the query parameters
+    const queryParams = { exportFileName };
+  
     this.isDownloading = true;
-
+  
     const dialogRef = this.dialog.open(ExportDialogComponentComponent, {
       disableClose: true,
       panelClass: 'custom-dialog',
     });
-
+  
     dialogRef.componentInstance.isDownloading = this.isDownloading;
-
+  
     dialogRef.componentInstance.cancelExport.subscribe(() => {
       console.log('Export canceled');
       this.isDownloading = false; // Update isDownloading state if canceled
     });
-
-    this.httpClient.post(apiUrl2, requestBody, {
+  
+    this.httpClient.post(apiUrl2, this.filterParam, {
+      params: queryParams,
       responseType: 'blob'
     }).pipe(
-      takeUntil(dialogRef.componentInstance.destroy$) 
+      takeUntil(dialogRef.componentInstance.destroy$)
     ).subscribe(
       (response: Blob) => {
         const blob = new Blob([response], { type: 'application/octet-stream' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'downloaded_file.csv';
+        a.download = exportFileName; // Use the generated export file name
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -847,11 +856,11 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         });
         dialogRef.close();
         this.isDownloading = false;
-
       }
     );
   }
-
+  
+  
   // dropboxReportExcel(evt?: any): void {
   //   let apiUrl2 = ApiConstant.getRawDataReportExportRawRequest;
   //   const requestBody = this.filterParam;
