@@ -198,9 +198,11 @@ export class TeePowerTrackerComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
-    "date": null
+    // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+    // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
+    "date": "",
+    "startDate": "",
+    "endDate": ""
   };
 
 
@@ -238,12 +240,14 @@ export class TeePowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      "startDate": "",
+      "endDate": ""
     };
-    let startDate = this.filterParam.startDate;
-    let endDate = this.filterParam.endDate;
-    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+    // let startDate = this.filterParam.startDate;
+    // let endDate = this.filterParam.endDate;
+    // this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {

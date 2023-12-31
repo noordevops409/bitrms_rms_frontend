@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-
 @Component({
-  selector: 'app-hybrid-energy-filter',
-  templateUrl: './hybrid-energy-filter.component.html',
-  styleUrls: ['./hybrid-energy-filter.component.scss']
+  selector: 'app-rca-report-filter',
+  templateUrl: './rca-report-filter.component.html',
+  styleUrls: ['./rca-report-filter.component.scss']
 })
-export class HybridEnergyFilterComponent implements OnInit {
+export class RcaReportFilterComponent {
+
   @Input() filterType: number = 1;
 
   @Input() isReqToOpenFilter: boolean = false;
@@ -42,10 +42,8 @@ export class HybridEnergyFilterComponent implements OnInit {
   });
 
   private reqSiteIdObj: any = {
-    // startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
-    // endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
-    startDate:"",
-    endDate:""
+    startDate: null,
+    endDate: null
   };
 
   constructor() { }
@@ -117,6 +115,7 @@ export class HybridEnergyFilterComponent implements OnInit {
   }
 
   applyFilter(evt?: any) {
+    console.log("helooo")
     setTimeout(() => {
       if (this.filterType === 1) {
         this.isReqToOpenFilter = false;
@@ -139,3 +138,4 @@ export class HybridEnergyFilterComponent implements OnInit {
 
   }
 }
+

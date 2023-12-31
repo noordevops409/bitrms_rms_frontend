@@ -272,12 +272,13 @@
                                         <th>Battery SOC</th>
                                         <th>DC Load</th>
                                         <th>DG Start Voltage</th>
+                                        <th>DG Start SOC</th>>
                                         <th>Solar Kw</th>
                                         <th>DG Power (Kw)</th>
-                                        <th>Battery Life Cycle Count</th>
-                                        <th>Fuel Level ltr</th>
-                                        <th>Total AC</th>
+                                        <th>Fuel Liter</th>
+                                        <th>Total AC(KW)</th>
                                         <th>Amb Air Temp °C (WS) </th>
+                                        <th>Global Irradiance W/m2(WS)</th>
                                         <th>PV Upper Side Temp*C(WS) </th>
                                         <th>PV Lower Side Temp*C(WS) </th>
                                         <th>Engineer Name</th>
@@ -286,7 +287,6 @@
                                         <th>Minor</th>
                                         <th>Offline Duration</th>
                                         <th>Location</th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of activeListing.list.data">
@@ -297,14 +297,15 @@
                                         <td>{{item.customerName}}</td>
                                         <td>{{item.dcVoltage}}</td>
                                         <td>{{item.batterySOC}}</td>
+                                        <td>{{item.dgStartSoc}}</td>
                                         <td>{{item.dcLoad}}</td>
                                         <td>{{item.dgBatteryVoltage}}</td>
                                         <td>{{item.solarKw}}</td>
                                         <td>{{item.dgPower}}</td>
-                                        <td>{{item.batteryLifeCycleCount}}</td>
                                         <td>{{item.fuelLevel}}</td>
                                         <td>{{item.totalac}}</td>
                                         <td>{{item.ambAirTemp}}</td>
+                                        <th>{{item.globalIrradiance}}</th>
                                         <td>{{item.pvUpperSideTemp}}</td>
                                         <td>{{item.pvLowerSideTemp}}</td>
                                         <td>{{item.engineerName}}</td>

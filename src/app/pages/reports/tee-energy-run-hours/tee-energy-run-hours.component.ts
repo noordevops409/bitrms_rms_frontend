@@ -193,8 +193,10 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+    // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+    // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+    "startDate": "",
+    "endDate": ""
   };
 
 
@@ -232,12 +234,14 @@ export class TeeEnergyRunHoursComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      "startDate": "",
+      "endDate": ""
     };
-    let startDate = this.filterParam.startDate;
-    let endDate = this.filterParam.endDate;
-    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+    // let startDate = this.filterParam.startDate;
+    // let endDate = this.filterParam.endDate;
+    // this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {
@@ -416,9 +420,9 @@ export class TeeEnergyRunHoursComponent implements OnInit {
       "deviceType": deviceType,
       "siteStatus": 1,
       "siteType": siteType.length ? siteType : [],
-      "date": rangeDate,
-      "startDate": startDate,
-      "endDate": endDate,
+       "date": rangeDate,
+       "startDate": startDate,
+       "endDate": endDate,
       "start": 1,
       "length": 10,
       "draw": 5,

@@ -10,6 +10,8 @@
             overflow: visible;
 
             .filter-holder {
+                margin-right: -100px !important;
+                display: inline;
                 overflow: hidden;
             }
         }

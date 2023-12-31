@@ -34,7 +34,7 @@
             margin: 0px 0px 40px 0px;
             display: flex;
             > label {
-                width: 100px;
+                width: 140px;
                 color: #fff;
                 font-size: 00.9375rem;
                 font-weight: normal;
@@ -54,6 +54,8 @@
 
 .dropdown-container {
     width: 100%;
+    margin-right: -65px !important;
+
     padding-right: 18px;
 }
 
@@ -64,4 +66,9 @@
     left: auto;
     right: 15px;
     width: auto;
+}
+.status-basic{
+    margin-right: 28px !important;
+
+
 }

@@ -25,9 +25,9 @@
             </div>
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
-                    <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                    <app-rca-report-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
-                    </app-tower-filter-wrapper>
+                    </app-rca-report-filter>
                 </div>
                 <div class="list-wrap">
                     <div class="view-holder">
