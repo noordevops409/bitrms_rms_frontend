@@ -316,6 +316,18 @@ export class RemoteCommandsComponent implements OnInit {
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
+      if (res && res.data && Array.isArray(res.data)) {
+        // Assuming 'data' is the property containing your array
+        res.data.forEach((item) => {
+          if (item.dgbatteryvoltage !== undefined) {
+            item.dgbatteryvoltage = item.dgbatteryvoltage * 10;
+           // console.log(item.dgbatteryvoltage);
+          }
+        });
+      } else {
+        console.error("Invalid response structure. Unable to iterate over data.");
+      }
+      // console.log(res);
       setTimeout(() => {
         this.tableListingComponent.init();
       });

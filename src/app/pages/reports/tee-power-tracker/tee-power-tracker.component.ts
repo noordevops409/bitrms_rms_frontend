@@ -198,11 +198,9 @@ export class TeePowerTrackerComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-    // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
-    "date": "",
-    "startDate": "",
-    "endDate": ""
+     "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+     "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
+    
   };
 
 
@@ -240,10 +238,10 @@ export class TeePowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
-      "startDate": "",
-      "endDate": ""
+       "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+       "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      // "startDate": "",
+      // "endDate": ""
     };
     // let startDate = this.filterParam.startDate;
     // let endDate = this.filterParam.endDate;
@@ -251,7 +249,7 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   fetchData(evt?: any) {
-    // this.setDefaultFilter();
+     this.setDefaultFilter();
     this.loadData();
   }
 
@@ -366,15 +364,16 @@ export class TeePowerTrackerComponent implements OnInit {
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
-    let rangeDate: any = "";
+    let regions = [];
+    let zones = [];
+    let clusters = [];
+    let siteId = [];
+    let deviceType = [];
+    let siteType = [];
+    let rangeDate = "";
     let startDate = this.filterParam.startDate;
     let endDate = this.filterParam.endDate;
+  
     if (fData && fData.length) {
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
         regions = fData[0].popupTo.data.map((item) => {
@@ -386,25 +385,25 @@ export class TeePowerTrackerComponent implements OnInit {
           return item.id;
         });
       }
-
+  
       if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
         clusters = fData[2].popupTo.data.map((item) => {
           return item.id;
         });
       }
-
+  
       if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
         siteId = fData[3].popupTo.data.map((item) => {
           return item.id;
         });
       }
-
+  
       if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
         deviceType = fData[4].popupTo.data.map((item) => {
           return item.id;
         });
       }
-
+  
       if (fData[5] && fData[5].length) {
         siteType = fData[5].filter((item) => {
           return item.isChecked && item.text;
@@ -412,13 +411,20 @@ export class TeePowerTrackerComponent implements OnInit {
           return item.text;
         });
       }
-
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+  
+      if (fData[6] && fData[6].startDate !== null && fData[6].endDate !== null) {
         startDate = fData[6].startDate.replace(/-/g, '/');
         endDate = fData[6].endDate.replace(/-/g, '/');
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+        rangeDate = startDate + ' - ' + endDate;
+      } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
     }
+  
+  
     this.filterParam = {
       "siteId": siteId,
       "clusters": clusters,

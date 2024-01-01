@@ -42,8 +42,8 @@ export class RcaReportFilterComponent {
   });
 
   private reqSiteIdObj: any = {
-    startDate: null,
-    endDate: null
+    startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
+   endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
   };
 
   constructor() { }

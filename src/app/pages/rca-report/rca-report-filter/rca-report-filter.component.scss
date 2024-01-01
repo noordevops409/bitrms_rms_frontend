@@ -33,7 +33,10 @@
         .elem-row {
             margin: 0px 0px 40px 0px;
             display: flex;
+
             > label {
+                padding-left: 80px;
+
                 width: 140px;
                 color: #fff;
                 font-size: 00.9375rem;

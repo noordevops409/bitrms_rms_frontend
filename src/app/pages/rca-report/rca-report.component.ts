@@ -16,6 +16,7 @@ import { customerMaster } from '../data/customer-master';
 
 import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-report.component';
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-rca-report',
@@ -248,7 +249,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     "siteStatus": ['All'],
     "customers": ['All'],
     "engineer": ['All'],
-    "date": null
+    "date": null,
+    // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+    // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
   };
 
   constructor(
@@ -300,7 +303,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "siteStatus": ['All'],
       "customers": ['All'],
       "engineer": ['All'],
-      "date": null
+      "date": null,
+      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
     };
   }
 
@@ -381,7 +386,8 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   }
 
   setFilterParam(fData) {
-
+let startDate="";
+let endDate="";
     let regions: any = ["All"];
     let zones: any = ["All"];
     let clusters: any = ["All"];
@@ -446,14 +452,16 @@ export class RcaReportComponent implements OnInit, OnDestroy {
 
       //siteStatus = fData[8];
 
-      if (fData[2] && fData[2].startDate && fData[2].endDate) {
-        console.log(fData)
-       let  startDate = fData[2].startDate.replace(/-/g, '/');
-       let  endDate = fData[2].endDate.replace(/-/g, '/');
-        rangeDate = fData[2].startDate.replace(/-/g, '/') + ' - ' + fData[2].endDate.replace(/-/g, '/');
+      if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
+        startDate = fData[2].startDate.replace(/-/g, '/');
+        endDate = fData[2].endDate.replace(/-/g, '/');
+        rangeDate = startDate + ' - ' + endDate;
+      } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
-      console.log(rangeDate);
-
       // siteStatus = parseInt(fData[7], 10);
 
 
@@ -468,7 +476,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
       "engineer": engineer.length === 0 ? ['All'] : engineer,
-      "date": rangeDate
+      "date": rangeDate,
+      "startDate":startDate,
+      "endDate":endDate
     };
   }
 

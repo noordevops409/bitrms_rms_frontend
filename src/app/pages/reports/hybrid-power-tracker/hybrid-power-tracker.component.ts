@@ -234,10 +234,9 @@ export class HybridPowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
-       "startDate": "",
-    "endDate": ""
+       "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+       "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+       
     };
     // let startDate = this.filterParam.startDate;
     // let endDate = this.filterParam.endDate;
@@ -245,7 +244,7 @@ export class HybridPowerTrackerComponent implements OnInit {
   }
 
   fetchData(evt?: any) {
-    // this.setDefaultFilter();
+     this.setDefaultFilter();
     this.loadData();
   }
 
@@ -406,10 +405,15 @@ export class HybridPowerTrackerComponent implements OnInit {
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
+      if (fData[6] && fData[6].startDate !== null && fData[6].endDate !== null) {
         startDate = fData[6].startDate.replace(/-/g, '/');
         endDate = fData[6].endDate.replace(/-/g, '/');
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+        rangeDate = startDate + ' - ' + endDate;
+      } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
     }
     this.filterParam = {
