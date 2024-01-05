@@ -314,7 +314,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     this.setColumnHeader(res.data);
     this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.data.length;
+    this.sampleData.totalDocs = res.totalCount ;
   }
 
   setResponse(resData) {

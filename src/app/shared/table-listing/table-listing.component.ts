@@ -657,7 +657,6 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.onRowSelectionChangedDebouncer = debounce(this.onRowSelectionChanged, 100);
     this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 100;
     
-    console.log("line 660",this.listingData);
     this.setLazyLoadBatchSize();
     this.uniqueId;
     this.timestamp = (new Date()).getTime();
@@ -743,7 +742,6 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.lazyLoadCompleted = false;
     this.selectedData.length = 0;
     let data = this.listData;
-    console.log("746------------",data);
 
     const type = data.listingType;
     if (this.curListingType !== type) {
@@ -842,7 +840,6 @@ export class TableListingComponent implements OnInit, OnDestroy {
       path: this.folderPath,
       noRecordMsg: data.data && data.data.length ? '' : (this.noRecordMsg || 'No record available')
     });
-    console.log("Listing Data after Object.assign:", this.listingData);
 
 
     this.freezeDnD = false;
@@ -881,7 +878,6 @@ export class TableListingComponent implements OnInit, OnDestroy {
     const fragment = this.$(document.createDocumentFragment());
 
     if (this.activeViewType === this.ViewType.LIST) {
-      console.log("line 880",this.listingData);
       const len = this.listingData.allItem.length - rows.length;
       rows.forEach((itemB: any, i: any) => {
         this.listingData.itemBody.push(itemB);
@@ -2332,10 +2328,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
   //   this.sortColumnData(itemH);
   // }
   headerCellClick(e: any, itemH: any) {
-    console.log('headerCellClick called');
     
     if (!this.enableSorting || itemH.quickSearchFreezed) {
-      console.log('Sorting disabled or quick search frozen');
       return;
     }
   
@@ -2346,11 +2340,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
   
     if (itemH.fieldName === 'removeAssocflag') {
-      console.log('Field name is removeAssocflag');
       const fn = (this.listingApi as any)[itemH['function']];
       if (fn) {
         fn.call(this.listingApi, this.listingData.itemBody, 'all', null, (array: any, el: any, index: any) => {
-          console.log('Calling onDeleteAll.emit');
           this.onDeleteAll.emit({ e: e, array: array, type: this.listingData.listingType });
         });
       }
@@ -2359,7 +2351,6 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
   
     if (!itemH.isSortSupported) {
-      console.log('Sort not supported');
       return;
     }
   
