@@ -382,7 +382,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
-      if (res && res.data && res.data.length) {
+      if (res && res.data ) {
         this.manipulate(res);
         setTimeout(() => {
           this.tableListingComponent.init();

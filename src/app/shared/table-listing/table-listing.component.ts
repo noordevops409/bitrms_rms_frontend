@@ -742,7 +742,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
 
     this.lazyLoadCompleted = false;
     this.selectedData.length = 0;
-    const data = this.listData;
+    let data = this.listData;
+    console.log("746------------",data);
 
     const type = data.listingType;
     if (this.curListingType !== type) {
@@ -841,6 +842,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
       path: this.folderPath,
       noRecordMsg: data.data && data.data.length ? '' : (this.noRecordMsg || 'No record available')
     });
+    console.log("Listing Data after Object.assign:", this.listingData);
+
 
     this.freezeDnD = false;
     this.loadColumnFilterData();
