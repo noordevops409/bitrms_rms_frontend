@@ -122,7 +122,7 @@ export class PlannedEnergyComponent implements OnInit, OnDestroy {
     this.setColumnHeader(res.plannedEnergyList);
     this.setRowData(res.plannedEnergyList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.plannedEnergyList.length;
+    this.sampleData.totalDocs = res.totalCount;
   }
 
   setResponse(resData) {
