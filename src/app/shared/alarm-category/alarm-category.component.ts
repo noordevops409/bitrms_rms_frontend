@@ -906,6 +906,7 @@ loadAllDataAlerts(alertType) {
         console.log('super critical alerts counts: ', JSON.stringify(res));
         this.superCriticalAlertsCount = res;
        this.isClickable1=true;
+       this.superCritical="Community Load"
 
 
       }

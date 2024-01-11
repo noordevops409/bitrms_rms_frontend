@@ -51,9 +51,10 @@
                                     <tr>
                                         <th>Trans Date</th>
                                         <th>Site ID</th>
+                                        <th>Region</th>
                                         <th>Zone</th>
                                         <th>Cluster</th>
-                                        <th>Region</th>
+                                        
                                         <th>Device Type</th>
                                         <th>Solar Output Energy (kWh)</th>
                                         
@@ -75,9 +76,9 @@
                                         <th>CommunityLoad RunHrs</th>
                                         <th>Planed Solar Output Energy (kWh)</th>
                                         <th>Planed Solar Run Hours</th>
-                                        <th>Planed DG Energy (kWh)</th>
+                                        <th>Planed Energy (kWh)</th>
                                         <th>Planed DG Run Hours</th>
-                                        <th>Planed SolarBatt RunHrs</th>
+                                       
                                         
                                         <th>Planed MGenset Energy (kWh)</th>
                                         <th>Planed MGenset RunHrs</th>
@@ -87,7 +88,7 @@
                                        
                                         <th>Planed Batt Charging Energy (kWh)</th>
                                         <th>Planed Batt_ChargingEnergy Runhrs</th>
-                                       
+                                        <th>Planed SolarBatt RunHrs</th>
                                         
                                         <th>Planed SolarGenset RunHrs</th>
                                         
@@ -104,9 +105,10 @@
                                     <tr *ngFor="let item of exportData.data">
                                         <td>{{item.trandate}}</td>
                                         <td>{{item.smsitecode}}</td>
+                                        <td>{{item.rgRegion}}</td>
                                         <td>{{item.znZone}}</td>
                                         <td>{{item.crName}}</td>
-                                        <td>{{item.rgRegion}}</td>
+                                        
                                         <td>{{item.devicetype}}</td>
                                         <td>{{item.solarOutputenergykwh}}</td>
                                         <td>{{item.solarRunHrs}}</td>
@@ -118,7 +120,7 @@
                                         <td>{{item.dGRunHrs}}</td>
                                         <td>{{item.mDGEnergy}}</td>
                                         <td>{{item.mDGRunHrs}}</td>
-                                        <td>{{item.solarBattRunHrs}}</td>
+                                       
                                         <td>{{item.solarDGRunHrs}}</td>
                                         <td>{{item.solarMDGRunHrs}}</td>
                                         <td>{{item.teleEnergy}}</td>
@@ -139,6 +141,7 @@
                                        
                                         <td>{{item.planedBattChargingEnergykwh}}</td>
                                         <td>{{item.planedBattChargingEnergyrunhrs}}</td>
+                                        <td>{{item.solarBattRunHrs}}</td>
                                        
                                         <td>{{item.planedSolarBattRunHrs}}</td>
                                         
