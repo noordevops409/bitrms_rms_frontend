@@ -111,7 +111,7 @@ export class HybridEnergyFilterComponent implements OnInit {
     this.siteType.forEach(item => {
       item.isChecked = item.text === '';
     });
-    this.defaultFilterList.push(this.siteType);
+   // this.defaultFilterList.push(this.siteType);
     this.defaultFilterList.push(this.reqSiteIdObj);
     this.onFilter.emit(this.defaultFilterList);
   }

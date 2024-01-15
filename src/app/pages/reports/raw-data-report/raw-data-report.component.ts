@@ -90,32 +90,32 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         value: 'rgRegion'
       }
     },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
+    // {
+    //   id: 'FMF02',
+    //   fieldName: 'zones',
+    //   indexField: 'zones',
+    //   labelName: 'Zone',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'zones',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getZoneMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'znZone',
+    //     value: 'znZone'
+    //   }
+    // },
     {
       id: 'FMF03',
       fieldName: 'clusters',
@@ -169,32 +169,32 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    }
+    // {
+    //   id: 'FMF05',
+    //   fieldName: 'deviceType',
+    //   indexField: 'deviceType',
+    //   labelName: 'Device Type',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'deviceType',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getDeviceTypeMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'deviceType',
+    //     value: 'deviceType'
+    //   }
+    // }
   ];
 
   public isFilterDataLoaded: boolean = false;
@@ -455,40 +455,40 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
           return item.id;
         });
       }
+      // if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+      //   zones = fData[1].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
       if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
+        clusters = fData[1].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
       if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
+        siteId = fData[2].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+      //   deviceType = fData[4].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+      if (fData[3] && fData[3].length) {
+        siteType = fData[3].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+      if (fData[4] && fData[4].startDate && fData[4].endDate) {
+        rangeDate = fData[4].startDate.replace(/-/g, '/') + ' - ' + fData[4].endDate.replace(/-/g, '/');
       } else {
         let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
         let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')

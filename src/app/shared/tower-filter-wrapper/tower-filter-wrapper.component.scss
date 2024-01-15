@@ -2,7 +2,7 @@
     position: absolute;
     bottom: 0px;
 
-    height: 76%;
+    height: 100%;
   //  width: 75%;
 
    
@@ -77,4 +77,30 @@
     left: auto;
     right: 15px;
     width: auto;
+}
+.filter-wrapper-hide {
+    position: absolute;
+    bottom: 0px;
+
+    height: 60%;
+  //  width: 75%;
+
+   
+    left: 0px;
+    transition: 0.5s;
+    top: 100%;
+    background-color: #222B45;
+    z-index: 1;
+    padding: 16px ;
+    display: inline-table;
+
+
+    &.open {
+        top: 0px;
+    }
+
+    h4 {
+        font-size: 0.9375rem;
+        margin-bottom: 15px;
+    }
 }

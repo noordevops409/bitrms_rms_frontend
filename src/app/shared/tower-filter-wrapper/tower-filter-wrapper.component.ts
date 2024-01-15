@@ -12,7 +12,8 @@ export class TowerFilterWrapperComponent implements OnInit {
 
   @Input() filterType: number = 1;
   @Input() isTimerAvail: boolean = false;
-
+  @Input() hide: any;
+  @Input() hide1: any;
   @Input() isReqToOpenFilter: boolean = false;
   @Input() isOpenTabularFilter: boolean = false;
   @Input() defaultFilterList: any;

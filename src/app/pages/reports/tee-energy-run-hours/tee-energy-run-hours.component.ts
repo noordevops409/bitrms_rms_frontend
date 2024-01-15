@@ -44,84 +44,84 @@ export class TeeEnergyRunHoursComponent implements OnInit {
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
   defaultFilterList: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
-    },
+    // {
+    //   id: 'FMF01',
+    //   fieldName: 'regions',
+    //   indexField: 'regions',
+    //   labelName: 'Region',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'regions',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getRegionMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'rgRegion',
+    //     value: 'rgRegion'
+    //   }
+    // },
+    // {
+    //   id: 'FMF02',
+    //   fieldName: 'zones',
+    //   indexField: 'zones',
+    //   labelName: 'Zone',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'zones',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getZoneMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'znZone',
+    //     value: 'znZone'
+    //   }
+    // },
+    // {
+    //   id: 'FMF03',
+    //   fieldName: 'clusters',
+    //   indexField: 'clusters',
+    //   labelName: 'Cluster',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'clusters',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'crName',
+    //     value: 'crName'
+    //   }
+    // },
     {
       id: 'FMF04',
       fieldName: 'siteId',
@@ -148,32 +148,32 @@ export class TeeEnergyRunHoursComponent implements OnInit {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    }
+    // {
+    //   id: 'FMF05',
+    //   fieldName: 'deviceType',
+    //   indexField: 'deviceType',
+    //   labelName: 'Device Type',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'deviceType',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getDeviceTypeMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'deviceType',
+    //     value: 'deviceType'
+    //   }
+    // }
   ];
 
   public isFilterDataLoaded: boolean = false;
@@ -195,8 +195,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     "siteStatus": 1,
      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
-    // "startDate": "",
-    // "endDate": ""
+    
   };
 
 
@@ -236,8 +235,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
       "siteStatus": 1,
        "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
        "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
-      // "startDate": "",
-      // "endDate": ""
+      
     };
      let startDate = this.filterParam.startDate;
      let endDate = this.filterParam.endDate;
@@ -369,46 +367,46 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     let startDate = this.filterParam.startDate;
     let endDate = this.filterParam.endDate;
     if (fData && fData.length) {
+      // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+      //   regions = fData[0].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+      // if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+      //   zones = fData[1].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
+      // if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+      //   clusters = fData[2].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        regions = fData[0].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
+        siteId = fData[0].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
-      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+      //   deviceType = fData[4].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+      if (fData[1] && fData[1].length) {
+        siteType = fData[1].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      if (fData[6] && fData[6].startDate !== null && fData[6].endDate !== null) {
-        startDate = fData[6].startDate.replace(/-/g, '/');
-        endDate = fData[6].endDate.replace(/-/g, '/');
+      if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
+        startDate = fData[2].startDate.replace(/-/g, '/');
+        endDate = fData[2].endDate.replace(/-/g, '/');
         rangeDate = startDate + ' - ' + endDate;
       } else {
         // Handle the case where startDate or endDate is null
