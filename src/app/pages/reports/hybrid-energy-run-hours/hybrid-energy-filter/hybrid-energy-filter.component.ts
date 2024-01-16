@@ -42,10 +42,10 @@ export class HybridEnergyFilterComponent implements OnInit {
   });
 
   private reqSiteIdObj: any = {
-    // startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
-    // endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
-    startDate:"",
-    endDate:""
+     startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
+     endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
+    // startDate:"",
+    // endDate:""
   };
 
   constructor() { }

@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RawFilterComponent implements OnInit {
   siteId: any;
   siteIdFil: any;
+  siteTypeChecked: any;
 onFilterChange($event: any) {
 throw new Error('Method not implemented.');
 }
@@ -119,8 +120,19 @@ throw new Error('Method not implemented.');
   }
 
   reset(evt?: any) {
+    var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;    if (closeButton) {
+      closeButton.click();
+    } else {
+      console.log('Button not found');
+    }
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
     this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
+
+    const formattedStartDate = moment(this.range.controls['start'].value).format('YYYY/MM/DD');
+    const formattedEndDate = moment(this.range.controls['end'].value).format('YYYY/MM/DD');
+    this.reqSiteIdObj.startDate = formattedStartDate;
+    this.reqSiteIdObj.endDate = formattedEndDate;
+
     if (this.filterType === 1) {
       this.isReqToOpenFilter = false;
       this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
@@ -128,9 +140,14 @@ throw new Error('Method not implemented.');
       this.isOpenTabularFilter = false;
       this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
     }
-    this.onFilter.emit(null);
-    this.onFilterExcel.emit(null);
+    this.siteType.forEach(item => {
+      item.isChecked = item.text === '';
+    });
+    this.defaultFilterList.push(this.siteType);
+    this.defaultFilterList.push(this.reqSiteIdObj);
+   // this.onFilter.emit(null);
   }
+
 
   applyFilter(evt?: any) {
     setTimeout(() => {
@@ -144,11 +161,20 @@ throw new Error('Method not implemented.');
       if (this.startTime && this.endTime) {
         
       }
+      this.siteTypeChecked = this.siteType.map(item => {
+        if (item.isChecked && (item.text === 'TEE' || item.text === 'Hybrid')) {
+          return { isChecked: item.isChecked, text: `%${item.text}%` };
+        } else {
+          return item;
+        }
+      });
       
-      this.defaultFilterList.push(this.siteType);
+
+      this.defaultFilterList.push(this.siteTypeChecked);
       this.defaultFilterList.push(this.reqSiteIdObj);
       this.onFilter.emit(this.defaultFilterList);
     }, 500);
+    
   }
 
   applyFilterForExport(evt?: any) {

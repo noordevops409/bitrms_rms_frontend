@@ -50,7 +50,7 @@ export class HybridPowerFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.setSiteType();
-    this.setDateRange();
+   // this.setDateRange();
   }
 
   setSiteType() {

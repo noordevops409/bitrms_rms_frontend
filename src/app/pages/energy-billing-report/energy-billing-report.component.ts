@@ -445,13 +445,14 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
     let siteId: any = ["All"];
     let deviceType: any = ["All"];
     let siteType: any = ["All"];
-    // let startDate: any = null;
-    // let endDate: any = null;
+     let startDate: any = null;
+     let endDate: any = null;
     let customer: any = ["All"];
-    let rangeDate: any = "";
+    let rangeDate: any =null;
     let siteStatus: any = null;
     let clusters: any = ["All"];
     let engineer: any = ["All"];
+    
     if (fData && fData.length) {
 
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -506,13 +507,16 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
       // siteStatus = fData[8];
 
-      if (fData[4] && fData[4].startDate && fData[4].endDate) {
-        rangeDate = fData[4].startDate.replace(/-/g, '/') + ' - ' + fData[4].endDate.replace(/-/g, '/');
-      } else {
-        let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
-        let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
-        rangeDate = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
-      }
+      if (fData[5] && fData[5].startDate && fData[5].endDate) {
+        startDate = fData[5].startDate.replace(/-/g, '/');
+        console.log("startDate",startDate);
+       
+
+        endDate = fData[5].endDate.replace(/-/g, '/');
+        console.log("endDate",endDate);
+        rangeDate = startDate + ' - ' + endDate;      } 
+
+      
     }
     this.filterParam = {
       "siteId": siteId,

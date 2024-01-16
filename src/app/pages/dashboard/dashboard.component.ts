@@ -1675,7 +1675,7 @@ return;
                 return '0%';
             } else {
                 let percentage = Math.round(sData.value / totalSum * 100);
-                console.log("Calculating percentage:", percentage);
+               // console.log("Calculating percentage:", percentage);
                 return percentage + '%';
             }
         }
