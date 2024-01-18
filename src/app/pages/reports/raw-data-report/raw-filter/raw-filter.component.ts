@@ -161,16 +161,8 @@ throw new Error('Method not implemented.');
       if (this.startTime && this.endTime) {
         
       }
-      this.siteTypeChecked = this.siteType.map(item => {
-        if (item.isChecked && (item.text === 'TEE' || item.text === 'Hybrid')) {
-          return { isChecked: item.isChecked, text: `%${item.text}%` };
-        } else {
-          return item;
-        }
-      });
-      
-
-      this.defaultFilterList.push(this.siteTypeChecked);
+  
+      this.defaultFilterList.push(this.siteType);
       this.defaultFilterList.push(this.reqSiteIdObj);
       this.onFilter.emit(this.defaultFilterList);
     }, 500);

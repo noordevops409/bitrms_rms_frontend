@@ -12,13 +12,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public isToggle: boolean = true;
   private toggleSidebar!: Subscription;
 
-  // username : harish1 // for admin user
-  // password : harish@123 // for normal user 
-
-  // swagger_api_url: http://54.254.44.119:8080/digitrinity-rest-services/swagger-ui.html
-  
-  // old_app_link: http://54.254.44.119:8080/digitrinity/welcome
-
   constructor(
     private broadcast: BroadcastService,
     private ngZone: NgZone

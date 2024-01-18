@@ -14,8 +14,7 @@ import { WindowsNotificationService } from '../shared/windows-notification.servi
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  // username : ympadmin
-  // password : ympadmin@123
+ 
 
   public isLogining: boolean = false;
   public loginForm: FormGroup = new FormGroup({
