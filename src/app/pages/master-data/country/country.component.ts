@@ -84,7 +84,7 @@ export class CountryComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.forDeleteListener = this.broadcast.on<string>('OPEN_SIM_FOR_DELETE').subscribe((data: any) => {
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_COUNTRY_FOR_DELETE').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.delete(data);
       });

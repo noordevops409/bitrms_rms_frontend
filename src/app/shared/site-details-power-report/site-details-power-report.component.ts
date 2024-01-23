@@ -356,8 +356,8 @@ export class SiteDetailsPowerReportComponent implements OnInit, AfterViewInit, O
       this.lineChartData1 = res;
 
       // Print labels array and data arrays
-      console.log('Labels:', res.labels);
-      console.log('Data Arrays:', res.dataSets.map(dataSet => dataSet.data));
+     // console.log('Labels:', res.labels);
+    //  console.log('Data Arrays:', res.dataSets.map(dataSet => dataSet.data));
 
     }, (err) => {
       this.isChartLoading1 = false;

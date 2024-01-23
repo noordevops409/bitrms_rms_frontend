@@ -399,7 +399,7 @@ let endDate="";
     let engineer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
-      console.log(fData);
+    //  console.log(fData);
       // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
       //   regions = fData[0].popupTo.data.map((item) => {
       //     return item.id;

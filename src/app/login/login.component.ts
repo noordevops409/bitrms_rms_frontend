@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         //   this.loginForm.get('password')?.setErrors({ 'invalidPassword': true });
         // }
       } else {
-        console.log("83", res.data);
+     //   console.log("83", res.data);
         this.userService.setData(res.data);
         this.winNotification.init();
         this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });

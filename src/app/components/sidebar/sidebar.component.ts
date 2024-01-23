@@ -200,9 +200,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
       if (filteredSubMenuLength === 0) {
         delete reportsMenu.subMenu;
-        console.log(`Removed subMenu from Reports because all submenus were filtered out.`);
+       // console.log(`Removed subMenu from Reports because all submenus were filtered out.`);
       } else if (initialSubMenuLength !== filteredSubMenuLength) {
-        console.log(`Filtered submenus for Reports: ${initialSubMenuLength} -> ${filteredSubMenuLength}`);
+      //  console.log(`Filtered submenus for Reports: ${initialSubMenuLength} -> ${filteredSubMenuLength}`);
       }
     }
   }

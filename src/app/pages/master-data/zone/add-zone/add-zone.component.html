@@ -16,6 +16,7 @@
                 <div class="form-container">
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
+                            <p style="height: 15px;">  </p>
                             <mat-form-field>
                                 <mat-label>Zone Name</mat-label>
                                 <input formControlName="name" required matInput />
@@ -26,19 +27,21 @@
                         </div>
         
                         <div class="form-field col-4">
-                            <select formControlName="selRegion" name="selRegion" class="input-element mini">
+                            <p style="height: 15px; color: white;">RegionName</p>
+                            <select formControlName="selRegion" name="selRegion" class="input-element mini" style="height: 58px;">
                                 <option *ngFor="let item of regionList" [ngValue]="item">{{item.rgRegion}}</option>
                             </select>
                         </div>
         
                         <div class="form-field col-4">
-                            <select formControlName="selCountry" name="selCountry" class="input-element mini">
+                            <p style="height: 15px; color: white;">Country Name</p>
+                            <select formControlName="selCountry" name="selCountry" class="input-element mini" style="height: 58px;">
                                 <option *ngFor="let item of countryList" [ngValue]="item">{{item.country}}</option>
                             </select>
                         </div>
                     </div>
         
-                    <div class="form-group row" style="margin-bottom: 0px;">
+                    <div class="form-group row" style="margin-bottom: 0px; display: none;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Acsys Sync Status Name</mat-label>

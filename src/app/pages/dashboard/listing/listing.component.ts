@@ -354,7 +354,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     // }
     const currentURL = window.location.href;
     const lastPartOfURL = currentURL.substring(currentURL.lastIndexOf('/') + 1);
-    console.log('Last part of the URL:', lastPartOfURL);
+   // console.log('Last part of the URL:', lastPartOfURL);
 
     
     this.isLoading = true;

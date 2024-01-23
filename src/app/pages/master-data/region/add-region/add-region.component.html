@@ -16,7 +16,9 @@
                 <div class="form-container">
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-6">
+                            <p style="height: 15px;">  </p>
                             <mat-form-field>
+                                
                                 <mat-label>Region Name</mat-label>
                                 <input formControlName="name" required matInput />
                                 <mat-error *ngIf="mf.name.touched && mf.name.invalid">
@@ -25,13 +27,14 @@
                             </mat-form-field>
                         </div>
                         <div class="form-field col-6">
-                            <select formControlName="selCountry" name="selCountry" class="input-element mini">
+                            <p style="height: 15px; color: white;">Country Name</p>
+                            <select formControlName="selCountry" name="selCountry" class="input-element mini" style="height: 58px;">
                                 <option *ngFor="let item of countryList" [ngValue]="item">{{item.country}}</option>
                             </select>
                         </div>
                     </div>
         
-                    <div class="form-group row" style="margin-bottom: 0px;">
+                    <div class="form-group row" style="margin-bottom: 0px; display: none;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Acsys Sync Status Name</mat-label>

@@ -188,22 +188,33 @@ export class SiteComponent implements OnInit {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getSiteMasterData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
-    this.httpClient.post(apiUrl, null).subscribe((res: any) => {
-      this.isLoading = false;
-      this.manipulate(res);
-      setTimeout(() => {
-        this.tableListingComponent.init();
-      });
-    }, (err) => {
-      this.isLoading = false;
-      this.isListServerError = true;
-      this.util.notification.error({
-        title: 'Error',
-        msg: 'Error while loading Raw Data Report details!'
-      })
-    });
+  
+    this.httpClient.post(apiUrl, null).subscribe(
+      (res: any) => {
+        this.isLoading = false;
+        res.siteMasterList.forEach((item: any) => {
+          if (item.smSitetypeid == 1) {
+            item.siteTypeValue = 'Hybrid';
+          } else {
+            item.siteTypeValue = 'TEE';
+          }
+        });
+        this.manipulate(res);
+        setTimeout(() => {
+          this.tableListingComponent.init();
+        });
+      },
+      (err) => {
+        this.isLoading = false;
+        this.isListServerError = true;
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while loading Raw Data Report details!'
+        });
+      }
+    );
   }
+  
 
   manipulate(res) {
     this.setResponse(res.siteMasterList);
@@ -232,9 +243,10 @@ export class SiteComponent implements OnInit {
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
       this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (key === 'smSitetypeid') {
-          this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["siteType"]);
-        } if (key === 'crClusterID') {
+        // if (key === 'smSitetypeid') {
+        //   this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["siteType"]);
+        // }
+         if (key === 'crClusterID') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["clusterName"]);
         } if (key === 'smTechEmpid') {
           this.sampleData.columnHeader.push(SITE_COLUMN_HEADER["employeeId"]);

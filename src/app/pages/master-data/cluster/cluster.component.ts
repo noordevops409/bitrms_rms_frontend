@@ -203,6 +203,7 @@ export class ClusterComponent implements OnInit {
 
   setEmployee(req?: any) {
     for (let item of this.employeeList) {
+     // console.log("lineee",this.employeeList)
       if (item.emEmpID === req.emEmployeeID) {
         req.empId = item.emEmployeeID;
         break;

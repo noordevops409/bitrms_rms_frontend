@@ -527,20 +527,23 @@ export class TeeEnergyRunHoursComponent implements OnInit {
           } else if (selVal === "2") {
             this.exportCSV(evt);
           }
+          this.exportData.data = [];
+          this.ddExport=-1;
         }, 500);
       }).catch((err: any) => {
 
       })
-    } else {
-      setTimeout(() => {
-        let selVal = this.ddExport;
-        if (selVal === "1") {
-          this.exportExcel(evt);
-        } else if (selVal === "2") {
-          this.exportCSV(evt);
-        }
-      }, 500);
     }
+    //  else {
+    //   setTimeout(() => {
+    //     let selVal = this.ddExport;
+    //     if (selVal === "1") {
+    //       this.exportExcel(evt);
+    //     } else if (selVal === "2") {
+    //       this.exportCSV(evt);
+    //     }
+    //   }, 500);
+    // }
   }
 
 }

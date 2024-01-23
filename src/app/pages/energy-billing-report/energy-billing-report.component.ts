@@ -509,11 +509,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
       if (fData[5] && fData[5].startDate && fData[5].endDate) {
         startDate = fData[5].startDate.replace(/-/g, '/');
-        console.log("startDate",startDate);
+       // console.log("startDate",startDate);
        
 
         endDate = fData[5].endDate.replace(/-/g, '/');
-        console.log("endDate",endDate);
+       // console.log("endDate",endDate);
         rangeDate = startDate + ' - ' + endDate;      } 
 
       
@@ -615,6 +615,8 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
           } else if (selVal === "2") {
             this.exportCSV(evt);
           }
+          this.exportData.data = [];
+          this.ddExport=-1;
         }, 500);
       }).catch((err: any) => {
 

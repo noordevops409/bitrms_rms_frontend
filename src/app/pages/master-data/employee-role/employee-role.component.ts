@@ -87,7 +87,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.forDeleteListener = this.broadcast.on<string>('OPEN_EMPLOYEE_ROLE_FOR_EDIT').subscribe((data: any) => {
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_EMPLOYEE_ROLE_FOR_DELETE').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.delete(data);
       });
@@ -157,6 +157,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
     if (data.length) {
       let counter = 0;
       for(let item of data) {
+        item.delete = "Delete";
         counter += 1;
         item.srno = counter;
       }
@@ -268,6 +269,9 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
 
   edit(evt?: any, item?: any) {
     this.dialog.closeAll();
+    // window.localStorage.removeItem('selEmployeeRole');
+    // window.localStorage.setItem('selEmployeeRole', JSON.stringify(item));
+    
     const dialogRef = this.dialog.open(AddEmployeeRoleComponent, {
       width: '1000px',
       height: 'auto',

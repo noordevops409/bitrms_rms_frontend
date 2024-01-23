@@ -26,7 +26,7 @@ export class FilterWrapperComponent implements OnInit, OnDestroy, AfterViewInit 
   ) { }
 
   ngOnInit(): void {
-    console.log(this.defaultFilterList);
+    //console.log(this.defaultFilterList);
   }
 
   ngOnDestroy() {

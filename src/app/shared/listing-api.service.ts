@@ -148,7 +148,7 @@ export class ListingApiService {
   }
 
   openClusterDataForEdit(data: any) {
-    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_DELETE', data);
+    this.broadcast.broadcast('OPEN_CLUSTER_FOR_EDIT', data);
   }
 
   openClusterDataForDelete(data: any) {

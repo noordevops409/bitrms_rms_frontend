@@ -2334,7 +2334,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
   
     if (this.resizing) {
-      console.log('Resizing in progress');
+     // console.log('Resizing in progress');
       this.resizing = false;
       return;
     }
@@ -2355,7 +2355,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
   
     if (itemH.fieldName === 'actions#actionTime') {
-      console.log('Field name is actions#actionTime');
+   //   console.log('Field name is actions#actionTime');
       this.pendingSortingColumn = itemH;
       this.$(this.$element.nativeElement).find('#taskTimeSortConfirmation').modal('show');
       return;

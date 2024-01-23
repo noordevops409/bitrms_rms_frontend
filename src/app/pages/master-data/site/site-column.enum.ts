@@ -17,23 +17,23 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteID: {
-    userIndex: 1,
-    fieldName: 'smSiteID',
-    colDisplayName: 'Site ID',
-    title: 'Site ID',
-    widthOfColumn: 150,
-    colType: 'textwithlink',
-    dataType: 'text',
-    id: '1',
-    imgName: '',
-    tooltipSrc: '',
-    function: 'openSiteMasterDataForEdit',
-    funParams: '',
-    wrapData: '',
-    isSortSupported: false,
-    isCustomAttributeColumn: false
-  },
+  // smSiteID: {
+  //   userIndex: 1,
+  //   fieldName: 'smSiteID',
+  //   colDisplayName: 'Site ID',
+  //   title: 'Site ID',
+  //   widthOfColumn: 150,
+  //   colType: 'textwithlink',
+  //   dataType: 'text',
+  //   id: '1',
+  //   imgName: '',
+  //   tooltipSrc: '',
+  //   function: 'openSiteMasterDataForEdit',
+  //   funParams: '',
+  //   wrapData: '',
+  //   isSortSupported: false,
+  //   isCustomAttributeColumn: false
+  // },
   smSitecode: {
     userIndex: 2,
     fieldName: 'smSitecode',
@@ -68,9 +68,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  siteType: {
+  siteTypeValue: {
     userIndex: 4,
-    fieldName: 'siteType',
+    fieldName: 'siteTypeValue',
     colDisplayName: 'Site Type',
     title: 'Site Type',
     widthOfColumn: 150,

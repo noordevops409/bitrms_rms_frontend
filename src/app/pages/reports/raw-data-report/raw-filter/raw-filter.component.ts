@@ -61,7 +61,7 @@ throw new Error('Method not implemented.');
       this.setDateRange();
       this.route.params.subscribe(params => {
         this.siteIdFil = params['siteId'];
-        console.log('Site ID:', this.siteIdFil);
+       // console.log('Site ID:', this.siteIdFil);
       if (this.siteIdFil && this.siteIdFil.trim() !== '') {
         this.applyFilter();
       } 
@@ -123,7 +123,7 @@ throw new Error('Method not implemented.');
     var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;    if (closeButton) {
       closeButton.click();
     } else {
-      console.log('Button not found');
+    //  console.log('Button not found');
     }
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
     this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());

@@ -247,9 +247,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.siteIdFil = params['siteId'];
-      console.log('Site ID:', this.siteIdFil);
+    //  console.log('Site ID:', this.siteIdFil);
 
-      console.log("252",this.defaultFilterList);
+   //   console.log("252",this.defaultFilterList);
 
       let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
       let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
@@ -359,7 +359,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
         return;
       }
 
-      console.log("323",this.defaultFilterList);
+   //   console.log("323",this.defaultFilterList);
 
 
       this.isLoading = true;
@@ -684,7 +684,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.isDownloading = true;
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'text' }).subscribe(
       (response: any) => {
-        console.log('API call successful:', response);
+    //    console.log('API call successful:', response);
 
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().replace(/[-T:\.Z]/g, '');
@@ -714,7 +714,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
   }
 
   dropboxReport(format: string, evt?: any) {
-    console.log("format", format);
+   // console.log("format", format);
     if (format === '-1') {
       this.util.notification.error({
         title: 'Error',
@@ -726,7 +726,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
 
     this.httpClient.post(apiUrl, this.filterParam, { responseType: 'arraybuffer' }).subscribe(
       (response: any) => {
-        console.log('API call successful:', response);
+    //    console.log('API call successful:', response);
 
         let mimeType: string;
         let fileExtension: string;
@@ -782,9 +782,9 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     this.httpClient.get(apiUrl).subscribe(
       (response: any) => {
 
-        console.log('API call successful:', response);
+     //   console.log('API call successful:', response);
         this.dropboxLink = response.data.dropboxlink;
-        console.log("line 657", this.dropboxLink)
+    //    console.log("line 657", this.dropboxLink)
 
 
         const dropboxLinkElement = document.getElementById('dropboxLink') as HTMLAnchorElement;
@@ -806,7 +806,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     // Generate export file name on the frontend
     const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0];
     const uniqueIdentifier = Math.random().toString(36).substring(2, 10);
-    const exportFileName = `export_rawdata_${timestamp}_${uniqueIdentifier}.xlsx`;
+    const exportFileName = `export_rawdata_${timestamp}_${uniqueIdentifier}.csv`;
   
     // Include the exportFileName in the query parameters
     const queryParams = { exportFileName };
@@ -821,7 +821,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.isDownloading = this.isDownloading;
   
     dialogRef.componentInstance.cancelExport.subscribe(() => {
-      console.log('Export canceled');
+    //  console.log('Export canceled');
       this.isDownloading = false; // Update isDownloading state if canceled
     });
   

@@ -437,7 +437,7 @@ export class PowerReportComponent implements OnInit, OnDestroy {
     let startDate = this.filterParam.startDate;
     let endDate = this.filterParam.endDate;
     if (fData && fData.length) {
-      console.log("line 440",fData);
+     // console.log("line 440",fData);
       // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
       //   regions = fData[0].popupTo.data.map((item) => {
       //     return item.id;

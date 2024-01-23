@@ -1,7 +1,7 @@
 <div class="modal-popup site-details">
     <div class="header popupHeaderBg">
         <div class="left-side">
-            <h1 class="title">Employee Master Data</h1>
+            <h1 class="title">Planned Energy Master Data</h1>
         </div>
         <div class="right-side">
             <a href="javascript:void(0);" (click)="close($event)">
@@ -16,6 +16,7 @@
                 <div class="form-container">
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
+                            <p style="height: 10px;color: white;">Site Code</p>
                             <select formControlName="selSiteCode" name="selEscalationMode" class="input-element mini">
                                 <option *ngFor="let item of siteCodeList" [ngValue]="item">{{item.smSitecode}}</option>
                             </select>

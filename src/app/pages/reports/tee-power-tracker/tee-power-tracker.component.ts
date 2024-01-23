@@ -302,7 +302,8 @@ export class TeePowerTrackerComponent implements OnInit {
             pageSize = 10;
             resolve(res);
             return;
-          } else {
+          }
+           else {
             getAll();
           }
         }, (err: any) => {
@@ -527,6 +528,7 @@ export class TeePowerTrackerComponent implements OnInit {
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
+    //    console.log("531---------",this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -534,20 +536,23 @@ export class TeePowerTrackerComponent implements OnInit {
           } else if (selVal === "2") {
             this.exportCSV(evt);
           }
+          this.exportData.data = [];
+          this.ddExport=-1;
         }, 500);
       }).catch((err: any) => {
 
       })
-    } else {
-      setTimeout(() => {
-        let selVal = this.ddExport;
-        if (selVal === "1") {
-          this.exportExcel(evt);
-        } else if (selVal === "2") {
-          this.exportCSV(evt);
-        }
-      }, 500);
-    }
+     } 
+     //else {
+    //   setTimeout(() => {
+    //     let selVal = this.ddExport;
+    //     if (selVal === "1") {
+    //       this.exportExcel(evt);
+    //     } else if (selVal === "2") {
+    //       this.exportCSV(evt);
+    //     }
+    //   }, 500);
+    // }
   }
 
 }

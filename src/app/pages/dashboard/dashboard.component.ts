@@ -1605,7 +1605,7 @@ return;
   }
 
   loadChartByDevice(obj) {
-    console.log("obj.Devicetype",obj.Devicetype);
+  //  console.log("obj.Devicetype",obj.Devicetype);
     if (obj && obj.Devicetype && obj.Devicetype.data && obj.Devicetype.data.length) {
       for (let item of obj.Devicetype.data) {
         item.deviceType = item.Category_id;
@@ -1627,7 +1627,7 @@ return;
     let series: any = [];
     let valueList: any = [];
     for (let item of res.data) {
-      console.log()
+  //    console.log()
       label.push(item.deviceType);
       valueList.push(item.offlineSite);
       series.push({
@@ -1636,9 +1636,9 @@ return;
         className: item.deviceType.toLowerCase().replace(' ', '-')
       });
     }
-     console.log("label",label);
-     console.log("series",series);
-     console.log("valueList",valueList);
+   // console.log("label",label);
+    // console.log("series",series);
+   //  console.log("valueList",valueList);
 
      this.initPieChart1(label, series, valueList);
     
@@ -1661,17 +1661,17 @@ return;
     let arrayList = valueList;
     let chart = new Chartist.Pie('#websiteViewsChart9', data, {
       labelInterpolationFnc: (value: any) => {
-        console.log("Calculating label interpolation for:", value);
+       // console.log("Calculating label interpolation for:", value);
         
         if (arrayList.length === 1) {
-            console.log("Only one data point. Displaying directly.");
+           // console.log("Only one data point. Displaying directly.");
             return value + ': ' + series[0].value + '%';
         } else {
             let sData = getSeriesData(value);
             let totalSum = arrayList.reduce(sum);
     
             if (totalSum === 0) {
-                console.log("Total count is 0. Displaying 0%.");
+//console.log("Total count is 0. Displaying 0%.");
                 return '0%';
             } else {
                 let percentage = Math.round(sData.value / totalSum * 100);

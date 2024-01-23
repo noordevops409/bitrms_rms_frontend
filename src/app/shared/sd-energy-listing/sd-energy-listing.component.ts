@@ -485,7 +485,7 @@ export class SdEnergyListingComponent implements OnInit, OnDestroy {
       this.isChartLoading = false;
       res.data.datasets = res.data.dataSets.filter(dataset => dataset !== null); // Filter out null datasets
       this.lineChartData = res.data;
-      console.log("488", this.lineChartData);
+     //("488", this.lineChartData);
       this.loadTabular(res);
     }, (err) => {
       this.isChartLoading = false;

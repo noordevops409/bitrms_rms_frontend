@@ -57,10 +57,16 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    if (this.data) {
+      this.isLoading = true;
+    }
     this.loadSiteCode();
+
     setTimeout(() => {
+      this.isLoading = true;
       this.getData();
-    }, 1000);
+      this.isLoading = false;
+    }, 3000);
   }
 
   initForm() {
@@ -98,6 +104,7 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
     if (this.data) {
       this.selPlannedEnergy = this.data;
       this.setFormData();
+     // console.log("101")
       this.isForEdit = true;
     } else {
       this.isForEdit = false;
@@ -175,9 +182,9 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     const formData = this.masterForm.value;
     const url = ApiConstant.savePlannedEnergyMasterData;
-
+console.log(formData);
     let params: any = {
-      'peSitecode': formData.selSiteCode,
+      'peSitecode': formData.selSiteCode.smSitecode,
       'peSolarOutputEnergy': formData.solarOutputEnergy,
       'peSolarRunHrs': formData.solarRunHrs,
       'peDgEnergy': formData.dgEnergy,
@@ -205,10 +212,10 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
       'peOpco4Runhrs': formData.opco4RunHrs,
       'username': 'harish1'
     };
-
-    if (this.isForEdit) {
-      params.peSitecode = this.plannedEnergyId;
-    }
+     if (this.isForEdit) {
+      params.peSitecodeOld = this.plannedEnergyId;
+     }
+  // console.log("params",params)
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isLoading = false;
@@ -224,6 +231,25 @@ export class AddPlannedEnergyComponent implements OnInit, OnDestroy {
         msg: 'Error while saving Planned Energy!'
       });
     });
+    if (this.isForEdit && this.plannedEnergyId!=params.peSitecodeOld) {
+      this.delete();
+     }
   }
 
+  delete(item?: any, i?: any) {
+    var r = true;
+    if (r) {
+      this.httpClient.post(ApiConstant.deletePlannedEnergyMasterData + `?peSitecode=${this.plannedEnergyId}`, null).subscribe((data) => {
+        //this.loadData();
+      }, (err) => {
+        this.util.notification.error({
+          title: 'Error',
+          msg: 'Error while saving Planned Energy!'
+        });
+      });
+    }
+  }
+
+
 }
+

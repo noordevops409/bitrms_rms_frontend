@@ -47,8 +47,9 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
+    this.init();
+   
   }
 
   ngOnDestroy(): void {
@@ -57,6 +58,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
   init() {
     if (this.data) {
+     
       this.isLoading = true;
     }
     this.getData();
@@ -66,7 +68,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   initForm() {
     this.masterForm = this.formBuilder.group({
       'name': [null, [Validators.required]],
-      'isPredefined': [null],
+      'isPredefined': 1,
       'roleCategoryId': [null],
       'isEscalationReq': [null],
       'categoryId': [null]
@@ -112,7 +114,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
     let params: any = {
       erRoleName: formData.name,
-      erIsPredifined: formData.isPredefined,
+      erIsPredifined: '1',
       empRoleCatID: formData.roleCategoryId,
       erIsEscalationReq: formData.isEscalationReq,
       erCategoryId: formData.categoryId

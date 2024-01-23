@@ -86,13 +86,13 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.getData();
       this.isLoading = false;
-    }, 1000);
+    }, 5000);
   }
 
   initForm() {
     this.masterForm = this.formBuilder.group({
       'name': [null, [Validators.required]],
-      'clusterDefinition': [null, [Validators.required]],
+      'clusterDefinition': [null],
       'acsysSyncStatusName': [null],
       'acsysSyncDateName': [null],
       'acsysSyncTimeName': [null],
@@ -168,9 +168,9 @@ export class AddClusterComponent implements OnInit, OnDestroy {
     this.clusterId = this.selCluster.crClusterID;
     this.masterForm.controls['name'].setValue(this.selCluster.crName);
     this.masterForm.controls['clusterDefinition'].setValue(this.selCluster.crDefinition);
-    this.masterForm.controls['acsysSyncStatusName'].setValue(this.selCluster.crAcsysSyncstatus);
-    this.masterForm.controls['acsysSyncDateName'].setValue(this.selCluster.crAcsysSyncDateTime);
-    this.masterForm.controls['accIdName'].setValue(this.selCluster.accID);
+    // this.masterForm.controls['acsysSyncStatusName'].setValue(this.selCluster.crAcsysSyncstatus);
+    // this.masterForm.controls['acsysSyncDateName'].setValue(this.selCluster.crAcsysSyncDateTime);
+    // this.masterForm.controls['accIdName'].setValue(this.selCluster.accID);
 
     this.setEmployee(this.selCluster);
     this.setZone(this.selCluster);

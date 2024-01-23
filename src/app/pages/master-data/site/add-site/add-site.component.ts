@@ -92,15 +92,18 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadSiteType();
+    this.isLoading = true;
     this.loadCluster();
     this.loadEmployee();
     this.loadDeviceType();
     this.loadSim();
     this.loadCustomer();
     setTimeout(() => {
+      
       this.getData();
-    }, 1000);
+      this.isLoading = false;
+    }, 5000);
+    this.loadSiteType();
   }
 
   initForm() {
@@ -154,6 +157,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['longitude'].setValue(this.selSite.smLongitude);
     this.masterForm.controls['dvUniqueId'].setValue(this.selSite.dvuniqueid);
     this.masterForm.controls['accIdName'].setValue(this.selSite.accID);
+   // console.log("this.selSite.smSitetypeid",this.selSite.smSitetypeid);
+    
+    //this.masterForm.controls['selSiteType'].setValue(this.selSite.smSitetypeid);
     this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrand);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
     this.masterForm.controls['dcStartBattVolValue'].setValue(this.selSite.dcStartBattVol);
@@ -163,7 +169,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['settableLoadValue'].setValue(this.selSite.settableLoad);
 
 
-    this.setSiteType(this.selSite);
+    //this.setSiteType(this.selSite);
+    this.loadSiteTypeUpdate();
     this.setCluster(this.selSite);
     this.setEmployeeId(this.selSite);
     this.setDeviceType(this.selSite);
@@ -177,12 +184,33 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.httpClient.get(url).subscribe((res: any) => {
       this.siteTypeList = res.data;
       this.masterForm.controls['selSiteType'].setValue(res.data[0]);
+     
+     
     }, (err) => {
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading site type list!'
       });
     });
+  }
+
+
+  loadSiteTypeUpdate()
+  {
+  const url = ApiConstant.getSiteType;
+  this.httpClient.get(url).subscribe((res: any) => {
+    this.siteTypeList = res.data;
+    
+   if(this.selSite.smSitetypeid==1)
+   {
+    this.masterForm.controls['selSiteType'].setValue(res.data[0]);
+   }
+   
+  else{
+    this.masterForm.controls['selSiteType'].setValue(res.data[1]);
+  }
+  
+   });
   }
 
   loadCluster() {
@@ -276,6 +304,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setSiteType(req?: any) {
     for (let item of this.siteTypeList) {
+     
       if (item.id === req.smSitetypeid) {
         req.siteType = item.type;
         this.masterForm.controls['selSiteType'].setValue(item);

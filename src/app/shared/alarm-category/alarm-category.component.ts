@@ -369,7 +369,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
     } else {
       this.filterParam.siteId = ["All"];
     }
-    console.log("urllll",window.location.href);
+    //console.log("urllll",window.location.href);
 
   }
 
@@ -678,7 +678,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   this.loadedData = [];
 this.alertType=item;
   this.httpClient.get(apiUrl).subscribe((res: any) => {
-    console.log("line 681", res);
+    //console.log("line 681", res);
     if (res && res.data && res.data.length) {
       this.manipulate(res);
       setTimeout(() => {
@@ -782,7 +782,7 @@ loadAllDataAlerts(alertType) {
     if (this.exportData.data.length === 0 && this.alertsClicked==false ) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
-        console.log("717line", this.exportData.data);
+       // console.log("717line", this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -798,7 +798,7 @@ loadAllDataAlerts(alertType) {
     {
       this.loadAllDataAlerts(this.alertType).then((res: any) => {
         this.exportData.data = res.data;
-        console.log("717line", this.exportData.data);
+        //console.log("717line", this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -898,12 +898,12 @@ loadAllDataAlerts(alertType) {
       
 
       if (res === 0) {
-        console.log('super critical alerts counts: 0');
+       // console.log('super critical alerts counts: 0');
         this.superCriticalAlertsCount = 0;
       this.isClickable1=true;
       this.superCritical="Community Load"
       } else {
-        console.log('super critical alerts counts: ', JSON.stringify(res));
+       // console.log('super critical alerts counts: ', JSON.stringify(res));
         this.superCriticalAlertsCount = res;
        this.isClickable1=true;
        this.superCritical="Community Load"
@@ -925,7 +925,7 @@ loadAllDataAlerts(alertType) {
       relativeTo: this.activatedRoute.parent
     });
     // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
-    console.log('alertType', type);
+//console.log('alertType', type);
   }
   openTabular1(evt?: any) {
     this.router.navigate(['alerts-table',this.superCritical], {
@@ -933,7 +933,7 @@ loadAllDataAlerts(alertType) {
     });
     // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
     //console.log('alertType', type);
-    console.log("hello");
+  
   }
 
 }

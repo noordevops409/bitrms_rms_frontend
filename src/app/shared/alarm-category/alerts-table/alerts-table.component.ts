@@ -45,9 +45,9 @@ export class AlertsTableComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      console.log('in the alert-table.component');
+  //    console.log('in the alert-table.component');
       this.type = params.get('type');
-      console.log('line 23', this.type);
+    //  console.log('line 23', this.type);
       this.loading = true; // Set loading to true before making the request
       this.getAlertsTableDataByType(this.type); // Assign the observable
       
@@ -58,28 +58,28 @@ export class AlertsTableComponent {
   }
 
   private getAlertsTableDataByType(type: any) {
-    console.log("line 61",type);
+   // console.log("line 61",type);
     if(type=="Community Load")
     {
       this.apiUrl = `${ApiConstant.getSuperCriticalAlerts}`; // Use backticks to create the template string
-      console.log('line 23', this.apiUrl);
+    //  console.log('line 23', this.apiUrl);
   
       // const url = ApiConstant.getLatestData;
       this.httpClient.get(this.apiUrl).subscribe((data) => {
         this.tableData1 = data;
-        console.log('API Response:', data);
+     //   console.log('API Response:', data);
         this.loading = false; // Set loading to false once data is fetched
       });
     }
     else
     {
     this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; // Use backticks to create the template string
-    console.log('line 23', this.apiUrl);
+   // console.log('line 23', this.apiUrl);
 
     // const url = ApiConstant.getLatestData;
     this.httpClient.get(this.apiUrl).subscribe((data) => {
       this.tableData1 = data;
-      console.log('API Response:', data);
+     // console.log('API Response:', data);
       this.loading = false; // Set loading to false once data is fetched
     });
   }

@@ -89,7 +89,7 @@ export class RcaReportFilterComponent {
     var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;    if (closeButton) {
       closeButton.click();
     } else {
-      console.log('Button not found');
+    //  console.log('Button not found');
     }
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
     this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
@@ -115,7 +115,7 @@ export class RcaReportFilterComponent {
   }
 
   applyFilter(evt?: any) {
-    console.log("helooo")
+  //  console.log("helooo")
     setTimeout(() => {
       if (this.filterType === 1) {
         this.isReqToOpenFilter = false;
