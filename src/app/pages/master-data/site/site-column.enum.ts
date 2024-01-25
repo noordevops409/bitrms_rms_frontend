@@ -300,9 +300,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteClassification: {
+  smSiteClassifications: {
     userIndex: 17,
-    fieldName: 'smSiteClassification',
+    fieldName: 'smSiteClassifications',
     colDisplayName: 'Site Classification',
     title: 'Site Classification',
     widthOfColumn: 150,

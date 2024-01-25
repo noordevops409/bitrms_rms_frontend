@@ -92,7 +92,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.isLoading = true;
+    this.isSaving = true;
     this.loadCluster();
     this.loadEmployee();
     this.loadDeviceType();
@@ -101,8 +101,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       
       this.getData();
-      this.isLoading = false;
-    }, 5000);
+      this.isSaving = false;
+    }, 6000);
     this.loadSiteType();
   }
 
@@ -177,7 +177,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.setSim(this.selSite);
     this.setCustomer(this.selSite);
     this.setSiteClassification(this.selSite);
+    this.setSiteStatus(this.selSite);
   }
+
 
   loadSiteType() {
     const url = ApiConstant.getSiteType;
@@ -358,7 +360,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setCustomer(req?: any) {
     for (let item of this.customerList) {
-      if (item.id == req.customerName) {
+      if (item.name == req.customerName) {
         req.customerName = item.name;
         this.masterForm.controls['selCustomer'].setValue(item);
         break;
@@ -368,12 +370,25 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setSiteClassification(req?: any) {
     for (let item of this.siteClassificationList) {
-      if (item.value == req.smscid) {
-        req.siteClassification = item.label;
+    
+
+      if (item.label == req.smSiteClassifications) {
+        req.siteClassifications= item.label;
         
         this.masterForm.controls['selSiteClassification'].setValue(item);
         break;
       }
+    }
+    
+  }
+  setSiteStatus(req?: any)
+    {
+      for (let item of this.siteStatusList) {
+        if (item.label == req.siteStatusName) {
+          req.siteClassifications= item.label;
+          this.masterForm.controls['selSiteStatus'].setValue(item);
+          break;
+        }
     }
   }
 
@@ -421,7 +436,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       deviceTypeName:formData.selDeviceType.deviceType,
       customerName:formData.selCustomer.name,
       siteStatusName:formData.selSiteStatus.label,
-      smSiteClassification:formData.selSiteClassification.label,
+      smSiteClassifications:formData.selSiteClassification.label,
       username: 'harish'
     };
 
