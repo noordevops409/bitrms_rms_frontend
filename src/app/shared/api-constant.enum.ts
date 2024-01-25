@@ -96,6 +96,7 @@ export const ApiConstant = {
   saveZoneMasterData: `${GATEWAY}/api/master_data/zone`,
   deleteZoneMasterData: `${GATEWAY}/api/master_data/delete_zone_details`,
 
+  getEmployeeMasterData1: `${GATEWAY}/api/master_data/view_employee_form`,
   getEmployeeMasterData: `${GATEWAY}/api/master_data/view_employee_form`,
   saveEmployeeMasterData: `${GATEWAY}/api/master_data/employee`,
   deleteEmployeeMasterData: `${GATEWAY}/api/master_data/delete_employee_details`,

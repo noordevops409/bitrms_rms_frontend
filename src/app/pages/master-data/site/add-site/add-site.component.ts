@@ -255,6 +255,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
           item.id = counter;
         }
         this.deviceTypeList = res.data;
+        //console.log("0000000258",this.deviceTypeList);
         this.masterForm.controls['selDeviceType'].setValue(res.data[0]);
       }
     }, (err) => {
@@ -292,6 +293,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
           item.id = counter;
         }
         this.customerList = res.data;
+        //console.log("customerList",this.customerList);
+
         this.masterForm.controls['selCustomer'].setValue(res.data[0]);
       }
     }, (err) => {
@@ -355,7 +358,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setCustomer(req?: any) {
     for (let item of this.customerList) {
-      if (item.id == req.smCustomerId) {
+      if (item.id == req.customerName) {
         req.customerName = item.name;
         this.masterForm.controls['selCustomer'].setValue(item);
         break;
@@ -367,6 +370,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     for (let item of this.siteClassificationList) {
       if (item.value == req.smscid) {
         req.siteClassification = item.label;
+        
         this.masterForm.controls['selSiteClassification'].setValue(item);
         break;
       }
@@ -414,6 +418,10 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       battLifeCycle: formData.battLifeCycleValue,
       dgRunHour: formData.dgRunHourValue,
       settableLoad:formData.settableLoadValue,
+      deviceTypeName:formData.selDeviceType.deviceType,
+      customerName:formData.selCustomer.name,
+      siteStatusName:formData.selSiteStatus.label,
+      smSiteClassification:formData.selSiteClassification.label,
       username: 'harish'
     };
 

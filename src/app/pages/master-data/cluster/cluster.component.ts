@@ -117,7 +117,7 @@ export class ClusterComponent implements OnInit {
   }
 
   loadEmployee() {
-    const url = ApiConstant.getEmployeeMasterData;
+    const url = ApiConstant.getEmployeeMasterData ;
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeMasterList && data.employeeMasterList.length) {
         this.employeeList = data.employeeMasterList;

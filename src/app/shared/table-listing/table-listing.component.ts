@@ -840,6 +840,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
       path: this.folderPath,
       noRecordMsg: data.data && data.data.length ? '' : (this.noRecordMsg || 'No record available')
     });
+   
 
 
     this.freezeDnD = false;

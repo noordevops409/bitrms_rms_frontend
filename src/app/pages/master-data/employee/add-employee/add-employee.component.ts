@@ -262,9 +262,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     const url = ApiConstant.saveEmployeeMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
-    if (this.isForEdit) {
-      console.log("269", this.masterForm);
-    }
+   
 
     let params: any = {
       emEmployeeID: formData.empId,

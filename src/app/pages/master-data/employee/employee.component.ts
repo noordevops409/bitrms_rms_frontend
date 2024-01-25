@@ -53,7 +53,7 @@ export class EmployeeComponent implements OnInit {
   private sampleData: any = {};
   private allData: any = {};
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
@@ -149,8 +149,8 @@ export class EmployeeComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getEmployeeMasterData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
+    let apiUrl: any = ApiConstant.getEmployeeMasterData1 + `/pageNumber/${this.currentPageNo}/size/${this.pageSize}`;
+     (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
@@ -166,13 +166,14 @@ export class EmployeeComponent implements OnInit {
       })
     });
   }
-
+ 
+  
   manipulate(res) {
     this.setResponse(res.employeeMasterList);
     this.setColumnHeader(res.employeeMasterList);
     this.setRowData(res.employeeMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.employeeMasterList.length;
+    this.sampleData.totalDocs = res.totalCount ;
   }
 
   setResponse(resData) {

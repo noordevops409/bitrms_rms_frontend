@@ -107,7 +107,7 @@ export const SITE_COLUMN_HEADER = {
     fieldName: 'smAddress',
     colDisplayName: 'Address',
     title: 'Address',
-    widthOfColumn: 250,
+    widthOfColumn: 700,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -228,9 +228,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  devicetype: {
+  deviceTypeName: {
     userIndex: 13,
-    fieldName: 'devicetype',
+    fieldName: 'deviceTypeName',
     colDisplayName: 'Device Type',
     title: 'Device Type',
     widthOfColumn: 150,
@@ -264,9 +264,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smSiteactivestatus: {
+  siteStatusName: {
     userIndex: 15,
-    fieldName: 'smSiteactivestatus',
+    fieldName: 'siteStatusName',
     colDisplayName: 'Site Status',
     title: 'Site Status',
     widthOfColumn: 150,
@@ -282,9 +282,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smCustomerName: {
+  customerName: {
     userIndex: 16,
-    fieldName: 'smCustomerName',
+    fieldName: 'customerName',
     colDisplayName: 'Customer Name',
     title: 'Customer Name',
     widthOfColumn: 150,
@@ -300,9 +300,9 @@ export const SITE_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  smscid: {
+  smSiteClassification: {
     userIndex: 17,
-    fieldName: 'smscid',
+    fieldName: 'smSiteClassification',
     colDisplayName: 'Site Classification',
     title: 'Site Classification',
     widthOfColumn: 150,
