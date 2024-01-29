@@ -30,6 +30,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
   private selEmployeeRole: any = null;
   private employeeRoleId: any = null;
+negativeNumber: any;
 
   constructor(
     private util: CommonUtilService,
@@ -69,10 +70,21 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
     this.masterForm = this.formBuilder.group({
       'name': [null, [Validators.required]],
       'isPredefined': 1,
-      'roleCategoryId': [null],
+        'roleCategoryId': ['', [ this.validateNonNegativeNumber]],
       'isEscalationReq': [null],
       'categoryId': [null]
     });
+    
+  }
+   validateNonNegativeNumber(control) {
+    const value = control.value;
+
+    if (value < 0) {
+      console.log('Negative number detected:', value);
+      return { negativeNumber: true };
+    }
+
+    return null;
   }
 
   getData() {

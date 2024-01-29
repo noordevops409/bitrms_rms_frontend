@@ -52,6 +52,8 @@ export class EmployeeComponent implements OnInit {
   private zoneList: any = [];
   private sampleData: any = {};
   private allData: any = {};
+  private allData1: any = {};
+
   private currentPageNo: number = 1;
   private pageSize: number = 100;
   private recordStartFrom: number = 0;
@@ -85,7 +87,9 @@ export class EmployeeComponent implements OnInit {
     this.loadZone();
     setTimeout(() => {
       this.loadData();
+      this.loadAllData();
     }, 1000);
+   
   }
 
   listen() {
@@ -166,6 +170,15 @@ export class EmployeeComponent implements OnInit {
       })
     });
   }
+
+  loadAllData()
+  {
+     let apiUrl: any = ApiConstant.getEmployeeMasterData1 ;
+       this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+        this.setRowData1(res.employeeMasterList);
+       })
+     }
+  
  
   
   manipulate(res) {
@@ -255,6 +268,25 @@ export class EmployeeComponent implements OnInit {
       this.allData.data = [];
     }
   }
+  setRowData1(resData) {
+    const data = resData || [];
+    if (data.length) {
+      let counter = 0;
+      for (let item of data) {
+        this.setEmployeeRole(item);
+        this.setRegion(item);
+        this.setZone(item);
+        counter += 1;
+        item.srno = counter;
+        item.delete = "Delete";
+      }
+      this.sampleData.data = data;
+      this.allData1.data = data;
+    } else {
+      this.sampleData.data = [];
+      this.allData1.data = [];
+    }
+  }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
@@ -320,10 +352,22 @@ export class EmployeeComponent implements OnInit {
   }
 
   searchGlobally(event) {
+    
+    //  let apiUrl: any = ApiConstant.getEmployeeMasterData1 ;
+    //  setTimeout(() => {
+     
+    //   this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+    //     this.setRowData(res.employeeMasterList);
+    //   })
+    // }, 5000);
+    
+
     let { value } = event.target;
     value = value.toLowerCase();
+    
     if (value) {
-      this.sampleData.data = this.allData.data.filter((item) => {
+  
+      this.sampleData.data = this.allData1.data.filter((item) => {
         item.emEmployeeID = item.emEmployeeID.toString();
         item.empRoleName = item.empRoleName.toString();
         item.emFirstName = item.emFirstName.toString();
@@ -332,7 +376,7 @@ export class EmployeeComponent implements OnInit {
           item.emFirstName.toLowerCase().includes(value));
       });
     } else {
-      this.sampleData.data = this.allData.data;
+      this.sampleData.data = this.allData1.data;
     }
     this.activeListing.list = this.sampleData;
     this.tableListingComponent.init();

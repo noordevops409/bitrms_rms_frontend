@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="table-grid scroller-outer" [ngClass]="{'no-records': !listingData.allItem.length}" *ngIf="activeViewType === ViewType.LIST">
-    <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : '-webkit-inline-box'">
+    <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : ''">
       <ul>
         <li *ngIf="listingData.itemHeader.length && listingData.itemHeader[0].colType === 'checkbox'"
           [style.width.px]="listingData.itemHeader[0].widthColumn || 35" class="text-center">
