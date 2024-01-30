@@ -37,6 +37,8 @@ export class EmployeeComponent implements OnInit {
   public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
 
   public activeListing: any = {};
+  public activeListing1: any = {};
+
   public data: any;
   public listingTemplate: any = {};
 
@@ -186,6 +188,7 @@ export class EmployeeComponent implements OnInit {
     this.setColumnHeader(res.employeeMasterList);
     this.setRowData(res.employeeMasterList);
     this.activeListing.list = this.sampleData;
+     this.activeListing1.list=this.allData1
     this.sampleData.totalDocs = res.totalCount ;
   }
 
@@ -343,11 +346,13 @@ export class EmployeeComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("xlsx");
+
   }
 
   exportCSV(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
+
     this.exportTableToExcel("csv");
   }
 

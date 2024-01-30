@@ -26,7 +26,7 @@
             <div class="box-body">
                 <div class="list-wrap">
                     <div class="view-holder">
-                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing1.list && activeListing1.list">
                             <table id="export-data">
                                 <thead>
                                     <tr>
@@ -55,17 +55,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of activeListing.list.data">
+                                    <tr *ngFor="let item of activeListing1.list.data">
                                         <td>{{item.srno}}</td>
                                         <td>{{item.emEmployeeID}}</td>
                                         <td>{{item.empRoleName}}</td>
                                         <td>{{item.emFirstName}}</td>
                                         <td>{{item.emLastName}}</td>
+                                        <td>{{item.emContactNo}}</td>
                                         <td>{{item.emEmail}}</td>
                                         <td>{{item.regionName}}</td>
                                         <td>{{item.zoneName}}</td>
                                         <!-- <td>{{item.emERPLocation}}</td> -->
-                                        <td>{{item.emEmployeeID}}</td>
+                                        <td>{{item.emLocation}}</td>
                                         <td>{{item.emLatitude}}</td>
                                         <td>{{item.emLongitude}}</td>
                                         <td>{{item.emEntryDate}}</td>

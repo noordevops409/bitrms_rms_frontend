@@ -501,7 +501,7 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `hybrid-power-tracker.${type}`);
+    XLSX.writeFile(wb, `hybrid-energy-run-hours.${type}`);
     this.isExporting = false;
 
   }
