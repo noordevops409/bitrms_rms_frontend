@@ -173,9 +173,9 @@ export const EMPLOYEE_COLUMN_HEADER = {
   //   isSortSupported: false,
   //   isCustomAttributeColumn: false
   // },
-  emLocation: {
+  emLocationName: {
     userIndex: 10,
-    fieldName: 'emLocation',
+    fieldName: 'emLocationName',
     colDisplayName: 'Employee Location',
     title: 'Employee Location',
     widthOfColumn: 150,

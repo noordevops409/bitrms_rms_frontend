@@ -193,7 +193,6 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     for (let item of this.zoneList) {
       if (item.znZoneID === req.znZoneID) {
         this.masterForm.controls['selZone'].setValue(item);
-        this.masterForm.controls['employeeLocation'].setValue(item);;
         break;
       }
     }
@@ -208,7 +207,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.masterForm.controls['contactNumber'].setValue(this.selEmployee.emContactNo);
     this.masterForm.controls['email'].setValue(this.selEmployee.emEmail);
     this.masterForm.controls['erpLocation'].setValue(this.selEmployee.emERPLocation);
-    this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.emLocation);
+   // this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.emLocation);
     this.masterForm.controls['latitude'].setValue(this.selEmployee.emLatitude);
     this.masterForm.controls['longitude'].setValue(this.selEmployee.emLongitude);
     this.masterForm.controls['acsysEmployeeId'].setValue(this.selEmployee.emAcsysEmployeeID);
@@ -227,9 +226,20 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     //   this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[0]);
     // }
     this.escalationModeUpdate();
+    this.setLocation(this.selEmployee);
+
     this.setEmployeeRole(this.selEmployee);
     this.setRegion(this.selEmployee);
     this.setZone(this.selEmployee);
+  }
+
+  setLocation(req?: any) {
+    for (let item of this.zoneList) {
+      if (item.znZoneID == req.emLocation) {
+        this.masterForm.controls['employeeLocation'].setValue(item);;
+        break;
+      }
+    }
   }
 
   close(evt?: any) {
@@ -275,6 +285,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       emEmail: formData.email,
       emERPLocation: formData.erpLocation,
       emLocation: formData.employeeLocation.znZoneID,
+      emLocationName:formData.employeeLocation.znZone,
       emLatitude: formData.latitude,
       emLongitude: formData.longitude,
       emEscalationMode: formData.selEscalationMode.value,

@@ -384,6 +384,9 @@ export class EmployeeComponent implements OnInit {
       this.sampleData.data = this.allData1.data;
     }
     this.activeListing.list = this.sampleData;
+    // setTimeout(() => {
+    //   this.loadAllData();
+    // }, 1000);
     this.tableListingComponent.init();
   }
 
@@ -399,8 +402,13 @@ export class EmployeeComponent implements OnInit {
           this.manipulate(data);
         } else {
           this.loadData();
+          
+          
         }
       }
+      setTimeout(() => {
+        this.loadAllData();
+      }, 1000);
     });
   }
 
@@ -419,6 +427,9 @@ export class EmployeeComponent implements OnInit {
           this.loadData();
         }
       }
+      setTimeout(() => {
+        this.loadAllData();
+      }, 1000);
     });
   }
 
