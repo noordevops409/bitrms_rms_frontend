@@ -778,6 +778,7 @@ loadAllDataAlerts(alertType) {
   exportOptSelected(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
+    this.exportData.data=[];
     this.isExporting = false;
     if (this.exportData.data.length === 0 && this.alertsClicked==false ) {
       this.loadAllData().then((res: any) => {
@@ -821,6 +822,11 @@ loadAllDataAlerts(alertType) {
         }
       }, 500);
     }
+    setTimeout(() => {
+      this.ddExport = -1;
+    }, 2000);
+    
+
   }
 
   searchGlobally(event) {

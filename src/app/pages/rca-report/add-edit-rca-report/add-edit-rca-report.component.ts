@@ -80,10 +80,13 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
   }
 
   init() {
+    
     this.loadData();
+    this.isLoading=true;
     setTimeout(() => {
       this.getData();
-    }, 1000);
+    }, 2000);
+    
   }
 
   loadData() {
@@ -127,6 +130,8 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
     } else {
       this.isForEdit = false;
     }
+    this.isLoading=false;
+
   }
 
   setFormData() {
@@ -147,6 +152,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
     this.setFaultCategory(this.selRcaDetails);
     this.setIssueCategory(this.selRcaDetails);
     this.setOutageCategory(this.selRcaDetails);
+
   }
 
   loadSiteList() {
@@ -282,8 +288,8 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
 
   calDuration(evt?: any) {
     let formData: any = this.masterForm.value;
-    // formData.inputSiteDownTime = moment(new Date(formData.inputSiteDownTime));
-    // formData.inputRestoredTime = moment(new Date(formData.inputRestoredTime));
+    //  formData.inputSiteDownTime = moment(new Date(formData.inputSiteDownTime));
+    //  formData.inputRestoredTime = moment(new Date(formData.inputRestoredTime));
     let downTime: any = moment(new Date(formData.inputSiteDownTime), "HH:mm:ss");
     let restoreTime: any = moment(new Date(formData.inputRestoredTime), "HH:mm:ss");
     let diffInMinutes = restoreTime.diff(downTime, "minutes");
@@ -339,7 +345,7 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
 
     let paramObj: any = {
       "rcaDate": formData.selectDate,
-      "siteDownTime": formData.inputSiteDownTime,
+      "siteDownTime": formData.inputSiteDownTime, 
       "restoredTime": formData.inputRestoredTime,
       "faultID": formData.selectFaultCategory.faultID,
       "faultCategory": formData.selectFaultCategory.faultCategory,
@@ -385,7 +391,10 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
         msg: 'Error while saving RCA details!'
       });
     });
+
+  //   function formatDateForBackend(date: Date): string {
+  //     return date.toISOString();
+  // }
+ 
   }
-
-
 }

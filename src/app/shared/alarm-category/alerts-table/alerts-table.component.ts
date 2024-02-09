@@ -136,7 +136,7 @@ export class AlertsTableComponent {
   }
   setTimeout(() => {
     this.ddExport = -1;
-  }, 2000); // 2000 milliseconds = 2 seconds
+  }, 500); 
 
 
 }
