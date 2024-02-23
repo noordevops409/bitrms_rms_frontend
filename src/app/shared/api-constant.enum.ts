@@ -34,6 +34,8 @@ export const ApiConstant = {
   getNoLoadOutageReport: `${GATEWAY}/api/prf_dashboard/no-load-outage-report`,
   getHourlyReportPOST: `${GATEWAY}/api/performance-dashboard-controller/getSiteSummaryUsingPOST`,
   getCustomerMaster: `${GATEWAY}/api/dashboard/customer-master`,
+  getSiteCustomerMaster: `${GATEWAY}/api/dashboard/site-customer-master`,
+
   getSiteCode: `${GATEWAY}/api/dashboard/site-code-master`,
   getSiteType: `${GATEWAY}/api/dashboard/site-type-master`,
   getClusterMaster: `${GATEWAY}/api/dashboard/cluster-master`,

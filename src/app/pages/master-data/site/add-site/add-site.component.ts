@@ -285,19 +285,42 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
+  // loadCustomer() {
+  //   const url = ApiConstant.getSiteCustomerMaster;
+  //   this.httpClient.get(url).subscribe((res: any) => {
+  //     if (res && res.data && res.data.length) {
+  //       let counter = 0;
+  //       for (let item of res.data) {
+  //         console.log("line 294",res.data);
+
+  //         counter += 1;
+  //         item.id = counter;
+  //       }
+  //       this.customerList = res.data;
+  //       console.log("customerList",this.customerList);
+
+  //       this.masterForm.controls['selCustomer'].setValue(res.data[0]);
+  //     }
+  //   }, (err) => {
+  //     this.util.notification.error({
+  //       title: 'Error',
+  //       msg: 'Error while loading customer list!'
+  //     });
+  //   });
+  // }
   loadCustomer() {
-    const url = ApiConstant.getCustomerMaster;
+    const url = ApiConstant.getSiteCustomerMaster;
     this.httpClient.get(url).subscribe((res: any) => {
       if (res && res.data && res.data.length) {
-        let counter = 0;
-        for (let item of res.data) {
-          counter += 1;
-          item.id = counter;
-        }
-        this.customerList = res.data;
-        //console.log("customerList",this.customerList);
+        const customerData = res.data.map((item: any) => {
+          return { value: item.customer_id, name: item.customer_name };
+        });
+        
+       // console.log(customerData[0]);
+        this.customerList=customerData;
+        console.log("line 321",this.customerList);
+        this.masterForm.controls['selCustomer'].setValue(this.customerList[0]);
 
-        this.masterForm.controls['selCustomer'].setValue(res.data[0]);
       }
     }, (err) => {
       this.util.notification.error({
@@ -306,6 +329,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       });
     });
   }
+  
 
   setSiteType(req?: any) {
     for (let item of this.siteTypeList) {
@@ -360,6 +384,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setCustomer(req?: any) {
     for (let item of this.customerList) {
+      console.log("363 line",this.customerList)
       if (item.name == req.customerName) {
         req.customerName = item.name;
         this.masterForm.controls['selCustomer'].setValue(item);
@@ -407,7 +432,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     const formData = this.masterForm.value;
     const url = ApiConstant.saveSiteMasterData;
-
+//console.log("line 434",formData.selCustomer.value);
     let params: any = {
       smSitecode: formData.siteCode,
       smSitename: formData.siteName,
@@ -423,7 +448,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       simID: formData.selSim.simID,
       dvuniqueid: formData.dvUniqueId,
       smSiteactivestatus: formData.selSiteStatus.value,
-      smCustomerId: formData.selCustomer.id,
+      smCustomerId: formData.selCustomer.value,
       smscid: formData.selSiteClassification.value,
       accID: formData.accIdName,
       dgBrand: formData.dgBrandName,
@@ -435,6 +460,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       settableLoad:formData.settableLoadValue,
       deviceTypeName:formData.selDeviceType.deviceType,
       customerName:formData.selCustomer.name,
+      smCustomerName:formData.selCustomer.name,
       siteStatusName:formData.selSiteStatus.label,
       smSiteClassifications:formData.selSiteClassification.label,
       username: 'harish'
