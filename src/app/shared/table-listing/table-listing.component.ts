@@ -31,6 +31,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
 
   @Input('pager') pager: any = true;
 
+  @Input('alram') alram: any ;
+
+
   @Input('rpp') rpp: any = true;
 
   @Input('breadcrumb') breadcrumb: boolean = true;
@@ -738,6 +741,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
 
       return;
     }
+    
 
     this.lazyLoadCompleted = false;
     this.selectedData.length = 0;
@@ -840,7 +844,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
       path: this.folderPath,
       noRecordMsg: data.data && data.data.length ? '' : (this.noRecordMsg || 'No record available')
     });
-   
+   // console.log("903",this.listingData);
 
 
     this.freezeDnD = false;
@@ -900,6 +904,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     });
 
     this.$(this.$element.nativeElement).find('.thumbnail-item-container').append(fragment);
+  
   }
 
   /**

@@ -750,6 +750,9 @@ loadAllDataAlerts(alertType) {
 
   exportTableToExcel(type: string): void {
     /* pass here the table id */
+    console.log("activeListing.list  "   ,this.activeListing.list);
+    console.log("activeListing.list.data  ",this.activeListing.list.data);
+
     let element = document.getElementById('export-data');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
@@ -776,19 +779,18 @@ loadAllDataAlerts(alertType) {
   }
 
   exportOptSelected(evt?: any) {
-    evt.stopPropagation();
-    evt.preventDefault();
+   
     this.exportData.data=[];
-    this.isExporting = false;
-    if (this.exportData.data.length === 0 && this.alertsClicked==false ) {
+    this.isExporting = true;
+    if (this.exportData.data.length == 0 && this.alertsClicked==false ) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
-       // console.log("717line", this.exportData.data);
+        console.log("717line", this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
-          if (selVal === "1") {
+          if (selVal == "1") {
             this.exportExcel(evt);
-          } else if (selVal === "2") {
+          } else if (selVal == "2") {
             this.exportCSV(evt);
           }
         }, 500);
@@ -824,9 +826,10 @@ loadAllDataAlerts(alertType) {
     }
     setTimeout(() => {
       this.ddExport = -1;
-    }, 2000);
     
-
+    }, 5000);
+    
+this.isExporting=false;
   }
 
   searchGlobally(event) {

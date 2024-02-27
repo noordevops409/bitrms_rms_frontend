@@ -276,6 +276,7 @@ export class TeeEnergyRunHoursComponent implements OnInit {
     return new Promise((resolve, reject) => {
       let list: any = [];
       let pageSize = 100;
+      this.currentPageNo=1;
       let getAll = () => {
         let apiUrl: any = ApiConstant.getTeeEnergyRunHoursReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {

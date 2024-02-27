@@ -32,7 +32,7 @@
         </ng-container>
       </ul>
     </div>
-    <div class="gbody scroller">
+    <div class="gbody scroller" [ngStyle]="{'height': alram ? '93%' : '100%'}">
       <div class="list-item-container scroller-inner"></div>
       <p *ngIf="((!listingData.allItem.length && !listingData.noRecordMsg) || (!inifiniteScroll && !lazyLoadCompleted) || (listingData.allItem.length && listingData.itemBody.length !== listingData.allItem.length))"
         class="text-center loading-text">Loading...</p>
@@ -41,7 +41,7 @@
       </p>
     </div>
   </div>
-  <div class="gfooter clearfix">
+  <div class="gfooter clearfix" [ngStyle]="{'bottom': alram ? '45px' : '0px'}">
     <div class="pagerDom pull-left" *ngIf="listingData.itemBody.length && pager">
       <ul class="pagination justify-content-center">
         <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === 1}">
