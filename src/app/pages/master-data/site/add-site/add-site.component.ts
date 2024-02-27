@@ -364,8 +364,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setDeviceType(req?: any) {
     for (let item of this.deviceTypeList) {
-      if (item.id == req.devicetype) {
-        req.deviceType = item.deviceType;
+//console.log("367",item);
+      if (item.deviceType == req.deviceTypeName) {
+        req.deviceTypeName = item.deviceType;
         this.masterForm.controls['selDeviceType'].setValue(item);
         break;
       }
@@ -384,7 +385,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setCustomer(req?: any) {
     for (let item of this.customerList) {
-      console.log("363 line",this.customerList)
+      //console.log("363 line",this.customerList)
       if (item.name == req.customerName) {
         req.customerName = item.name;
         this.masterForm.controls['selCustomer'].setValue(item);

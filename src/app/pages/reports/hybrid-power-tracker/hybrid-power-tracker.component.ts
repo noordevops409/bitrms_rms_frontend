@@ -238,9 +238,9 @@ export class HybridPowerTrackerComponent implements OnInit {
        "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
        
     };
-    // let startDate = this.filterParam.startDate;
-    // let endDate = this.filterParam.endDate;
-    // this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+     let startDate = this.filterParam.startDate;
+    let endDate = this.filterParam.endDate;
+     this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {

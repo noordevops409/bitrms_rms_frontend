@@ -238,14 +238,14 @@ export class TeePowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-       "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-       "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      //  "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      //  "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
       // "startDate": "",
       // "endDate": ""
     };
-    // let startDate = this.filterParam.startDate;
-    // let endDate = this.filterParam.endDate;
-    // this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+    //  let startDate = this.filterParam.startDate;
+    //  let endDate = this.filterParam.endDate;
+    //  this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {
@@ -414,10 +414,10 @@ export class TeePowerTrackerComponent implements OnInit {
       }
   
       if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
-        startDate = fData[2].startDate.replace(/-/g, '/');
-        endDate = fData[2].endDate.replace(/-/g, '/');
-        rangeDate = startDate + ' - ' + endDate;
-      } else {
+      //   startDate = fData[2].startDate.replace(/-/g, '/');
+      //   endDate = fData[2].endDate.replace(/-/g, '/');
+      //   rangeDate = startDate + ' - ' + endDate;
+      // } else {
         // Handle the case where startDate or endDate is null
         startDate = "";
         endDate = "";

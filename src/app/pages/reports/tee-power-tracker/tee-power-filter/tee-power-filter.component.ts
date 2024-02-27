@@ -93,8 +93,8 @@ export class TeePowerFilterComponent implements OnInit {
     } else {
     //  console.log('Button not found');
     }
-    this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
-    this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
+    // this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
+    // this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
 
     const formattedStartDate = moment(this.range.controls['start'].value).format('YYYY/MM/DD');
     const formattedEndDate = moment(this.range.controls['end'].value).format('YYYY/MM/DD');
