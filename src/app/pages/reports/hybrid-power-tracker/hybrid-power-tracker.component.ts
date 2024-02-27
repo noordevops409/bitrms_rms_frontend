@@ -234,13 +234,13 @@ export class HybridPowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-       "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-       "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      //  "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      //  "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
        
     };
-     let startDate = this.filterParam.startDate;
-    let endDate = this.filterParam.endDate;
-     this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+    //  let startDate = this.filterParam.startDate;
+    // let endDate = this.filterParam.endDate;
+    //  this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {
@@ -277,6 +277,7 @@ export class HybridPowerTrackerComponent implements OnInit {
     return new Promise((resolve, reject) => {
       let list: any = [];
       let pageSize = 100;
+      this.currentPageNo=1;
       let getAll = () => {
         let apiUrl: any = ApiConstant.getHybridPowerTrackerReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
@@ -405,16 +406,16 @@ export class HybridPowerTrackerComponent implements OnInit {
         });
       }
 
-      if (fData[2] && fData[2].startDate !== null && fData[6].endDate !== null) {
-        startDate = fData[2].startDate.replace(/-/g, '/');
-        endDate = fData[2].endDate.replace(/-/g, '/');
-        rangeDate = startDate + ' - ' + endDate;
-      } else {
+     // if (fData[2] && fData[2].startDate !== null && fData[6].endDate !== null) {
+      //   startDate = fData[2].startDate.replace(/-/g, '/');
+      //   endDate = fData[2].endDate.replace(/-/g, '/');
+      //   rangeDate = startDate + ' - ' + endDate;
+      // } else {
         // Handle the case where startDate or endDate is null
         startDate = "";
         endDate = "";
         rangeDate = "";
-      }
+   // }
     }
     this.filterParam = {
       "siteId": siteId,
