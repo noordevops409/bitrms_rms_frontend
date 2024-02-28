@@ -283,19 +283,3 @@
     height: 41px;
     margin-top: 10px;
 }
-:host .table-listing.gfooter {
-    display: none !important;
-    background: #222B45 !important;
-    position: absolute !important;
-    /* width: 100%; */
-    bottom: 45px !important;
-    justify-content: space-between;
-    align-items: center;
-}
-:host .table-listing.gbody
-{
-    height: 93%;
-    overflow: auto;
-    border-top: 44px solid #fff;
-    background-color: #222B45;
-}
