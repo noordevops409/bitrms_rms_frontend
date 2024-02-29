@@ -17,9 +17,9 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  lastUpdated: {
+  rmcTimestamp: {
     userIndex: 1,
-    fieldName: 'lastUpdated',
+    fieldName: 'rmcTimestamp',
     colDisplayName: 'Last Updated',
     title: 'Last Updated',
     widthOfColumn: 150,
@@ -124,7 +124,7 @@ export const REMOTE_COMMANDS_COLUMN_HEADER = {
     fieldName: 'floatvoltage',
     colDisplayName: 'Float Voltage',
     title: 'Float Voltage',
-    widthOfColumn: 250,
+    widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
     id: '7',

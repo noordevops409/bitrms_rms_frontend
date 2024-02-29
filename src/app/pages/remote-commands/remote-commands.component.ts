@@ -317,17 +317,26 @@ export class RemoteCommandsComponent implements OnInit {
       this.isLoading = false;
       this.manipulate(res);
       if (res && res.data && Array.isArray(res.data)) {
-        // Assuming 'data' is the property containing your array
         res.data.forEach((item) => {
+          const date = new Date(item.rmcTimestamp * 1000); 
+          const formattedDate = this.formatDate(date);
+          item.rmcTimestamp=formattedDate;
           if (item.dgbatteryvoltage !== undefined) {
             item.dgbatteryvoltage = item.dgbatteryvoltage * 10;
-           // console.log(item.dgbatteryvoltage);
           }
         });
       } else {
         console.error("Invalid response structure. Unable to iterate over data.");
       }
-      // console.log(res);
+      res.data.sort((a, b) => {
+        const timestampA = a.rmcTimestamp.toLowerCase();
+        const timestampB = b.rmcTimestamp.toLowerCase();
+        if (timestampA < timestampB) return 1; 
+        if (timestampA > timestampB) return -1; 
+        return 0; 
+      });
+      //console.log("Data after sorting:", res.data); 
+      this.setRowData(res.data);
       setTimeout(() => {
         this.tableListingComponent.init();
       });
@@ -340,11 +349,24 @@ export class RemoteCommandsComponent implements OnInit {
       })
     });
   }
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = this.padZero(date.getMonth() + 1);
+    const day = this.padZero(date.getDate());
+    const hours = this.padZero(date.getHours());
+    const minutes = this.padZero(date.getMinutes());
+    const seconds = this.padZero(date.getSeconds());
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
+  }
 
   manipulate(res) {
     this.setResponse(res.data);
     this.setColumnHeader(res.data);
-    this.setRowData(res.data);
+    //this.setRowData(res.data);
     this.activeListing.list = this.sampleData;
     this.sampleData.totalDocs = res.totalCount || res.data.length;
   }
