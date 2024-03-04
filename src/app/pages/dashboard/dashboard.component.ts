@@ -251,8 +251,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   refreshLatestStatusData(evt?: any) {
+   
     this.loadLatestReportStatus();
-  }
+  
+}
 
   loadLatestReportStatus() {
     this.httpClient.post(ApiConstant.getLatestReportStatus, {

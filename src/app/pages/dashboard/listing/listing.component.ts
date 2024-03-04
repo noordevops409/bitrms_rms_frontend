@@ -322,11 +322,11 @@ export class ListingComponent implements OnInit, OnDestroy {
     // if (this._interval) {
     //   this._interval.clearInterval();
     // }
-
-    this._interval = setInterval(() => {
-      this.init();
-    }, AppConstant.REFRESH_ALARM_LISTING_INTERVAL)
-
+    if (window.location.href.includes("dashboard/type")) {
+      this._interval = setInterval(() => {
+          this.init();
+      }, AppConstant.REFRESH_ALARM_LISTING_INTERVAL);
+  }
   }
 
   refresh(evt?: any) {
