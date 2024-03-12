@@ -63,11 +63,10 @@
 
         <tr *ngIf="type === 'Community Load'" id="header-row">
           <th>Sr no</th>
-                  
+          <th>Date</th>
           <th>Site Code</th>
           <th>DC Load</th>
-          <th>Date</th>
-          <th></th>
+          
         </tr>
       </thead>
     </table>
@@ -130,10 +129,11 @@
         <ng-container *ngIf="type === 'Community Load'">
 
           <tr *ngFor="let item of tableData1;let i=index">
-            <td> {{i + 1}}</td>                        
+            <td> {{i + 1}}</td>  
+            <td>{{ item[3] }}</td>
+                      
             <td>{{ item[1] }}</td>
             <td>{{ item[2] }}</td>
-            <td>{{ item[3] | date:'dd-mm-yyyy h:mm:ss a'}}</td>
             <!-- <td>{{ item[0] }}</td> -->
             <!-- <td>{{ item[3] }}</td> -->
             <!-- <td>{{ item[6] }}</td> -->
