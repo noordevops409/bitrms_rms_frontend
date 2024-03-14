@@ -85,28 +85,28 @@ export const USERS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  customerName: {
-    userIndex: 5,
-    fieldName: 'customerName',
-    colDisplayName: 'Customer Name',
-    title: 'Customer Name',
-    widthOfColumn: 200,
-    colType: 'text',
-    dataType: 'text',
-    id: '5',
-    imgName: '',
-    tooltipSrc: '',
-    function: '',
-    funParams: '',
-    wrapData: '',
-    isSortSupported: false,
-    isCustomAttributeColumn: false
-  },
+  // customerName: {
+  //   userIndex: 5,
+  //   fieldName: 'customerNames',
+  //   colDisplayName: 'Customer Name',
+  //   title: 'Customer Name',
+  //   widthOfColumn: 200,
+  //   colType: 'text',
+  //   dataType: 'text',
+  //   id: '5',
+  //   imgName: '',
+  //   tooltipSrc: '',
+  //   function: '',
+  //   funParams: '',
+  //   wrapData: '',
+  //   isSortSupported: false,
+  //   isCustomAttributeColumn: false
+  // },
   customerRoleName: {
     userIndex: 6,
     fieldName: 'customerRoleName',
-    colDisplayName: 'Customer Role Name',
-    title: 'Customer Role Name',
+    colDisplayName: 'Customer Name',
+    title: 'Customer Name',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -138,11 +138,11 @@ export const USERS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  umAactivationstatus: {
+  umDescription: {
     userIndex: 8,
-    fieldName: 'umAactivationstatus',
-    colDisplayName: 'Status',
-    title: 'Status',
+    fieldName: 'umDescription',
+    colDisplayName: 'Activation Status',
+    title: 'Activation Status',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -156,9 +156,9 @@ export const USERS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  umLoginType: {
+  umLoginTypeCountry: {
     userIndex: 9,
-    fieldName: 'umLoginType',
+    fieldName: 'umLoginTypeCountry',
     colDisplayName: 'Login Type',
     title: 'Login Type',
     widthOfColumn: 150,
@@ -192,9 +192,9 @@ export const USERS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
-  umDescription: {
+  umDescriptions: {
     userIndex: 11,
-    fieldName: 'umDescription',
+    fieldName: 'umDescriptions',
     colDisplayName: 'Description',
     title: 'Description',
     widthOfColumn: 250,

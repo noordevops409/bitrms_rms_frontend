@@ -68,6 +68,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       label: 'TEE'
     }
   ];
+  countryList: any;
 
   constructor(
     private util: CommonUtilService,
@@ -93,6 +94,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.loadCustomer();
     this.loadCustomerRole();
     this.loadUserRole();
+    // this.loadCountry();
     // this.loadSiteType();
     // this.loadCustomer();
     setTimeout(() => {
@@ -186,15 +188,32 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadCountry() {
+    const url = ApiConstant.getCountryMasterData;
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.countryMasterList && data.countryMasterList.length) {
+        this.countryList = data.countryMasterList;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading country list!'
+      });
+    });
+  }
+
+
   loadData() {
     if (this.isLoading) {
       return;
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getAllUserData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
+      this.status(res);
+      this.loginType(res);
       this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
@@ -206,6 +225,28 @@ export class UsersComponent implements OnInit, OnDestroy {
         title: 'Error',
         msg: 'Error while loading user data!'
       })
+    });
+  }
+  loginType(res: any) {
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umAactivationstatus == 0) {
+        item.umDescription = 'Active';
+      } else {
+        item.umDescription = 'Inactive';
+      }
+    });
+  }
+  status(res: any) {
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umLoginType == 0) {
+        item.umLoginTypeCountry = 'All';
+      } else if (item.umLoginType == 1) {
+        item.umLoginTypeCountry = 'Myanmar';
+      }
+      else {
+        item.umLoginTypeCountry = 'Philippines';
+
+      }
     });
   }
 
@@ -235,9 +276,10 @@ export class UsersComponent implements OnInit, OnDestroy {
       const rowData = colData[0];
       this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (key === 'customerId') {
-          this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerName']);
-        } else if (key === 'customerRoleId') {
+        // if (key === 'customerId') {
+        //   this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerName']);
+        // } else 
+        if (key === 'customerRoleId') {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerRoleName']);
         } else if (key === 'roleId') {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['roleName']);
@@ -255,7 +297,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       let counter = 0;
       for (let item of data) {
         counter += 1;
-        this.setCustomer(item);
+       // this.setCustomer(item);
         this.setCustomerRole(item);
         this.setUserRole(item);
         item.srno = counter;

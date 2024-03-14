@@ -32,6 +32,21 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   private selUser: any = null;
   private umID: any = null;
+  activationStatusOptions: any = [
+    { value: '0', label: 'Active' },
+    { value: '1', label: 'Inactive' }
+  ];
+  selectedActivationStatus: any;
+  indexVar: any;
+  umLoginTypeOptions: any = [
+    { value: '0', label: 'ALL' },
+    { value: '1', label: 'Myanmar' },
+    {
+      value: '2', label: 'Philippines'
+    }
+
+  ];
+  umLoginTypeIndexVar: any;
 
   constructor(
     private util: CommonUtilService,
@@ -69,6 +84,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.loadCustomer();
     this.loadCustomerRole();
     this.loadUserRole();
+    // this.loadUserStatus();
     setTimeout(() => {
       this.getData();
     }, 1000);
@@ -88,7 +104,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       'mobile': [null, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       'umAactivationstatus': [null],
       'umDescription': [null],
-      'umLoginType': [0],
+      'umLoginType': [null],
       'umType': [0],
       'utID': [0]
     }, {
@@ -159,6 +175,15 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  //   loadUserStatus() {
+  //     const activeStatus = this.activationStatusOptions.find(status => status.value === '0');
+  // console.log("activeStatus",activeStatus)
+  //       // this.masterForm.controls['umAactivationstatus'].setValue();
+
+  //   }
+
+
+
   setCustomer(req) {
     for (let item of this.customerList) {
       if (item.customerid == req.customerId) {
@@ -189,6 +214,25 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
   }
 
+  setUserActiveStatus(req) {
+    const selectedStatus = this.activationStatusOptions.find(item => item.value == req.umAactivationstatus);
+    // console.log("selectedStatus", selectedStatus);
+    if (selectedStatus) {
+      this.indexVar = selectedStatus.value;
+      // console.log("215", this.indexVar)
+    }
+  }
+  setUmLoginType(req) {
+    const selectedStatus = this.umLoginTypeOptions.find(item => item.value == req.umLoginType);
+    // console.log("227selectedStatus", selectedStatus);
+    if (selectedStatus) {
+      this.umLoginTypeIndexVar = selectedStatus.value;
+      // console.log("230", this.umLoginTypeIndexVar)
+    }
+  }
+
+
+
   getData() {
     if (this.data) {
       this.isForEdit = true;
@@ -212,22 +256,27 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
 
     this.masterForm.controls['mobile'].setValue(this.selUser.umMobileNumber);
-    this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
+    // this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
     this.masterForm.controls['umDescription'].setValue(this.selUser.umDescription);
 
-    this.masterForm.controls['umLoginType'].setValue(this.selUser.umLoginType);
+    //this.masterForm.controls['umLoginType'].setValue(this.selUser.umLoginType);
     this.masterForm.controls['umType'].setValue(this.selUser.umType);
     this.masterForm.controls['utID'].setValue(this.selUser.utID);
 
     this.setCustomer(this.selUser);
     this.setCustomerRole(this.selUser);
     this.setUserRole(this.selUser);
+    this.setUserActiveStatus(this.selUser);
+    this.setUmLoginType(this.selUser);
 
     setTimeout(() => {
       this.masterForm.controls['uname'].setValue(this.selUser.username);
       this.masterForm.controls['pwd'].setValue(this.selUser.password);
       this.masterForm.controls['cnfPassword'].setValue(this.selUser.password);
     }, 500);
+  }
+  setLoginType(selUser: any) {
+    throw new Error('Method not implemented.');
   }
 
   close(evt?: any) {
@@ -245,16 +294,15 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     const formData = this.masterForm.value;
     const url = ApiConstant.saveEditUserDetails;
-
     let params: any = {
       customerId: formData.selCustomer.customerid,
       customerRoleId: formData.selCustomerRole.customerroleid,
       roleId: formData.selUserRole.roleid,
       password: formData.pwd,
-      umAactivationstatus: formData.umAactivationstatus,
+      umAactivationstatus: formData.umAactivationstatus.value,
       umDescription: formData.umDescription,
       umEmailid: formData.umEmailid,
-      umLoginType: formData.umLoginType,
+      umLoginType: formData.umLoginType.value,
       umMobileNumber: formData.mobile,
       umName: formData.firstName + ' ' + formData.lastName,
       umType: formData.umType,
