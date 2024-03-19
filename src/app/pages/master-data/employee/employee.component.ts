@@ -156,7 +156,16 @@ export class EmployeeComponent implements OnInit {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getEmployeeMasterData1 + `/pageNumber/${this.currentPageNo}/size/${this.pageSize}`;
-     (window as any)['retainNoOfShow'] = this.pageSize;
+    
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
+    (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
@@ -171,11 +180,19 @@ export class EmployeeComponent implements OnInit {
         msg: 'Error while loading Raw Data Report details!'
       })
     });
-  }
+}
+
 
   loadAllData()
   {
      let apiUrl: any = ApiConstant.getEmployeeMasterData1 ;
+     const userDataString = localStorage.getItem('userData');
+     if (userDataString) {
+         const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+         if (userData && userData.countryID) {
+             apiUrl += `?countryId=${userData.countryID}`; 
+         }
+     }
        this.httpClient.post(apiUrl, null).subscribe((res: any) => {
         this.setRowData1(res.employeeMasterList);
        })

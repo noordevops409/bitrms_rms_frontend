@@ -316,6 +316,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.httpClient.post(ApiConstant.getRCADataAll, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
+      // console.log("319",data);
       this.manipulate(data);
       setTimeout(() => {
         this.tableListingComponent.init();
