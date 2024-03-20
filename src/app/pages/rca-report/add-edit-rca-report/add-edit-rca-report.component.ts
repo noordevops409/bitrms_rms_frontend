@@ -182,6 +182,14 @@ export class AddEditRcaReportComponent implements OnInit, OnDestroy {
 
   loadRegion() {
     let apiUrl: any = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       if (res && res.regionMasterList && res.regionMasterList.length) {
         this.regionData = res.regionMasterList;

@@ -116,7 +116,15 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadEmployeeRole() {
-    const url = ApiConstant.getEmployeeRoleMasterData;
+    let url = ApiConstant.getEmployeeRoleMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
         this.employeeRoleList = data.employeeRoleMasterList;
@@ -131,8 +139,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadRegionData() {
-    const url = ApiConstant.getRegionMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.regionMasterList && data.regionMasterList.length) {
         this.regionList = data.regionMasterList;
         this.masterForm.controls['selRegion'].setValue(data.regionMasterList[0]);
@@ -146,8 +160,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadZoneData() {
-    const url = ApiConstant.getZoneMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
         this.masterForm.controls['selZone'].setValue(data.zoneMasterList[0]);

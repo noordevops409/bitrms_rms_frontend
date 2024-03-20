@@ -109,7 +109,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadEmployeeRole() {
-    const url = ApiConstant.getEmployeeRoleMasterData;
+    let url = ApiConstant.getEmployeeRoleMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
         this.employeeRoleList = data.employeeRoleMasterList;
@@ -123,7 +131,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadRegion() {
-    const url = ApiConstant.getRegionMasterData;
+    let url = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.regionMasterList && data.regionMasterList.length) {
         this.regionList = data.regionMasterList;
@@ -137,8 +153,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadZone() {
-    const url = ApiConstant.getZoneMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
       }

@@ -12,6 +12,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+  static getData() {
+      throw new Error('Method not implemented.');
+  }
 
   private userData: any = null;
   private authTokenData: any = null;

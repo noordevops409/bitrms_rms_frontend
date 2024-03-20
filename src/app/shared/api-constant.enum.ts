@@ -1,6 +1,9 @@
 import { environment } from '../../environments/environment';
+import { UserService } from '../shared/services/user.service';
+
 
 const GATEWAY = environment.api;
+
 
 export const ApiConstant = {
   SEARCH_FILTER_CONTROLLER: '',
@@ -87,14 +90,18 @@ export const ApiConstant = {
 
 
   getCountryMasterData: `${GATEWAY}/api/master_data/view_countrymaster_form`,
-  saveCountryMasterData: `${GATEWAY}/api/master_data/country`,
+ // getCountryMasterData:getCountryMasterData,
+ saveCountryMasterData: `${GATEWAY}/api/master_data/country`,
   deleteCountryMasterData: `${GATEWAY}/api/master_data/delete_country_details`,
 
+  
   getRegionMasterData: `${GATEWAY}/api/master_data/view_regionmaster_form`,
+  //getRegionMasterData:getRegionMasterData,
   saveRegionMasterData: `${GATEWAY}/api/master_data/region`,
   deleteRegionMasterData: `${GATEWAY}/api/master_data/delete_region_details`,
 
   getZoneMasterData: `${GATEWAY}/api/master_data/view_zonemaster_form`,
+  //getZoneMasterData:getZoneMasterData,
   saveZoneMasterData: `${GATEWAY}/api/master_data/zone`,
   deleteZoneMasterData: `${GATEWAY}/api/master_data/delete_zone_details`,
 
@@ -116,7 +123,8 @@ export const ApiConstant = {
   deleteSiteMasterData: `${GATEWAY}/api/master_data/delete_sitemaster_details`,
 
   getClusterMasterData: `${GATEWAY}/api/master_data/view_clustermaster_form`,
-  saveClusterMasterData: `${GATEWAY}/api/master_data/cluster`,
+ //getClusterMasterData:getClusterMasterData,
+ saveClusterMasterData: `${GATEWAY}/api/master_data/cluster`,
   deleteClusterMasterData: `${GATEWAY}/api/master_data/delete_clustermaster_details`,
 
   getSimMasterData: `${GATEWAY}/api/master_data/view_simmaster_form`,
@@ -162,4 +170,6 @@ export const ApiConstant = {
  getSettableLoad:`${GATEWAY}/api/settableload/settable-form`
 
 };
+
+
 

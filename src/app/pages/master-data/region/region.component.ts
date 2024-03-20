@@ -99,7 +99,15 @@ export class RegionComponent implements OnInit, OnDestroy {
   }
 
   loadCountry() {
-    const url = ApiConstant.getCountryMasterData;
+    let url = ApiConstant.getCountryMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.countryMasterList && data.countryMasterList.length) {
         this.countryList = data.countryMasterList;
@@ -118,8 +126,14 @@ export class RegionComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getRegionMasterData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
+    let apiUrl = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);

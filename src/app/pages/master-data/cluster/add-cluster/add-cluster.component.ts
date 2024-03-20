@@ -129,8 +129,14 @@ export class AddClusterComponent implements OnInit, OnDestroy {
   }
 
   loadZone() {
-    const url = ApiConstant.getZoneMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
         this.masterForm.controls['selZone'].setValue(data.zoneMasterList[0]);

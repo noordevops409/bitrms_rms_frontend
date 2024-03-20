@@ -216,7 +216,15 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   loadCluster() {
-    const url = ApiConstant.getClusterMasterData;
+    let url = ApiConstant.getClusterMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.clusterMasterList && data.clusterMasterList.length) {
         this.clusterList = data.clusterMasterList;

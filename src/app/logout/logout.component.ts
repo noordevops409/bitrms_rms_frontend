@@ -20,6 +20,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     (window as any).localStorage.clear();
     this.winNotification.closeAll();
+    localStorage.removeItem('userData');
     this.router.navigate(['login']);
   }
 

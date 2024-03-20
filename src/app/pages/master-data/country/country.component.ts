@@ -101,6 +101,14 @@ export class CountryComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getCountryMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;

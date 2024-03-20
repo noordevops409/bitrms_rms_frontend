@@ -96,7 +96,15 @@ export class AddRegionComponent implements OnInit, OnDestroy {
   }
 
   loadCountryData() {
-    const url = ApiConstant.getCountryMasterData;
+    let url = ApiConstant.getCountryMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.countryMasterList && data.countryMasterList.length) {
         this.countryList = data.countryMasterList;
