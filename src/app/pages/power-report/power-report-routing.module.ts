@@ -4,7 +4,7 @@ import { PowerReportComponent } from './power-report.component';
 
 import { AppConstant } from '../../shared/app-constant.enum';
 
-const routes: Routes = [{ path: '', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE, AppConstant.ROUTE_ROLE_ID.USER_ROLE] }, component: PowerReportComponent }];
+const routes: Routes = [{ path: '', data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, component: PowerReportComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

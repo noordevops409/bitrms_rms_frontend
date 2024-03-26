@@ -46,7 +46,16 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
 
   ];
+  umlevelAccessOptions:any=[
+    { value: '1', label: 'Admin' },
+    { value: '2', label: 'NOC1' },
+    { value: '3', label: 'NOC2'},
+    { value: '4', label: 'Customer'}
+
+  ]
   umLoginTypeIndexVar: any;
+  umLevelAccessIndexVar: any;
+
 
   constructor(
     private util: CommonUtilService,
@@ -103,6 +112,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       'selUserRole': [null],
       'mobile': [null, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       'umAactivationstatus': [null],
+
+      'umlevelAccess': [null],
       'umDescription': [null],
       'umLoginType': [null],
       'umType': [0],
@@ -216,18 +227,20 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   setUserActiveStatus(req) {
     const selectedStatus = this.activationStatusOptions.find(item => item.value == req.umAactivationstatus);
-    // console.log("selectedStatus", selectedStatus);
     if (selectedStatus) {
       this.indexVar = selectedStatus.value;
-      // console.log("215", this.indexVar)
     }
   }
   setUmLoginType(req) {
     const selectedStatus = this.umLoginTypeOptions.find(item => item.value == req.umLoginType);
-    // console.log("227selectedStatus", selectedStatus);
     if (selectedStatus) {
       this.umLoginTypeIndexVar = selectedStatus.value;
-      // console.log("230", this.umLoginTypeIndexVar)
+    }
+  }
+  setUmLevelAcess(req) {
+    const selectedStatus = this.umlevelAccessOptions.find(item => item.value == req.umDashboardLevelIds);
+    if (selectedStatus) {
+      this.umLevelAccessIndexVar = selectedStatus.value;
     }
   }
 
@@ -268,6 +281,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.setUserRole(this.selUser);
     this.setUserActiveStatus(this.selUser);
     this.setUmLoginType(this.selUser);
+    this.setUmLevelAcess(this.selUser);
 
     setTimeout(() => {
       this.masterForm.controls['uname'].setValue(this.selUser.username);
@@ -300,10 +314,12 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       roleId: formData.selUserRole.roleid,
       password: formData.pwd,
       umAactivationstatus: formData.umAactivationstatus.value,
+      umDashboardLevelIds:formData.umlevelAccess.value,
       umDescription: formData.umDescription,
       umEmailid: formData.umEmailid,
       umLoginType: formData.umLoginType.value,
       umMobileNumber: formData.mobile,
+
       umName: formData.firstName + ' ' + formData.lastName,
       umType: formData.umType,
       username: formData.uname

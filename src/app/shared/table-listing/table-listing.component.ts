@@ -2359,6 +2359,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
     if (!itemH.isSortSupported) {
       return;
     }
+   
+    
   
     if (itemH.fieldName === 'actions#actionTime') {
    //   console.log('Field name is actions#actionTime');
@@ -2370,6 +2372,20 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.sortColumnData(itemH);
   }
   
+   isDeleteColumnVisible() {
+    let authToken = null;
+    if (window.localStorage.getItem('authToken')) {
+        authToken =  JSON.parse((window as any).localStorage.getItem('authToken'));
+        console.log("237888888",authToken);
+        // Check if authToken and umDashboardLevelIds exist and umDashboardLevelIds is equal to 1
+        // if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds === 1) {
+        //     return true;
+        // }
+    }
+    return false; // Return false by default if conditions are not met
+}
+
+
   sortColumnData(itemH: any) {
     if (!itemH || !itemH.isSortSupported) {
       return;

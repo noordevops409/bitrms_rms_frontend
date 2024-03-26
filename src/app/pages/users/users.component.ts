@@ -45,6 +45,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public defaultFilterList: any = [];
 
   public isFilterDataLoaded: boolean = false;
+  public addUser: boolean = false;
+
 
   private customerList: any = [];
   private customerRoleList: any = [];
@@ -94,6 +96,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.loadCustomer();
     this.loadCustomerRole();
     this.loadUserRole();
+    this.getAuthToken();
     // this.loadCountry();
     // this.loadSiteType();
     // this.loadCustomer();
@@ -302,10 +305,36 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER[key]);
         }
       }
-      this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["delete"]);
+      let authToken :any='';
+      if (window.localStorage.getItem('authToken')) {
+        authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+          if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds == '1') {
+            this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["delete"]);
+            this.sampleData.columnHeader.forEach((column) => {
+              if (column.fieldName == 'umName' || column.fieldName =='username') {
+                  column.colType = 'textwithlink';
+                  column.function='openUserMasterDataForEdit';
+
+              }
+          });
+           
+           }
+           
+      }
+      
     }
   }
+getAuthToken()
+{
+  let authToken :any='';
+  if (window.localStorage.getItem('authToken')) {
+    authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+      if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds == '1') {
+        this.addUser=true;
 
+      }
+    }
+  }
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {

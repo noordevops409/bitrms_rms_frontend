@@ -56,7 +56,13 @@ export const AppConstant = {
   REFRESH_ALARM_LISTING_INTERVAL: 120000, // 2 mins,
   ROUTE_ROLE_ID: {
     ADMIN_ROLE: '1',
-    TEE_ROLE:'2',
-    USER_ROLE: '9'
+    NOC1:'2',
+    NOC2: '9'
+  },
+  ROUTE_ACCESS_ID: {
+    ADMIN_ROLE:'1',
+    NOC1:'2',
+    NOC2:'3',
+    CUSTOMER:'4'
   }
 };

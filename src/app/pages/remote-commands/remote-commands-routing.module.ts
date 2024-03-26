@@ -6,8 +6,8 @@ import { RemoteCommandsComponent } from './remote-commands.component';
 import { AppConstant } from '../../shared/app-constant.enum';
 
 const routes: Routes = [
-  { path: '', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE] }, component: RemoteCommandsComponent },
-  { path: 'view/:id', data: { roleIds: [AppConstant.ROUTE_ROLE_ID.ADMIN_ROLE] }, component: ViewRemoteDataComponent },
+  { path: '', data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1] }, component: RemoteCommandsComponent },
+  { path: 'view/:id', data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1] }, component: ViewRemoteDataComponent },
 ];
 
 @NgModule({

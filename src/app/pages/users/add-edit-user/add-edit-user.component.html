@@ -144,6 +144,14 @@
                             </mat-form-field>
                         </div>
 
+                        <div class="form-field col-4" >
+                            <mat-label>Level Access</mat-label>
+                            <select formControlName="umlevelAccess" name="umlevelAccess" class="input-element mini" [ngModel]="isForEdit ? umlevelAccessOptions[indexVar] : umlevelAccessOptions[1]">
+                                <option *ngFor="let item of umlevelAccessOptions" [ngValue]="item">{{item.label}}</option>
+                            </select>
+                        </div>
+                        
+
                         <div class="form-field col-4">
                             <mat-label>Enter Login Type</mat-label>
                             <select formControlName="umLoginType" name="umLoginType" class="input-element mini" [ngModel]="isForEdit ? umLoginTypeOptions[umLoginTypeIndexVar] : umLoginTypeOptions[1]">

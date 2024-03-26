@@ -23,12 +23,12 @@ export const USERS_COLUMN_HEADER = {
     colDisplayName: 'Name',
     title: 'Site ID',
     widthOfColumn: 150,
-    colType: 'textwithlink',
+    colType: 'text',
     dataType: 'text',
     id: '1',
     imgName: '',
     tooltipSrc: '',
-    function: 'openUserMasterDataForEdit',
+    function: '',
     funParams: '',
     wrapData: '',
     isSortSupported: false,
@@ -40,12 +40,12 @@ export const USERS_COLUMN_HEADER = {
     colDisplayName: 'User name',
     title: 'User name',
     widthOfColumn: 150,
-    colType: 'textwithlink',
+    colType: 'text',
     dataType: 'text',
     id: '2',
     imgName: '',
     tooltipSrc: '',
-    function: 'openUserMasterDataForEdit',
+    function: '',
     funParams: '',
     wrapData: '',
     isSortSupported: false,
@@ -224,6 +224,7 @@ export const USERS_COLUMN_HEADER = {
     wrapData: '',
     widthOfColumn: 75,
     isSortSupported: false,
-    isCustomAttributeColumn: false
+    isCustomAttributeColumn: false,
+    
   }
 };
