@@ -34,6 +34,12 @@ export class UserService {
 
   setData(data: any) {
     this.userData = data;
+    console.log("line 37",data.countryID);
+
+    if (data.countryID == 0) {
+      // Set countryID to an array containing both 1 and 2, then randomly select one
+      data.countryID = [1, 2];
+    }
     (window as any).localStorage.removeItem('userData');
     (window as any).localStorage.setItem('userData', JSON.stringify(this.userData));
     this.setAuthToken(data);

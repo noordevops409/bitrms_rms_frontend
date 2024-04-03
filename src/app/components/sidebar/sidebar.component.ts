@@ -45,9 +45,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       subMenu: [
         { id: 4.1, value: "Raw Data Report", href: "raw-data-report" , roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER],},
         { id: 4.2, value: "(TEE) Power Tracker Report", href: "tee-power-tracker", roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER]    },
-        { id: 4.3, value: "(Hybrid) Power Tracker Report", href: "hybrid-power-tracker"  ,     roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER],},
+        { id: 4.3, value: "(Hybrid) Power Tracker Report", href: "hybrid-power-tracker"  ,     roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER],},
         { id: 4.4, value: "(TEE) Energy and Run Hours Report", href: "tee-energy-run-hours",roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] },
-        { id: 4.5, value: "(Hybrid) Energy and Run Hours Report", href: "hybrid-energy-run-hours",      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER],      }
+        { id: 4.5, value: "(Hybrid) Energy and Run Hours Report", href: "hybrid-energy-run-hours",      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER],      }
       ]
     },
     {
@@ -122,7 +122,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Logout',
       href: 'logout',
       logo: 'assets/images/logout.png',
-      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1]
+      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER]
     },
     {
       id: 14,
