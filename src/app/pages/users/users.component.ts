@@ -225,6 +225,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (userDataString) {
         const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
         if (userData && userData.countryID) {
+          if((userData.countryID.includes(1) && userData.countryID.includes(2)))
+          {
+            userData.countryID.push(0);
+          }
           apiUrl += `?countryId=${userData.countryID}`; 
         }
     }

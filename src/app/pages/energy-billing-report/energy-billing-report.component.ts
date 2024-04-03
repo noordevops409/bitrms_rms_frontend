@@ -586,7 +586,6 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
 
     /* save to file */
     XLSX.writeFile(wb, `energy-billing-report.${type}`);
-    this.isExporting = false;
   }
 
   exportExcel(evt?: any) {
@@ -604,11 +603,15 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
   exportOptSelected(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
-   
+    // console.log(this.activeListing.list.data.length);
+    if(this.activeListing.list.data.length>0)
+    {
+    this.isExporting = true;
+
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
-        if (res.data.length > 0) {
-          this.isExporting = true; // Check if res.data is not empty
+       if(res.data.length>0)
+       {
           this.exportData.data = res.data;
           setTimeout(() => {
             let selVal = this.ddExport;
@@ -619,10 +622,11 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
             }
             this.exportData.data = [];
             this.ddExport=-1;
+            this.isExporting = false;
+
           }, 500);
         }
-        this.ddExport=-1;
-      }).catch((err: any) => {
+              }).catch((err: any) => {
         // Handle error if necessary
       });
     } else {
@@ -635,6 +639,13 @@ export class EnergyBillingReportComponent implements OnInit, OnDestroy {
         }
       }, 500);
     }
+  }
+else{
+  setTimeout
+  (() => {
+    this.ddExport=-1;
+  }, 500);
+}
   }
   
 
