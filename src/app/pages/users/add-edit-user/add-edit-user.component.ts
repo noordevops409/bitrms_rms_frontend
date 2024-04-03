@@ -21,6 +21,7 @@ import * as moment from 'moment';
 export class AddEditUserComponent implements OnInit, OnDestroy {
 
   public isSaving: boolean = false;
+  public isDuplicateCheck: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
 
@@ -239,8 +240,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   }
   setUmLevelAcess(req) {
     const selectedStatus = this.umlevelAccessOptions.find(item => item.value == req.umDashboardLevelIds);
-    if (selectedStatus) {
+    console.log('CHECK 2 APril: ',selectedStatus)
+    if (selectedStatus) {      
       this.umLevelAccessIndexVar = selectedStatus.value;
+      console.log('CHECK 2 APril12 : ',this.umLevelAccessIndexVar)
     }
   }
 
@@ -306,7 +309,9 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSaving = true;
+    this.isDuplicateCheck = false;
     const formData = this.masterForm.value;
+    
     const url = ApiConstant.saveEditUserDetails;
     let params: any = {
       customerId: formData.selCustomer.customerid,
@@ -319,8 +324,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       umEmailid: formData.umEmailid,
       umLoginType: formData.umLoginType.value,
       umMobileNumber: formData.mobile,
-
-      umName: formData.firstName + ' ' + formData.lastName,
+      
+      umName: formData.firstName.replace(/\s/g, '').trim()+ ' ' +formData.lastName.replace(/\s/g, '').trim(),
       umType: formData.umType,
       username: formData.uname
     };
@@ -331,12 +336,17 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isSaving = false;
-      this.dialogRef.close(data);
-      this.util.notification.success({
-        title: 'Success',
-        msg: 'User details saved successfully...'
-      });
-    }, (err) => {
+      if(data?.status == "Dupliate"){
+        this.isDuplicateCheck = true
+      }else{
+        this.dialogRef.close(data);      
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'User details saved successfully...'
+        });
+      }
+      
+    }, (err) => {     
       this.isSaving = false;
       this.util.notification.error({
         title: 'Error',

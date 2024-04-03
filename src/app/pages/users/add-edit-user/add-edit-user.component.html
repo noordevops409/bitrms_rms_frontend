@@ -1,4 +1,5 @@
 <div class="modal-popup site-details">
+    
     <div class="header popupHeaderBg">
         <div class="left-side">
             <h1 class="title">User Master Data</h1>
@@ -54,19 +55,22 @@
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
-                                <mat-label>Enter Username</mat-label>
-                                <input formControlName="uname" required matInput />
+                                <mat-label>Enter Username {{isDuplicateCheck}}</mat-label>
+                                <input formControlName="uname" required matInput autocomplete="off" />
+                                
+                                <div *ngIf="isDuplicateCheck" class="text-danger">Username already exists</div>
+
                                 <mat-error *ngIf="mf.uname.touched && mf.uname.invalid">
                                     <div *ngIf="mf.uname.errors?.required" class="italicAlign">Username is required.
                                     </div>
-                                </mat-error>
+                                </mat-error>                               
                             </mat-form-field>
                         </div>
 
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Password</mat-label>
-                                <input formControlName="pwd" autocomplete="off" 
+                                <input formControlName="pwd" autocomplete="off webauthn" 
                                      type="password" required matInput />
                                 <mat-error *ngIf="mf.pwd.touched && mf.pwd.invalid">
                                     <div *ngIf="mf.pwd.errors?.required" class="italicAlign">Password is required.
@@ -146,7 +150,7 @@
 
                         <div class="form-field col-4" >
                             <mat-label>Level Access</mat-label>
-                            <select formControlName="umlevelAccess" name="umlevelAccess" class="input-element mini" [ngModel]="isForEdit ? umlevelAccessOptions[indexVar] : umlevelAccessOptions[1]">
+                            <select formControlName="umlevelAccess" name="umlevelAccess" class="input-element mini" [ngModel]="isForEdit ? umlevelAccessOptions[umLevelAccessIndexVar-1] : umlevelAccessOptions[1]">
                                 <option *ngFor="let item of umlevelAccessOptions" [ngValue]="item">{{item.label}}</option>
                             </select>
                         </div>
