@@ -156,6 +156,25 @@ export const USERS_COLUMN_HEADER = {
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
+
+  umAccessLevel: {
+    userIndex: 8.1,
+    fieldName: 'umAccessLevel',
+    colDisplayName: 'Access Level',
+    title: 'Access Level',
+    widthOfColumn: 150,
+    colType: 'text',
+    isAvailTooltip: true,
+    dataType: 'text',
+    id: '8',
+    imgName: '',
+    tooltipSrc: '',
+    function: '',
+    funParams: '',
+    wrapData: '',
+    isSortSupported: false,
+    isCustomAttributeColumn: false
+  },
   umLoginTypeCountry: {
     userIndex: 9,
     fieldName: 'umLoginTypeCountry',

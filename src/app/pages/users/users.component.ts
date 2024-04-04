@@ -235,6 +235,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.status(res);
+      this.accessLevel(res);
       this.loginType(res);
       this.manipulate(res);
       setTimeout(() => {
@@ -269,6 +270,28 @@ export class UsersComponent implements OnInit, OnDestroy {
         item.umLoginTypeCountry = 'Philippines';
 
       }
+    });
+  }
+
+  accessLevel(res: any) {
+    
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umDashboardLevelIds == 1) {
+        item.umAccessLevel = 'Admin';
+      } 
+      else if(item.umDashboardLevelIds == 2)
+      {
+        item.umAccessLevel = 'NOC1';
+      }
+      else if(item.umDashboardLevelIds == 3)
+      {
+        item.umAccessLevel = 'NOC2';
+      }
+      else if(item.umDashboardLevelIds == 4)
+      {
+        item.umAccessLevel = 'CUSTOMER';
+      }
+
     });
   }
 
@@ -308,6 +331,9 @@ export class UsersComponent implements OnInit, OnDestroy {
         } else if (USERS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER[key]);
         }
+
+
+
       }
       let authToken :any='';
       if (window.localStorage.getItem('authToken')) {
