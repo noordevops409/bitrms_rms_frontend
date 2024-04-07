@@ -23,17 +23,18 @@
 </div>
 <section>
   <!--for demo wrap-->
-  <h1>{{type}}</h1>
+  <h1>{{ type === 'dgcount' ? 'DG Count' : type }}</h1>
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0">
       <thead>
         <tr *ngIf="type === 'dgcount'" id="header-row">
           <th>Sr no</th>
-          <th>Category</th>
-          <th>ID</th>
+          <!-- <th>Category</th>
+          <th>ID</th> -->
+          <th>DG Start Date Time</th>
           <th>Sm Site ID</th>
           <th>Sm Site Code</th>
-          <th>PowerSource</th>
+          <!-- <th>PowerSource</th> -->
         </tr>
         <tr *ngIf="type === 'Run hours'" id="header-row">
           <th>Sr no</th>
@@ -81,11 +82,12 @@
 
           <tr *ngFor="let item of tableData1;let i=index">
             <td> {{i + 1}}</td>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
+            <!-- <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td> -->
+            <td>{{ item[4] }}</td>
             <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
-            <td>{{ item[4] }}</td>
+           
           </tr>
         </ng-container>
         <ng-container *ngIf="type === 'Run hours'">

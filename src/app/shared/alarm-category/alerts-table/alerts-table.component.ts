@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiConstant } from '../../api-constant.enum';
 import { Observable } from 'rxjs';
 import { AppConstant } from '../../app-constant.enum';
+import { DatePipe } from '@angular/common';
+
 import { Location } from '@angular/common';
 import * as XLSX from 'xlsx';
 
@@ -11,7 +13,8 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-alerts-table',
   templateUrl: './alerts-table.component.html',
-  styleUrls: ['./alerts-table.component.scss']
+  styleUrls: ['./alerts-table.component.scss'],
+  providers: [DatePipe]
 })
 export class AlertsTableComponent {
 
@@ -44,7 +47,7 @@ export class AlertsTableComponent {
   type: any;
   apiUrl: any;
 
-  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private location: Location) { }
+  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private location: Location,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -60,24 +63,52 @@ export class AlertsTableComponent {
   }
 
   private getAlertsTableDataByType(type: any) {
-    if(type=="Community Load")
-    {
-      this.apiUrl = `${ApiConstant.getSuperCriticalAlerts}`; 
-      this.httpClient.get(this.apiUrl).subscribe((data) => {
-        this.tableData1 = data;
-        this.tableData2=data;
-        this.loading = false; 
+    if (type == "Community Load") {
+      this.apiUrl = ApiConstant.getSuperCriticalAlerts;
+      this.httpClient.get<any[]>(this.apiUrl).subscribe((data) => {
+        console.log("line 68", data);
+        this.tableData1 = this.formatDateInData(data);
+        this.tableData2 =  this.tableData1;
+        this.loading = false;
       });
     }
     else
     {
     this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; 
-    this.httpClient.get(this.apiUrl).subscribe((data) => {
-      this.tableData1 = data;
-      this.tableData2=data;
-      this.loading = false; 
+    this.httpClient.get<any[]>(this.apiUrl).subscribe((data) => {
+            this.tableData1 = this.formatDateInData1(data,type);;
+            this.tableData2 =  this.tableData1;      
+            this.loading = false; 
     });
   }
+}
+
+formatDateInData(data: any[]): any[] {
+  return data.map(item => {
+    // Assuming the date field is always at index 3
+    item[3] = this.formatDate(item[3]);
+    return item;
+  });
+}
+formatDateInData1(data: any[],type:any): any[] {
+  return data.map(item => {
+    if(type=="fuellvl"){
+    // Assuming the date field is always at index 3
+    item[3] = this.formatDate(item[3]);
+    item[5] = this.formatDate(item[5]);
+    }
+    else if(type=="dgcount"    )
+    {
+      item[4] = this.formatDate(item[4]);
+
+    }
+
+    return item;
+  });
+}
+
+formatDate(date: string): string {
+  return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm:ss') || '';
 }
 
   onRowSelectionChanged(data: any) {
