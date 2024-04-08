@@ -34,7 +34,7 @@
           <th>DG Start Date Time</th>
           <th>Sm Site ID</th>
           <th>Sm Site Code</th>
-          <!-- <th>PowerSource</th> -->
+          <th>PowerSource</th>
         </tr>
         <tr *ngIf="type === 'Run hours'" id="header-row">
           <th>Sr no</th>
@@ -87,6 +87,8 @@
             <td>{{ item[4] }}</td>
             <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
+            <td>{{ item[5] }}</td>
+
            
           </tr>
         </ng-container>
