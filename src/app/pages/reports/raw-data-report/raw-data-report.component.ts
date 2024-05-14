@@ -289,7 +289,7 @@ export class RawDataReportComponent implements OnInit, OnDestroy {
       "isOpen": false,
       "isReqRemove": false,
       "xhrMethod": "GET",
-      "xhrUrl": "https://rmsnew.yomamicropowerservice.com:8443/digitrinity-rest-services_prod/api/dashboard/site-code-master",
+      "xhrUrl": "https://rms.yomamicropowerservice.com:8443/digitrinity-rest-services_prod/api/dashboard/site-code-master",
       "xhrParam": [],
       "isReqManipulate": true,
       "isAllDataLoaded": true,
