@@ -29,7 +29,7 @@ export class AuthGuardService implements CanActivate {
     if (userData && !Object.keys(routeData).length) {
       return true;
     } else if (Object.keys(routeData).length && routeData.roleIds && routeData.roleIds.length) {
-      if (routeData.roleIds.includes(authToken.roleId)) {
+      if (routeData.roleIds.includes(authToken.umDashboardLevelIds)) {
         return true;
       } else {
         this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });
