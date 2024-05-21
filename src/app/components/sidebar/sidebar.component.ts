@@ -129,7 +129,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'DG Maintenace Alert',
       href: 'dg-maintenance-alert',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ]
+      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1 ]
     },
 
     {
@@ -137,7 +137,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       value: 'Settable Load',
       href: 'settable-load',
       logo: 'assets/images/energy_billing_report_rms.png',
-      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ]
+      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1 ]
+    },
+    {
+      id: 16,
+      value: 'Battery Life Cycle Count',
+      href: 'batt-life-cycle-count',
+      logo: 'assets/images/energy_billing_report_rms.png',
+      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1 ]
     }
 
 
@@ -147,7 +154,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the desired order of main menu items
   private mainSortOrder: string[] = [
-    'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Reports', 'Power Report',
+    'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Battery Life Cycle Count','Reports', 'Power Report',
     'Energy Report', 'Energy Billing Report', 'RCA Report',
     'RCA Master', 'Map Site List', 'Master Data',
     'Remote Commands', 'Users', 'Logout'

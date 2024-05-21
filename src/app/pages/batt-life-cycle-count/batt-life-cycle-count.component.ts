@@ -8,22 +8,21 @@ import * as XLSX from 'xlsx';
 import { CommonUtilService } from '../../shared/common-util.service';
 import { BroadcastService } from '../../shared/broadcast.service';
 
-import { RCA_REPORT_COLUMN_HEADER } from './rca-report-column.enum';
 import { ApiConstant } from '../../shared/api-constant.enum';
 import { AppConstant } from '../../shared/app-constant.enum';
 import { engineerNameList } from '../data/engineerName';
 import { customerMaster } from '../data/customer-master';
 
-import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-report.component';
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
 import * as moment from 'moment';
+import { BATT_LIFE_COLUMN_HEADER } from './batt-life-cycle-count-column.enum';
 
 @Component({
-  selector: 'app-rca-report',
-  templateUrl: './rca-report.component.html',
-  styleUrls: ['./rca-report.component.scss']
+  selector: 'app-batt-life-cycle-count',
+  templateUrl: './batt-life-cycle-count.component.html',
+  styleUrls: ['./batt-life-cycle-count.component.scss']
 })
-export class RcaReportComponent implements OnInit, OnDestroy {
+export class BattLifeCycleCountComponent implements OnInit {
 
   @ViewChild(TableListingComponent, { static: true }) public tableListingComponent!: TableListingComponent;
 
@@ -265,32 +264,14 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.listen();
     this.init();
   }
 
-  ngOnDestroy(): void {
-    this.forEditListener.unsubscribe();
-    this.forDeleteListener.unsubscribe();
-  }
 
   init() {
     this.loadData();
   }
 
-  listen() {
-    this.forEditListener = this.broadcast.on<string>('OPEN_RCA_REPORT_FOR_EDIT').subscribe((data: any) => {
-      this.ngZone.run(() => {
-        this.edit(null, data);
-      });
-    });
-
-    this.forDeleteListener = this.broadcast.on<string>('OPEN_RCA_REPORT_FOR_DELETE').subscribe((data: any) => {
-      this.ngZone.run(() => {
-        this.delete(data);
-      });
-    });
-  }
 
   setDefaultFilter() {
     this.filterParam = {
@@ -314,7 +295,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getRCADataAll, this.filterParam).subscribe((data: any) => {
+    this.httpClient.post(ApiConstant.getBattLifeCycleCount,this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       // console.log("319",data);
       this.manipulate(data);
@@ -326,7 +307,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       this.isListServerError = true;
       this.util.notification.error({
         title: 'Error',
-        msg: 'Error while loading RCA Report details!'
+        msg: 'Error while loading Battery Life Cycle Count details!'
       })
     });
   }
@@ -339,15 +320,14 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     this.setRowData(data.data);
     this.activeListing.list = this.sampleData;
     console.log(this.activeListing);
-    
   }
 
   setResponse(resData) {
     this.sampleData.currentPageNo = this.currentPageNo + 1;
-    this.sampleData.listingType = AppConstant.RCA_REPORT_LISTING_TYPE;
+    this.sampleData.listingType = AppConstant.BATT_LIFE_LISTING_TYPE;
     this.sampleData.recordBatchSize = 50 || resData.length;
     this.sampleData.recordStartFrom = this.recordStartFrom;
-    this.sampleData.sortField = 'rcaid';
+    this.sampleData.sortField = 'smSiteID';
     this.sampleData.sortFieldType = 'text';
     this.sampleData.sortOrder = 'desc';
     this.sampleData.totalDocs = resData.totalElements || resData.length;
@@ -359,13 +339,11 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     if (colData.length) {
       const rowData = colData[0];
       // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
-      this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER['srno']);
       for (let key in rowData) {
-        if (RCA_REPORT_COLUMN_HEADER[key]) {
-          this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER[key]);
+        if (BATT_LIFE_COLUMN_HEADER[key]) {
+          this.sampleData.columnHeader.push(BATT_LIFE_COLUMN_HEADER[key]);
         }
       }
-      this.sampleData.columnHeader.push(RCA_REPORT_COLUMN_HEADER['delete']);
     }
   }
 
@@ -373,11 +351,11 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     const data = resData || [];
     if (data.length) {
       let counter = 0;
-      for (let item of data) {
-        counter += 1;
-        item.srno = counter;
-        item.delete = "Delete";
-      }
+      // for (let item of data) {
+      //   counter += 1;
+      //   item.srno = counter;
+      //   item.delete = "Delete";
+      // }
       this.sampleData.data = data;
       this.allData.data = data;
     } else {
@@ -402,7 +380,7 @@ let endDate="";
     let siteStatus: any = null;
     let customer: any = ["All"];
     let engineer: any = ["All"];
-    let rangeDate: any = "";
+    let rangeDate: any = null;
     if (fData && fData.length) {
     //  console.log(fData);
       // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
@@ -465,7 +443,7 @@ let endDate="";
         // Handle the case where startDate or endDate is null
         startDate = "";
         endDate = "";
-        rangeDate = "";
+        rangeDate = null;
       }
       // siteStatus = parseInt(fData[7], 10);
 
@@ -540,7 +518,7 @@ let endDate="";
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `rca-report.${type}`);
+    XLSX.writeFile(wb, `battery-life-cycle-count.${type}`);
   }
 
   exportExcel(evt?: any) {
@@ -560,8 +538,8 @@ let endDate="";
     value = value.toUpperCase();
     if (value) {
       this.sampleData.data = this.allData.data.filter((item) => {
-        if (!!item.smSitename && !!item.smSiteID) {
-          return (item.smSiteID.includes(value) || item.smSitename.includes(value))
+        if (!!item.smSiteCode && !!item.smSiteID) {
+          return (item.smSiteID.includes(value) || item.smSiteCode.includes(value))
         }
       });
     } else {
@@ -571,55 +549,10 @@ let endDate="";
     this.tableListingComponent.init();
   }
 
-  add(evt?: any) {
-    this.dialog.closeAll();
-    const dialogRef = this.dialog.open(AddEditRcaReportComponent, {
-      width: '800px'
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        if (data.data && data.data.length) {
-          this.manipulate(data);
-        } else {
-          this.loadData();
-        }
-      }
-    });
-  }
+  
 
-  edit(evt?: any, item?: any) {
-    this.dialog.closeAll();
-    const dialogRef = this.dialog.open(AddEditRcaReportComponent, {
-      width: '800px',
-      data: item
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        if (data.data && data.data.length) {
-          this.manipulate(data);
-        } else {
-          this.loadData();
-        }
-      }
-    });
-  }
+  
 
-  delete(item: any) {
-    var r = confirm("Are you sure you want to delete selected record");
-    if (r) {
-      this.httpClient.post(ApiConstant.deleteRCAData + `?rcaidLong=${item.rcaid}`, null).subscribe((data) => {
-        this.util.notification.success({
-          title: 'Success',
-          msg: 'RCA report details deleted successfully.'
-        });
-        this.loadData();
-      }, (err) => {
-        this.util.notification.error({
-          title: 'Error',
-          msg: 'Error while deleting rca report details!'
-        })
-      });
-    }
-  }
+ 
 
 }

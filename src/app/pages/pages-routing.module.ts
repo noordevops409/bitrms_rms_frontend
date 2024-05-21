@@ -11,6 +11,7 @@ import { DgMaintenanceAlertModule } from './dg-maintenance-alert/dg-maintenance-
 import { SettableLoadModule } from './settable-load/settable-load-module.module';
 import { DgMaintenanceAlertComponent } from './dg-maintenance-alert/dg-maintenance-alert.component';
 import { SettableLoadComponent } from './settable-load/settable-load.component';
+import { BattLifeCycleCountComponent } from './batt-life-cycle-count/batt-life-cycle-count.component';
 
 const routes: Routes = [
   {
@@ -22,9 +23,12 @@ const routes: Routes = [
       //{ path: 'alarm-status', loadChildren: () => import('src/app/shared/alarm-category/alarm-category.module').then(m => m.AlarmCategoryModule) },
 
       { path: 'alarm-status', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, component: AlarmCategoryComponent },
-      { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ] }, component: DgMaintenanceAlertComponent },
+      { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1 ] }, component: DgMaintenanceAlertComponent },
      // { path: 'dg-maintenance-alert', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1, AppConstant.ROUTE_ACCESS_ID.NOC2] }, loadChildren: () => import('./dg-maintenance-alert/dg-maintenance-alert.module').then(m => m.DgMaintenanceAlertComponent) },
-      { path: 'settable-load', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ] }, component: SettableLoadComponent },
+      { path: 'settable-load', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1 ] }, component: SettableLoadComponent },
+      // { path: 'batt-life-cycle-count', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ] }, component: BattLifeCycleCountComponent },
+      { path: 'batt-life-cycle-count', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1] }, loadChildren: () => import('./batt-life-cycle-count/batt-life-cycle-count.module').then(m => m.BattLifeCycleCountModule) },
+
       { path: 'energy-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, component: EnergyReportComponent },
       // { path: 'alarm-status', component: AlarmCategoryComponent },
       { path: 'alerts-table/:type', canActivate: [AuthGuardService], component: AlertsTableComponent },
