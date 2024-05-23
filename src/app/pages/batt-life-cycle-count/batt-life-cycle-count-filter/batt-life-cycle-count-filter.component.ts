@@ -111,7 +111,7 @@ export class BattLifeCycleCountFilterComponent {
     });
     this.defaultFilterList.push(this.siteType);
     this.defaultFilterList.push(this.reqSiteIdObj);
-    this.onFilter.emit(this.defaultFilterList);
+    this.onFilter.emit();
   }
 
   applyFilter(evt?: any) {

@@ -42,6 +42,7 @@ export class BattLifeCycleCountComponent implements OnInit {
   isReqToOpenFilter: boolean = false;
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
+  changeUrl:boolean=false;
   defaultFilterList: any = [
     // {
     //   id: 'FMF01',
@@ -235,8 +236,7 @@ export class BattLifeCycleCountComponent implements OnInit {
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private allData: any = {};
-  private forEditListener!: Subscription;
-  private forDeleteListener!: Subscription;
+ 
 
   private filterParam: any = {
     "siteId": ['All'],
@@ -295,7 +295,14 @@ export class BattLifeCycleCountComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.httpClient.post(ApiConstant.getBattLifeCycleCount,this.filterParam).subscribe((data: any) => {
+    console.log("change",this.changeUrl)
+    let url=ApiConstant.getBattLifeCycleCount;
+    if(this.changeUrl)
+    {
+       url=ApiConstant.getBattLifeCycleCountRecords;
+    }
+   
+    this.httpClient.post(url,this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
       // console.log("319",data);
       this.manipulate(data);
@@ -310,6 +317,7 @@ export class BattLifeCycleCountComponent implements OnInit {
         msg: 'Error while loading Battery Life Cycle Count details!'
       })
     });
+    this.changeUrl=false;
   }
 
   manipulate(data) {
@@ -465,14 +473,18 @@ let endDate="";
     };
   }
 
+
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
     this.isOpenTabularFilter = false;
     if (evt) {
       this.setFilterParam(evt);
+      this.changeUrl=true;
       this.loadData();
     } else {
       this.setDefaultFilter();
+      this.changeUrl=false;
+
       this.loadData();
     }
   }

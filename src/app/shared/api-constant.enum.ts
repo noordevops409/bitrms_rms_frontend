@@ -169,7 +169,9 @@ export const ApiConstant = {
  getDgMaintenanceAlerts:`${GATEWAY}/api/preventivemaintance/view_preventivemaintance_form`,
  getSettableLoad:`${GATEWAY}/api/settableload/settable-form`,
 getBattLifeCycle: `${GATEWAY}/api/batt-cycle-count`,
-getBattLifeCycleCount:`${GATEWAY}/api/get-batt-life-count`
+getBattLifeCycleCount:`${GATEWAY}/api/get-batt-life-count`,
+getBattLifeCycleCountRecords:`${GATEWAY}/api/get-batt-life-count-records`
+
 
 };
 

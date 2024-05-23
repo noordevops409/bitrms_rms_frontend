@@ -7,7 +7,7 @@
                 (onFilterChange)="onFilterChange($event)">
             </app-filter-wrapper>
         </div>
-        <div class="checkbox-container">
+        <div class="checkbox-container" style="margin-left: 39px !important;">
           <div class="elem-row" style="display: none;">
                 <label>Site Type</label>
                 <ul>
@@ -41,6 +41,6 @@
     </div>
     <div class="apply-btn">
         <button class="btn btn-primary" (click)="applyFilter($event);">APPLY</button>
-        <button class="btn btn-primary-outline" (click)="reset($event);">RESET</button>
+        <button class="btn btn-primary-outline" (click)="reset();">RESET</button>
     </div>
 </div>
