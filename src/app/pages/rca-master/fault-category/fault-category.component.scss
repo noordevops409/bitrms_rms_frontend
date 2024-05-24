@@ -7,7 +7,7 @@
 
     height: 100%;
     overflow: auto;
-    position: relative;
+    position: sticky;
 
     &::-webkit-scrollbar {
         width: .3125rem;
@@ -120,7 +120,7 @@
 
     height: 100%;
     overflow: auto;
-    position: relative;
+    position: sticky;
 
     &::-webkit-scrollbar {
         width: .3125rem;
