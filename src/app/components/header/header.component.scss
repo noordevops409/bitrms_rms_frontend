@@ -1,48 +1,130 @@
 :host {
-    background-color: #222b45;
-    color: #fff;
-    font-family: Open Sans,sans-serif;
-    font-size: .9375rem;
-    font-weight: 400;
-    line-height: 1.25rem;
-    display: block;
+  background-color: #222b45;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: .9375rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  display: block;
+}
 
-    nav {
-        color: #fff;
-        box-shadow: 0 0.5rem 1rem 0 #1a1f33;
-        height: 4.75rem;
-        padding: 1.25rem 0.7rem;
+nav {
+  color: #fff;
+  box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+  height: 4.75rem;
+  padding: 1.25rem 0.7rem;
+  z-index: 10; /* Ensure the nav is on top of other elements */
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
+}
 
-            .header-container {
-                display: flex;
-                align-items: center;
-                width: auto;
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 
-                .logo-container {
-                    display: flex;
-                    align-items: center;
-                    width: calc(16rem - 1.25rem);
-                }
+}
 
-                .sidebar-toggle {
-                    text-decoration: none;
-                    color: #8f9bb3;
-                    margin-right: 1.25rem;
-                }
+.header-container {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
 
-                .logo {
-                    padding: 0 1.25rem;
-                    font-size: 1.75rem;
-                    white-space: nowrap;
-                    text-decoration: none;
-                    border-left: 1px solid #151a30;
-                }
-            }
-        }
-    }
+.logo-container {
+  display: flex;
+  align-items: center;
+  width: calc(16rem - 1.25rem);
+}
+
+.sidebar-toggle {
+  text-decoration: none;
+  color: #8f9bb3;
+  margin-right: 1.25rem;
+}
+
+.logo {
+  padding: 0 1.25rem;
+  font-size: 1.75rem;
+  white-space: nowrap;
+  text-decoration: none;
+  border-left: 1px solid #151a30;
+}
+
+.notification-container {
+  position: relative;
+  margin-left: auto;
+  margin-right: 45px;
+
+}
+
+#notification-bell {
+  padding-right: 22px;
+  font-size: 24px;
+  cursor: pointer;
+  padding-top: 8px;
+  margin-right: 1.25rem;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 36px;
+  right: 0;
+  width: 500px;
+  background-color: #222b45;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 9998 !important;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notification-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+  background-color: #222b45;
+}
+
+.notification-dropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #222b45;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.notification-item:hover {
+  background-color: #0b101e;
+  cursor: pointer;
+}
+
+.animated-bell {
+  transition: transform 0.2s;
+  /* Add a smooth transition effect */
+}
+
+
+
+
+.notification-label {
+  color: black;
+  /* Set the text color to black for property labels */
+}
+
+.notification-value {
+  color: black;
+  /* Set the text color to black for property values */
 }

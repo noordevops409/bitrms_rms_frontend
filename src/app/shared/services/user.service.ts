@@ -70,4 +70,15 @@ export class UserService {
       return null;
     }
   }
+  fetchCriticalAlarms(): Observable<any[]> {
+    // You can use the authentication token or any other required data here
+    const authToken = this.getAuthToken(); // Assuming you have a getAuthToken method
+    const headers = {
+      Authorization: `Bearer ${authToken}`, // Include the authentication token in the headers if required
+    };
+  
+    // Make the API request to fetch critical alarms
+    return this.httpClient.get<any[]>(ApiConstant.getHighCriticalAlarm);
+  }
+  
 }

@@ -69,8 +69,8 @@ export class WindowsNotificationService {
           smsiteCode: item[5],
           deviceType: item[6],
           alarmCat: item[11],
-          alName: item[12],
-          alStatus: item[13]
+          alName: item[13],
+          alStatus: item[14]
         };
         list.push(obj);
         setTimeout(() => {
