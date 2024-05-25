@@ -297,6 +297,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.siteId = paramMap.get('siteId');
+      console.log(this.siteId);
+      this.init();
     });
   }
 
@@ -606,15 +608,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       }
 
       alarmStatus = fData[8];
-      // if (alarmStatus) {
-      //   if (alarmStatus == '1') {
-      //     alarmStatus = 'Open'
-      //   } else if (alarmStatus == '0') {
-      //     alarmStatus = 'Close';
-      //   } else {
-      //     alarmStatus = 'All';
-      //   }
-      // }
+  
       if (fData[9] && fData[9].startDate && fData[9].endDate) {
         rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       } else {
@@ -674,16 +668,14 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   this.isLoading = true;
   this.alertsClicked=true;
   let apiUrl: any = `${ApiConstant.getServrityAlarm}/${item}`;
-  // (window as any)['retainNoOfShow'] = this.pageSize;
   this.loadedData = [];
 this.alertType=item;
   this.httpClient.get(apiUrl).subscribe((res: any) => {
-    //console.log("line 681", res);
     if (res && res.data && res.data.length) {
       this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
-        this.isLoading = false; // Set isLoading to false after data is bound to the table.
+        this.isLoading = false; 
       });
     } else {
       this.isLoading = false; // Set isLoading to false if no data is available.
@@ -801,7 +793,6 @@ loadAllDataAlerts(alertType) {
     {
       this.loadAllDataAlerts(this.alertType).then((res: any) => {
         this.exportData.data = res.data;
-        //console.log("717line", this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -851,9 +842,7 @@ this.isExporting=false;
 
   loadAlertsCounts() {
     let apiUrl: any = ApiConstant.getAlertsCounts;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.get(apiUrl).subscribe((res: any) => {
-      // Initialize the list with all alerts and default count 0
       let list: any[] = [
         { type: "fuellvl", count: 0, cssClass: 'btn-danger', isClickable: false },
         { type: "dcload", count: 0, cssClass: 'btn-warning', isClickable: false },
@@ -870,11 +859,9 @@ this.isExporting=false;
               isClickable: item[1] > 0 // Set isClickable to true if count is greater than 0
             };
 
-          // Update the corresponding alert count and cssClass from the API response
           const index = list.findIndex(alert => alert.type === obj.type);
           if (index !== -1) {
             list[index].count = obj.count;
-            // Set the appropriate CSS class based on the type (you can customize this logic)
             if (obj.type === 'fuellvl') {
               list[index].cssClass = 'btn-danger';
             } else if (obj.type === 'dcload') {
@@ -884,13 +871,11 @@ this.isExporting=false;
             } else if (obj.type === 'Run hours') {
               list[index].cssClass = 'btn-primary';
             }
-            // Update the isClickable property based on the count value
             list[index].isClickable = obj.count > 0;
           }
         }
       }
 
-      // Set the updated list to alertsCounts
       this.alertsCounts = list;
     }, (err) => {
       this.isLoading = false;
@@ -902,17 +887,14 @@ this.isExporting=false;
     });
 
     let apiUrl1: any = ApiConstant.getSuperCriticalAlertsCounts;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.get(apiUrl1).subscribe((res: any) => {
       
 
       if (res === 0) {
-       // console.log('super critical alerts counts: 0');
         this.superCriticalAlertsCount = 0;
       this.isClickable1=true;
       this.superCritical="Community Load"
       } else {
-       // console.log('super critical alerts counts: ', JSON.stringify(res));
         this.superCriticalAlertsCount = res;
        this.isClickable1=true;
        this.superCritical="Community Load"

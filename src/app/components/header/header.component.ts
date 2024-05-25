@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   fetchInitialNotifications(): void {
     this.authService.fetchCriticalAlarms().subscribe((data) => {
       this.notifications = data.slice(0, 10);
-      let newNotificationCount = data.length;
+      let newNotificationCount =  this.notifications.length;
 
       if (newNotificationCount > this.prevNotificationCount) {
         this.badgeNotification = newNotificationCount - this.prevNotificationCount;
