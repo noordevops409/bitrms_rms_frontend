@@ -930,18 +930,14 @@ this.isExporting=false;
   }
 
   openTabular(type?: any) {
-    this.router.navigate(['alerts-table', type], {
-      relativeTo: this.activatedRoute.parent
+    this.router.navigate(['pages','alerts-table', type], {
     });
-    // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
-//console.log('alertType', type);
+
   }
   openTabular1(evt?: any) {
-    this.router.navigate(['alerts-table',this.superCritical], {
-      relativeTo: this.activatedRoute.parent
+    this.router.navigate(['pages','alerts-table',this.superCritical], {
     });
-    // this.router.navigate(['pages', 'alarm-status','alerts-table', type]);
-    //console.log('alertType', type);
+    
   
   }
 
