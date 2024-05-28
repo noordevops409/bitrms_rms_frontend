@@ -44,15 +44,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   fetchInitialNotifications(): void {
     this.authService.fetchCriticalAlarms().subscribe((data) => {
       this.notifications = data.slice(0, 10);
-      let newNotificationCount =  this.notifications.length;
+      let newNotificationCount =   this.notifications.length;
 
       if (newNotificationCount > this.prevNotificationCount) {
         this.badgeNotification = newNotificationCount - this.prevNotificationCount;
         this.updateBellIcon(this.badgeNotification);
       }
-      this.prevNotificationCount = newNotificationCount;
+      this.prevNotificationCount = data.length;
 
-      // Start the interval-based polling after the initial fetch
       this.startNotificationPolling();
     });
   }
@@ -63,10 +62,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.notifications = data.slice(0, 10);
         let newNotificationCount = data.length;
-
         if (newNotificationCount > this.prevNotificationCount) {
           this.badgeNotification = newNotificationCount - this.prevNotificationCount;
-
+          this.updateBellIcon(this.badgeNotification);
           const newNotifications = this.notifications.slice(0, this.badgeNotification);
           newNotifications.forEach(notification => {
             this.util.notification.success({
@@ -87,10 +85,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (bellIcon) {
       console.log(newNotificationCount);
       bellIcon.classList.add('new-notifications');
-      bellIcon.setAttribute('matBadge', newNotificationCount.toString());
+      if (newNotificationCount >= 10) {
+        bellIcon.setAttribute('matBadge', '10');
+      } else {
+        bellIcon.setAttribute('matBadge', newNotificationCount.toString());
+      }
       bellIcon.setAttribute('matBadgeColor', 'warn');
     }
-  }r
+  }
 
   toggleSidebar(evt: any): void {
     evt.stopPropagation();
