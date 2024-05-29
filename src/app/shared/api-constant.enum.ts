@@ -15,6 +15,9 @@ export const ApiConstant = {
 
   login: `${GATEWAY}/login`,
   authToken: `${GATEWAY}/oauth/token`,
+  logout: `${GATEWAY}/login/logout`,
+
+
 
   getLatestReportStatus: `${GATEWAY}/api/dashboard/latest-report-status`,
   getLatestData: `${GATEWAY}/api/dashboard/latest-data`,

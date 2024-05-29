@@ -303,9 +303,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   //  let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-    // let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-   //  this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+   
     this.init();
     this.listen();
   }
@@ -330,9 +328,13 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   initFilterParam() {
-    let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
-    let endDate = moment().add(-1, 'days').format('YYYY/MM/DD');
-    this.filterParam = {
+    let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+    let endDate = moment().format('YYYY/MM/DD');
+    console.log(startDate);
+    console.log(endDate);
+
+    
+        this.filterParam = {
       "categories": ["All"],
       "siteId": ["All"],
       "deviceType": ["All"],
@@ -612,8 +614,8 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
       if (fData[9] && fData[9].startDate && fData[9].endDate) {
         rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
       } else {
-        let startDate = moment().add(-2, 'days').format('YYYY/MM/DD');
-        let endDate = moment().add(-1, 'days').format('YYYY/MM/DD')
+        let startDate = moment().add(-1, 'days').format('YYYY/MM/DD');
+        let endDate = moment().format('YYYY/MM/DD')
         rangeDate = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
       }
     }
