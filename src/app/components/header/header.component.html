@@ -21,7 +21,7 @@
         >notifications</mat-icon
       >
         <div class="notification-dropdown" id="notification-dropdown">
-          <div *ngFor="let notification of notifications" class="notification-item" [class.unread]="notification[20] === 'Unread'">
+          <div *ngFor="let notification of notifications" class="notification-item">
             <a (click)="handleNotificationClick(notification[5])" class="notification-link">
               <p>
                 <strong>SiteID:</strong> {{ notification[5] }},

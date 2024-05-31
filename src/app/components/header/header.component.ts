@@ -7,7 +7,6 @@ import { BroadcastService, CommonUtilService } from 'src/app/services';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ApiConstant } from 'src/app/enums';
-import { size } from 'lodash';
 
 @Component({
   selector: 'app-header',
@@ -33,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private util: CommonUtilService,
     private router: Router,
     private http: HttpClient
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fetchInitialNotifications();
@@ -50,7 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.processNotifications(data);
     });
     this.startNotificationPolling();
-
   }
 
   startNotificationPolling(): void {
