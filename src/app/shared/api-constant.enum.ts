@@ -28,6 +28,9 @@ export const ApiConstant = {
   getAlarmStatusPOST: `${GATEWAY}/api/dashboard-report-controller/getAlarmStatusUsingPOST`,
   getAlarmCategory: `${GATEWAY}/api/dashboard/alarm-category`,
   getHighCriticalAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms`,
+  getHighCriticalAlarmTime: `${GATEWAY}/api/alarm-report/get_critical_alarms_Time`,
+  notificationRead: `${GATEWAY}/api/alarm-report/mark-as-read`,
+
   getAlarmsCountSummary: `${GATEWAY}/api/alarm-report/alarmcounts_summary`,
   getAlarmCatSummary: `${GATEWAY}/api/alarm-report/get_alarms_cat_summary`,
   getServrityAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms_type`,

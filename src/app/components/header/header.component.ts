@@ -5,6 +5,9 @@ import { WindowsNotificationService } from '../../shared/windows-notification.se
 import { UserService } from 'src/app/shared/services/user.service';
 import { BroadcastService, CommonUtilService } from 'src/app/services';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ApiConstant } from 'src/app/enums';
+import { size } from 'lodash';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +23,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   prevNotificationCount: number = 0;
   isNotificationDropdownOpen: boolean = false;
   notificationSubscription: Subscription | undefined;
+  resData: any;
+  uniqueIds = new Set<number>();
 
   constructor(
     private authService: UserService,
     private broadcast: BroadcastService,
     private notificationService: WindowsNotificationService,
     private util: CommonUtilService,
-    private router: Router
-
-
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -42,18 +46,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   fetchInitialNotifications(): void {
-    this.authService.fetchCriticalAlarms().subscribe((data) => {
-      this.notifications = data.slice(0, 10);
-      let newNotificationCount =   this.notifications.length;
-
-      if (newNotificationCount > this.prevNotificationCount) {
-        this.badgeNotification = newNotificationCount - this.prevNotificationCount;
-        this.updateBellIcon(this.badgeNotification);
-      }
-      this.prevNotificationCount = data.length;
-
-      this.startNotificationPolling();
+    this.authService.fetchCriticalAlarmsWithTime().subscribe((data) => {
+      this.processNotifications(data);
     });
+    this.startNotificationPolling();
+
   }
 
   startNotificationPolling(): void {
@@ -61,12 +58,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(switchMap(() => this.authService.fetchCriticalAlarms()))
       .subscribe((data) => {
         this.notifications = data.slice(0, 10);
-        let newNotificationCount = data.length;
-        if (newNotificationCount > this.prevNotificationCount) {
-          this.badgeNotification = newNotificationCount - this.prevNotificationCount;
-          this.updateBellIcon(this.badgeNotification);
-          const newNotifications = this.notifications.slice(0, this.badgeNotification);
-          newNotifications.forEach(notification => {
+        const newUnreadNotifications = this.notifications.filter(notification => {
+          return notification[20] === 'Unread' && !this.uniqueIds.has(notification[0]);
+        });
+
+        if (newUnreadNotifications.length > 0) {
+          newUnreadNotifications.forEach(notification => {
             this.util.notification.success({
               title: 'New Alarm',
               msg: `SiteID: ${notification[5]}, AlarmType: ${notification[7]}, Alarm Status: ${notification[14]}`,
@@ -75,21 +72,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
               }
             });
           });
-          this.prevNotificationCount = newNotificationCount;
+          this.updateBadgeCount();
         }
       });
+  }
+
+  processNotifications(data: any[]): void {
+    this.resData = data;
+    this.uniqueIds.clear();
+    this.resData.forEach(item => {
+      if (item[20] === 'Unread') { 
+        this.uniqueIds.add(item[0]);
+      }
+    });
+    this.badgeNotification = this.uniqueIds.size;
+    this.updateBellIcon(this.badgeNotification);
+  }
+
+  updateBadgeCount(): void {
+    this.authService.fetchCriticalAlarms().subscribe((data) => {
+      this.processNotifications(data);
+    });
   }
 
   updateBellIcon(newNotificationCount: number): void {
     const bellIcon = document.getElementById('notification-bell');
     if (bellIcon) {
-      console.log(newNotificationCount);
       bellIcon.classList.add('new-notifications');
-      if (newNotificationCount >= 10) {
-        bellIcon.setAttribute('matBadge', '10');
-      } else {
-        bellIcon.setAttribute('matBadge', newNotificationCount.toString());
-      }
+      bellIcon.setAttribute('matBadge', newNotificationCount >= 10 ? '10' : newNotificationCount.toString());
       bellIcon.setAttribute('matBadgeColor', 'warn');
     }
   }
@@ -103,52 +113,43 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleNotification(): void {
     this.isToggleNoti = !this.isToggleNoti;
-    this.badgeNotification = 0;
+    this.badgeNotification = 0; // Reset badge notification count when dropdown is opened
     const dropdown = document.getElementById('notification-dropdown') as HTMLDivElement;
     const bellIcon = document.getElementById('notification-bell') as HTMLElement;
 
     if (this.isToggleNoti) {
       dropdown.style.display = 'block';
       bellIcon.classList.add('clicked');
+      if(this.uniqueIds.size>0)
+      {
+      this.markAsRead();
+      }
     } else {
       dropdown.style.display = 'none';
       bellIcon.classList.remove('clicked');
     }
   }
 
-  toggleNotificationDropdown(): void {
-    this.isNotificationDropdownOpen = !this.isNotificationDropdownOpen;
-
-    if (!this.isNotificationDropdownOpen) {
-      const dropdown = document.getElementById('notification-dropdown') as HTMLDivElement;
-      const bellIcon = document.getElementById('notification-bell') as HTMLElement;
-      dropdown.style.display = 'none';
-      bellIcon.classList.remove('clicked');
-    }
-
-    if (this.isNotificationDropdownOpen) {
-      this.fetchNotifications();
-    }
-  }
-
-  fetchNotifications(): void {
-    this.authService.fetchCriticalAlarms().subscribe((data) => {
-      this.notifications = data.slice(0, 5);
-      const newNotificationCount = this.notifications.length;
-      if (newNotificationCount > this.prevNotificationCount) {
-        this.badgeNotification = newNotificationCount - this.prevNotificationCount;
-        this.updateBellIcon(this.badgeNotification);
-      }
-      this.prevNotificationCount = newNotificationCount;
-    });
-  }
-
-  handleNotificationClick(notification: any):void{
+  handleNotificationClick(notification: any): void {
     const dropdown = document.getElementById('notification-dropdown') as HTMLDivElement;
-      const bellIcon = document.getElementById('notification-bell') as HTMLElement;
+    const bellIcon = document.getElementById('notification-bell') as HTMLElement;
     dropdown.style.display = 'none';
-      bellIcon.classList.remove('clicked');
+    bellIcon.classList.remove('clicked');
     this.router.navigate(['pages', 'dashboard', 'alarm-status', notification]);
+  }
 
+  markAsRead(): void {
+    let authToken = this.authService.getAuthToken();
+    let userId = authToken.userId;
+    
+    const requestBody = {
+      userId: userId,
+      alridSet: Array.from(this.uniqueIds)
+    };
+
+    let url = ApiConstant.notificationRead;
+    this.http.post(url, requestBody).subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }

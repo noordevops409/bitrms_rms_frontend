@@ -129,3 +129,15 @@ header {
   color: black;
   /* Set the text color to black for property values */
 }
+// .notification-item.unread {
+//   background-color:#3a3a3a; /* Light grey background for unread notifications */
+// }
+
+.notification-item .notification-link {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+

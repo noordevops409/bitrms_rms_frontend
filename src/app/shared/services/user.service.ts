@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { CommonUtilService } from '../common-util.service';
 import { BroadcastService } from '../broadcast.service';
@@ -76,9 +76,30 @@ export class UserService {
     const headers = {
       Authorization: `Bearer ${authToken}`, // Include the authentication token in the headers if required
     };
+    let userID=authToken.userId;
+
+    const params = new HttpParams()
+    .set('userId',userID);
+    // Make the API request to fetch critical alarms
+    return this.httpClient.get<any[]>(ApiConstant.getHighCriticalAlarm,{  params });
+  }
+  fetchCriticalAlarmsWithTime(): Observable<any[]> {
+    // You can use the authentication token or any other required data here
+    const authToken = this.getAuthToken(); // Assuming you have a getAuthToken method
+    const headers = {
+      Authorization: `Bearer ${authToken}`, // Include the authentication token in the headers if required
+    };
+    let userID=authToken.userId;
+    let loginTime=authToken.umLoginTime;
+    let logoutTime=authToken.umLogoutTime;
+
+    const params = new HttpParams()
+    .set('userId',userID)
+    .set('loginTime', loginTime)
+    .set('logoutTime', logoutTime);
   
     // Make the API request to fetch critical alarms
-    return this.httpClient.get<any[]>(ApiConstant.getHighCriticalAlarm);
+    return this.httpClient.get<any[]>(ApiConstant.getHighCriticalAlarmTime, {  params });
   }
   
 }
