@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.resData = data;
     this.uniqueIds.clear();
     this.resData.forEach(item => {
-      if (item[20] === 'Unread') { 
+      if (item[20] === 'Unread') {
         this.uniqueIds.add(item[0]);
       }
     });
@@ -120,9 +120,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isToggleNoti) {
       dropdown.style.display = 'block';
       bellIcon.classList.add('clicked');
-      if(this.uniqueIds.size>0)
-      {
-      this.markAsRead();
+      if (this.uniqueIds.size > 0) {
+        this.markAsRead();
       }
     } else {
       dropdown.style.display = 'none';
@@ -141,7 +140,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   markAsRead(): void {
     let authToken = this.authService.getAuthToken();
     let userId = authToken.userId;
-    
+
     const requestBody = {
       userId: userId,
       alridSet: Array.from(this.uniqueIds)
