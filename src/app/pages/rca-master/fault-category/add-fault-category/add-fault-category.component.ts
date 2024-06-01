@@ -1,4 +1,4 @@
-import { Inject, Component, OnInit, OnDestroy } from '@angular/core';
+import { Inject, Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -18,6 +18,8 @@ import { AppConstant } from '../../../../shared/app-constant.enum';
   styleUrls: ['./add-fault-category.component.scss']
 })
 export class AddFaultCategoryComponent implements OnInit {
+
+  @Output() saveEvent = new EventEmitter<void>();
 
   public isSaving: boolean = false;
   public isLoading: boolean = false;
@@ -110,6 +112,7 @@ export class AddFaultCategoryComponent implements OnInit {
         title: 'Success',
         msg: 'Fault category details saved successfully...'
       });
+      this.saveEvent.emit();
     }, (err) => {
       this.isSaving = false;
       this.util.notification.error({

@@ -259,7 +259,7 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
   private forDeleteListener!: Subscription;
-  selectedAlert: any; // Replace 'any' with the appropriate type of your 'alertsCounts' items
+  selectedAlert: any; 
   isTableVisible: boolean = false;
 
   private filterParam: any = {
@@ -297,7 +297,6 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.siteId = paramMap.get('siteId');
-      console.log(this.siteId);
       this.init();
     });
   }
@@ -312,7 +311,6 @@ export class AlarmCategoryComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.initFilterParam();
     this.setDefaultFilter();
     this.dashboardChartFilter = this.util.getDashboardAlarmStatusChartFilter();

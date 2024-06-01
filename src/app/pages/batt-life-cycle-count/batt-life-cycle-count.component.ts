@@ -346,7 +346,7 @@ export class BattLifeCycleCountComponent implements OnInit {
     const colData = resData || [];
     if (colData.length) {
       const rowData = colData[0];
-      // this.sampleData.columnHeader.push(LATEST_DATA1_COLUMN_HEADER['checkbox']);
+       this.sampleData.columnHeader.push(BATT_LIFE_COLUMN_HEADER['srno']);
       for (let key in rowData) {
         if (BATT_LIFE_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(BATT_LIFE_COLUMN_HEADER[key]);
@@ -359,11 +359,11 @@ export class BattLifeCycleCountComponent implements OnInit {
     const data = resData || [];
     if (data.length) {
       let counter = 0;
-      // for (let item of data) {
-      //   counter += 1;
-      //   item.srno = counter;
-      //   item.delete = "Delete";
-      // }
+      for (let item of data) {
+        counter += 1;
+        item.srno = counter;
+        // item.delete = "Delete";
+      }
       this.sampleData.data = data;
       this.allData.data = data;
     } else {

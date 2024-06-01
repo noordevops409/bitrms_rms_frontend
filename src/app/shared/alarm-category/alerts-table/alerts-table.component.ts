@@ -66,7 +66,6 @@ export class AlertsTableComponent {
     if (type == "Community Load") {
       this.apiUrl = ApiConstant.getSuperCriticalAlerts;
       this.httpClient.get<any[]>(this.apiUrl).subscribe((data) => {
-        console.log("line 68", data);
         this.tableData1 = this.formatDateInData(data);
         this.tableData2 =  this.tableData1;
         this.loading = false;
@@ -85,7 +84,6 @@ export class AlertsTableComponent {
 
 formatDateInData(data: any[]): any[] {
   return data.map(item => {
-    // Assuming the date field is always at index 3
     item[3] = this.formatDate(item[3]);
     return item;
   });
@@ -93,7 +91,6 @@ formatDateInData(data: any[]): any[] {
 formatDateInData1(data: any[],type:any): any[] {
   return data.map(item => {
     if(type=="fuellvl"){
-    // Assuming the date field is always at index 3
     item[3] = this.formatDate(item[3]);
     item[5] = this.formatDate(item[5]);
     }
@@ -101,6 +98,12 @@ formatDateInData1(data: any[],type:any): any[] {
     {
       item[4] = this.formatDate(item[4]);
 
+    }
+    else if(type=="Run hours")
+    {
+      const numberValue = parseFloat(item[5]);
+
+      item[5] = numberValue.toFixed(2);
     }
 
     return item;
@@ -131,12 +134,6 @@ formatDate(date: string): string {
     this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
     this.pageSize = data.pageSize || this.pageSize;
     this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
-
-    // if (data && data.popupTo) {
-    //   this.applyFilter(data);
-    // } else {
-    //   this.loadTowerLatestData();
-    // }
   }
 
   handleResize() {
@@ -150,19 +147,15 @@ formatDate(date: string): string {
   searchGlobally(event: any) {
     try {
         let { value } = event.target;
-        value = value.trim().toLowerCase(); // Trim leading and trailing spaces
+        value = value.trim().toLowerCase(); 
         
-        // Reset the tableData1 to its original state
         this.resetTableData();
         
         if (!value) {
-            // If the search input is empty, no need to filter
             return;
         }
 
-        const searchTerms = value.split(/\s+/); // Split the input value into individual words
-        //console.log("searchTerms",searchTerms)
-       // console.log("this.tableData1",this.tableData1); 
+        const searchTerms = value.split(/\s+/); 
 
         const filteredData = this.tableData1.filter((item: any) => {
           if (this.type === "fuellvl" || this.type === "Community Load") {
@@ -173,19 +166,12 @@ formatDate(date: string): string {
           }
       });
       
-            // Check if any of the third or fourth elements of the object array contain the search term
        
 
         if (filteredData.length === 0) {
-            // If no matching values found, reset tableData1 and display "No records found" message
-            console.log("141");
             this.tableData1=null;
-            //this.resetTableData();
-            // Show "No records found" message in the UI
             this.showNoRecordsFoundMessage = true;
         } else {
-          console.log("145");
-            // Update tableData1 with filtered data and hide "No records found" message
             this.tableData1 = filteredData;
             this.showNoRecordsFoundMessage = false;
         }

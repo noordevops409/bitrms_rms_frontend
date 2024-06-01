@@ -26,7 +26,6 @@ export class LogoutComponent implements OnInit {
     let userDataString = localStorage.getItem('userData');
     if (userDataString) {
       let userData = JSON.parse(userDataString);
-      console.log("userda",userData);
       
       let id = userData.userId;
       

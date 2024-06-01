@@ -100,7 +100,6 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getIssueCategoryData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
@@ -256,6 +255,10 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
       width: '1000px',
       height: 'auto'
     });
+
+    dialogRef.componentInstance.saveEvent.subscribe(() => {
+      this.init(); 
+    });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         if (data.issueCategoryMasterList && data.issueCategoryMasterList.length) {
@@ -273,6 +276,10 @@ export class IssueCategoryComponent implements OnInit, OnDestroy {
       width: '1000px',
       height: 'auto',
       data: item
+    });
+
+    dialogRef.componentInstance.saveEvent.subscribe(() => {
+      this.init(); 
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
