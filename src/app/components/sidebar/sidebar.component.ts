@@ -197,19 +197,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     const reportsMenu = this.menu.find((item: any) => item.value === 'Reports');
 
     if (reportsMenu && reportsMenu.subMenu) {
-      const initialSubMenuLength = reportsMenu.subMenu.length; // for logging
+      const initialSubMenuLength = reportsMenu.subMenu.length; 
 
       reportsMenu.subMenu = reportsMenu.subMenu.filter((subMenuItem: any) => {
         return subMenuItem && subMenuItem.roleIds && subMenuItem.roleIds.includes && subMenuItem.roleIds.includes(authToken.umDashboardLevelIds);
       });
 
-      const filteredSubMenuLength = reportsMenu.subMenu.length; // for logging
+      const filteredSubMenuLength = reportsMenu.subMenu.length; 
 
       if (filteredSubMenuLength === 0) {
         delete reportsMenu.subMenu;
-       // console.log(`Removed subMenu from Reports because all submenus were filtered out.`);
       } else if (initialSubMenuLength !== filteredSubMenuLength) {
-      //  console.log(`Filtered submenus for Reports: ${initialSubMenuLength} -> ${filteredSubMenuLength}`);
       }
     }
   }
@@ -248,18 +246,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  menuClick(evt: any, item: any) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    if (item.id === 13) {
-      this.router.navigate(['logout']);
-    } else {
-      this.router.navigate(['pages', item.href]);
-    }
-  }
+  // menuClick(evt: any, item: any) {
+  //   if (item.id === 13) {
+  //     this.router.navigate(['logout']);
+  //   } else {
+  //     this.router.navigate(['pages', item.href]);
+  //   }
+  // }
   expandCollapse(evt: any, item: any, index: any) {
-    evt.preventDefault();
-    evt.stopPropagation();
+  
     if (index !== this.prevIndex && this.prevSel) {
       this.prevSel.isExpanded = false;
     }
@@ -268,8 +263,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.prevIndex = index;
   }
 
+  // subMenuClick(evt: any, item: any, subMenuItem: any) {
+  //   this.router.navigate(['pages', item.href, subMenuItem.href]);
+  // }
+
+  menuClick(evt: any, item: any) {
+    if (evt.ctrlKey || evt.metaKey || evt.button === 1) {
+      // Allow default behavior for opening in a new tab
+      return;
+    }
+    evt.preventDefault();
+    if (item.id === 13) {
+      this.router.navigate(['logout']);
+    } else {
+      this.router.navigate(['pages', item.href]);
+    }
+  }
+
   subMenuClick(evt: any, item: any, subMenuItem: any) {
-    evt.stopPropagation();
+    if (evt.ctrlKey || evt.metaKey || evt.button === 1) {
+      // Allow default behavior for opening in a new tab
+      return;
+    }
     evt.preventDefault();
     this.router.navigate(['pages', item.href, subMenuItem.href]);
   }
