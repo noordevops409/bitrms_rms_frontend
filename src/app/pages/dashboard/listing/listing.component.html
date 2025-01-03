@@ -54,6 +54,7 @@
                                         <th>DG Start SOC</th>>
                                         <th>Solar Kw</th>
                                         <th>DG Power (Kw)</th>
+                                        <th>Battery Life Cycle Count</th>
                                         <th>Fuel Liter</th>
                                         <th>Total AC(KW)</th>
                                         <th>Amb Air Temp °C (WS) </th>
@@ -82,6 +83,7 @@
                                         <td>{{item.dgBatteryVoltage}}</td>
                                         <td>{{item.solarKw}}</td>
                                         <td>{{item.dgPower}}</td>
+                                        <td>{{item.batteryLifeCycleCount}}</td>
                                         <td>{{item.fuelLevel}}</td>
                                         <td>{{item.totalac}}</td>
                                         <td>{{item.ambAirTemp}}</td>
@@ -101,7 +103,7 @@
 
                         <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

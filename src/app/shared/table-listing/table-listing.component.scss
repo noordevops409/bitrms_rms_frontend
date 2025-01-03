@@ -27,7 +27,7 @@
   }
 
   .table-grid {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #000000;
     position: relative;
     height: 100%;
     border-top: 39px solid #ddd;
@@ -40,12 +40,13 @@
 
       ul {
         position: relative;
-        padding: 10px 24px;
+        padding: 0px 24px;
+        height: 44px;
 
         li {
           position: relative;
-          white-space: nowrap;
-          overflow: hidden;
+          // white-space: nowrap;
+          overflow: visible;
           color: #8F9BB3;
           font-size: 0.9375rem;
           padding: 0px 36px 0px 0px;
