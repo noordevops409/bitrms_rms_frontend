@@ -1247,7 +1247,7 @@ return;
   setResponse(resData: any) {
     this.sampleData.currentPageNo = this.currentPageNo + 1;
     this.sampleData.listingType = AppConstant.LATEST_DATA1_LISTING_TYPE;
-    this.sampleData.recordBatchSize = 50 || resData.length;
+    this.sampleData.recordBatchSize = resData.length || 50;
     this.sampleData.recordStartFrom = this.recordStartFrom;
     this.sampleData.sortField = 'smSiteCode';
     this.sampleData.sortFieldType = 'text';

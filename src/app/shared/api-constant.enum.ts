@@ -59,6 +59,8 @@ export const ApiConstant = {
   getSiteName: `${GATEWAY}/api/dashboard/site-name`,
   getPerfDashEvent: `${GATEWAY}/api/alarm-report/alarm-status`,
   getDashboardWidget: `${GATEWAY}/api/master_data/categorywiseofflinecounttotalcount`,
+ 
+  
 
   getSiteSummaryData: `${GATEWAY}/api/prf-dashboard/site-summary`,
   getSitePerfReport: `${GATEWAY}/api/prf-dashboard/perf-report`,
@@ -70,7 +72,8 @@ export const ApiConstant = {
   getSiteGetRemoteData: `${GATEWAY}/api/prf-dashboard/get-remotedata`,
   getSiteTabSummary: `${GATEWAY}/api/prf-dashboard/tab-summary`,
 
-
+  getLithPart1: `${GATEWAY}/api/lithium/part1`,
+  getLithPart2: `${GATEWAY}/api/lithium/part2`,
 
   getRCADataAll: `${GATEWAY}/api/rca/get-rcadata`,
   createUpdateRCAData: `${GATEWAY}/api/rca/site-name`,

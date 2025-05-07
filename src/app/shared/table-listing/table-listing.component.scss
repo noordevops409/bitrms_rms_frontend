@@ -40,15 +40,20 @@
 
       ul {
         position: relative;
-        padding: 10px 24px;
+        padding: 1px 24px;
 
         li {
+          // position: relative;
+          // white-space: nowrap;
+          // overflow: hidden;
+          // color: #8F9BB3;
+          // font-size: 0.9375rem;
+          // padding: 0px 36px 0px 0px;
           position: relative;
-          white-space: nowrap;
-          overflow: hidden;
-          color: #8F9BB3;
-          font-size: 0.9375rem;
-          padding: 0px 36px 0px 0px;
+    overflow: visible;
+    color: #8f9bb3;
+    font-size: .9375rem;
+    padding: 0 36px 0 0;
 
           &.sortable {
             cursor: pointer;
@@ -70,6 +75,8 @@
       .list-item-container {
         ul {
           padding: 16px 24px;
+          padding-top: 12px;
+
         }
       }
 

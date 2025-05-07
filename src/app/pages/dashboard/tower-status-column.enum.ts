@@ -12,7 +12,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: true,
     order: 'asc',
     isCustomAttributeColumn: false
@@ -22,7 +22,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'smSiteCode',
     colDisplayName: 'Site Id',
     title: 'Site Id',
-    widthOfColumn: 125,
+    widthOfColumn: 140,
     colType: 'textwithlink',
     dataType: 'text',
     id: '2',
@@ -30,7 +30,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: 'viewSiteDetails',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -47,7 +47,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: 'loadSiteDetails',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     order: 'asc',
     isSortSupported: true,
     isCustomAttributeColumn: false
@@ -65,7 +65,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     order: 'asc',
     isSortSupported: true,
     isCustomAttributeColumn: false
@@ -83,7 +83,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -101,7 +101,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     order: 'asc',
     isSortSupported: true,
     isCustomAttributeColumn: false
@@ -120,7 +120,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -138,7 +138,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -156,7 +156,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -175,7 +175,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -194,7 +194,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -212,7 +212,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -221,7 +221,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'batteryLifeCycleCount',
     colDisplayName: 'Battery Life Cycle Count',
     title: 'Battery Life Cycle Count',
-    widthOfColumn: 170,
+    widthOfColumn: 180,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -230,7 +230,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -248,7 +248,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -266,7 +266,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -284,7 +284,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -293,7 +293,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'globalIrradiance',
     colDisplayName: 'Global Irradiance W/m2(WS)',
     title: 'Global Irradiance W/m2(WS)',
-    widthOfColumn: 200,
+    widthOfColumn: 220,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -302,7 +302,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -311,7 +311,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'pvUpperSideTemp',
     colDisplayName: 'PV Upper Side Temp*C(WS)',
     title: 'PV Upper Side Temp*C(WS)',
-    widthOfColumn: 200,
+    widthOfColumn: 220,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -320,7 +320,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -329,7 +329,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'pvLowerSideTemp',
     colDisplayName: 'PV Lower Side Temp*C(WS)',
     title: 'PV Lower Side Temp*C(WS)',
-    widthOfColumn: 200,
+    widthOfColumn: 220,
     colType: 'text',
     isAvailTooltip: true,
     dataType: 'text',
@@ -338,7 +338,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -356,7 +356,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -374,7 +374,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -392,7 +392,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -410,7 +410,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -428,7 +428,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -446,7 +446,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: '',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -455,7 +455,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'alarmCategory',
     colDisplayName: 'Alarm Category',
     title: 'Alarm Category',
-    widthOfColumn: 125,
+    widthOfColumn: 140,
     colType: 'textwithlink',
     dataType: 'text',
     id: '25',
@@ -463,7 +463,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: 'viewAlarmCategory',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -472,7 +472,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'hourlyReport',
     colDisplayName: 'Hourly Report',
     title: 'Hourly Report',
-    widthOfColumn: 125,
+    widthOfColumn: 140,
     colType: 'textwithlink',
     dataType: 'text',
     id: '26',
@@ -480,7 +480,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: 'viewHourlyReport',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },
@@ -489,7 +489,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     fieldName: 'imgPath',
     colDisplayName: 'Image',
     title: 'Image',
-    widthOfColumn: 125,
+    widthOfColumn: 140,
     colType: 'textwithlink',
     dataType: 'text',
     id: '27',
@@ -497,7 +497,7 @@ export const TOWER_STATUS_COLUMN_HEADER = {
     tooltipSrc: '',
     function: 'viewImagePath',
     funParams: '',
-    wrapData: '',
+    wrapData: 'true',
     isSortSupported: false,
     isCustomAttributeColumn: false
   },

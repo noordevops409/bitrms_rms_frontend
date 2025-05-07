@@ -98,6 +98,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 10,
+      value: 'Lithium Battery Data',
+      href: 'lithlatestdata',
+      logo: 'assets/images/energy_report.png',
+      roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2],
+      subMenu: [
+        { id: 10.1, value: "Lithium Battery 1-15", href: "" },
+        { id: 10.2, value: "Lithium Battery 16-32", href: "part2" }
+      ]
+    },
+    {
+      id: 11,
       value: 'Power Report',
       href: 'power-report',
       logo: 'assets/images/power_report_rms (1).png',
@@ -156,7 +167,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private mainSortOrder: string[] = [
     'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Battery Life Cycle Count','Reports', 'Power Report',
     'Energy Report', 'Energy Billing Report', 'RCA Report',
-    'RCA Master', 'Map Site List', 'Master Data',
+    'RCA Master', 'Map Site List', 'Master Data','Lithium Battery Data',
     'Remote Commands', 'Users', 'Logout'
   ];
 

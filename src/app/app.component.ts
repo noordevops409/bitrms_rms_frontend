@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'my-dream-app';
+  title = 'rms';
   public isToggle: boolean = true;
   private toggleSidebar!: Subscription;
 
