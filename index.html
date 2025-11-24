@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITRMS - Ultimate Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <i class="fas fa-broadcast-tower brand-icon"></i>
+                    <span class="brand-text">BITRMS</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-item active" data-page="dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </div>
+                
+                <div class="menu-item" data-page="site-monitoring">
+                    <i class="fas fa-eye"></i>
+                    <span>Site Monitoring</span>
+                    <span class="notification-badge">13</span>
+                </div>
+                
+                <div class="menu-item" data-page="trouble-tickets">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Trouble Tickets</span>
+                    <span class="notification-badge">42</span>
+                </div>
+                
+                <div class="menu-item" data-page="visit-logs">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Visit Logs</span>
+                </div>
+                
+                <div class="menu-item" data-page="spares-management">
+                    <i class="fas fa-cogs"></i>
+                    <span>Spares Management</span>
+                    <span class="notification-badge">5</span>
+                </div>
+                
+                <div class="menu-item" data-page="grid-bills">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Grid Bills</span>
+                </div>
+                
+                <div class="menu-item" data-page="bill-payments">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Bill Payments</span>
+                </div>
+                
+                <div class="menu-item" data-page="fuel-logs">
+                    <i class="fas fa-gas-pump"></i>
+                    <span>Fuel Logs</span>
+                </div>
+                
+                <div class="menu-item" data-page="site-pm">
+                    <i class="fas fa-wrench"></i>
+                    <span>Site PM</span>
+                </div>
+                
+                <div class="menu-item" data-page="user-management">
+                    <i class="fas fa-users"></i>
+                    <span>User Management</span>
+                </div>
+                
+                <div class="menu-item" data-page="role-management">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Role Management</span>
+                </div>
+                
+                <div class="menu-item" data-page="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search..." id="globalSearch">
+                    </div>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="notification-dropdown">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">8</span>
+                        </button>
+                    </div>
+                    
+                    <div class="user-dropdown">
+                        <div class="user-info">
+                            <span class="user-name">John Doe</span>
+                            <span class="user-role">O&M Manager</span>
+                        </div>
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Content Container -->
+            <div class="page-container">
+                <!-- Dashboard Page -->
+                <div class="page active" id="dashboard">
+                    <div class="page-header">
+                        <h1>Dashboard</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--outline">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                            <button class="btn btn--primary">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- KPI Cards -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon sites">
+                                <i class="fas fa-broadcast-tower"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-value">2,835</div>
+                                <div class="kpi-label">Total Sites</div>
+                                <div class="kpi-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+2.3%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-sparkline" id="sites-sparkline"></div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon active">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-value">2,487</div>
+                                <div class="kpi-label">Active Sites</div>
+                                <div class="kpi-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+1.8%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-sparkline" id="active-sparkline"></div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon outages">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-value">13</div>
+                                <div class="kpi-label">Site Outages</div>
+                                <div class="kpi-trend negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>-15.2%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-sparkline" id="outages-sparkline"></div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon tickets">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <div class="kpi-content">
+                                <div class="kpi-value">145</div>
+                                <div class="kpi-label">Open Tickets</div>
+                                <div class="kpi-trend warning">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8.1%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-sparkline" id="tickets-sparkline"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Row 1 -->
+                    <div class="charts-row">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Site Status Distribution</h3>
+                                <button class="chart-action">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="siteStatusChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Monthly Ticket Trends</h3>
+                                <button class="chart-action">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="ticketTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Row 2 -->
+                    <div class="charts-row">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Regional Distribution</h3>
+                                <button class="chart-action">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="regionalChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Performance Metrics</h3>
+                                <button class="chart-action">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="performanceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Feed -->
+                    <div class="activity-section">
+                        <div class="section-header">
+                            <h3>Real-time Activity Feed</h3>
+                            <button class="btn btn--sm btn--outline">View All</button>
+                        </div>
+                        <div class="activity-feed" id="activityFeed">
+                            <!-- Activity items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Site Monitoring Page -->
+                <div class="page" id="site-monitoring">
+                    <div class="page-header">
+                        <h1>Site Monitoring</h1>
+                        <div class="page-actions">
+                            <select class="form-control" id="circleFilter">
+                                <option value="">All Circles</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Mumbai">Mumbai</option>
+                            </select>
+                            <button class="btn btn--primary" onclick="openModal('siteModal')">
+                                <i class="fas fa-plus"></i>
+                                Add Site
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="sitesTable">
+                            <thead>
+                                <tr>
+                                    <th>Site ID</th>
+                                    <th>Name</th>
+                                    <th>Circle</th>
+                                    <th>Status</th>
+                                    <th>Power Source</th>
+                                    <th>DC Voltage</th>
+                                    <th>Temperature</th>
+                                    <th>Fuel %</th>
+                                    <th>Alarms</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sitesTableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Trouble Tickets Page -->
+                <div class="page" id="trouble-tickets">
+                    <div class="page-header">
+                        <h1>Trouble Tickets</h1>
+                        <div class="page-actions">
+                            <select class="form-control" id="ticketStatusFilter">
+                                <option value="">All Status</option>
+                                <option value="New">New</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                            <button class="btn btn--primary" onclick="openModal('ticketModal')">
+                                <i class="fas fa-plus"></i>
+                                Create Ticket
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Ticket Analytics -->
+                    <div class="analytics-section">
+                        <div class="chart-card small">
+                            <h4>Priority Distribution</h4>
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="priorityChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card small">
+                            <h4>Status Breakdown</h4>
+                            <div class="chart-container" style="position: relative; height: 200px;">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <table class="data-table" id="ticketsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Site</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Assignee</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ticketsTableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Other Pages - Similar Structure -->
+                <div class="page" id="visit-logs">
+                    <div class="page-header">
+                        <h1>Visit Logs</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('visitModal')">
+                                <i class="fas fa-plus"></i>
+                                Log Visit
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="visitsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Site</th>
+                                    <th>Engineer</th>
+                                    <th>Purpose</th>
+                                    <th>Status</th>
+                                    <th>Duration</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="visitsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="spares-management">
+                    <div class="page-header">
+                        <h1>Spares Management</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('spareModal')">
+                                <i class="fas fa-plus"></i>
+                                Add Spare
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="sparesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Unit Cost</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sparesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="grid-bills">
+                    <div class="page-header">
+                        <h1>Grid Bills</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('billModal')">
+                                <i class="fas fa-plus"></i>
+                                Add Bill
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="billsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Site</th>
+                                    <th>Month</th>
+                                    <th>Amount</th>
+                                    <th>Units</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="billsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="bill-payments">
+                    <div class="page-header">
+                        <h1>Bill Payments</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('paymentModal')">
+                                <i class="fas fa-plus"></i>
+                                Record Payment
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="paymentsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Bill ID</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                    <th>Reference</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="fuel-logs">
+                    <div class="page-header">
+                        <h1>Fuel Logs</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('fuelModal')">
+                                <i class="fas fa-plus"></i>
+                                Add Entry
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="fuelTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Site</th>
+                                    <th>Date</th>
+                                    <th>Quantity (L)</th>
+                                    <th>Rate</th>
+                                    <th>Cost</th>
+                                    <th>DG Hours</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fuelTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="site-pm">
+                    <div class="page-header">
+                        <h1>Site PM</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('pmModal')">
+                                <i class="fas fa-plus"></i>
+                                Schedule PM
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="pmTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Site</th>
+                                    <th>Type</th>
+                                    <th>Task</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Assignee</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pmTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="user-management">
+                    <div class="page-header">
+                        <h1>User Management</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('userModal')">
+                                <i class="fas fa-plus"></i>
+                                Add User
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-table-container">
+                        <table class="data-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Region</th>
+                                    <th>Status</th>
+                                    <th>Last Login</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="page" id="role-management">
+                    <div class="page-header">
+                        <h1>Role Management</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary" onclick="openModal('roleModal')">
+                                <i class="fas fa-plus"></i>
+                                Create Role
+                            </button>
+                        </div>
+                    </div>
+                    <div class="roles-grid">
+                        <div id="rolesContainer">
+                            <!-- Role cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page" id="reports">
+                    <div class="page-header">
+                        <h1>Reports</h1>
+                        <div class="page-actions">
+                            <button class="btn btn--primary">
+                                <i class="fas fa-file-export"></i>
+                                Generate Report
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Performance Report</h4>
+                            <p>Site performance and availability metrics</p>
+                            <button class="btn btn--outline btn--sm">Generate</button>
+                        </div>
+                        <div class="report-card">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <h4>Financial Report</h4>
+                            <p>Bills, payments and cost analysis</p>
+                            <button class="btn btn--outline btn--sm">Generate</button>
+                        </div>
+                        <div class="report-card">
+                            <i class="fas fa-tools"></i>
+                            <h4>Maintenance Report</h4>
+                            <p>PM activities and maintenance metrics</p>
+                            <button class="btn btn--outline btn--sm">Generate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal hidden" id="siteModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Site</h3>
+                <button class="modal-close" onclick="closeModal('siteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="siteForm">
+                <div class="form-group">
+                    <label class="form-label">Site ID</label>
+                    <input type="text" class="form-control" name="siteId" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Site Name</label>
+                    <input type="text" class="form-control" name="siteName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Circle</label>
+                    <select class="form-control" name="circle" required>
+                        <option value="">Select Circle</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cluster</label>
+                    <input type="text" class="form-control" name="cluster" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--outline" onclick="closeModal('siteModal')">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Add Site</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Additional modals will follow similar structure -->
+    <!-- Ticket Modal -->
+    <div class="modal hidden" id="ticketModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Ticket</h3>
+                <button class="modal-close" onclick="closeModal('ticketModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="ticketForm">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Site</label>
+                    <select class="form-control" name="site" required>
+                        <option value="">Select Site</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select class="form-control" name="priority" required>
+                        <option value="">Select Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="description" rows="4" required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--outline" onclick="closeModal('ticketModal')">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Create Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

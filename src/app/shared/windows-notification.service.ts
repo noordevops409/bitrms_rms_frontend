@@ -76,7 +76,7 @@ export class WindowsNotificationService {
         setTimeout(() => {
           let title = "Critical Alarm " + obj.smsiteCode;
           // let icon = 'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'; //this is a large image may take more time to show notifiction, replace with small size icon
-          let icon = 'assets/images/yoma_logo.png'; //this is a large image may take more time to show notifiction, replace with small size icon
+          let icon = 'assets/images/bit_logo2.jpg'; //this is a large image may take more time to show notifiction, replace with small size icon
           let body = `${obj.alName}, ${obj.alStatus}, ${obj.alarmCat} \n ${obj.region}, ${obj.zone}`;
 
           let notification = new Notification(title, { body, icon });

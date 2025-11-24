@@ -60,6 +60,7 @@ export const AppConstant = {
     ADMIN_ROLE:'1',
     NOC1:'2',
     NOC2:'3',
-    CUSTOMER:'4'
+    CUSTOMER:'4',
+    PHP:'5'
   }
 };
