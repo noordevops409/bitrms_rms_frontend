@@ -1,113 +1,237 @@
 <div class="parent-container">
+
     <div class="header">
 
+
+
         <div class="filter-btn add-report">
+
             <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+
             <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+
         </div>
 
+
+
         <div class="right-side">
+
             <div class="export">
+
                 <label>Export</label>
-                <select class="mini" (change)="exportOptSelected($event);" [(ngModel)]="ddExport">
+
+                <select class="mini" (change)="exportOptSelected($event.target.value);" [(ngModel)]="ddExport" [disabled]="isExporting">
+
                     <option value="-1">Please Select</option>
+
                     <option value="1">Export Excel</option>
+
                     <option value="2">Export CSV</option>
+
                     <!-- <option value="3">PDF</option> -->
+
                 </select>
+
+                <span *ngIf="isExporting" class="export-loading">
+
+                    <i class="fa fa-spinner fa-spin"></i> Exporting... {{ Math.round(exportProgress) }}%
+
+                </span>
+
+                <div *ngIf="isExporting" class="export-progress-bar">
+
+                    <div class="export-progress-fill" [style.width.%]="exportProgress"></div>
+
+                </div>
+
             </div>
+
         </div>
+
+
 
     </div>
 
+
+
     <div class="table-listing">
+
         <div class="box alarm-summary">
+
             <div class="content-data">
+
                 <div class="button-container">
+
                     <div class="right-align">
+
                         <h4 class="table-title">Alarm Status</h4>
+
                       </div>
+
                      
+
                       <button class="btn btn-danger" style="height: 41px; margin-top: 10px;" (click)="this.isClickable1 ? openTabular1(this.superCritical) : null" >{{superCriticalAlertsCount}} Community Load </button>
 
+
+
                       <li *ngFor="let item of alertsCounts">
+
                         <button class="btn"  [ngClass]="item.cssClass" (click)="item.isClickable ? openTabular(item.type) : null" [disabled]="!item.isClickable">
+
                           {{item?.count}} {{item.type}}
+
                         </button>
+
                       </li>
+
                     <li *ngFor="let item of alarmCounts">
+
                         <button class="btn" [ngClass]="item.cssClass" (click)="loadDataByType(item.type)">
+
                             {{item?.count}} {{item.type}}
+
                         </button>
+
                     </li>
+
                 </div>
+
+
+
 
 
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+
                     <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+
                         [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+
                     </app-tower-filter-wrapper>
+
                 </div>
+
                 <div class="list-wrap">
+
                     <div class="view-holder">
 
+
+
                         <div class="export-container" [ngClass]="{'show': isExporting}"
+
                             *ngIf="activeListing.list && activeListing.list.data">
+
                             <table id="export-data">
+
                                 <thead>
+
                                     <tr>
+
                                         <th>SrNo</th>
+
                                         <th>Site Id</th>
+
                                         <th>Alarm Name</th>
+
                                         <th>Alarm Open Time</th>
+
                                         <th>Alarm Close Time</th>
+
                                         <th>Elapsed Time</th>
+
                                         <th>Alarm Status</th>
+
                                         <th>Severity</th>
+
                                         <th>Alarm Category</th>
+
                                         <th>Region</th>
+
                                         <th>Zone</th>
+
                                         <th>Cluster Name</th>
+
                                         <th>Customer Name</th>
+
                                         <th>Engineer Name</th>
+
                                         <th>Site Type</th>
+
                                         <th>Last Updated</th>
+
                                     </tr>
+
                                 </thead>
+
                                 <tbody>
+
                                     <tr *ngFor="let item of exportData.data;let i=index">
+
                                         <td>{{i+1}}</td>
+
                                         <td>{{item.smsiteCode}}</td>
+
                                         <td>{{item.alName}}</td>
+
                                         <td>{{item.opentime}}</td>
+
                                         <td>{{item.closeitem}}</td>
+
                                         <td>{{ item.ageing > 59 ? (item.ageing / 60).toFixed(2) + ' minutes' : item.ageing + ' seconds'}}</td>
+
                                         <td>{{item.alrstatus}}</td>
+
                                         <td>{{item.severity}}</td>
+
                                         <td>{{item.alarmcat}}</td>
+
                                         <td>{{item.region}}</td>
+
                                         <td>{{item.zone}}</td>
+
                                         <td>{{item.clustername}}</td>
+
                                         <td>{{item.customerName}}</td>
+
                                         <td>{{item.engineerName}}</td>
+
                                         <td>{{item.sitetypeid}}</td>
+
                                         <td>{{item.lastUpdated}}</td>
+
                                     </tr>
+
                                 </tbody>
+
                             </table>
+
                         </div>
 
-                        <div class="listing-container" [ngClass]="{'aLoader': isLoading || isExporting, 'failed': isListServerError}">
+
+
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
+
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=true [alram]=true
+
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
+
                                 (onSelectionChange)="loadListing($event)">
+
                             </app-table-listing>
+
                         </div>
+
                     </div>
+
                     
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>

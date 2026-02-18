@@ -1,285 +1,636 @@
 :host {
+
     display: block;
+
     height: 100%;
+
 }
+
+
+
 
 
 .filter-criteria {
+
     display: flex;
+
     justify-content: space-between;
 
+
+
     .checkbox-container {
+
         margin-top: 15px;
 
+
+
         .elem-row {
+
             margin: 0px 0px 40px 0px;
+
             display: flex;
 
+
+
             >label {
+
                 width: 100px;
+
                 color: #fff;
+
                 font-size: 00.9375rem;
+
                 font-weight: normal;
+
             }
+
         }
+
+
 
         ul {
+
             list-style: none;
+
             padding: 0px;
+
             margin: 0px;
 
+
+
             li {
+
                 float: left;
+
                 width: 50%;
+
             }
+
         }
+
     }
+
 }
+
+
 
 .header {
+
     .left-side {
+
         display: flex;
+
         justify-content: space-between;
+
         align-items: center;
 
+
+
         >div {
+
             margin-right: 10px;
+
         }
+
     }
+
 }
+
+
+
 
 
 .tabular-filter-wrapper {
+
     transition: 0.5s;
+
     position: absolute;
+
     top: 0px;
+
     left: 0px;
+
     z-index: 2;
+
     width: 75%;
+
     height: 0px;
+
     opacity: 0;
 
+
+
     &.open {
+
         height: 100%;
+
         opacity: 1;
+
         z-index: 4;
+
     }
+
 }
+
+
 
 .parent-container {
 
+
+
     height: 100%;
+
     overflow: auto;
+
     position: sticky;
 
+
+
     &::-webkit-scrollbar {
+
         width: .3125rem;
+
         height: .3125rem
+
     }
+
+
 
     &::-webkit-scrollbar-thumb {
+
         background: #3f51b5;
+
         cursor: pointer;
+
         border-radius: .15625rem
+
     }
+
+
 
     &::-webkit-scrollbar-track {
+
         background: #fff;
+
     }
+
+
 
     .header {
+
         display: flex;
+
         justify-content: space-between;
+
         align-items: center;
+
         margin-bottom: 16px;
+
         position: absolute;
+
         width: 100%;
+
         left: 0px;
+
         padding: 0px 36px;
+
         background-color: transparent;
+
         z-index: 1;
+
     }
+
 }
 
+
+
 :host {
+
     display: block;
+
     height: 100%;
+
 }
+
+
+
 
 
 .filter-criteria {
+
     display: flex;
+
     justify-content: space-between;
 
+
+
     .checkbox-container {
+
         margin-top: 15px;
 
+
+
         .elem-row {
+
             margin: 0px 0px 40px 0px;
+
             display: flex;
 
+
+
             >label {
+
                 width: 100px;
+
                 color: #fff;
+
                 font-size: 00.9375rem;
+
                 font-weight: normal;
+
             }
+
         }
+
+
 
         ul {
+
             list-style: none;
+
             padding: 0px;
+
             margin: 0px;
 
+
+
             li {
+
                 float: left;
+
                 width: 50%;
+
             }
+
         }
+
     }
+
 }
+
+
 
 .header {
+
     .left-side {
+
         display: flex;
+
         justify-content: space-between;
+
         align-items: center;
 
+
+
         >div {
+
             margin-right: 10px;
+
         }
+
     }
+
 }
+
+
+
 
 
 .tabular-filter-wrapper {
+
     transition: 0.5s;
+
     position: absolute;
+
     top: 0px;
+
     left: 0px;
+
     z-index: 2;
+
     width: 75%;
+
     height: 0px;
+
     opacity: 0;
 
+
+
     &.open {
+
         height: 100%;
+
         opacity: 1;
+
         z-index: 4;
+
     }
+
 }
+
+
 
 .export {
+
     label {
+
         font-size: 0.9375rem;
+
         margin-right: 24px;
+
         color: white;
+
     }
+
+
 
     select {
+
         background-color: #192038;
+
         color: white;
+
         border: 1px solid #101426;
+
         border-radius: 4px;
+
         font-size: 0.9375rem;
+
         padding: 8px 16px;
+
         text-align: left;
+
         width: 175px;
+
         font-weight: bold;
 
+
+
         &.mini {
+
             background-image: linear-gradient(45deg, transparent 50%, #8F9BB3 50%), linear-gradient(135deg, #8F9BB3 50%, transparent 50%), linear-gradient(to right, #8F9BB3, #ccc);
+
             background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+
             background-size: 5px 5px, 5px 5px, 1px 1.5em;
+
             background-repeat: no-repeat;
 
+
+
             * {
+
                 font-size: 0.875rem;
+
             }
+
         }
+
     }
+
 }
+
+
 
 .export-container {
+
     display: none;
 
+
+
     &.show {
+
         display: block;
+
     }
+
 }
+
+
 
 .alarm-summary {
+
     position: relative;
+
+
 
     .content-data
+
     {
+
         height: 650px;
+
     }
+
     .box-title {
+
         display: flex;
+
         justify-content: space-between;
+
         padding: 0px 20px;
+
         align-items: center;
+
     }
+
+
 
     .summary-data {
+
         ul {
+
             list-style: none;
+
             padding: 0px;
+
             margin: 0px;
+
             display: flex;
+
             column-gap: 15px;
 
+
+
             li {}
+
         }
+
     }
 
+
+
    /* Add a fixed width and flex-wrap to .button-container */
+
 .button-container {
+
     display: flex;
+
     flex-wrap: wrap;
+
     position: relative;
+
     z-index: 3;
+
    // width: 100%; /* Adjust the width as needed */
+
 }
+
+
 
 .button-container li {
+
     margin: 5px;
+
     list-style-type: none;
+
 }
+
+
 
 .button-container button {
+
     height: 42;
+
     padding: 12px;
+
     font-size: 12px;
+
 }
+
+
 
 /* Style for the table title */
+
 .table-title {
+
     display: inline-block;
+
     margin-right: 10px;
+
     margin: 0;
+
 }
 
+
+
 /* Adjust the padding for .button-container h4 */
+
 // div .button-container h4 {
+
 //     padding-right: 20px; /* Adjust the padding as needed */
+
 //     padding-left: 20px;
+
 //     padding-top: 19px;
+
 // }
+
 .right-align {
+
     flex: 1; /* Use the available space on the left side */
+
     text-align: left; /* Align the content to the right */
+
     padding-left: 20px;
+
     padding-top: 19px;
+
   }
+
 }
+
 .CL
+
 {
+
     color: #fff;
+
     background-color: #ff2e1f;
+
     border-color: #e11b0c;
+
     box-shadow: 0 2px 2px 0 rgba(244, 67, 54, 0.14), 0 3px 1px -2px rgba(244, 67, 54, 0.2), 0 1px 5px 0 rgba(244, 67, 54, 0.12);
+
     height: 41px;
+
     margin-top: 10px;
+
 }
+
+.export-loading {
+
+    margin-left: 10px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    
+
+    i {
+
+        margin-right: 5px;
+
+    }
+
+}
+
+.export-progress-bar {
+
+    width: 100%;
+
+    height: 4px;
+
+    background: #e5e7eb;
+
+    border-radius: 2px;
+
+    margin-top: 5px;
+
+    overflow: hidden;
+
+}
+
+.export-progress-fill {
+
+    height: 100%;
+
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+
+    border-radius: 2px;
+
+    transition: width 0.1s linear;
+
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+
+    animation: pulse 2s infinite;
+
+}
+
+@keyframes pulse {
+
+    0%, 100% {
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        opacity: 0.8;
+
+    }
+
+}
+
