@@ -14,9 +14,8 @@ import { WindowsNotificationService } from '../shared/windows-notification.servi
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
- 
-
   public isLogining: boolean = false;
+  public logoUrl: string = 'assets/images/bit_logo2.jpg';
   public loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
@@ -45,6 +44,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.init();
     this.initForm();
+    this.checkLogoBasedOnUrl();
+  }
+
+  checkLogoBasedOnUrl(): void {
+    // Check if current URL contains 'yomamicropowerservice'
+    if (window.location.hostname.includes('yomamicropowerservice')) {
+      this.logoUrl = 'assets/images/yoma_logo.png';
+    }
   }
 
   ngOnDestroy(): void {

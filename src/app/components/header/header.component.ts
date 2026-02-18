@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notificationSubscription: Subscription | undefined;
   resData: any;
   uniqueIds = new Set<number>();
+  public logoUrl: string = 'assets/images/bit_logo2.jpg';
 
   constructor(
     private authService: UserService,
@@ -36,6 +37,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchInitialNotifications();
+    this.checkLogoBasedOnUrl();
+  }
+
+  checkLogoBasedOnUrl(): void {
+    // Check if current URL contains 'yomamicropowerservice'
+    if (window.location.hostname.includes('yomamicropowerservice')) {
+      this.logoUrl = 'assets/images/yoma_logo.png';
+    }
   }
 
   ngOnDestroy(): void {
