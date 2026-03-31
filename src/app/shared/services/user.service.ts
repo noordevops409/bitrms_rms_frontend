@@ -70,6 +70,13 @@ export class UserService {
       return null;
     }
   }
+
+  clearAuthToken() {
+    this.authTokenData = null;
+    this.userData = null;
+    (window as any).localStorage.removeItem('authToken');
+    (window as any).localStorage.removeItem('userData');
+  }
   fetchCriticalAlarms(): Observable<any[]> {
     // You can use the authentication token or any other required data here
     const authToken = this.getAuthToken(); // Assuming you have a getAuthToken method

@@ -28,6 +28,7 @@ const routes: Routes = [
       { path: 'settable-load', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP ] }, component: SettableLoadComponent },
       // { path: 'batt-life-cycle-count', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, ] }, component: BattLifeCycleCountComponent },
       { path: 'batt-life-cycle-count', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP] }, loadChildren: () => import('./batt-life-cycle-count/batt-life-cycle-count.module').then(m => m.BattLifeCycleCountModule) },
+      { path: 'battery-life-cycle-reports', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP] }, loadChildren: () => import('./battery-life-cycle-reports/battery-life-cycle-reports.module').then(m => m.BatteryLifeCycleReportsModule) },
 
       { path: 'energy-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, component: EnergyReportComponent },
       // { path: 'alarm-status', component: AlarmCategoryComponent },

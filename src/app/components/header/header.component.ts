@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   startNotificationPolling(): void {
-    this.notificationSubscription = interval(5000)
+    this.notificationSubscription = interval(300000) // 5 minutes = 300000ms
       .pipe(switchMap(() => this.authService.fetchCriticalAlarms()))
       .subscribe((data) => {
         this.notifications = data.slice(0, 10);

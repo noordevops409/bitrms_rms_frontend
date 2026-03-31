@@ -179,7 +179,10 @@ export const ApiConstant = {
  getSettableLoad:`${GATEWAY}/api/settableload/settable-form`,
 getBattLifeCycle: `${GATEWAY}/api/batt-cycle-count`,
 getBattLifeCycleCount:`${GATEWAY}/api/get-batt-life-count`,
-getBattLifeCycleCountRecords:`${GATEWAY}/api/get-batt-life-count-records`
+getBattLifeCycleCountRecords:`${GATEWAY}/api/get-batt-life-count-records`,
+getDailyBattLifeCycle:`${GATEWAY}/api/get-daily-batt-lifecycle`,
+getMonthlyBattLifeCycle:`${GATEWAY}/api/get-monthly-batt-lifecycle`,
+getYearlyBattLifeCycle:`${GATEWAY}/api/get-yearly-batt-lifecycle`
 
 
 };

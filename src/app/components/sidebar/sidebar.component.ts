@@ -90,7 +90,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER,AppConstant.ROUTE_ACCESS_ID.PHP]
     },
     {
-      id: 9,
+      id: 10,
       value: 'Energy Report',
       href: 'energy-report',
       logo: 'assets/images/energy_report.png',
@@ -152,7 +152,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     },
     {
       id: 16,
-      value: 'Battery Life Cycle Count',
+      value: 'Battery Life Cycle Count (Life Time)',
       href: 'batt-life-cycle-count',
       logo: 'assets/images/energy_billing_report_rms.png',
       roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP ]
@@ -165,7 +165,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Define the desired order of main menu items
   private mainSortOrder: string[] = [
-    'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Battery Life Cycle Count','Reports', 'Power Report',
+    'Dashboard', 'Alarm Status','DG Maintenace Alert','Settable Load','Battery Life Cycle Count (Life Time)','Reports', 'Power Report',
     'Energy Report', 'Energy Billing Report', 'RCA Report',
     'RCA Master', 'Map Site List', 'Master Data','Lithium Battery Data',
     'Remote Commands', 'Users', 'Logout'

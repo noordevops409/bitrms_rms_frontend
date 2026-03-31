@@ -39,6 +39,7 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
     NgxMatTimepickerModule,
     NgxMatMomentModule
   ],
+  exports: [BattLifeCycleCountFilterComponent],
 
   providers: [
     { provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
