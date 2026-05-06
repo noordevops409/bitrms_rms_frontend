@@ -7,18 +7,21 @@
     </div>
     
     <div class="filter-body">
-        <!-- Dropdown filters + Report Type in a 2-column grid -->
+        <!-- Dropdown filters in 2-column grid -->
         <div class="filters-grid">
             <ng-container *ngFor="let filter of defaultFilterList">
-                <div class="grid-item" *ngIf="filter?.dataType === 'Dropdown'">
+                <div class="grid-item" *ngIf="filter?.dataType === 'Dropdown' && filter?.fieldName !== 'clusters'">
                     <app-custom-select-dd [isOpen]="filter.isOpen" [ddData]="filter" 
                         (onDropdownClose)="closeFilterDropdown($event)" 
                         (onSelectionChange)="onFilterChange($event)">
                     </app-custom-select-dd>
                 </div>
             </ng-container>
-            
-            <!-- Report Type in grid (below Cluster) -->
+        </div>
+
+        <!-- Report Type and Date Range in same row -->
+        <div class="filters-grid report-date-row">
+            <!-- Report Type -->
             <div class="grid-item report-type-grid-item" *ngIf="filterType === 2">
                 <label class="grid-label">Report Type</label>
                 <select class="report-type-dropdown" [(ngModel)]="selectedReportType" (change)="onReportTypeDropdownChange()">
@@ -28,23 +31,23 @@
                     <option value="custom">Custom</option>
                 </select>
             </div>
-        </div>
 
-        <!-- Date Range picker -->
-        <div class="date-section" *ngIf="filterType !== 2 || selectedReportType === 'daily' || selectedReportType === 'custom'">
-            <label>Date Range</label>
-            <mat-form-field class="form-field" appearance="fill">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
-                    <input matStartDate formControlName="start" placeholder="Start date" [max]="maxDate">
-                    <input matEndDate formControlName="end" (dateChange)="dateRangeChange('change', $event)" placeholder="End date" [max]="maxDate">
-                </mat-date-range-input>
-                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-            </mat-form-field>
+            <!-- Date Range picker -->
+            <div class="grid-item date-range-grid-item" *ngIf="filterType !== 2 || selectedReportType === 'daily' || selectedReportType === 'custom'">
+                <label class="grid-label">Date Range</label>
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
+                        <input matStartDate formControlName="start" placeholder="Start date" [max]="maxDate">
+                        <input matEndDate formControlName="end" (dateChange)="dateRangeChange('change', $event)" placeholder="End date" [max]="maxDate">
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                </mat-form-field>
+            </div>
         </div>
 
         <!-- Month + Year picker -->

@@ -32,6 +32,9 @@ const routes: Routes = [
 
       { path: 'energy-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE,AppConstant.ROUTE_ACCESS_ID.NOC1, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, component: EnergyReportComponent },
       // { path: 'alarm-status', component: AlarmCategoryComponent },
+ { path: 'batt-life-cycle-count', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP] }, loadChildren: () => import('./batt-life-cycle-count/batt-life-cycle-count.module').then(m => m.BattLifeCycleCountModule) },
+      { path: 'battery-life-cycle-reports', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.PHP] }, loadChildren: () => import('./battery-life-cycle-reports/battery-life-cycle-reports.module').then(m => m.BatteryLifeCycleReportsModule) },
+
       { path: 'alerts-table/:type', canActivate: [AuthGuardService], component: AlertsTableComponent },
       { path: 'power-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, loadChildren: () => import('./power-report/power-report.module').then(m => m.PowerReportModule) },
       { path: 'energy-billing-report', canActivate: [AuthGuardService], data: { roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2,AppConstant.ROUTE_ACCESS_ID.NOC1,AppConstant.ROUTE_ACCESS_ID.CUSTOMER] }, loadChildren: () => import('./energy-billing-report/energy-billing-report.module').then(m => m.EnergyBillingReportModule) },

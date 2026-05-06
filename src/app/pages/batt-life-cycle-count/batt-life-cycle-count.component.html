@@ -83,9 +83,7 @@
                                     <tr>
                                         <th>{{ getDefaultColumnName() }}</th>
                                         <th>Region</th>
-                                        <th>Cluster</th>
                                         <th>Site Code</th>
-                                        <th>Site Name</th>
                                         <th>Initial Battery Life Cycle Count</th>
                                         <th>Final Battery Life Cycle Count</th>
                                         <th>Total Battery Cycle Life Count</th>
@@ -106,9 +104,7 @@
                                             </ng-container>
                                         </td>
                                         <td>{{item.region}}</td>
-                                        <td>{{item.cluster}}</td>
                                         <td>{{item.siteCode}}</td>
-                                        <td>{{item.siteName}}</td>
                                         <td>{{item.initialBatteryLifeCycleCount}}</td>
                                         <td>{{item.finalBatteryLifeCycleCount}}</td>
                                         <td>{{item.totalBatteryCycleLifeCount}}</td>
@@ -126,14 +122,44 @@
                             </app-table-listing>
                         </div>
 
-                        <!-- Message for Reports tab when no data is loaded -->
+                        <!-- Message for Reports tab when no data is available -->
                         <div class="no-data-message" *ngIf="activeTab === 'reports' && !activeListing.list.data.length && !isLoading">
                             <div class="no-data-content">
-                                <i class="fas fa-filter"></i>
-                                <h3>No Data Available</h3>
-                                <p>Please apply filters to view Battery Life Cycle Reports.</p>
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <!-- <h3>No Data Available</h3> -->
+                                <p style="color: #e74c3c; font-weight: bold;">
+                                    <span *ngIf="!filterParam.startDate && !filterParam.endDate">
+                                        Please apply filters to view Battery Life Cycle Reports.
+                                    </span>
+                                    <span *ngIf="filterParam.startDate || filterParam.endDate">
+                                        No data found for the selected filters. Please try different filter criteria.
+                                    </span>
+                                </p>
+                                
+                                <!-- Show selected filter details only when user has actually selected specific filters -->
+                                <div class="filter-details" *ngIf="(filterParam.siteId && filterParam.siteId.length > 0 && filterParam.siteId[0] !== 'All') || (filterParam.regions && filterParam.regions.length > 0 && filterParam.regions[0] !== 'All') || (filterParam.clusters && filterParam.clusters.length > 0 && filterParam.clusters[0] !== 'All')">
+                                    <h4>Selected Filters:</h4>
+                                    <ul>
+                                        <li *ngIf="selectedReportType">
+                                            <strong>Report Type:</strong> {{ selectedReportType | titlecase }}
+                                        </li>
+                                        <li *ngIf="filterParam.startDate && filterParam.endDate">
+                                            <strong>Date Range:</strong> {{ filterParam.startDate | date:'MMM d, y' }} - {{ filterParam.endDate | date:'MMM d, y' }}
+                                        </li>
+                                        <li *ngIf="filterParam.siteId && filterParam.siteId.length > 0 && filterParam.siteId[0] !== 'All'">
+                                            <strong>Sites:</strong> {{ filterParam.siteId.join(', ') }}
+                                        </li>
+                                        <li *ngIf="filterParam.regions && filterParam.regions.length > 0 && filterParam.regions[0] !== 'All'">
+                                            <strong>Regions:</strong> {{ filterParam.regions.join(', ') }}
+                                        </li>
+                                        <li *ngIf="filterParam.clusters && filterParam.clusters.length > 0 && filterParam.clusters[0] !== 'All'">
+                                            <strong>Clusters:</strong> {{ filterParam.clusters.join(', ') }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                
                                 <button class="btn btn-primary" (click)="openTabularFilter($event)">
-                                    <i class="fas fa-sliders-h"></i> Apply Filters
+                                    <i class="fas fa-sliders-h"></i> {{ filterParam.startDate || filterParam.endDate ? 'Change Filters' : 'Apply Filters' }}
                                 </button>
                             </div>
                         </div>

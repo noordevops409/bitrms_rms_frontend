@@ -13,9 +13,9 @@ export const environment = {
  // http://52.2.178.166:8080/digitrinity/prf_dashboard/site_summary,
     
  //below is the prod url -latest
-  //api:'https://rms.yomamicropowerservice.com:8443/digitrinity-rest-services_prod',
+  api:'https://rms.yomamicropowerservice.com:8443/digitrinity-rest-services_prod',
   // api: 'http://localhost:8080/digitrinity-rest-services_prod',
-   api: 'http://54.197.28.244:8080/digitrinity-rest-services_prod',
+  //  api: 'http://54.197.28.244:8080/digitrinity-rest-services_prod',
 
  // http://54.254.44.119:8080/digitrinity/prf_dashboard/site_summary
   mapbox: {

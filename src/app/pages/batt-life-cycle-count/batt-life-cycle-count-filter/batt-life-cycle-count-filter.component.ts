@@ -6,7 +6,7 @@ import * as moment from 'moment';
   templateUrl: './batt-life-cycle-count-filter.component.html',
   styleUrls: ['./batt-life-cycle-count-filter.component.scss']
 })
-export class BattLifeCycleCountFilterComponent {
+export class BattLifeCycleCountFilterComponent implements OnInit {
 
   @Input() filterType: number = 1;
 

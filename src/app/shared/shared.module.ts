@@ -108,6 +108,7 @@ export const MY_MOMENT_FORMATS = {
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS }
   ],
   exports: [
+    CommonModule,
     GoogleDataStudioComponent,
     TableListingComponent,
     CustomCommonDropdownComponent,

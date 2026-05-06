@@ -245,8 +245,8 @@ export class BattLifeCycleCountComponent implements OnInit {
     "customers": ['All'],
     "engineer": ['All'],
     "date": null,
-    "startDate": moment().subtract(1, 'days').format("YYYY-MM-DD"),
-    "endDate": moment().subtract(1, 'days').format("YYYY-MM-DD"),
+    "startDate": null,
+    "endDate": null,
     "reportMonth": null,
     "reportYear": null
   };
@@ -289,26 +289,7 @@ export class BattLifeCycleCountComponent implements OnInit {
   setDefaultFilter() {
     let startDate: string | undefined, endDate: string | undefined, reportMonth: string | null = null, reportYear: number | null = null;
     
-    if (this.activeTab === 'reports') {
-      if (this.selectedReportType === 'daily') {
-        // For daily: show only yesterday's data
-        const yesterday = moment().subtract(1, 'days');
-        startDate = yesterday.format("YYYY-MM-DD");
-        endDate = yesterday.format("YYYY-MM-DD");
-      } else if (this.selectedReportType === 'monthly') {
-        // For monthly: show current month's data
-        const currentMonth = moment();
-        startDate = currentMonth.startOf('month').format("YYYY-MM-DD");
-        endDate = currentMonth.endOf('month').format("YYYY-MM-DD");
-        reportMonth = currentMonth.format('YYYY-MM');
-      } else if (this.selectedReportType === 'yearly') {
-        // For yearly: show current year's data
-        const currentYear = moment();
-        startDate = currentYear.startOf('year').format("YYYY-MM-DD");
-        endDate = currentYear.endOf('year').format("YYYY-MM-DD");
-        reportYear = currentYear.year();
-      }
-    }
+    // No default dates selected - user must select them manually
     
     this.filterParam = {
       "siteId": ['All'],
@@ -463,7 +444,7 @@ export class BattLifeCycleCountComponent implements OnInit {
       const rowData = colData[0];
       
       // Add other columns in order, skipping srno and reportDate (already added)
-      const orderedKeys = ['region', 'cluster', 'siteCode', 'siteName', 'initialBatteryLifeCycleCount', 'finalBatteryLifeCycleCount', 'totalBatteryCycleLifeCount'];
+      const orderedKeys = ['region', 'siteCode', 'initialBatteryLifeCycleCount', 'finalBatteryLifeCycleCount', 'totalBatteryCycleLifeCount'];
       
       for (let key of orderedKeys) {
         if (BATT_LIFE_REPORTS_COLUMN_HEADER[key]) {
@@ -720,11 +701,11 @@ export class BattLifeCycleCountComponent implements OnInit {
       dateRange = 'All';
     }
 
-    const totalCols = 8;
+    const totalCols = 6;
 
     const headers = [
-      this.getDefaultColumnName(), 'Region', 'Cluster',
-      'Site Code', 'Site Name', 'Initial Battery Life Cycle Count',
+      this.getDefaultColumnName(), 'Region',
+      'Site Code', 'Initial Battery Life Cycle Count',
       'Final Battery Life Cycle Count', 'Total Battery Cycle Life Count'
     ];
 
@@ -753,14 +734,12 @@ export class BattLifeCycleCountComponent implements OnInit {
         }
 
         dataRows += `<tr>
-          <td style="border:1px solid #ccc;padding:5px;">${firstColumnValue}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.region || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.cluster || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.siteCode || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.siteName || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.initialBatteryLifeCycleCount || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.finalBatteryLifeCycleCount || ''}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.totalBatteryCycleLifeCount || ''}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${firstColumnValue || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.region || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.siteCode || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.initialBatteryLifeCycleCount || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.finalBatteryLifeCycleCount || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.totalBatteryCycleLifeCount || '0'}</td>
         </tr>`;
       }
     }
@@ -779,8 +758,8 @@ export class BattLifeCycleCountComponent implements OnInit {
       </head><body>
       <table>
         <tr><td colspan="${totalCols}"></td></tr>
-        <tr><td colspan="${totalCols}" style="text-align:center;font-size:16px;font-weight:bold;padding:10px;">${title}</td></tr>
-        <tr><td colspan="${totalCols}" style="text-align:center;font-size:12px;padding:5px;">${dateRange}</td></tr>
+        <tr><td colspan="${totalCols}" style="text-align:center;font-size:22px;font-weight:bold;padding:12px;">${title}</td></tr>
+        <tr><td colspan="${totalCols}" style="text-align:center;font-size:18px;padding:8px;">${dateRange}</td></tr>
         <tr><td colspan="${totalCols}"></td></tr>
         <tr>${headerCells}</tr>
         ${dataRows}

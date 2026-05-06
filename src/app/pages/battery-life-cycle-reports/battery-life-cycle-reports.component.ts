@@ -122,33 +122,34 @@ export class BatteryLifeCycleReportsComponent implements OnInit {
         id: 'rgRegion',
         value: 'rgRegion'
       }
-    },
-    {
-      id: 'FMF06',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
     }
+    // ,
+    // {
+    //   id: 'FMF06',
+    //   fieldName: 'clusters',
+    //   indexField: 'clusters',
+    //   labelName: 'Cluster',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'clusters',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'crName',
+    //     value: 'crName'
+    //   }
+    // }
   ];
 
   constructor(
