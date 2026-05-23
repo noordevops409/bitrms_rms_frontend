@@ -1,4 +1,4 @@
-import { environment } from '../../environments/environment';
+﻿import { environment } from '../../environments/environment';
 import { UserService } from '../shared/services/user.service';
 
 
@@ -73,7 +73,9 @@ export const ApiConstant = {
   getSiteTabSummary: `${GATEWAY}/api/prf-dashboard/tab-summary`,
 
   getLithPart1: `${GATEWAY}/api/lithium/part1`,
-  getLithPart2: `${GATEWAY}/api/lithium/part2`,
+  getLithPart2: `\${GATEWAY}/api/lithium/part2`,
+  getLithPart3: `\${GATEWAY}/api/lithium/part3`,
+  getLithPart4: `\${GATEWAY}/api/lithium/part4`,
 
   getRCADataAll: `${GATEWAY}/api/rca/get-rcadata`,
   createUpdateRCAData: `${GATEWAY}/api/rca/site-name`,
