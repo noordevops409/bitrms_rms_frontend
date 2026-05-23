@@ -10,11 +10,15 @@ import { LithLatestdataRoutingModule } from './lith-latestdata-routing.module';
 
 import { LithLatestdataComponent } from './lith-latestdata.component';
 import { LithLatestdataPart2Component } from './lith-latestdata-part2/lith-latestdata-part2.component';
+import { LithLatestdataPart3Component } from './lith-latestdata-part3/lith-latestdata-part3.component';
+import { LithLatestdataPart4Component } from './lith-latestdata-part4/lith-latestdata-part4.component';
 
 @NgModule({
   declarations: [
     LithLatestdataComponent,
-    LithLatestdataPart2Component
+    LithLatestdataPart2Component,
+    LithLatestdataPart3Component,
+    LithLatestdataPart4Component
   ],
   imports: [
     CommonModule,
@@ -28,7 +32,9 @@ import { LithLatestdataPart2Component } from './lith-latestdata-part2/lith-lates
   ],
   exports: [
     LithLatestdataComponent,
-    LithLatestdataPart2Component // Optional: export if you need it outside
+    LithLatestdataPart2Component,
+    LithLatestdataPart3Component,
+    LithLatestdataPart4Component
   ]
 })
 export class LithLatestdataModule { }

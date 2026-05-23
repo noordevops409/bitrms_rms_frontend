@@ -1,0 +1,73 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.parent-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: sticky;
+
+    &::-webkit-scrollbar {
+        width: .3125rem;
+        height: .3125rem
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #3f51b5;
+        cursor: pointer;
+        border-radius: .15625rem
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #fff;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 36px;
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        background-color: transparent;
+        z-index: 1;
+
+        .add-report {
+            display: flex;
+            align-items: center;
+        }
+
+        .export {
+            display: flex;
+            gap: 10px;
+        }
+    }
+}
+
+.export-container {
+    display: none;
+    &.show {
+        display: block;
+    }
+}
+
+.tabular-filter-wrapper {
+    transition: 0.5s;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 75%;
+    height: 0px;
+    opacity: 0;
+
+    &.open {
+        height: 100%;
+        opacity: 1;
+        z-index: 4;
+    }
+}
