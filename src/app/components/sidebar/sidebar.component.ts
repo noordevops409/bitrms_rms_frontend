@@ -104,7 +104,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       roleIds: [AppConstant.ROUTE_ACCESS_ID.ADMIN_ROLE, AppConstant.ROUTE_ACCESS_ID.NOC2],
       subMenu: [
         { id: 10.1, value: "Lithium Battery 1-15", href: "" },
-        { id: 10.2, value: "Lithium Battery 16-32", href: "part2" }
+        { id: 10.2, value: "Lithium Battery 16-32", href: "part2" },
+        { id: 10.3, value: "Lithium Battery 33-48", href: "part3" },
+        { id: 10.4, value: "Lithium Battery 49-64", href: "part4" }
       ]
     },
     {
