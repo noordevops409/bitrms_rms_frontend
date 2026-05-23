@@ -102,7 +102,15 @@ export class ClusterComponent implements OnInit {
   }
 
   loadZone() {
-    const url = ApiConstant.getZoneMasterData;
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
@@ -117,7 +125,7 @@ export class ClusterComponent implements OnInit {
   }
 
   loadEmployee() {
-    const url = ApiConstant.getEmployeeMasterData;
+    const url = ApiConstant.getEmployeeMasterData ;
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeMasterList && data.employeeMasterList.length) {
         this.employeeList = data.employeeMasterList;
@@ -137,6 +145,14 @@ export class ClusterComponent implements OnInit {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getClusterMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -203,6 +219,7 @@ export class ClusterComponent implements OnInit {
 
   setEmployee(req?: any) {
     for (let item of this.employeeList) {
+     // console.log("lineee",this.employeeList)
       if (item.emEmpID === req.emEmployeeID) {
         req.empId = item.emEmployeeID;
         break;

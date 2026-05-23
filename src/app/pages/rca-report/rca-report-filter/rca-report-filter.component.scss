@@ -1,0 +1,77 @@
+:host {
+    display: block;
+    height: inherit;
+}
+
+
+.filter-wrapper {
+    position: absolute;
+    bottom: 0px;
+    height: 70%;
+    width: auto;
+    left: 0px;
+    transition: 0.5s;
+    top: 100%;
+    background-color: #222B45;
+    z-index: 1;
+    padding: 16px 24px;
+    &.open {
+        top: 0px;
+    }
+
+    h4 {
+        font-size: 0.9375rem;
+        margin-bottom: 15px;
+    }
+}
+
+.filter-criteria {
+    display: flex;
+    justify-content: space-between;
+    .checkbox-container {
+        margin-top: 15px;
+        .elem-row {
+            margin: 0px 0px 40px 0px;
+            display: flex;
+
+            > label {
+                padding-left: 80px;
+
+                width: 140px;
+                color: #fff;
+                font-size: 00.9375rem;
+                font-weight: normal;
+            }
+        }
+        ul {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+            li {
+                float: left;
+                width: 50%;
+            }
+        }
+    }
+}
+
+.dropdown-container {
+    width: 100%;
+    margin-right: -65px !important;
+
+    padding-right: 18px;
+}
+
+
+.apply-btn {
+    position: absolute;
+    bottom: 10px;
+    left: auto;
+    right: 15px;
+    width: auto;
+}
+.status-basic{
+    margin-right: 28px !important;
+
+
+}

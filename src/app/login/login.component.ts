@@ -14,10 +14,8 @@ import { WindowsNotificationService } from '../shared/windows-notification.servi
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  // username : ympadmin
-  // password : ympadmin@123
-
   public isLogining: boolean = false;
+  public logoUrl: string = 'assets/images/bit_logo2.jpg';
   public loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
@@ -46,6 +44,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.init();
     this.initForm();
+    this.checkLogoBasedOnUrl();
+  }
+
+  checkLogoBasedOnUrl(): void {
+    // Check if current URL contains 'yomamicropowerservice'
+    if (window.location.hostname.includes('yomamicropowerservice')) {
+      this.logoUrl = 'assets/images/yoma_logo.png';
+    }
   }
 
   ngOnDestroy(): void {
@@ -72,28 +78,32 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.isLogining) {
       return;
     }
+  
     let formData = this.loginForm.value;
     let param: any = {
       username: formData.email,
       password: formData.password
     };
+  
     this.isLogining = true;
     this.userService.login(param).subscribe((res?: any) => {
       this.isLogining = false;
-      console.log("83",res.data)
-      this.userService.setData(res.data);
-      this.winNotification.init();
-      this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });
-      // param.grant_type = "password";
-      //  this.userService.authToken(param).subscribe((authRes?: any) => {
-      //    this.userService.setAuthToken(authRes);
-      //  }, (err?: any) => {
-      //   this.isLogining = false;ng
-      //   this.util.notification.error({
-      //     title: 'Error',
-      //     msg: 'Error while getting auth token!'
-      //   });
-      //  });
+  
+      if (res.status === 401 || res.status === 400) {
+        // Handle invalid credentials scenario
+        this.loginForm.setErrors({ 'invalidCredentials': true });
+  
+        // if (res.message === 'invalid.username') {
+        //   this.loginForm.get('email')?.setErrors({ 'invalidUsername': true });
+        // } else if (res.message === 'invalid.password') {
+        //   this.loginForm.get('password')?.setErrors({ 'invalidPassword': true });
+        // }
+      } else {
+     //   console.log("83", res.data);
+        this.userService.setData(res.data);
+        this.winNotification.init();
+        this.router.navigate(['pages', 'dashboard'], { replaceUrl: true });
+      }
     }, (err?: any) => {
       this.isLogining = false;
       this.util.notification.error({
@@ -103,5 +113,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
     });
   }
-
+  
 }

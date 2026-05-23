@@ -30,6 +30,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
   private selEmployeeRole: any = null;
   private employeeRoleId: any = null;
+negativeNumber: any;
 
   constructor(
     private util: CommonUtilService,
@@ -47,8 +48,9 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.init();
     this.initForm();
+    this.init();
+   
   }
 
   ngOnDestroy(): void {
@@ -57,6 +59,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
   init() {
     if (this.data) {
+     
       this.isLoading = true;
     }
     this.getData();
@@ -66,11 +69,22 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
   initForm() {
     this.masterForm = this.formBuilder.group({
       'name': [null, [Validators.required]],
-      'isPredefined': [null],
-      'roleCategoryId': [null],
+      'isPredefined': 1,
+        'roleCategoryId': ['', [ this.validateNonNegativeNumber]],
       'isEscalationReq': [null],
       'categoryId': [null]
     });
+    
+  }
+   validateNonNegativeNumber(control) {
+    const value = control.value;
+
+    if (value < 0) {
+      console.log('Negative number detected:', value);
+      return { negativeNumber: true };
+    }
+
+    return null;
   }
 
   getData() {
@@ -112,7 +126,7 @@ export class AddEmployeeRoleComponent implements OnInit, OnDestroy {
 
     let params: any = {
       erRoleName: formData.name,
-      erIsPredifined: formData.isPredefined,
+      erIsPredifined: '1',
       empRoleCatID: formData.roleCategoryId,
       erIsEscalationReq: formData.isEscalationReq,
       erCategoryId: formData.categoryId

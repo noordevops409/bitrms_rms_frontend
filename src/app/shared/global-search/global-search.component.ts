@@ -23,7 +23,7 @@ export class GlobalSearchComponent implements OnInit {
   * @memberof Global search component
   */
   keyPress(event: any) {
-    console.log(event);
+  //  console.log(event);
     setTimeout(() => {
       this.searchEventTrigger.emit(event);
     }, 500);

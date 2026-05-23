@@ -1,9 +1,10 @@
 <div class="parent-container">
     <div class="header">
         <div class="add-report">
-            <button class="btn btn-default" (click)="add($event);">
+            <button *ngIf="addUser" class="btn btn-default" (click)="add($event);">
                 <span class="material-icons">add</span> ADD
             </button>
+            
 
             <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
             <!-- <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button> -->
@@ -37,13 +38,15 @@
                                         <th>User Name</th>
                                         <th>Email Id</th>
                                         <th>Mobile Number</th>
+                                        <!-- <th>Customer Name</th> -->
                                         <th>Customer Name</th>
-                                        <th>Customer Role Name</th>
                                         <th>User Role Name</th>
                                         <th>Activation Status</th>
+                                        <th>Access Level</th>
                                         <th>Login Type</th>
-                                        <th>User Type</th>
-                                        <th>Description</th>
+                                        <!-- <th>User Type</th> -->
+                                        <!-- <th>Description</th> -->
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,13 +56,15 @@
                                         <td>{{item.username}}</td>
                                         <td>{{item.umEmailid}}</td>
                                         <td>{{item.umMobileNumber}}</td>
-                                        <td>{{item.customerName}}</td>
+                                        <!-- <td>{{item.customerName}}</td> -->
                                         <td>{{item.customerRoleName}}</td>
                                         <td>{{item.roleName}}</td>
-                                        <td>{{item.umAactivationstatus}}</td>
-                                        <td>{{item.umLoginType}}</td>
-                                        <td>{{item.umType}}</td>
                                         <td>{{item.umDescription}}</td>
+                                        <td>{{item.umAccessLevel}}</td>
+
+                                        <td>{{item.umLoginTypeCountry}}</td>
+                                        <!-- <td>{{item.umType}}</td> -->
+                                        <!-- <td>{{item.umDescription}}</td> -->
                                     </tr>
                                 </tbody>
                             </table>

@@ -87,7 +87,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.forDeleteListener = this.broadcast.on<string>('OPEN_EMPLOYEE_ROLE_FOR_EDIT').subscribe((data: any) => {
+    this.forDeleteListener = this.broadcast.on<string>('OPEN_EMPLOYEE_ROLE_FOR_DELETE').subscribe((data: any) => {
       this.ngZone.run(() => {
         this.delete(data);
       });
@@ -100,6 +100,14 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getEmployeeRoleMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     // (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
@@ -157,6 +165,7 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
     if (data.length) {
       let counter = 0;
       for(let item of data) {
+        item.delete = "Delete";
         counter += 1;
         item.srno = counter;
       }
@@ -268,6 +277,9 @@ export class EmployeeRoleComponent implements OnInit, OnDestroy {
 
   edit(evt?: any, item?: any) {
     this.dialog.closeAll();
+    // window.localStorage.removeItem('selEmployeeRole');
+    // window.localStorage.setItem('selEmployeeRole', JSON.stringify(item));
+    
     const dialogRef = this.dialog.open(AddEmployeeRoleComponent, {
       width: '1000px',
       height: 'auto',

@@ -45,6 +45,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public defaultFilterList: any = [];
 
   public isFilterDataLoaded: boolean = false;
+  public addUser: boolean = false;
+
 
   private customerList: any = [];
   private customerRoleList: any = [];
@@ -68,6 +70,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       label: 'TEE'
     }
   ];
+  countryList: any;
 
   constructor(
     private util: CommonUtilService,
@@ -93,6 +96,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.loadCustomer();
     this.loadCustomerRole();
     this.loadUserRole();
+    this.getAuthToken();
+    // this.loadCountry();
     // this.loadSiteType();
     // this.loadCustomer();
     setTimeout(() => {
@@ -186,15 +191,52 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadCountry() {
+    let url = ApiConstant.getCountryMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
+    this.httpClient.post(url, null).subscribe((data: any) => {
+      if (data && data.countryMasterList && data.countryMasterList.length) {
+        this.countryList = data.countryMasterList;
+      }
+    }, (err) => {
+      this.isLoading = false;
+      this.util.notification.error({
+        title: 'Error',
+        msg: 'Error while loading country list!'
+      });
+    });
+  }
+
+
   loadData() {
     if (this.isLoading) {
       return;
     }
     this.isLoading = true;
     let apiUrl: any = ApiConstant.getAllUserData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          if((userData.countryID.includes(1) && userData.countryID.includes(2)))
+          {
+            userData.countryID.push(0);
+          }
+          apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
+      this.status(res);
+      this.accessLevel(res);
+      this.loginType(res);
       this.manipulate(res);
       setTimeout(() => {
         this.tableListingComponent.init();
@@ -206,6 +248,50 @@ export class UsersComponent implements OnInit, OnDestroy {
         title: 'Error',
         msg: 'Error while loading user data!'
       })
+    });
+  }
+  loginType(res: any) {
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umAactivationstatus == 0) {
+        item.umDescription = 'Active';
+      } else {
+        item.umDescription = 'Inactive';
+      }
+    });
+  }
+  status(res: any) {
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umLoginType == 0) {
+        item.umLoginTypeCountry = 'All';
+      } else if (item.umLoginType == 1) {
+        item.umLoginTypeCountry = 'Myanmar';
+      }
+      else {
+        item.umLoginTypeCountry = 'Philippines';
+
+      }
+    });
+  }
+
+  accessLevel(res: any) {
+    
+    res.usermasterlist.forEach((item: any) => {
+      if (item.umDashboardLevelIds == 1) {
+        item.umAccessLevel = 'Admin';
+      } 
+      else if(item.umDashboardLevelIds == 2)
+      {
+        item.umAccessLevel = 'NOC1';
+      }
+      else if(item.umDashboardLevelIds == 3)
+      {
+        item.umAccessLevel = 'NOC2';
+      }
+      else if(item.umDashboardLevelIds == 4)
+      {
+        item.umAccessLevel = 'CUSTOMER';
+      }
+
     });
   }
 
@@ -235,27 +321,57 @@ export class UsersComponent implements OnInit, OnDestroy {
       const rowData = colData[0];
       this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["srno"]);
       for (let key in rowData) {
-        if (key === 'customerId') {
-          this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerName']);
-        } else if (key === 'customerRoleId') {
+        // if (key === 'customerId') {
+        //   this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerName']);
+        // } else 
+        if (key === 'customerRoleId') {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['customerRoleName']);
         } else if (key === 'roleId') {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER['roleName']);
         } else if (USERS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(USERS_COLUMN_HEADER[key]);
         }
+
+
+
       }
-      this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["delete"]);
+      let authToken :any='';
+      if (window.localStorage.getItem('authToken')) {
+        authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+          if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds == '1') {
+            this.sampleData.columnHeader.push(USERS_COLUMN_HEADER["delete"]);
+            this.sampleData.columnHeader.forEach((column) => {
+              if (column.fieldName == 'umName' || column.fieldName =='username') {
+                  column.colType = 'textwithlink';
+                  column.function='openUserMasterDataForEdit';
+
+              }
+          });
+           
+           }
+           
+      }
+      
     }
   }
+getAuthToken()
+{
+  let authToken :any='';
+  if (window.localStorage.getItem('authToken')) {
+    authToken = JSON.parse((window as any).localStorage.getItem('authToken'));
+      if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds == '1') {
+        this.addUser=true;
 
+      }
+    }
+  }
   setRowData(resData) {
     const data = resData || [];
     if (data.length) {
       let counter = 0;
       for (let item of data) {
         counter += 1;
-        this.setCustomer(item);
+       // this.setCustomer(item);
         this.setCustomerRole(item);
         this.setUserRole(item);
         item.srno = counter;

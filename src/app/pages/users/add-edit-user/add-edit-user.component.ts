@@ -21,6 +21,7 @@ import * as moment from 'moment';
 export class AddEditUserComponent implements OnInit, OnDestroy {
 
   public isSaving: boolean = false;
+  public isDuplicateCheck: boolean = false;
   public isLoading: boolean = false;
   public isForEdit: boolean = false;
 
@@ -32,6 +33,30 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   private selUser: any = null;
   private umID: any = null;
+  activationStatusOptions: any = [
+    { value: '0', label: 'Active' },
+    { value: '1', label: 'Inactive' }
+  ];
+  selectedActivationStatus: any;
+  indexVar: any;
+  umLoginTypeOptions: any = [
+    { value: '0', label: 'ALL' },
+    { value: '1', label: 'Myanmar' },
+    {
+      value: '2', label: 'Philippines'
+    }
+
+  ];
+  umlevelAccessOptions:any=[
+    { value: '1', label: 'Admin' },
+    { value: '2', label: 'NOC1' },
+    { value: '3', label: 'NOC2'},
+    { value: '4', label: 'Customer'}
+
+  ]
+  umLoginTypeIndexVar: any;
+  umLevelAccessIndexVar: any;
+
 
   constructor(
     private util: CommonUtilService,
@@ -69,6 +94,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.loadCustomer();
     this.loadCustomerRole();
     this.loadUserRole();
+    // this.loadUserStatus();
     setTimeout(() => {
       this.getData();
     }, 1000);
@@ -87,8 +113,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       'selUserRole': [null],
       'mobile': [null, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       'umAactivationstatus': [null],
+
+      'umlevelAccess': [null],
       'umDescription': [null],
-      'umLoginType': [0],
+      'umLoginType': [null],
       'umType': [0],
       'utID': [0]
     }, {
@@ -159,6 +187,15 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  //   loadUserStatus() {
+  //     const activeStatus = this.activationStatusOptions.find(status => status.value === '0');
+  // console.log("activeStatus",activeStatus)
+  //       // this.masterForm.controls['umAactivationstatus'].setValue();
+
+  //   }
+
+
+
   setCustomer(req) {
     for (let item of this.customerList) {
       if (item.customerid == req.customerId) {
@@ -189,6 +226,29 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
   }
 
+  setUserActiveStatus(req) {
+    const selectedStatus = this.activationStatusOptions.find(item => item.value == req.umAactivationstatus);
+    if (selectedStatus) {
+      this.indexVar = selectedStatus.value;
+    }
+  }
+  setUmLoginType(req) {
+    const selectedStatus = this.umLoginTypeOptions.find(item => item.value == req.umLoginType);
+    if (selectedStatus) {
+      this.umLoginTypeIndexVar = selectedStatus.value;
+    }
+  }
+  setUmLevelAcess(req) {
+    const selectedStatus = this.umlevelAccessOptions.find(item => item.value == req.umDashboardLevelIds);
+    console.log('CHECK 2 APril: ',selectedStatus)
+    if (selectedStatus) {      
+      this.umLevelAccessIndexVar = selectedStatus.value;
+      console.log('CHECK 2 APril12 : ',this.umLevelAccessIndexVar)
+    }
+  }
+
+
+
   getData() {
     if (this.data) {
       this.isForEdit = true;
@@ -212,22 +272,28 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
 
     this.masterForm.controls['mobile'].setValue(this.selUser.umMobileNumber);
-    this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
+    // this.masterForm.controls['umAactivationstatus'].setValue(this.selUser.umAactivationstatus);
     this.masterForm.controls['umDescription'].setValue(this.selUser.umDescription);
 
-    this.masterForm.controls['umLoginType'].setValue(this.selUser.umLoginType);
+    //this.masterForm.controls['umLoginType'].setValue(this.selUser.umLoginType);
     this.masterForm.controls['umType'].setValue(this.selUser.umType);
     this.masterForm.controls['utID'].setValue(this.selUser.utID);
 
     this.setCustomer(this.selUser);
     this.setCustomerRole(this.selUser);
     this.setUserRole(this.selUser);
+    this.setUserActiveStatus(this.selUser);
+    this.setUmLoginType(this.selUser);
+    this.setUmLevelAcess(this.selUser);
 
     setTimeout(() => {
       this.masterForm.controls['uname'].setValue(this.selUser.username);
       this.masterForm.controls['pwd'].setValue(this.selUser.password);
       this.masterForm.controls['cnfPassword'].setValue(this.selUser.password);
     }, 500);
+  }
+  setLoginType(selUser: any) {
+    throw new Error('Method not implemented.');
   }
 
   close(evt?: any) {
@@ -243,20 +309,23 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSaving = true;
+    this.isDuplicateCheck = false;
     const formData = this.masterForm.value;
+    
     const url = ApiConstant.saveEditUserDetails;
-
     let params: any = {
       customerId: formData.selCustomer.customerid,
       customerRoleId: formData.selCustomerRole.customerroleid,
       roleId: formData.selUserRole.roleid,
       password: formData.pwd,
-      umAactivationstatus: formData.umAactivationstatus,
+      umAactivationstatus: formData.umAactivationstatus.value,
+      umDashboardLevelIds:formData.umlevelAccess.value,
       umDescription: formData.umDescription,
       umEmailid: formData.umEmailid,
-      umLoginType: formData.umLoginType,
+      umLoginType: formData.umLoginType.value,
       umMobileNumber: formData.mobile,
-      umName: formData.firstName + ' ' + formData.lastName,
+      
+      umName: formData.firstName.replace(/\s/g, '').trim()+ ' ' +formData.lastName.replace(/\s/g, '').trim(),
       umType: formData.umType,
       username: formData.uname
     };
@@ -267,12 +336,17 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
     this.httpClient.post(url, params).subscribe((data: any) => {
       this.isSaving = false;
-      this.dialogRef.close(data);
-      this.util.notification.success({
-        title: 'Success',
-        msg: 'User details saved successfully...'
-      });
-    }, (err) => {
+      if(data?.status == "Dupliate"){
+        this.isDuplicateCheck = true
+      }else{
+        this.dialogRef.close(data);      
+        this.util.notification.success({
+          title: 'Success',
+          msg: 'User details saved successfully...'
+        });
+      }
+      
+    }, (err) => {     
       this.isSaving = false;
       this.util.notification.error({
         title: 'Error',

@@ -7,7 +7,7 @@
 
     height: 100%;
     overflow: auto;
-    position: relative;
+    position: sticky;
 
     &::-webkit-scrollbar {
         width: .3125rem;
@@ -24,7 +24,7 @@
         background: #fff;
     }
 
-    .header {
+    .foot {
         display: flex;
         justify-content: space-between;
         align-items: center;

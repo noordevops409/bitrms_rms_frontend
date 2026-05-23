@@ -1,0 +1,87 @@
+
+<div class="parent-container">
+    <div class="header">
+      <div class="add-report">
+        <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+      </div>
+      <!-- <div class="nav-links">
+        <a class="btn btn-primary active" routerLink="/pages/lithlatestdata">Cells 1-15</a>
+        <a class="btn btn-primary" routerLink="/pages/lithlatestdata/part2">Cells 16-32</a>
+      </div> -->
+      <div class="export">
+        <button class="btn btn-default" (click)="exportExcel($event);">EXPORT TO EXCEL</button>
+        <button class="btn btn-default" (click)="exportCSV($event);">EXPORT TO CSV</button>
+      </div>
+    </div>
+  
+    <div class="table-listing">
+      <div class="box">
+        <div class="box-title">
+          <h4>Lithium Battery Data (1-15)</h4>
+        </div>
+        <div class="box-body">
+          <div class="list-wrap">
+            <div class="view-holder">
+              <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                <table id="export-data">
+                  <thead>
+                    <tr>
+                      <th>SrNo</th>
+                      <th>Site Code</th>
+                      <th>Last Updated</th>
+                      <th>Cluster Name</th>
+                      <th>Site Type</th>
+                      <th>Zone</th>
+                      <th>Region</th>
+                      <th>Power Source</th>
+                      <th>Device Type</th>
+                      <ng-container *ngFor="let i of [].constructor(15); let idx = index">
+                        <th>Voltage {{ idx + 1 }}</th>
+                        <th>Current {{ idx + 1 }}</th>
+                        <th>SOC {{ idx + 1 }}</th>
+                        <th>SOH {{ idx + 1 }}</th>
+                        <th>Temp {{ idx + 1 }}</th>
+                      </ng-container>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of activeListing.list.data">
+                      <td>{{item.srno}}</td>
+                      <td>{{item.smSitecode}}</td>
+                      <td>{{item.lastUpdated}}</td>
+                      <td>{{item.clusterName}}</td>
+                      <td>{{item.sitetypeid}}</td>
+                      <td>{{item.zone}}</td>
+                      <td>{{item.region}}</td>
+                      <td>{{item.powersource}}</td>
+                      <td>{{item.deviceType}}</td>
+                      <ng-container *ngFor="let i of [].constructor(15); let idx = index">
+                        <td>{{item['liBattVoltage' + (idx + 1)]}}</td>
+                        <td>{{item['liBattCurrent' + (idx + 1)]}}</td>
+                        <td>{{item['liSOC' + (idx + 1)]}}</td>
+                        <td>{{item['liSOH' + (idx + 1)]}}</td>
+                        <td>{{item['liBattTemp' + (idx + 1)]}}</td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+  
+              <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                <app-table-listing
+                  [listData]="activeListing.list"
+                  [appType]="appType"
+                  [template]="listingTemplate"
+                  [inifiniteScroll]="true"
+                  [pager]="false"
+                  (onRowSelectionChange)="onRowSelectionChanged($event)"
+                  (onSelectionChange)="loadListing($event)">
+                </app-table-listing>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

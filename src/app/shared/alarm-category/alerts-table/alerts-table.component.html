@@ -6,7 +6,7 @@
               arrow_back_ios
           </span> ALARM STATUS
       </button>
-      <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+      <!-- <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button> -->
       <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
   </div>
   <div class="right-side">
@@ -23,14 +23,15 @@
 </div>
 <section>
   <!--for demo wrap-->
-  <h1>{{type}}</h1>
+  <h1>{{ type === 'dgcount' ? 'DG Count' : type }}</h1>
   <div class="tbl-header">
     <table cellpadding="0" cellspacing="0">
       <thead>
         <tr *ngIf="type === 'dgcount'" id="header-row">
           <th>Sr no</th>
-          <th>Category</th>
-          <th>ID</th>
+          <!-- <th>Category</th>
+          <th>ID</th> -->
+          <th>DG Start Date Time</th>
           <th>Sm Site ID</th>
           <th>Sm Site Code</th>
           <th>PowerSource</th>
@@ -63,14 +64,17 @@
 
         <tr *ngIf="type === 'Community Load'" id="header-row">
           <th>Sr no</th>
-          <th>Category</th>
-          <th>Sm Site ID</th>
-          <th>Sm Site Code</th>
+          <th>Date</th>
+          <th>Site Code</th>
           <th>DC Load</th>
+          
         </tr>
       </thead>
     </table>
   </div>
+
+  <!-- <th>Sm Site ID</th> -->  
+
   <div class="tbl-content">
     <table cellpadding="0" cellspacing="0">
       <tbody>
@@ -78,11 +82,14 @@
 
           <tr *ngFor="let item of tableData1;let i=index">
             <td> {{i + 1}}</td>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
+            <!-- <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td> -->
+            <td>{{ item[4] }}</td>
             <td>{{ item[2] }}</td>
             <td>{{ item[3] }}</td>
-            <td>{{ item[4] }}</td>
+            <td>{{ item[5] }}</td>
+
+           
           </tr>
         </ng-container>
         <ng-container *ngIf="type === 'Run hours'">
@@ -126,14 +133,17 @@
         <ng-container *ngIf="type === 'Community Load'">
 
           <tr *ngFor="let item of tableData1;let i=index">
-            <td> {{i + 1}}</td>
-            <td>{{ item[0] }}</td>
+            <td> {{i + 1}}</td>  
+            <td>{{ item[3] }}</td>
+                      
             <td>{{ item[1] }}</td>
             <td>{{ item[2] }}</td>
-            <td>{{ item[3] }}</td>
+            <!-- <td>{{ item[0] }}</td> -->
+            <!-- <td>{{ item[3] }}</td> -->
             <!-- <td>{{ item[6] }}</td> -->
           </tr>
         </ng-container>
+        <div *ngIf="showNoRecordsFoundMessage" style="text-align: center;">No records found</div>
 
       </tbody>
     </table>

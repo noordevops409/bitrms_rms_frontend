@@ -4,15 +4,17 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiConstant } from '../../api-constant.enum';
 import { Observable } from 'rxjs';
 import { AppConstant } from '../../app-constant.enum';
+import { DatePipe } from '@angular/common';
+
 import { Location } from '@angular/common';
 import * as XLSX from 'xlsx';
-//import { CsvExportService } from './csv-export.service'; 
 
 
 @Component({
   selector: 'app-alerts-table',
   templateUrl: './alerts-table.component.html',
-  styleUrls: ['./alerts-table.component.scss']
+  styleUrls: ['./alerts-table.component.scss'],
+  providers: [DatePipe]
 })
 export class AlertsTableComponent {
 
@@ -30,7 +32,9 @@ export class AlertsTableComponent {
   isReqToOpenFilter: boolean = false; filterParam!: { siteId: any; clusters: any; zones: any; regions: any; deviceType: any; siteStatus: any[]; siteType: any; customers: any; date: any; };
   ddExport: any = -1;
   loading: boolean = true;
+  showNoRecordsFoundMessage: boolean=false;
   ;
+  
 
 
   openTabularFilter(evt?: any) {
@@ -38,18 +42,19 @@ export class AlertsTableComponent {
   }
   tableData: any;
   tableData1: any;
+  tableData2: any;
+
   type: any;
   apiUrl: any;
 
-  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private location: Location) { }
+  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private location: Location,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      console.log('in the alert-table.component');
+  
       this.type = params.get('type');
-      console.log('line 23', this.type);
-      this.loading = true; // Set loading to true before making the request
-      this.getAlertsTableDataByType(this.type); // Assign the observable
+      this.loading = true; 
+      this.getAlertsTableDataByType(this.type); 
       
     });
   }
@@ -58,31 +63,55 @@ export class AlertsTableComponent {
   }
 
   private getAlertsTableDataByType(type: any) {
-    console.log("line 61",type);
-    if(type=="Community Load")
-    {
-      this.apiUrl = `${ApiConstant.getSuperCriticalAlerts}`; // Use backticks to create the template string
-      console.log('line 23', this.apiUrl);
-  
-      // const url = ApiConstant.getLatestData;
-      this.httpClient.get(this.apiUrl).subscribe((data) => {
-        this.tableData1 = data;
-        console.log('API Response:', data);
-        this.loading = false; // Set loading to false once data is fetched
+    if (type == "Community Load") {
+      this.apiUrl = ApiConstant.getSuperCriticalAlerts;
+      this.httpClient.get<any[]>(this.apiUrl).subscribe((data) => {
+        this.tableData1 = this.formatDateInData(data);
+        this.tableData2 =  this.tableData1;
+        this.loading = false;
       });
     }
     else
     {
-    this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; // Use backticks to create the template string
-    console.log('line 23', this.apiUrl);
-
-    // const url = ApiConstant.getLatestData;
-    this.httpClient.get(this.apiUrl).subscribe((data) => {
-      this.tableData1 = data;
-      console.log('API Response:', data);
-      this.loading = false; // Set loading to false once data is fetched
+    this.apiUrl = `${ApiConstant.getAlertsDetails}/${type}`; 
+    this.httpClient.get<any[]>(this.apiUrl).subscribe((data) => {
+            this.tableData1 = this.formatDateInData1(data,type);;
+            this.tableData2 =  this.tableData1;      
+            this.loading = false; 
     });
   }
+}
+
+formatDateInData(data: any[]): any[] {
+  return data.map(item => {
+    item[3] = this.formatDate(item[3]);
+    return item;
+  });
+}
+formatDateInData1(data: any[],type:any): any[] {
+  return data.map(item => {
+    if(type=="fuellvl"){
+    item[3] = this.formatDate(item[3]);
+    item[5] = this.formatDate(item[5]);
+    }
+    else if(type=="dgcount"    )
+    {
+      item[4] = this.formatDate(item[4]);
+
+    }
+    else if(type=="Run hours")
+    {
+      const numberValue = parseFloat(item[5]);
+
+      item[5] = numberValue.toFixed(2);
+    }
+
+    return item;
+  });
+}
+
+formatDate(date: string): string {
+  return this.datePipe.transform(date, 'dd/MM/yyyy HH:mm:ss') || '';
 }
 
   onRowSelectionChanged(data: any) {
@@ -90,7 +119,6 @@ export class AlertsTableComponent {
       this.isMultipleRowSelected = data.length > 1;
       this.multipleSelRow = data;
       if (this.isMultipleRowSelected) {
-        // custom business logic
       } else {
         this.selectedRow = data;
       }
@@ -106,12 +134,6 @@ export class AlertsTableComponent {
     this.currentPageNo = data.currentPageNo ? (data.currentPageNo - 1) : this.currentPageNo;
     this.pageSize = data.pageSize || this.pageSize;
     this.recordStartFrom = data.recordStartFrom || this.recordStartFrom;
-
-    // if (data && data.popupTo) {
-    //   this.applyFilter(data);
-    // } else {
-    //   this.loadTowerLatestData();
-    // }
   }
 
   handleResize() {
@@ -121,13 +143,48 @@ export class AlertsTableComponent {
     const tblHeader = document.querySelector('.tbl-header') as HTMLDivElement;
     tblHeader.style.paddingRight = scrollWidth + 'px';
   }
-  searchGlobally($event: any) {
-    const filterValue = this.globalFilterValue.toLowerCase();
-    this.tableData1 = this.tableData1.filter((item: any[]) => {
-      // Loop through each column value and check if it contains the filter value
-      return item.some((value: any) => value.toString().toLowerCase().includes(filterValue));
-    });
+
+  searchGlobally(event: any) {
+    try {
+        let { value } = event.target;
+        value = value.trim().toLowerCase(); 
+        
+        this.resetTableData();
+        
+        if (!value) {
+            return;
+        }
+
+        const searchTerms = value.split(/\s+/); 
+
+        const filteredData = this.tableData1.filter((item: any) => {
+          if (this.type === "fuellvl" || this.type === "Community Load") {
+              return item[1].toLowerCase().includes(searchTerms);
+          } else {
+              return item[2].toLowerCase().includes(searchTerms) ||
+                     item[3].toLowerCase().includes(searchTerms);
+          }
+      });
+      
+       
+
+        if (filteredData.length === 0) {
+            this.tableData1=null;
+            this.showNoRecordsFoundMessage = true;
+        } else {
+            this.tableData1 = filteredData;
+            this.showNoRecordsFoundMessage = false;
+        }
+        
+    } catch (error) {
+        console.error('Error during global filtering:', error);
+    }
+}
+
+  resetTableData() {
+    this.tableData1=this.tableData2;
   }
+
  exportOptSelected($event: any) {
   if (this.ddExport == 1) {
     this.exportToExcel();
@@ -136,13 +193,10 @@ export class AlertsTableComponent {
   }
   setTimeout(() => {
     this.ddExport = -1;
-  }, 2000); // 2000 milliseconds = 2 seconds
-
-
+  }, 500); 
 }
 
   exportToExcel() {
-    // Select the table header and content elements
     const tblHeader = document.querySelector('.tbl-header') as HTMLTableElement;
     const tblContent = document.querySelector('.tbl-content table') as HTMLTableElement;
   
@@ -151,36 +205,27 @@ export class AlertsTableComponent {
       return;
     }
   
-    // Create a new Workbook and add the Worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tblContent);
   
-    // Get the header row data
     const headerData = Array.from(tblHeader.querySelectorAll('th')).map(cell => cell.textContent);
-  
-    // Get the existing content rows
+    
     const existingContentRows: any[] = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
   
-    // Create a copy of the existing content rows array
     const modifiedContentRows = [...existingContentRows];
   
-    // Add the header data only if it doesn't match the first row of content
     if (!headerData.every((value, index) => value === modifiedContentRows[0][index])) {
       modifiedContentRows.unshift(headerData);
     }
   
-    // Write the modified content back to the worksheet
     XLSX.utils.sheet_add_json(ws, modifiedContentRows, { skipHeader: true, origin: "A1" });
   
-    // Add the Worksheet to the Workbook
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
   
-    // Create a Blob object to save the Excel file
     const blob = new Blob([XLSX.write(wb, { bookType: 'xlsx', type: 'array' })], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
   
-    // Create a download link for the Blob and simulate a click event to trigger the download
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -192,7 +237,6 @@ export class AlertsTableComponent {
   }
   
   exportToCSV() {
-    // Select the table header and content elements
     const tblHeader = document.querySelector('.tbl-header') as HTMLTableElement;
     const tblContent = document.querySelector('.tbl-content table') as HTMLTableElement;
   
@@ -201,26 +245,21 @@ export class AlertsTableComponent {
       return;
     }
   
-    // Get the header row data
     const headerData = Array.from(tblHeader.querySelectorAll('th')).map(cell => cell.textContent);
   
-    // Get the existing content rows
     const existingContentRows: any[] = Array.from(tblContent.querySelectorAll('tr')).map(row => {
       return Array.from(row.querySelectorAll('td')).map(cell => cell.textContent);
     });
   
-    // Create a CSV content string
     const csvContent = [headerData.join(',')];
     existingContentRows.forEach(row => {
       csvContent.push(row.join(','));
     });
   
-    // Create a Blob object to save the CSV file
     const blob = new Blob([csvContent.join('\n')], {
       type: 'text/csv'
     });
   
-    // Create a download link for the Blob and simulate a click event to trigger the download
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

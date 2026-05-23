@@ -718,6 +718,131 @@ app-root {
     }
 }
 
+#websiteViewsChart9 {
+    position: relative;
+    height: 380px;
+    // max-height: 400px;
+
+    svg {
+        height: 100% !important;
+        position: relative;
+        left: -100px;
+        top: -25px;
+    }
+
+    .ct-chart-pie {
+        .ct-series:nth-child(1) {
+            fill: #00bcd4;
+        }
+
+        .ct-series:nth-child(2) {
+            fill: #f44336;
+        }
+
+        .ct-series:nth-child(3) {
+            fill: #ff9800;
+        }
+
+        .ct-series:nth-child(4) {
+            fill: #453d3f;
+        }
+
+        .ct-series:nth-child(5) {
+            fill: #47a44b
+        }
+
+        .ct-series:nth-child(6) {
+            fill: #c9c614;
+        }
+
+        .ct-series:nth-child(7) {
+            fill: #d81a99;
+        }
+
+        .ct-series:nth-child(8) {
+            fill: #2447b2;
+        }
+
+        .ct-series:nth-child(9) {
+
+        }
+    }
+
+    .ct-legend {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+        position: absolute;
+        right: 50px;
+        top: 75px;
+
+        li {
+            margin-bottom: 5px;
+
+            &::before {
+                /* For a square bullet */
+                content: "\25A0";
+                display: block;
+                position: relative;
+                max-width: 0;
+                max-height: 0;
+                left: -20px;
+                top: -3px;
+                font-size: 20px;
+            }
+
+            &.ct-series-0 {
+                &::before {
+                    color: #00bcd4;
+                }
+            }
+
+            &.ct-series-1 {
+                &::before {
+                    color: #f44336;
+                }
+            }
+
+            &.ct-series-2 {
+                &::before {
+                    color: #ff9800;
+                }
+            }
+
+            &.ct-series-3 {
+                &::before {
+                    color: #453d3f;
+                }
+            }
+
+            &.ct-series-4 {
+                &::before {
+                    color: #47a44b
+                }
+            }
+
+            &.ct-series-5 {
+                &::before {
+                    color: #c9c614;
+                }
+            }
+
+            &.ct-series-6 {
+                &::before {
+                    color: #d81a99;
+                }
+            }
+
+            &.ct-series-7 {
+                &::before {
+                    color: #2447b2;
+                }
+            }
+        }
+    }
+}
+
+
 .ct-chart-pie .ct-label,
 .ct-chart-donut .ct-label {
     color: #fff;
@@ -1560,6 +1685,7 @@ input.size-medium {
 app-tee-power-filter {
     .filter-wrapper {
         .search-filter-main {
+            width: 60px;
             .filter-scroll {
                 height: auto;
 

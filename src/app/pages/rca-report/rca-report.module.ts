@@ -12,6 +12,7 @@ import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-re
 
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatDateFormats, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
+import { RcaReportFilterComponent } from './rca-report-filter/rca-report-filter.component';
 
 // If using Moment
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
@@ -27,7 +28,7 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
 };
 
 @NgModule({
-  declarations: [RcaReportComponent, AddEditRcaReportComponent],
+  declarations: [RcaReportComponent, AddEditRcaReportComponent, RcaReportFilterComponent],
   imports: [
     CommonModule,
     RcaReportRoutingModule,

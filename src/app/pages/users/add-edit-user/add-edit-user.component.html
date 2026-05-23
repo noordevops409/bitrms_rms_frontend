@@ -1,4 +1,5 @@
 <div class="modal-popup site-details">
+    
     <div class="header popupHeaderBg">
         <div class="left-side">
             <h1 class="title">User Master Data</h1>
@@ -55,19 +56,22 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Username</mat-label>
-                                <input formControlName="uname" required matInput />
+                                <input formControlName="uname" required matInput autocomplete="off" />
+                                
+                                <div *ngIf="isDuplicateCheck" class="text-danger">Username already exists</div>
+
                                 <mat-error *ngIf="mf.uname.touched && mf.uname.invalid">
                                     <div *ngIf="mf.uname.errors?.required" class="italicAlign">Username is required.
                                     </div>
-                                </mat-error>
+                                </mat-error>                               
                             </mat-form-field>
                         </div>
 
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Password</mat-label>
-                                <input formControlName="pwd" autocomplete="off" [disabled]="isForEdit" [readonly]="isForEdit" type="password" required
-                                    matInput />
+                                <input formControlName="pwd" autocomplete="off webauthn" 
+                                     type="password" required matInput />
                                 <mat-error *ngIf="mf.pwd.touched && mf.pwd.invalid">
                                     <div *ngIf="mf.pwd.errors?.required" class="italicAlign">Password is required.
                                     </div>
@@ -78,8 +82,8 @@
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Confirm Password</mat-label>
-                                <input formControlName="cnfPassword" autocomplete="off" [disabled]="isForEdit" [readonly]="isForEdit" type="password" required
-                                    matInput />
+                                <input formControlName="cnfPassword" autocomplete="off" 
+                                    type="password" required matInput />
                                 <mat-error *ngIf="mf.cnfPassword.touched && mf.cnfPassword.invalid">
                                     <div *ngIf="mf.cnfPassword.errors?.required" class="italicAlign">Confirm Password is
                                         required.</div>
@@ -91,7 +95,7 @@
                     </div>
 
                     <div class="form-group row" style="margin-bottom: 0px;">
-                        <div class="form-field col-4">
+                        <div class="form-field col-4" style="display: none;">
                             <mat-label>Select Customer</mat-label>
                             <select formControlName="selCustomer" name="selCustomer" class="input-element mini">
                                 <option *ngFor="let item of customerList" [ngValue]="item">{{item.customername}}
@@ -100,7 +104,7 @@
                         </div>
 
                         <div class="form-field col-4">
-                            <mat-label>Select Customer Role</mat-label>
+                            <mat-label>Select Customer </mat-label>
                             <select formControlName="selCustomerRole" name="selCustomerRole" class="input-element mini">
                                 <option *ngFor="let item of customerRoleList" [ngValue]="item">{{item.customerdesc}}
                                 </option>
@@ -108,14 +112,12 @@
                         </div>
 
                         <div class="form-field col-4">
-                            <mat-label>Select User Role</mat-label>
+                            <mat-label>Site Profile</mat-label>
                             <select formControlName="selUserRole" name="selUserRole" class="input-element mini">
                                 <option *ngFor="let item of userRoleList" [ngValue]="item">{{item.rolename}}</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Mobile No</mat-label>
@@ -128,36 +130,48 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
+                    </div>
+
+                        <div class="form-group row" style="margin-bottom: 0px;">
 
                         <div class="form-field col-4">
-                            <mat-form-field>
-                                <mat-label>Enter Activation Status</mat-label>
-                                <input formControlName="umAactivationstatus" type="number" matInput />
-                            </mat-form-field>
+                            <mat-label>Activation Status</mat-label>
+                            <select formControlName="umAactivationstatus" name="umAactivationstatus" class="input-element mini" [ngModel]="isForEdit ? activationStatusOptions[indexVar] : activationStatusOptions[0]">
+                                <option *ngFor="let item of activationStatusOptions" [ngValue]="item">{{item.label}}</option>
+                            </select>
                         </div>
-
-                        <div class="form-field col-4">
+                        
+                        <div class="form-field col-4" style="display: none;">
                             <mat-form-field>
                                 <mat-label>Enter Description</mat-label>
                                 <input formControlName="umDescription" matInput />
                             </mat-form-field>
                         </div>
-                    </div>
 
-                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <div class="form-field col-4" >
+                            <mat-label>Level Access</mat-label>
+                            <select formControlName="umlevelAccess" name="umlevelAccess" class="input-element mini" [ngModel]="isForEdit ? umlevelAccessOptions[umLevelAccessIndexVar-1] : umlevelAccessOptions[1]">
+                                <option *ngFor="let item of umlevelAccessOptions" [ngValue]="item">{{item.label}}</option>
+                            </select>
+                        </div>
+                        
+
                         <div class="form-field col-4">
-                            <mat-form-field>
-                                <mat-label>Enter Login Type</mat-label>
-                                <input formControlName="umLoginType" type="number" matInput />
-                            </mat-form-field>
+                            <mat-label>Enter Login Type</mat-label>
+                            <select formControlName="umLoginType" name="umLoginType" class="input-element mini" [ngModel]="isForEdit ? umLoginTypeOptions[umLoginTypeIndexVar] : umLoginTypeOptions[1]">
+                                <option *ngFor="let item of umLoginTypeOptions" [ngValue]="item">{{item.label}}</option>
+                            </select>
                         </div>
 
-                        <div class="form-field col-4">
+                        <div class="form-field col-4" style="display: none;">
                             <mat-form-field>
                                 <mat-label>Enter Type</mat-label>
                                 <input formControlName="umType" type="number" matInput />
                             </mat-form-field>
                         </div>
+                    </div>
+
+                        <div class="form-group row" style="margin-bottom: 0px;display: none;" >
 
                         <div class="form-field col-4">
                             <mat-form-field>

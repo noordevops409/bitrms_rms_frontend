@@ -16,6 +16,7 @@ import { customerMaster } from '../data/customer-master';
 
 import { AddEditRcaReportComponent } from './add-edit-rca-report/add-edit-rca-report.component';
 import { TableListingComponent } from '../../shared/table-listing/table-listing.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-rca-report',
@@ -43,84 +44,84 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
   defaultFilterList: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
-    },
+    // {
+    //   id: 'FMF01',
+    //   fieldName: 'regions',
+    //   indexField: 'regions',
+    //   labelName: 'Region',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'regions',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getRegionMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'rgRegion',
+    //     value: 'rgRegion'
+    //   }
+    // },
+    // {
+    //   id: 'FMF02',
+    //   fieldName: 'zones',
+    //   indexField: 'zones',
+    //   labelName: 'Zone',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'zones',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getZoneMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'znZone',
+    //     value: 'znZone'
+    //   }
+    // },
+    // {
+    //   id: 'FMF03',
+    //   fieldName: 'clusters',
+    //   indexField: 'clusters',
+    //   labelName: 'Cluster',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'clusters',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'crName',
+    //     value: 'crName'
+    //   }
+    // },
     {
       id: 'FMF04',
       fieldName: 'siteId',
@@ -147,84 +148,84 @@ export class RcaReportComponent implements OnInit, OnDestroy {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    },
-    {
-      id: 'FMF06',
-      fieldName: 'customers',
-      indexField: 'customers',
-      labelName: 'Customer',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'customers',
-      data: customerMaster,
-      isDataLoaded: true,
-      isDynamic: false,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: null,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'id',
-        value: 'value'
-      }
-    },
-    {
-      id: 'FMF07',
-      fieldName: 'engineerName',
-      indexField: 'engineerName',
-      labelName: 'Engineer',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'engineerName',
-      data: engineerNameList,
-      isDataLoaded: true,
-      isDynamic: false,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: null,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'id',
-        value: 'value'
-      }
-    }
+    // {
+    //   id: 'FMF05',
+    //   fieldName: 'deviceType',
+    //   indexField: 'deviceType',
+    //   labelName: 'Device Type',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'deviceType',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getDeviceTypeMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'deviceType',
+    //     value: 'deviceType'
+    //   }
+    // },
+    // {
+    //   id: 'FMF06',
+    //   fieldName: 'customers',
+    //   indexField: 'customers',
+    //   labelName: 'Customer',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'customers',
+    //   data: customerMaster,
+    //   isDataLoaded: true,
+    //   isDynamic: false,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: null,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'id',
+    //     value: 'value'
+    //   }
+    // },
+    // {
+    //   id: 'FMF07',
+    //   fieldName: 'engineerName',
+    //   indexField: 'engineerName',
+    //   labelName: 'Engineer',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'engineerName',
+    //   data: engineerNameList,
+    //   isDataLoaded: true,
+    //   isDynamic: false,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: null,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'id',
+    //     value: 'value'
+    //   }
+    // }
   ];
 
   public isFilterDataLoaded: boolean = false;
@@ -248,7 +249,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     "siteStatus": ['All'],
     "customers": ['All'],
     "engineer": ['All'],
-    "date": null
+    "date": null,
+    // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+    // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
   };
 
   constructor(
@@ -300,7 +303,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "siteStatus": ['All'],
       "customers": ['All'],
       "engineer": ['All'],
-      "date": null
+      "date": null,
+      // "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      // "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
     };
   }
 
@@ -311,6 +316,7 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.httpClient.post(ApiConstant.getRCADataAll, this.filterParam).subscribe((data: any) => {
       this.isLoading = false;
+      // console.log("319",data);
       this.manipulate(data);
       setTimeout(() => {
         this.tableListingComponent.init();
@@ -326,10 +332,14 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   }
 
   manipulate(data) {
+    console.log(data);
+    
     this.setResponse(data.data);
     this.setColumnHeader(data.data);
     this.setRowData(data.data);
     this.activeListing.list = this.sampleData;
+    console.log(this.activeListing);
+    
   }
 
   setResponse(resData) {
@@ -381,7 +391,8 @@ export class RcaReportComponent implements OnInit, OnDestroy {
   }
 
   setFilterParam(fData) {
-
+let startDate="";
+let endDate="";
     let regions: any = ["All"];
     let zones: any = ["All"];
     let clusters: any = ["All"];
@@ -393,60 +404,68 @@ export class RcaReportComponent implements OnInit, OnDestroy {
     let engineer: any = ["All"];
     let rangeDate: any = "";
     if (fData && fData.length) {
+    //  console.log(fData);
+      // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+      //   regions = fData[0].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
+      // if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+      //   zones = fData[1].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
+      // if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+      //   clusters = fData[2].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        regions = fData[0].popupTo.data.map((item) => {
+        siteId = fData[0].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
-      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+      //   deviceType = fData[4].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
-      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
+      //   customer = fData[5].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
+      //   engineer = fData[6].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[5].popupTo.data && fData[5].popupTo.data.length) {
-        customer = fData[5].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[6].popupTo.data && fData[6].popupTo.data.length) {
-        engineer = fData[6].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[7] && fData[7].length) {
-        siteType = fData[7].filter((item) => {
+      if (fData[1] && fData[1].length) {
+        siteType = fData[1].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
 
-      siteStatus = fData[8];
+      //siteStatus = fData[8];
 
-      if (fData[9] && fData[9].startDate && fData[9].endDate) {
-        rangeDate = fData[9].startDate.replace(/-/g, '/') + ' - ' + fData[9].endDate.replace(/-/g, '/');
+      if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
+        startDate = fData[2].startDate.replace(/-/g, '/');
+        endDate = fData[2].endDate.replace(/-/g, '/');
+        rangeDate = startDate + ' - ' + endDate;
+      } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
       // siteStatus = parseInt(fData[7], 10);
 
@@ -462,7 +481,9 @@ export class RcaReportComponent implements OnInit, OnDestroy {
       "siteType": siteType.length === 0 ? ['All'] : siteType,
       "customers": customer.length === 0 ? ['All'] : customer,
       "engineer": engineer.length === 0 ? ['All'] : engineer,
-      "date": rangeDate
+      "date": rangeDate,
+      "startDate":startDate,
+      "endDate":endDate
     };
   }
 

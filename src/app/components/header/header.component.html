@@ -1,16 +1,37 @@
 <nav class="fixed">
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <a href="javascript:void(0);" class="mat-ripple sidebar-toggle mat-ripple-unbounded" (click)="toggleSidebar($event);">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon">view_sidebar</mat-icon>
-                </a>
-                <a href="#" class="logo">
-                    <img src="http://18.140.172.75:8080/digitrinity/resources/assets/images/yoma_logo.png" alt="" title="" 
-                        style="height: 60px; margin-top: -5px;">
-                </a>
-            </div>
+  <header>
+    <div class="header-container">
+      <div class="logo-container">
+        <a href="javascript:void(0);" class="mat-ripple sidebar-toggle mat-ripple-unbounded" (click)="toggleSidebar($event);">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">view_sidebar</mat-icon>
+        </a>
+        <a href="#" class="logo">
+          <img [src]="logoUrl" alt="Company Logo" title="Company Logo" 
+               style="height: 60px; margin-top: -5px;">
+        </a>
+      </div>
+    </div>
+    <div class="notification-container">
+      <mat-icon
+        id="notification-bell"
+        class="animated-bell"
+        (click)="toggleNotification()"
+        [matBadge]="badgeNotification"
+        matBadgeColor="warn"
+        >notifications</mat-icon
+      >
+        <div class="notification-dropdown" id="notification-dropdown">
+          <div *ngFor="let notification of notifications" class="notification-item">
+            <a (click)="handleNotificationClick(notification[5])" class="notification-link">
+              <p>
+                <strong>SiteID:</strong> {{ notification[5] }},
+                <strong>AlarmType:</strong> {{ notification[7] }},
+                <strong>Alarm Status:</strong> {{ notification[14] }},
+                <strong>Open Time:</strong> {{ notification[16] }}
+              </p>
+            </a>
+          </div>
         </div>
-    </header>
-  </nav>
-  
+    </div>
+  </header>
+</nav>

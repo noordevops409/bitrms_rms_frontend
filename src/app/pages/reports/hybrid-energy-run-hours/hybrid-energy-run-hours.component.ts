@@ -44,84 +44,84 @@ export class HybridEnergyRunHoursComponent implements OnInit {
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
   defaultFilterList: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
-    },
+    // {
+    //   id: 'FMF01',
+    //   fieldName: 'regions',
+    //   indexField: 'regions',
+    //   labelName: 'Region',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'regions',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getRegionMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'rgRegion',
+    //     value: 'rgRegion'
+    //   }
+    // },
+    // {
+    //   id: 'FMF02',
+    //   fieldName: 'zones',
+    //   indexField: 'zones',
+    //   labelName: 'Zone',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'zones',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getZoneMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'znZone',
+    //     value: 'znZone'
+    //   }
+    // },
+    // {
+    //   id: 'FMF03',
+    //   fieldName: 'clusters',
+    //   indexField: 'clusters',
+    //   labelName: 'Cluster',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'clusters',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'crName',
+    //     value: 'crName'
+    //   }
+    // },
     {
       id: 'FMF04',
       fieldName: 'siteId',
@@ -148,32 +148,32 @@ export class HybridEnergyRunHoursComponent implements OnInit {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    }
+    // {
+    //   id: 'FMF05',
+    //   fieldName: 'deviceType',
+    //   indexField: 'deviceType',
+    //   labelName: 'Device Type',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'deviceType',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getDeviceTypeMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'deviceType',
+    //     value: 'deviceType'
+    //   }
+    // }
   ];
 
   public isFilterDataLoaded: boolean = false;
@@ -193,8 +193,10 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+     "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+     "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+    // "startDate": "",
+    // "endDate": ""
   };
 
 
@@ -232,16 +234,17 @@ export class HybridEnergyRunHoursComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+        "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+       "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+     
     };
-    let startDate = this.filterParam.startDate;
-    let endDate = this.filterParam.endDate;
-    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+     let startDate = this.filterParam.startDate;
+     let endDate = this.filterParam.endDate;
+     this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {
-    // this.setDefualtFilter();
+     this.setDefualtFilter();
     this.loadData();
   }
 
@@ -367,35 +370,34 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     let startDate = this.filterParam.startDate;
     let endDate = this.filterParam.endDate;
     if (fData && fData.length) {
+      // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+      //   regions = fData[0].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+      // if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+      //   zones = fData[1].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
+      // if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+      //   clusters = fData[2].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        regions = fData[0].popupTo.data.map((item) => {
+        siteId = fData[0].popupTo.data.map((item) => {
           return item.id;
         });
       }
 
-      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
+      // if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+      //   deviceType = fData[4].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
 
       if (fData[5] && fData[5].length) {
         siteType = fData[5].filter((item) => {
@@ -405,10 +407,16 @@ export class HybridEnergyRunHoursComponent implements OnInit {
         });
       }
 
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        startDate = fData[6].startDate.replace(/-/g, '/');
-        endDate = fData[6].endDate.replace(/-/g, '/');
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+    
+      if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
+        startDate = fData[2].startDate.replace(/-/g, '/');
+        endDate = fData[2].endDate.replace(/-/g, '/');
+        rangeDate = startDate + ' - ' + endDate;
+      } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
     }
     this.filterParam = {
@@ -493,7 +501,7 @@ export class HybridEnergyRunHoursComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */
-    XLSX.writeFile(wb, `hybrid-power-tracker.${type}`);
+    XLSX.writeFile(wb, `hybrid-energy-run-hours.${type}`);
     this.isExporting = false;
 
   }
@@ -524,20 +532,23 @@ export class HybridEnergyRunHoursComponent implements OnInit {
           } else if (selVal === "2") {
             this.exportCSV(evt);
           }
+          this.exportData.data = [];
+          this.ddExport=-1;
         }, 500);
       }).catch((err: any) => {
 
       })
-    } else {
-      setTimeout(() => {
-        let selVal = this.ddExport;
-        if (selVal === "1") {
-          this.exportExcel(evt);
-        } else if (selVal === "2") {
-          this.exportCSV(evt);
-        }
-      }, 500);
-    }
+    } 
+    // else {
+    //   setTimeout(() => {
+    //     let selVal = this.ddExport;
+    //     if (selVal === "1") {
+    //       this.exportExcel(evt);
+    //     } else if (selVal === "2") {
+    //       this.exportCSV(evt);
+    //     }
+    //   }, 500);
+    // }
   }
 
 }

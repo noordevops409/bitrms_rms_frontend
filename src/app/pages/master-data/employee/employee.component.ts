@@ -37,6 +37,8 @@ export class EmployeeComponent implements OnInit {
   public appType: Number = AppConstant.RAW_DATA_REPORT_APP_TYPE;
 
   public activeListing: any = {};
+  public activeListing1: any = {};
+
   public data: any;
   public listingTemplate: any = {};
 
@@ -52,8 +54,10 @@ export class EmployeeComponent implements OnInit {
   private zoneList: any = [];
   private sampleData: any = {};
   private allData: any = {};
+  private allData1: any = {};
+
   private currentPageNo: number = 1;
-  private pageSize: number = 10;
+  private pageSize: number = 100;
   private recordStartFrom: number = 0;
   private isMultipleRowSelected: boolean = false;
   private forEditListener!: Subscription;
@@ -85,7 +89,9 @@ export class EmployeeComponent implements OnInit {
     this.loadZone();
     setTimeout(() => {
       this.loadData();
+      this.loadAllData();
     }, 1000);
+   
   }
 
   listen() {
@@ -103,7 +109,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadEmployeeRole() {
-    const url = ApiConstant.getEmployeeRoleMasterData;
+    let url = ApiConstant.getEmployeeRoleMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
         this.employeeRoleList = data.employeeRoleMasterList;
@@ -117,7 +131,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadRegion() {
-    const url = ApiConstant.getRegionMasterData;
+    let url = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.regionMasterList && data.regionMasterList.length) {
         this.regionList = data.regionMasterList;
@@ -131,8 +153,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   loadZone() {
-    const url = ApiConstant.getZoneMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
       }
@@ -149,8 +177,17 @@ export class EmployeeComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    let apiUrl: any = ApiConstant.getEmployeeMasterData;
-    // (window as any)['retainNoOfShow'] = this.pageSize;
+    let apiUrl: any = ApiConstant.getEmployeeMasterData1 + `/pageNumber/${this.currentPageNo}/size/${this.pageSize}`;
+    
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            apiUrl += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
+    (window as any)['retainNoOfShow'] = this.pageSize;
     this.httpClient.post(apiUrl, null).subscribe((res: any) => {
       this.isLoading = false;
       this.manipulate(res);
@@ -165,14 +202,33 @@ export class EmployeeComponent implements OnInit {
         msg: 'Error while loading Raw Data Report details!'
       })
     });
-  }
+}
 
+
+  loadAllData()
+  {
+     let apiUrl: any = ApiConstant.getEmployeeMasterData1 ;
+     const userDataString = localStorage.getItem('userData');
+     if (userDataString) {
+         const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+         if (userData && userData.countryID) {
+             apiUrl += `?countryId=${userData.countryID}`; 
+         }
+     }
+       this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+        this.setRowData1(res.employeeMasterList);
+       })
+     }
+  
+ 
+  
   manipulate(res) {
     this.setResponse(res.employeeMasterList);
     this.setColumnHeader(res.employeeMasterList);
     this.setRowData(res.employeeMasterList);
     this.activeListing.list = this.sampleData;
-    this.sampleData.totalDocs = res.totalCount || res.employeeMasterList.length;
+     this.activeListing1.list=this.allData1
+    this.sampleData.totalDocs = res.totalCount ;
   }
 
   setResponse(resData) {
@@ -254,6 +310,25 @@ export class EmployeeComponent implements OnInit {
       this.allData.data = [];
     }
   }
+  setRowData1(resData) {
+    const data = resData || [];
+    if (data.length) {
+      let counter = 0;
+      for (let item of data) {
+        this.setEmployeeRole(item);
+        this.setRegion(item);
+        this.setZone(item);
+        counter += 1;
+        item.srno = counter;
+        item.delete = "Delete";
+      }
+      this.sampleData.data = data;
+      this.allData1.data = data;
+    } else {
+      this.sampleData.data = [];
+      this.allData1.data = [];
+    }
+  }
 
   applyFilter(evt?: any) {
     this.isReqToOpenFilter = false;
@@ -310,30 +385,50 @@ export class EmployeeComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
     this.exportTableToExcel("xlsx");
+
   }
 
   exportCSV(evt?: any) {
     evt.stopPropagation();
     evt.preventDefault();
+
     this.exportTableToExcel("csv");
   }
 
   searchGlobally(event) {
+    
+    //  let apiUrl: any = ApiConstant.getEmployeeMasterData1 ;
+    //  setTimeout(() => {
+     
+    //   this.httpClient.post(apiUrl, null).subscribe((res: any) => {
+    //     this.setRowData(res.employeeMasterList);
+    //   })
+    // }, 5000);
+    
+
     let { value } = event.target;
     value = value.toLowerCase();
+    
     if (value) {
-      this.sampleData.data = this.allData.data.filter((item) => {
+  
+      this.sampleData.data = this.allData1.data.filter((item) => {
+       // console.log("lineeee",item);
         item.emEmployeeID = item.emEmployeeID.toString();
-        item.empRoleName = item.empRoleName.toString();
+       // item.empRoleName = item.empRoleName.toString();
         item.emFirstName = item.emFirstName.toString();
+        item.emLastName=item.emLastName.toString();
         return (item.emEmployeeID.toLowerCase().includes(value) ||
-          item.empRoleName.toLowerCase().includes(value) ||
+         // item.empRoleName.toLowerCase().includes(value)
+         item.emLastName.toLowerCase().includes(value) ||
           item.emFirstName.toLowerCase().includes(value));
       });
     } else {
-      this.sampleData.data = this.allData.data;
+      this.sampleData.data = this.allData1.data;
     }
     this.activeListing.list = this.sampleData;
+    // setTimeout(() => {
+    //   this.loadAllData();
+    // }, 1000);
     this.tableListingComponent.init();
   }
 
@@ -349,8 +444,13 @@ export class EmployeeComponent implements OnInit {
           this.manipulate(data);
         } else {
           this.loadData();
+          
+          
         }
       }
+      setTimeout(() => {
+        this.loadAllData();
+      }, 1000);
     });
   }
 
@@ -369,6 +469,9 @@ export class EmployeeComponent implements OnInit {
           this.loadData();
         }
       }
+      setTimeout(() => {
+        this.loadAllData();
+      }, 1000);
     });
   }
 

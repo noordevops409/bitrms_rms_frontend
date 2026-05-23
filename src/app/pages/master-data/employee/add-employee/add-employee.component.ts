@@ -86,22 +86,22 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.getData();
       this.isLoading = false;
-    }, 1000);
+    }, 5000);
   }
 
   initForm() {
     this.masterForm = this.formBuilder.group({
-      'empId': [null, [Validators.required]],
-      'firstName': [null, [Validators.required]],
-      'lastName': [null, [Validators.required]],
-      'contactNumber': [null, [Validators.required]],
-      'email': [null],
+      'empId': ['', [Validators.required]],
+      'firstName': ['', [Validators.required]],
+      'lastName': ['', [Validators.required]],
+      'contactNumber': ['', [Validators.required]],
+      'email': ['', [Validators.required]],
       'erpLocation': [null],
       'employeeLocation': [null],
       'latitude': [null],
       'longitude': [null],
       'acsysEmployeeId': [null],
-      'acsysEmployeeSyncStatus': [null],
+      // 'acsysEmployeeSyncStatus': [null],
       'keId': [null],
       'notification': [null],
       'accIdName': [null],
@@ -116,7 +116,15 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadEmployeeRole() {
-    const url = ApiConstant.getEmployeeRoleMasterData;
+    let url = ApiConstant.getEmployeeRoleMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.employeeRoleMasterList && data.employeeRoleMasterList.length) {
         this.employeeRoleList = data.employeeRoleMasterList;
@@ -131,8 +139,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadRegionData() {
-    const url = ApiConstant.getRegionMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getRegionMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+          url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.regionMasterList && data.regionMasterList.length) {
         this.regionList = data.regionMasterList;
         this.masterForm.controls['selRegion'].setValue(data.regionMasterList[0]);
@@ -146,11 +160,18 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   loadZoneData() {
-    const url = ApiConstant.getZoneMasterData;
-    this.httpClient.post(url, null).subscribe((data: any) => {
+    let url = ApiConstant.getZoneMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }    this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.zoneMasterList && data.zoneMasterList.length) {
         this.zoneList = data.zoneMasterList;
         this.masterForm.controls['selZone'].setValue(data.zoneMasterList[0]);
+        this.masterForm.controls['employeeLocation'].setValue(data.zoneMasterList[0]);
       }
     }, (err) => {
       this.util.notification.error({
@@ -206,11 +227,11 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.masterForm.controls['contactNumber'].setValue(this.selEmployee.emContactNo);
     this.masterForm.controls['email'].setValue(this.selEmployee.emEmail);
     this.masterForm.controls['erpLocation'].setValue(this.selEmployee.emERPLocation);
-    this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.emLocation);
+   // this.masterForm.controls['employeeLocation'].setValue(this.selEmployee.emLocation);
     this.masterForm.controls['latitude'].setValue(this.selEmployee.emLatitude);
     this.masterForm.controls['longitude'].setValue(this.selEmployee.emLongitude);
     this.masterForm.controls['acsysEmployeeId'].setValue(this.selEmployee.emAcsysEmployeeID);
-    this.masterForm.controls['acsysEmployeeSyncStatus'].setValue(this.selEmployee.emAcsysEmployeeSyncstatus);
+    // this.masterForm.controls['acsysEmployeeSyncStatus'].setValue(this.selEmployee.emAcsysEmployeeSyncstatus);
     this.masterForm.controls['keId'].setValue(this.selEmployee.keID);
     this.masterForm.controls['notification'].setValue(this.selEmployee.emNotification);
     this.masterForm.controls['accIdName'].setValue(this.selEmployee.accID);
@@ -219,14 +240,26 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.masterForm.controls['exitDate'].setValue(this.selEmployee.emExitDate);
     this.masterForm.controls['acsysEmployeeUpdateDate'].setValue(this.selEmployee.emAcsysEmployeeUpdatedDt);
 
-    if (this.selEmployee.selEscalationMode) {
-      this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
-    } else {
-      this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[0]);
-    }
+    // if (this.selEmployee.selEscalationMode) {
+    //   this.masterForm.controls['selEscalationMode'].setValue(this.selEmployee.selEscalationMode);
+    // } else {
+    //   this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[0]);
+    // }
+    this.escalationModeUpdate();
+    this.setLocation(this.selEmployee);
+
     this.setEmployeeRole(this.selEmployee);
     this.setRegion(this.selEmployee);
     this.setZone(this.selEmployee);
+  }
+
+  setLocation(req?: any) {
+    for (let item of this.zoneList) {
+      if (item.znZoneID == req.emLocation) {
+        this.masterForm.controls['employeeLocation'].setValue(item);;
+        break;
+      }
+    }
   }
 
   close(evt?: any) {
@@ -237,7 +270,20 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     this.close();
   }
 
+  escalationModeUpdate() {
+    if (this.selEmployee.emEscalationMode == 1) {
+      this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[0]);
+    }
+    else if (this.selEmployee.emEscalationMode == 2) {
+      this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[1]);
+    }
+    else {
+      this.masterForm.controls['selEscalationMode'].setValue(this.escalationModeList[2]);
+    }
+  }
+
   save(evt?: any) {
+
     if (this.isSaving) {
       return;
     }
@@ -246,6 +292,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     const url = ApiConstant.saveEmployeeMasterData;
 
     let acsysSyncDateTimeName = moment(formData.acsysSyncDateName + ' ' + formData.acsysSyncTimeName);
+   
 
     let params: any = {
       emEmployeeID: formData.empId,
@@ -257,21 +304,39 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
       emContactNo: formData.contactNumber,
       emEmail: formData.email,
       emERPLocation: formData.erpLocation,
-      emLocation: formData.employeeLocation,
+      emLocation: formData.employeeLocation.znZoneID,
+      emLocationName:formData.employeeLocation.znZone,
       emLatitude: formData.latitude,
       emLongitude: formData.longitude,
       emEscalationMode: formData.selEscalationMode.value,
       emAcsysEmployeeID: formData.acsysEmployeeId,
-      emAcsysEmployeeSyncstatus: formData.acsysEmployeeSyncStatus,
+
+      // emAcsysEmployeeSyncstatus: formData.acsysEmployeeSyncStatus,
       emEntryDate: moment(formData.entryDate),
       emExitDate: moment(formData.exitDate),
+
       emAcsysEmployeeUpdatedDt: moment(formData.acsysEmployeeUpdateDate),
       keID: formData.keId,
       emNotification: formData.notification,
       accID: formData.accIdName,
       username: "harish1",
     };
+    if (!this.isForEdit) {
+      params.emEntryDate = moment(formData.entryDate).add(1, 'days');
+      params.emExitDate = moment(formData.exitDate).add(1, 'days');
 
+    }
+    if (this.isForEdit) {
+      params.emEntryDate = moment(formData.entryDate);
+      params.emExitDate = moment(formData.exitDate);
+      if (this.selEmployee.emEntryDate !== formData.entryDate) {
+        params.emEntryDate = moment(formData.entryDate).add(1, 'days');
+      }
+
+      if (this.selEmployee.emExitDate !== formData.exitDate) {
+        params.emExitDate = moment(formData.exitDate).add(1, 'days');
+      }
+    }
     if (this.isForEdit) {
       params.emEmpID = this.employeeId;
     }

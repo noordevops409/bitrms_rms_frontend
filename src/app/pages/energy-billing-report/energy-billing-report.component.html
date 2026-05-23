@@ -1,5 +1,5 @@
 <div class="parent-container">
-    <div class="header">
+    <div class="foot">
         <div class="add-report">
             <!-- <button class="btn btn-default" (click)="add($event);">
                 <span class="material-icons">add</span> ADD
@@ -41,7 +41,7 @@
             <div class="box-body">
                 <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
                     <app-tower-filter-wrapper [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
-                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                        [defaultFilterList]="defaultFilterList" [hide1]="true" (onFilter)="applyFilter($event)">
                     </app-tower-filter-wrapper>
                 </div>
                 <div class="list-wrap">
@@ -132,13 +132,15 @@
                             </table>
                         </div>
 
-                        <div class="listing-container" [ngClass]="{'failed': isListServerError, 'white-background': !isDataFetched}">
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading || isExporting,'failed': isListServerError, 'white-background': !isDataFetched}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>
                         </div>
+
+                       
                     </div>
                 </div>
             </div>

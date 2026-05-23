@@ -1,0 +1,181 @@
+<div class="parent-container">
+    <div class="header">
+        <div class="add-report" style="display:inline-flex;">
+            <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+        </div>
+
+        <div class="export">
+            <button class="btn btn-default" (click)="exportCSV($event);" [disabled]="isExporting">
+                <span *ngIf="!isExporting">EXPORT TO CSV</span>
+                <span *ngIf="isExporting" class="export-spinner">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Exporting...
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="table-listing">
+        <div class="box">
+            <div class="box-title">
+                <div class="tab-header">
+                    <div class="tab-item" [ngClass]="{'active': activeTab === 'lifetime', 'disabled': isLoading}" (click)="switchTab('lifetime')">
+                        Battery Life Cycle Count (Life Time)
+                    </div>
+                    <div class="tab-item" [ngClass]="{'active': activeTab === 'reports', 'disabled': isLoading}" (click)="switchTab('reports')">
+                        Battery Life Cycle Reports
+                    </div>
+                    <!-- Report Info Display -->
+                    <div class="report-info-display" *ngIf="activeTab === 'reports'">
+                        <div class="report-type-label">Report Type: <span class="report-type-value">{{ selectedReportType | titlecase }}</span></div>
+                        <div class="date-range-label" *ngIf="filterParam.startDate && filterParam.endDate">
+                            Date Range: <span class="date-range-value">{{ filterParam.startDate | date:'MMM d, y' }} - {{ filterParam.endDate | date:'MMM d, y' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <!-- Filter for Life Time tab -->
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}" *ngIf="activeTab === 'lifetime'">
+                    <app-batt-life-cycle-count-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                    </app-batt-life-cycle-count-filter>
+                </div>
+
+                <!-- Filter for Reports tab -->
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}" *ngIf="activeTab === 'reports'">
+                    <app-batt-life-cycle-count-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                        [defaultFilterList]="defaultFilterList" [selectedReportType]="selectedReportType"
+                        (onFilter)="applyReportsFilterWithData($event)" (onReportTypeChange)="selectReportType($event)">
+                    </app-batt-life-cycle-count-filter>
+                </div>
+
+                <div class="list-wrap">
+                    <div class="view-holder">
+
+                        <!-- Export table for Life Time tab -->
+                        <div class="export-container" *ngIf="activeTab === 'lifetime' && activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>SiteCode</th>
+                                        <th>Timestamp</th>
+                                        <th>Powersource</th>
+                                        <th>Battery_Life_Cycle_Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.smSiteCode}}</td>
+                                        <td>{{item.hpdate}}</td>
+                                        <td>{{item.powerSource}}</td>
+                                        <td>{{item.batt_lifecyclecount}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Export table for Reports tab -->
+                        <div class="export-container" *ngIf="activeTab === 'reports' && activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>{{ getDefaultColumnName() }}</th>
+                                        <th>Region</th>
+                                        <th>Site Code</th>
+                                        <th>Initial Battery Life Cycle Count</th>
+                                        <th>Final Battery Life Cycle Count</th>
+                                        <th>Total Battery Cycle Life Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>
+                                            <!-- Show appropriate value based on report type -->
+                                            <ng-container *ngIf="selectedReportType === 'monthly'">
+                                                {{ item.reportDate ? (item.reportDate | date:'MMMM yyyy') : (filterParam.startDate | date:'MMMM yyyy') }}
+                                            </ng-container>
+                                            <ng-container *ngIf="selectedReportType === 'yearly'">
+                                                {{ item.reportDate ? (item.reportDate | date:'yyyy') : (filterParam.startDate | date:'yyyy') }}
+                                            </ng-container>
+                                            <ng-container *ngIf="selectedReportType === 'daily' || selectedReportType === 'custom'">
+                                                {{item.reportDate}}
+                                            </ng-container>
+                                        </td>
+                                        <td>{{item.region}}</td>
+                                        <td>{{item.siteCode}}</td>
+                                        <td>{{item.initialBatteryLifeCycleCount}}</td>
+                                        <td>{{item.finalBatteryLifeCycleCount}}</td>
+                                        <td>{{item.totalBatteryCycleLifeCount}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Separate table for Lifetime tab -->
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}" *ngIf="activeTab === 'lifetime'">
+                            <app-table-listing #lifetimeTable [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+
+                        <!-- Message for Reports tab when no data is available -->
+                        <div class="no-data-message" *ngIf="activeTab === 'reports' && !activeListing.list.data.length && !isLoading">
+                            <div class="no-data-content">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <!-- <h3>No Data Available</h3> -->
+                                <p style="color: #e74c3c; font-weight: bold;">
+                                    <span *ngIf="!filterParam.startDate && !filterParam.endDate">
+                                        Please apply filters to view Battery Life Cycle Reports.
+                                    </span>
+                                    <span *ngIf="filterParam.startDate || filterParam.endDate">
+                                        No data found for the selected filters. Please try different filter criteria.
+                                    </span>
+                                </p>
+                                
+                                <!-- Show selected filter details only when user has actually selected specific filters -->
+                                <div class="filter-details" *ngIf="(filterParam.siteId && filterParam.siteId.length > 0 && filterParam.siteId[0] !== 'All') || (filterParam.regions && filterParam.regions.length > 0 && filterParam.regions[0] !== 'All') || (filterParam.clusters && filterParam.clusters.length > 0 && filterParam.clusters[0] !== 'All')">
+                                    <h4>Selected Filters:</h4>
+                                    <ul>
+                                        <li *ngIf="selectedReportType">
+                                            <strong>Report Type:</strong> {{ selectedReportType | titlecase }}
+                                        </li>
+                                        <li *ngIf="filterParam.startDate && filterParam.endDate">
+                                            <strong>Date Range:</strong> {{ filterParam.startDate | date:'MMM d, y' }} - {{ filterParam.endDate | date:'MMM d, y' }}
+                                        </li>
+                                        <li *ngIf="filterParam.siteId && filterParam.siteId.length > 0 && filterParam.siteId[0] !== 'All'">
+                                            <strong>Sites:</strong> {{ filterParam.siteId.join(', ') }}
+                                        </li>
+                                        <li *ngIf="filterParam.regions && filterParam.regions.length > 0 && filterParam.regions[0] !== 'All'">
+                                            <strong>Regions:</strong> {{ filterParam.regions.join(', ') }}
+                                        </li>
+                                        <li *ngIf="filterParam.clusters && filterParam.clusters.length > 0 && filterParam.clusters[0] !== 'All'">
+                                            <strong>Clusters:</strong> {{ filterParam.clusters.join(', ') }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <button class="btn btn-primary" (click)="openTabularFilter($event)">
+                                    <i class="fas fa-sliders-h"></i> {{ filterParam.startDate || filterParam.endDate ? 'Change Filters' : 'Apply Filters' }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Separate table for Reports tab -->
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}" *ngIf="activeTab === 'reports' && (activeListing.list.data.length || isLoading)">
+                            <app-table-listing #reportsTable [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

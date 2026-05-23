@@ -19,8 +19,8 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   trandate: {
     userIndex: 1,
     fieldName: 'trandate',
-    colDisplayName: 'Date',
-    title: 'Date',
+    colDisplayName: 'Trans Date',
+    title: 'Trans Date',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
@@ -122,8 +122,8 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   solarOutputenergykwh: {
     userIndex: 7,
     fieldName: 'solarOutputenergykwh',
-    colDisplayName: 'Solar Output Energy (kWh)',
-    title: 'Solar Output Energy (kWh)',
+    colDisplayName: 'Solar Output Energy kwh',
+    title: 'Solar Output Energy kwh',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -156,10 +156,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedSolarOutputenergykwh: {
-    userIndex: 9,
+    userIndex: 9.6,
     fieldName: 'planedSolarOutputenergykwh',
-    colDisplayName: 'Planed Solar Output Energy (kWh)',
-    title: 'Planed Solar Output Energy (kWh)',
+    colDisplayName: 'Planed Solar Output Energy kwh',
+    title: 'Planed Solar Output Energy kwh',
     widthOfColumn: 275,
     colType: 'text',
     isAvailTooltip: true,
@@ -174,7 +174,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedSolarRunHrs: {
-    userIndex: 10,
+    userIndex: 9.8,
     fieldName: 'planedSolarRunHrs',
     colDisplayName: 'Planed Solar Run Hours',
     title: 'Planed Solar Run Hours',
@@ -192,10 +192,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   dGEnergy: {
-    userIndex: 11,
+    userIndex: 8.5,
     fieldName: 'dGEnergy',
-    colDisplayName: 'Genset Energy (kWh)',
-    title: 'Genset Energy (kWh)',
+    colDisplayName: 'DG Energy ',
+    title: 'DG Energy ',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -210,10 +210,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   dGRunHrs: {
-    userIndex: 12,
+    userIndex: 8.6,
     fieldName: 'dGRunHrs',
-    colDisplayName: 'Genset Run Hours',
-    title: 'Genset Run Hours',
+    colDisplayName: 'DG Run Hours',
+    title: 'DG Run Hours',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -228,10 +228,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedDGEnergy: {
-    userIndex: 13,
+    userIndex: 9.9,
     fieldName: 'planedDGEnergy',
-    colDisplayName: 'Planed Energy (kWh)',
-    title: 'Planed Energy (kWh)',
+    colDisplayName: 'Planed Energy kwh',
+    title: 'Planed Energy kwh',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -246,7 +246,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedDGRunHrs: {
-    userIndex: 14,
+    userIndex:10,
     fieldName: 'planedDGRunHrs',
     colDisplayName: 'Planed DG Run Hours',
     title: 'Planed DG Run Hours',
@@ -265,10 +265,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   mDGEnergy: {
-    userIndex: 15,
+    userIndex: 8.7,
     fieldName: 'mDGEnergy',
-    colDisplayName: 'MGenset Energy (kWh)',
-    title: 'MGenset Energy (kWh)',
+    colDisplayName: 'MDG Energy kwh',
+    title: 'MDG Energy kwh',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -283,10 +283,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   mDGRunHrs: {
-    userIndex: 16,
+    userIndex: 8.8,
     fieldName: 'mDGRunHrs',
-    colDisplayName: 'MGenset RunHrs',
-    title: 'MGenset RunHrs',
+    colDisplayName: 'MDG RunHrs',
+    title: 'MDG RunHrs',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -301,10 +301,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedMDGEnergy: {
-    userIndex: 17,
+    userIndex: 10.1,
     fieldName: 'planedMDGEnergy',
-    colDisplayName: 'Planed MGenset Energy (kWh)',
-    title: 'Planed MGenset Energy (kWh)',
+    colDisplayName: 'Planed MGenset Energy kwh',
+    title: 'Planed MGenset Energy kwh',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -319,7 +319,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedMDGRunHrs: {
-    userIndex: 18,
+    userIndex: 10.2,
     fieldName: 'planedMDGRunHrs',
     colDisplayName: 'Planed MGenset RunHrs',
     title: 'Planed MGenset RunHrs',
@@ -338,10 +338,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   battDisEnergykwh: {
-    userIndex: 19,
+    userIndex: 8.3,
     fieldName: 'battDisEnergykwh',
-    colDisplayName: 'Batt DisEnergy (kWh)',
-    title: 'Batt DisEnergy (kWh)',
+    colDisplayName: 'Batt DisEnergy kwh',
+    title: 'Batt DisEnergy kwh',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -356,7 +356,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battDisRunHrs: {
-    userIndex: 20,
+    userIndex: 8.4,
     fieldName: 'battDisRunHrs',
     colDisplayName: 'Batt Dis Run Hours',
     title: 'Batt Dis Run Hours',
@@ -374,10 +374,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedBattDisEnergykwh: {
-    userIndex: 21,
+    userIndex: 10.3,
     fieldName: 'planedBattDisEnergykwh',
-    colDisplayName: 'Planed Batt DisEnergy (kWh)',
-    title: 'Planed Batt DisEnergy (kWh)',
+    colDisplayName: 'Planed Batt DisEnergy kwh',
+    title: 'Planed Batt DisEnergy kwh',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -392,7 +392,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedBattDisRunHrs: {
-    userIndex: 22,
+    userIndex: 10.4,
     fieldName: 'planedBattDisRunHrs',
     colDisplayName: 'Planed Batt Dis Run Hours',
     title: 'Planed Batt Dis Run Hours',
@@ -411,10 +411,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   battChargingEnergykwh: {
-    userIndex: 23,
+    userIndex: 8.1,
     fieldName: 'battChargingEnergykwh',
-    colDisplayName: 'Batt Charging Energy (kWh)',
-    title: 'Batt Charging Energy (kWh)',
+    colDisplayName: 'Batt Charging Energy kwh',
+    title: 'Batt Charging Energy kwh',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -429,7 +429,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battChargingEnergyrunhrs: {
-    userIndex: 24,
+    userIndex: 8.2,
     fieldName: 'battChargingEnergyrunhrs',
     colDisplayName: 'Batt Charging Energy Runhrs',
     title: 'Batt Charging Energy Runhrs',
@@ -447,10 +447,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedBattChargingEnergykwh: {
-    userIndex: 25,
+    userIndex: 10.5,
     fieldName: 'planedBattChargingEnergykwh',
-    colDisplayName: 'Planed Batt Charging Energy (kWh)',
-    title: 'Planed Batt Charging Energy (kWh)',
+    colDisplayName: 'Planed Batt Charging Energy kwh',
+    title: 'Planed Batt Charging Energy kwh',
     widthOfColumn: 300,
     colType: 'text',
     isAvailTooltip: true,
@@ -465,7 +465,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedBattChargingEnergyrunhrs: {
-    userIndex: 26,
+    userIndex: 10.6,
     fieldName: 'planedBattChargingEnergyrunhrs',
     colDisplayName: 'Planed Batt_ChargingEnergy Runhrs',
     title: 'Planed Batt_ChargingEnergy Runhrs',
@@ -483,7 +483,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   solarBattRunHrs: {
-    userIndex: 27,
+    userIndex: 8.9,
     fieldName: 'solarBattRunHrs',
     colDisplayName: 'SolarBatt RunHrs',
     title: 'SolarBatt RunHrs',
@@ -501,7 +501,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedSolarBattRunHrs: {
-    userIndex: 28,
+    userIndex: 38.5,
     fieldName: 'planedSolarBattRunHrs',
     colDisplayName: 'Planed SolarBatt RunHrs',
     title: 'Planed SolarBatt RunHrs',
@@ -519,10 +519,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   solarDGRunHrs: {
-    userIndex: 29,
+    userIndex: 9,
     fieldName: 'solarDGRunHrs',
-    colDisplayName: 'SolarGenset RunHrs',
-    title: 'SolarGenset RunHrs',
+    colDisplayName: 'Solar DG RunHrs',
+    title: 'Solar DG RunHrs',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -555,10 +555,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   solarMDGRunHrs: {
-    userIndex: 31,
+    userIndex: 9.1,
     fieldName: 'solarMDGRunHrs',
-    colDisplayName: 'SolarMGenset RunHrs',
-    title: 'SolarMGenset RunHrs',
+    colDisplayName: 'Solar MDG RunHrs',
+    title: 'Solar MDG RunHrs',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -573,7 +573,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedSolarMDGRunHrs: {
-    userIndex: 32,
+    userIndex: 38.7,
     fieldName: 'planedSolarMDGRunHrs',
     colDisplayName: 'Planed SolarMGenset RunHrs',
     title: 'Planed SolarMGenset RunHrs',
@@ -591,10 +591,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   teleEnergy: {
-    userIndex: 33,
+    userIndex: 9.2,
     fieldName: 'teleEnergy',
-    colDisplayName: 'TeleEnergy (kWh)',
-    title: 'TeleEnergy (kWh)',
+    colDisplayName: 'TeleEnergy kwh',
+    title: 'TeleEnergy kwh',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -609,7 +609,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   teleRunHrs: {
-    userIndex: 34,
+    userIndex: 9.3,
     fieldName: 'teleRunHrs',
     colDisplayName: 'TeleRunHrs',
     title: 'TeleRunHrs',
@@ -627,10 +627,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedTeleEnergy: {
-    userIndex: 35,
+    userIndex: 38.8,
     fieldName: 'planedTeleEnergy',
-    colDisplayName: 'Planed TeleEnergy (kWh)',
-    title: 'Planed TeleEnergy (kWh)',
+    colDisplayName: 'Planed TeleEnergy kwh',
+    title: 'Planed TeleEnergy kwh',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -645,7 +645,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   planedTeleRunHrs: {
-    userIndex: 36,
+    userIndex: 38.9,
     fieldName: 'planedTeleRunHrs',
     colDisplayName: 'Planed TeleRunHrs',
     title: 'Planed TeleRunHrs',
@@ -663,10 +663,10 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   communityLoadEnergy: {
-    userIndex: 37,
+    userIndex: 9.4,
     fieldName: 'communityLoadEnergy',
-    colDisplayName: 'CommunityLoad Energy (kWh)',
-    title: 'CommunityLoad Energy (kWh)',
+    colDisplayName: 'CommunityLoad Energy kwh',
+    title: 'CommunityLoad Energy kwh',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -681,7 +681,7 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   communityLoadRunHrs: {
-    userIndex: 38,
+    userIndex: 9.5,
     fieldName: 'communityLoadRunHrs',
     colDisplayName: 'CommunityLoad RunHrs',
     title: 'CommunityLoad RunHrs',
@@ -701,8 +701,8 @@ export const HYBRID_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedCommunityLoadEnergy: {
     userIndex: 39,
     fieldName: 'planedCommunityLoadEnergy',
-    colDisplayName: 'Planed Community Load Energy (kWh)',
-    title: 'Planed Community Load Energy (kWh)',
+    colDisplayName: 'Planed Community Load Energy kwh',
+    title: 'Planed Community Load Energy kwh',
     widthOfColumn: 300,
     colType: 'text',
     isAvailTooltip: true,

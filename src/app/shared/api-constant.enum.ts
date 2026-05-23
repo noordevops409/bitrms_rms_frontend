@@ -1,6 +1,9 @@
 import { environment } from '../../environments/environment';
+import { UserService } from '../shared/services/user.service';
+
 
 const GATEWAY = environment.api;
+
 
 export const ApiConstant = {
   SEARCH_FILTER_CONTROLLER: '',
@@ -12,6 +15,9 @@ export const ApiConstant = {
 
   login: `${GATEWAY}/login`,
   authToken: `${GATEWAY}/oauth/token`,
+  logout: `${GATEWAY}/login/logout`,
+
+
 
   getLatestReportStatus: `${GATEWAY}/api/dashboard/latest-report-status`,
   getLatestData: `${GATEWAY}/api/dashboard/latest-data`,
@@ -22,6 +28,9 @@ export const ApiConstant = {
   getAlarmStatusPOST: `${GATEWAY}/api/dashboard-report-controller/getAlarmStatusUsingPOST`,
   getAlarmCategory: `${GATEWAY}/api/dashboard/alarm-category`,
   getHighCriticalAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms`,
+  getHighCriticalAlarmTime: `${GATEWAY}/api/alarm-report/get_critical_alarms_Time`,
+  notificationRead: `${GATEWAY}/api/alarm-report/mark-as-read`,
+
   getAlarmsCountSummary: `${GATEWAY}/api/alarm-report/alarmcounts_summary`,
   getAlarmCatSummary: `${GATEWAY}/api/alarm-report/get_alarms_cat_summary`,
   getServrityAlarm: `${GATEWAY}/api/alarm-report/get_critical_alarms_type`,
@@ -34,6 +43,8 @@ export const ApiConstant = {
   getNoLoadOutageReport: `${GATEWAY}/api/prf_dashboard/no-load-outage-report`,
   getHourlyReportPOST: `${GATEWAY}/api/performance-dashboard-controller/getSiteSummaryUsingPOST`,
   getCustomerMaster: `${GATEWAY}/api/dashboard/customer-master`,
+  getSiteCustomerMaster: `${GATEWAY}/api/dashboard/site-customer-master`,
+
   getSiteCode: `${GATEWAY}/api/dashboard/site-code-master`,
   getSiteType: `${GATEWAY}/api/dashboard/site-type-master`,
   getClusterMaster: `${GATEWAY}/api/dashboard/cluster-master`,
@@ -48,6 +59,8 @@ export const ApiConstant = {
   getSiteName: `${GATEWAY}/api/dashboard/site-name`,
   getPerfDashEvent: `${GATEWAY}/api/alarm-report/alarm-status`,
   getDashboardWidget: `${GATEWAY}/api/master_data/categorywiseofflinecounttotalcount`,
+ 
+  
 
   getSiteSummaryData: `${GATEWAY}/api/prf-dashboard/site-summary`,
   getSitePerfReport: `${GATEWAY}/api/prf-dashboard/perf-report`,
@@ -59,7 +72,8 @@ export const ApiConstant = {
   getSiteGetRemoteData: `${GATEWAY}/api/prf-dashboard/get-remotedata`,
   getSiteTabSummary: `${GATEWAY}/api/prf-dashboard/tab-summary`,
 
-
+  getLithPart1: `${GATEWAY}/api/lithium/part1`,
+  getLithPart2: `${GATEWAY}/api/lithium/part2`,
 
   getRCADataAll: `${GATEWAY}/api/rca/get-rcadata`,
   createUpdateRCAData: `${GATEWAY}/api/rca/site-name`,
@@ -85,17 +99,22 @@ export const ApiConstant = {
 
 
   getCountryMasterData: `${GATEWAY}/api/master_data/view_countrymaster_form`,
-  saveCountryMasterData: `${GATEWAY}/api/master_data/country`,
+ // getCountryMasterData:getCountryMasterData,
+ saveCountryMasterData: `${GATEWAY}/api/master_data/country`,
   deleteCountryMasterData: `${GATEWAY}/api/master_data/delete_country_details`,
 
+  
   getRegionMasterData: `${GATEWAY}/api/master_data/view_regionmaster_form`,
+  //getRegionMasterData:getRegionMasterData,
   saveRegionMasterData: `${GATEWAY}/api/master_data/region`,
   deleteRegionMasterData: `${GATEWAY}/api/master_data/delete_region_details`,
 
   getZoneMasterData: `${GATEWAY}/api/master_data/view_zonemaster_form`,
+  //getZoneMasterData:getZoneMasterData,
   saveZoneMasterData: `${GATEWAY}/api/master_data/zone`,
   deleteZoneMasterData: `${GATEWAY}/api/master_data/delete_zone_details`,
 
+  getEmployeeMasterData1: `${GATEWAY}/api/master_data/view_employee_form`,
   getEmployeeMasterData: `${GATEWAY}/api/master_data/view_employee_form`,
   saveEmployeeMasterData: `${GATEWAY}/api/master_data/employee`,
   deleteEmployeeMasterData: `${GATEWAY}/api/master_data/delete_employee_details`,
@@ -113,7 +132,8 @@ export const ApiConstant = {
   deleteSiteMasterData: `${GATEWAY}/api/master_data/delete_sitemaster_details`,
 
   getClusterMasterData: `${GATEWAY}/api/master_data/view_clustermaster_form`,
-  saveClusterMasterData: `${GATEWAY}/api/master_data/cluster`,
+ //getClusterMasterData:getClusterMasterData,
+ saveClusterMasterData: `${GATEWAY}/api/master_data/cluster`,
   deleteClusterMasterData: `${GATEWAY}/api/master_data/delete_clustermaster_details`,
 
   getSimMasterData: `${GATEWAY}/api/master_data/view_simmaster_form`,
@@ -135,6 +155,9 @@ export const ApiConstant = {
   getRemoteSite: `${GATEWAY}/api/remote/sitepage/`,
   viewRemoteSite: `${GATEWAY}/api/remote/view_site_data_json`,
   viewRemoteSiteFilter: `${GATEWAY}/api/remote/view_site_data_json`,
+  getRemoteSiteCmd: `${GATEWAY}/api/remote/view_site_remote_cmds`,
+
+
   viewWriteMasterCommand: `${GATEWAY}/api/remote/view_write_master_command`,
   saveOutgoingData: `${GATEWAY}/api/remote/save-outgoingdata`,
   getEnergyBillingReport: `${GATEWAY}/api/energy-biling/report/pageNumber`,
@@ -153,7 +176,16 @@ export const ApiConstant = {
   getSuperCriticalAlertsCounts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts_counts`,
   getSuperCriticalAlerts:`${GATEWAY}/api/alarm-report/get_super_critical_views_alerts`,
  getDgMaintenanceAlerts:`${GATEWAY}/api/preventivemaintance/view_preventivemaintance_form`,
- getSettableLoad:`${GATEWAY}/api/settableload/settable-form`
+ getSettableLoad:`${GATEWAY}/api/settableload/settable-form`,
+getBattLifeCycle: `${GATEWAY}/api/batt-cycle-count`,
+getBattLifeCycleCount:`${GATEWAY}/api/get-batt-life-count`,
+getBattLifeCycleCountRecords:`${GATEWAY}/api/get-batt-life-count-records`,
+getDailyBattLifeCycle:`${GATEWAY}/api/get-daily-batt-lifecycle`,
+getMonthlyBattLifeCycle:`${GATEWAY}/api/get-monthly-batt-lifecycle`,
+getYearlyBattLifeCycle:`${GATEWAY}/api/get-yearly-batt-lifecycle`
+
 
 };
+
+
 

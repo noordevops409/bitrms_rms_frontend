@@ -44,84 +44,84 @@ export class TeePowerTrackerComponent implements OnInit {
   isOpenTabularFilter: boolean = false;
   isExpanded: boolean = false;
   defaultFilterList: any = [
-    {
-      id: 'FMF01',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    },
-    {
-      id: 'FMF02',
-      fieldName: 'zones',
-      indexField: 'zones',
-      labelName: 'Zone',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'zones',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getZoneMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'znZone',
-        value: 'znZone'
-      }
-    },
-    {
-      id: 'FMF03',
-      fieldName: 'clusters',
-      indexField: 'clusters',
-      labelName: 'Cluster',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'clusters',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getClusterMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'crName',
-        value: 'crName'
-      }
-    },
+    // {
+    //   id: 'FMF01',
+    //   fieldName: 'regions',
+    //   indexField: 'regions',
+    //   labelName: 'Region',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'regions',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getRegionMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'rgRegion',
+    //     value: 'rgRegion'
+    //   }
+    // },
+    // {
+    //   id: 'FMF02',
+    //   fieldName: 'zones',
+    //   indexField: 'zones',
+    //   labelName: 'Zone',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'zones',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getZoneMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'znZone',
+    //     value: 'znZone'
+    //   }
+    // },
+    // {
+    //   id: 'FMF03',
+    //   fieldName: 'clusters',
+    //   indexField: 'clusters',
+    //   labelName: 'Cluster',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'clusters',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'crName',
+    //     value: 'crName'
+    //   }
+    // },
     {
       id: 'FMF04',
       fieldName: 'siteId',
@@ -148,32 +148,32 @@ export class TeePowerTrackerComponent implements OnInit {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'deviceType',
-      indexField: 'deviceType',
-      labelName: 'Device Type',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'deviceType',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getDeviceTypeMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'deviceType',
-        value: 'deviceType'
-      }
-    }
+    // {
+    //   id: 'FMF05',
+    //   fieldName: 'deviceType',
+    //   indexField: 'deviceType',
+    //   labelName: 'Device Type',
+    //   dataType: 'Dropdown',
+    //   popupTo: {
+    //     recordBatchSize: 25,
+    //     data: []
+    //   },
+    //   listingColumnFieldName: 'deviceType',
+    //   data: [],
+    //   isDataLoaded: false,
+    //   isDynamic: true,
+    //   isOpen: false,
+    //   isReqRemove: false,
+    //   xhrMethod: 'GET',
+    //   xhrUrl: ApiConstant.getDeviceTypeMaster,
+    //   xhrParam: [],
+    //   isReqManipulate: true,
+    //   isAllDataLoaded: true,
+    //   maniObj: {
+    //     id: 'deviceType',
+    //     value: 'deviceType'
+    //   }
+    // }
   ];
 
   public isFilterDataLoaded: boolean = false;
@@ -198,9 +198,9 @@ export class TeePowerTrackerComponent implements OnInit {
     "deviceType": [],
     "siteType": [],
     "siteStatus": 1,
-    "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-    "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
-    "date": null
+     "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+     "endDate": moment().add(-1, 'days').format("YYYY-MM-DD"),
+    
   };
 
 
@@ -238,16 +238,18 @@ export class TeePowerTrackerComponent implements OnInit {
       "deviceType": [],
       "siteType": [],
       "siteStatus": 1,
-      "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
-      "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      //  "startDate": moment().add(-2, 'days').format("YYYY-MM-DD"),
+      //  "endDate": moment().add(-1, 'days').format("YYYY-MM-DD")
+      // "startDate": "",
+      // "endDate": ""
     };
-    let startDate = this.filterParam.startDate;
-    let endDate = this.filterParam.endDate;
-    this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
+    //  let startDate = this.filterParam.startDate;
+    //  let endDate = this.filterParam.endDate;
+    //  this.filterParam.date = `${startDate} 00:00:00 - ${endDate} 23:59:00`;
   }
 
   fetchData(evt?: any) {
-    // this.setDefaultFilter();
+     this.setDefaultFilter();
     this.loadData();
   }
 
@@ -280,6 +282,7 @@ export class TeePowerTrackerComponent implements OnInit {
     return new Promise((resolve, reject) => {
       let list: any = [];
       let pageSize = 100;
+      this.currentPageNo=1;
       let getAll = () => {
         let apiUrl: any = ApiConstant.getTeePowerTrackerReport + `/${this.currentPageNo}/size/${pageSize}`;
         this.httpClient.post(apiUrl, this.filterParam).subscribe((res: any) => {
@@ -300,7 +303,8 @@ export class TeePowerTrackerComponent implements OnInit {
             pageSize = 10;
             resolve(res);
             return;
-          } else {
+          }
+           else {
             getAll();
           }
         }, (err: any) => {
@@ -362,60 +366,67 @@ export class TeePowerTrackerComponent implements OnInit {
 
   setFilterParam(fData) {
 
-    let regions: any = [];
-    let zones: any = [];
-    let clusters: any = [];
-    let siteId: any = [];
-    let deviceType: any = [];
-    let siteType: any = [];
-    let rangeDate: any = "";
+    let regions = [];
+    let zones = [];
+    let clusters = [];
+    let siteId = [];
+    let deviceType = [];
+    let siteType = [];
+    let rangeDate = "";
     let startDate = this.filterParam.startDate;
     let endDate = this.filterParam.endDate;
+  
     if (fData && fData.length) {
+      // if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
+      //   regions = fData[0].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+      // if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
+      //   zones = fData[1].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+  
+      // if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
+      //   clusters = fData[2].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+  
       if (fData[0].popupTo.data && fData[0].popupTo.data.length) {
-        regions = fData[0].popupTo.data.map((item) => {
+        siteId = fData[0].popupTo.data.map((item) => {
           return item.id;
         });
       }
-
-      if (fData[1].popupTo.data && fData[1].popupTo.data.length) {
-        zones = fData[1].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[2].popupTo.data && fData[2].popupTo.data.length) {
-        clusters = fData[2].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[3].popupTo.data && fData[3].popupTo.data.length) {
-        siteId = fData[3].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
-        deviceType = fData[4].popupTo.data.map((item) => {
-          return item.id;
-        });
-      }
-
-      if (fData[5] && fData[5].length) {
-        siteType = fData[5].filter((item) => {
+  
+      // if (fData[4].popupTo.data && fData[4].popupTo.data.length) {
+      //   deviceType = fData[4].popupTo.data.map((item) => {
+      //     return item.id;
+      //   });
+      // }
+  
+      if (fData[1] && fData[1].length) {
+        siteType = fData[1].filter((item) => {
           return item.isChecked && item.text;
         }).map((item) => {
           return item.text;
         });
       }
-
-      if (fData[6] && fData[6].startDate && fData[6].endDate) {
-        startDate = fData[6].startDate.replace(/-/g, '/');
-        endDate = fData[6].endDate.replace(/-/g, '/');
-        rangeDate = fData[6].startDate.replace(/-/g, '/') + ' - ' + fData[6].endDate.replace(/-/g, '/');
+  
+      if (fData[2] && fData[2].startDate !== null && fData[2].endDate !== null) {
+      //   startDate = fData[2].startDate.replace(/-/g, '/');
+      //   endDate = fData[2].endDate.replace(/-/g, '/');
+      //   rangeDate = startDate + ' - ' + endDate;
+      // } else {
+        // Handle the case where startDate or endDate is null
+        startDate = "";
+        endDate = "";
+        rangeDate = "";
       }
     }
+  
+  
     this.filterParam = {
       "siteId": siteId,
       "clusters": clusters,
@@ -488,15 +499,12 @@ export class TeePowerTrackerComponent implements OnInit {
   }
 
   exportTableToExcel(type: string): void {
-    /* pass here the table id */
     let element = document.getElementById('export-data');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-    /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    /* save to file */
     XLSX.writeFile(wb, `tee-power-tracker.${type}`);
     this.isExporting = false;
 
@@ -521,6 +529,7 @@ export class TeePowerTrackerComponent implements OnInit {
     if (this.exportData.data.length === 0) {
       this.loadAllData().then((res: any) => {
         this.exportData.data = res.data;
+    //    console.log("531---------",this.exportData.data);
         setTimeout(() => {
           let selVal = this.ddExport;
           if (selVal === "1") {
@@ -528,20 +537,23 @@ export class TeePowerTrackerComponent implements OnInit {
           } else if (selVal === "2") {
             this.exportCSV(evt);
           }
+          this.exportData.data = [];
+          this.ddExport=-1;
         }, 500);
       }).catch((err: any) => {
 
       })
-    } else {
-      setTimeout(() => {
-        let selVal = this.ddExport;
-        if (selVal === "1") {
-          this.exportExcel(evt);
-        } else if (selVal === "2") {
-          this.exportCSV(evt);
-        }
-      }, 500);
-    }
+     } 
+     //else {
+    //   setTimeout(() => {
+    //     let selVal = this.ddExport;
+    //     if (selVal === "1") {
+    //       this.exportExcel(evt);
+    //     } else if (selVal === "2") {
+    //       this.exportCSV(evt);
+    //     }
+    //   }, 500);
+    // }
   }
 
 }

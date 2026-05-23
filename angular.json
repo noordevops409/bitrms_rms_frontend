@@ -118,11 +118,15 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
+              
             ],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "be038813-981e-48f9-8a4b-57ef8f940e9f"
   }
 }

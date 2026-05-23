@@ -53,23 +53,24 @@
                                         <th>Site ID</th>
                                         <th>Date Time</th>
                                         <th>Engineer Name</th>
-                                        <th>Power Source</th>
+                                       
                                         <th>Site Batt Volt</th>
-                                        <th>Batt SoC%</th>
-                                        <th>Invertor I/P Power (kW)</th>
-                                        <th>Invertor O/P Power (kW)</th>
-                                        <th>Batt Charging Current (A)</th>
-                                        <th>Batt Discharging Current (A)</th>
+                                        <th>Batt SoC</th>
+                                        <th>Power Source</th>
+                                        <th>Invertor Input Power </th>
+                                        <th>Invertor Output Power </th>
+                                        <th>Batt Charging Current  </th>
+                                        <th>Batt Discharging Current    </th>
                                         <th>DG R Amp</th>
                                         <th>DG Y Amp</th>
                                         <th>DG B Amp</th>
                                         <th>DG Batt Volt</th>
-                                        <th>React Input R Current (A)</th>
-                                        <th>React Input Y Current (A)</th>
-                                        <th>React Input B Current (A)</th>
-                                        <th>Actl R Current (A)</th>
-                                        <th>Actl Y Current (A)</th>
-                                        <th>Actl B Current (A)</th>
+                                        <th>React Input R Current    </th>
+                                        <th>React Input Y Current    </th>
+                                        <th>React Input B Current    </th>
+                                        <th>ACTEL R Current    </th>
+                                        <th>ACTEL Y Current    </th>
+                                        <th>ACTEL B Current    </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,9 +79,10 @@
                                         <td>{{item.smSiteCode}}</td>
                                         <td>{{item.datetime}}</td>
                                         <td>{{item.engineerName}}</td>
-                                        <td>{{item.powersource}}</td>
+                                       
                                         <td>{{item.sitebattvolt}}</td>
                                         <td>{{item.battSoc}}</td>
+                                        <td>{{item.powersource}}</td>
                                         <td>{{item.inverterInputPower}}</td>
                                         <td>{{item.inverterOutputPower}}</td>
                                         <td>{{item.battChargingCurrent}}</td>
@@ -104,7 +106,7 @@
                         <div class="listing-container"
                             [ngClass]="{'aLoader': isLoading || isExporting, 'failed': isListServerError}">
                             <app-table-listing [ngClass]="{'hasNoData': hasNoData}" [listData]="activeListing?.list"  [appType]="appType"
-                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                [template]="listingTemplate" [inifiniteScroll]=true [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

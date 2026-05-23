@@ -30,18 +30,35 @@ export class TokenInterceptorService implements HttpInterceptor {
       map((evt: any) => {
         if (evt.body && evt.body.message) {
           if (evt.body.message.toLowerCase().indexOf('authorization') > -1) {
+            this.userService.clearAuthToken();
             this.router.navigate(['login'], { replaceUrl: true });
             return;
           }
         }
-        console.log(evt.body);
         return evt.clone();
       }),
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          this.router.navigate(['logout'], { replaceUrl: true });
+        // Handle authentication/authorization errors and token expiration
+        if (err.status === 401 || err.status === 403 || err.status === 0) {
+          this.userService.clearAuthToken();
+          this.router.navigate(['login'], { replaceUrl: true });
         }
-        return throwError(err.error.error_description);
+        
+        // Handle 500 errors related to token/session issues
+        if (err.status === 500) {
+          const errorText = typeof err.error === 'string' ? err.error : '';
+          // Check if error is related to oauth_access_token or session issues
+          if (errorText.includes('oauth_access_token') || 
+              errorText.includes('DELETE command denied') ||
+              errorText.includes('SQLSyntaxErrorException')) {
+            console.warn('Token/Session expired or invalid. Redirecting to login...');
+            this.userService.clearAuthToken();
+            this.router.navigate(['login'], { replaceUrl: true });
+          }
+        }
+        
+        const errorMsg = (err.error && err.error.error_description) ? err.error.error_description : (err.message || 'Unknown error');
+        return throwError(errorMsg);
       })
     )
   }

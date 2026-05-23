@@ -61,13 +61,13 @@ export class SettableLoadComponent {
    
     
       this.apiUrl = `${ApiConstant.getSettableLoad}`; 
-      console.log('line 23', this.apiUrl);
+     // console.log('line 23', this.apiUrl);
   
       // const url = ApiConstant.getLatestData;
       this.httpClient.post(this.apiUrl,{}).subscribe((data) => {
         this.tableData1 = data;
         this.tableData=this.tableData1.datalist;
-        console.log('API Response:', this.tableData1.datalist);
+     //   console.log('API Response:', this.tableData1.datalist);
         this.loading = false; 
       });
 }

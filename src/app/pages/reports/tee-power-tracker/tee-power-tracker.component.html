@@ -55,15 +55,15 @@
                                         <th>Engineer Name</th>
                                         <th>Power Source</th>
                                         <th>Site Batt Volt</th>
-                                        <th>Batt SoC%</th>
+                                        <th>Batt SoC</th>
                                         <th>Total DC Load Current</th>
-                                        <th>Rect Input R Current (A)</th>
-                                        <th>Rect Input Y Current (A)</th>
-                                        <th>Rect Input B Current (A)</th>
-                                        <th>Opco 1 Load Current (A)</th>
-                                        <th>Opco 2 Load Current (A)</th>
-                                        <th>Opco 3 Load Current (A)</th>
-                                        <th>Opco 4 Load Current (A)</th>
+                                        <th>Rect Input R Current </th>
+                                        <th>Rect Input Y Current </th>
+                                        <th>Rect Input B Current </th>
+                                        <th>Opco 1 Load Current</th>
+                                        <th>Opco 2 Load Current </th>
+                                        <th>Opco 3 Load Current </th>
+                                        <th>Opco 4 Load Current </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +91,7 @@
                         <div class="listing-container"
                             [ngClass]="{'aLoader': isLoading || isExporting, 'failed': isListServerError}">
                             <app-table-listing [ngClass]="{'hasNoData': hasNoData}" [listData]="activeListing.list"
-                                [appType]="appType" [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                [appType]="appType" [template]="listingTemplate" [inifiniteScroll]=true [pager]=true
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>

@@ -1,0 +1,101 @@
+<div class="parent-container">
+    <div class="header">
+        <div class="add-report" style="display:inline-flex;">
+            <!-- <button class="btn btn-default" (click)="add($event);" style="margin-right:5px">
+                <span class="material-icons">add</span> ADD
+            </button> -->
+            <button class="btn btn-primary" (click)="openTabularFilter($event);">FILTERS</button>
+            <app-global-search (searchEventTrigger)="searchGlobally($event)"></app-global-search>
+        </div>
+
+        <div class="export">
+            <!-- <button class="btn btn-default" (click)="exportExcel($event);">
+                EXPORT TO EXCEL
+            </button> -->
+            <button class="btn btn-default" (click)="exportCSV($event);" [disabled]="isExporting">
+                <span *ngIf="!isExporting">EXPORT TO CSV</span>
+                <span *ngIf="isExporting" class="export-spinner">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Exporting...
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="table-listing">
+        <div class="box">
+            <div class="box-title">
+                <h4>{{ viewTitle }}</h4>
+            </div>
+            <div class="box-body">
+                <div class="tabular-filter-wrapper" [ngClass]="{'open': isOpenTabularFilter}">
+                    <app-batt-life-cycle-count-filter [filterType]=2 [(isOpenTabularFilter)]="isOpenTabularFilter"
+                        [defaultFilterList]="defaultFilterList" (onFilter)="applyFilter($event)">
+                    </app-batt-life-cycle-count-filter>
+                </div>
+                <div class="list-wrap">
+                    <div class="view-holder">
+
+                        <div class="export-container" *ngIf="activeListing.list && activeListing.list.data">
+                            <table id="export-data">
+                                <thead>
+                                    <tr>
+                                        <th>Site ID</th>
+                                        <th>Region</th>
+                                        <th>Region Name</th>
+                                        <th>Cluster</th>
+                                        <th>Site Code</th>
+                                        <th>Site Name</th>
+                                        <th>Customer ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Site Type ID</th>
+                                        <th>Site Type Name</th>
+                                        <th>Power Source ID</th>
+                                        <th>Power Source Name</th>
+                                        <th>{{ viewType === 'daily' ? 'Report Date' : viewType === 'monthly' ? 'Report Month' : 'Report Year' }}</th>
+                                        <th>Start DateTime</th>
+                                        <th>End DateTime</th>
+                                        <th>Initial Battery Life Cycle Count</th>
+                                        <th>Final Battery Life Cycle Count</th>
+                                        <th>Total Battery Cycle Life Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of activeListing.list.data">
+                                        <td>{{item.siteId}}</td>
+                                        <td>{{item.region}}</td>
+                                        <td>{{item.regionName}}</td>
+                                        <td>{{item.cluster}}</td>
+                                        <td>{{item.siteCode}}</td>
+                                        <td>{{item.siteName}}</td>
+                                        <td>{{item.customerId}}</td>
+                                        <td>{{item.customerName}}</td>
+                                        <td>{{item.siteTypeId}}</td>
+                                        <td>{{item.siteTypeName}}</td>
+                                        <td>{{item.powerSourceId}}</td>
+                                        <td>{{item.powerSourceName}}</td>
+                                        <td>{{item.reportDate || item.reportMonth || item.reportYear}}</td>
+                                        <td>{{item.startDateTime}}</td>
+                                        <td>{{item.endDateTime}}</td>
+                                        <td>{{item.initialBatteryLifeCycleCount}}</td>
+                                        <td>{{item.finalBatteryLifeCycleCount}}</td>
+                                        <td>{{item.totalBatteryCycleLifeCount}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                            <app-table-listing [listData]="activeListing.list" [appType]="appType"
+                                [template]="listingTemplate" [inifiniteScroll]=false [pager]=true
+                                (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                (onSelectionChange)="loadListing($event)">
+                            </app-table-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

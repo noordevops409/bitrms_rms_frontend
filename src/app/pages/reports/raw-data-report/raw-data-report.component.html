@@ -18,7 +18,7 @@
              -->
             <!-- <button class="btn btn-primary"  (click)="dropboxReport($event)">Generate Report on DropBox</button> -->
 
-            <button class="btn btn-primary" (click)="fetchData($event)">FETCH</button>
+            <button class="btn btn-primary" (click)="fetchData($event)" style="display: none;">FETCH</button>
             <div class="export" >
                 <!-- <label style="padding-top: 10px;">Export</label>
                 <div class="select-container">
@@ -43,7 +43,7 @@
         <div class="box raw-data-summary">
             <div class="box-title">
                 <h4>Raw Data Report</h4>
-                <div class="summary-data">
+                <div class="summary-data" style="display: none;">
                       
                     <button class="btn btn-primary" style="text-decoration: none;">
                         <span style="text-transform: uppercase;">Dropbox Link : </span> 
@@ -72,5 +72,6 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </div>

@@ -19,8 +19,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   tranDate: {
     userIndex: 1,
     fieldName: 'tranDate',
-    colDisplayName: 'Date',
-    title: 'Date',
+    colDisplayName: 'Trans Date',
+    title: 'Trans Date',
     widthOfColumn: 150,
     colType: 'text',
     dataType: 'text',
@@ -51,7 +51,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   znZone: {
-    userIndex: 3,
+    userIndex: 2.2,
     fieldName: 'znZone',
     colDisplayName: 'Zone',
     title: 'Zone',
@@ -68,7 +68,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   crName: {
-    userIndex: 4,
+    userIndex: 2.3,
     fieldName: 'crName',
     colDisplayName: 'Cluster',
     title: 'Cluster',
@@ -85,7 +85,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   rgRegion: {
-    userIndex: 5,
+    userIndex: 2.1,
     fieldName: 'rgRegion',
     colDisplayName: 'Region',
     title: 'Region',
@@ -122,8 +122,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   opco1kwh: {
     userIndex: 7,
     fieldName: 'opco1kwh',
-    colDisplayName: 'Opco_1 (kWh)',
-    title: 'Opco_1 (kWh)',
+    colDisplayName: 'Opco1 (kWh)',
+    title: 'Opco1 (kWh)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -158,8 +158,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedOpco1kwh: {
     userIndex: 9,
     fieldName: 'planedOpco1kwh',
-    colDisplayName: 'Planed Opco_1 (kWh)',
-    title: 'Planed Opco_1 (kWh)',
+    colDisplayName: 'Planed Opco1 (kWh)',
+    title: 'Planed Opco1 (kWh)',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -192,10 +192,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   opco2kwh: {
-    userIndex: 11,
+    userIndex: 8.2,
     fieldName: 'opco2kwh',
-    colDisplayName: 'Opco_2 (kWh)',
-    title: 'Opco_2 (kWh)',
+    colDisplayName: 'Opco2 (kWh)',
+    title: 'Opco2 (kWh)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -210,7 +210,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   opco2runhrs: {
-    userIndex: 12,
+    userIndex: 8.3,
     fieldName: 'opco2runhrs',
     colDisplayName: 'Opco2 Runhrs',
     title: 'Opco2 Runhrs',
@@ -230,8 +230,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedOpco2kwh: {
     userIndex: 13,
     fieldName: 'planedOpco2kwh',
-    colDisplayName: 'Planed Opco_2 (kWh)',
-    title: 'Planed Opco_2 (kWh)',
+    colDisplayName: 'Planed Opco2 (kWh)',
+    title: 'Planed Opco2 (kWh)',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -265,10 +265,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   opco3kwh: {
-    userIndex: 15,
+    userIndex: 8.4,
     fieldName: 'opco3kwh',
-    colDisplayName: 'Opco_3 (kWh)',
-    title: 'Opco_3 (kWh)',
+    colDisplayName: 'Opco3 (kWh)',
+    title: 'Opco3 (kWh)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -283,7 +283,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   opco3runhrs: {
-    userIndex: 16,
+    userIndex: 8.5,
     fieldName: 'opco3runhrs',
     colDisplayName: 'Opco3 Runhrs',
     title: 'Opco3 Runhrs',
@@ -303,8 +303,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedOpco3kwh: {
     userIndex: 17,
     fieldName: 'planedOpco3kwh',
-    colDisplayName: 'Planed Opco_3 (kWh)',
-    title: 'Planed Opco_3 (kWh)',
+    colDisplayName: 'Planed Opco3 (kWh)',
+    title: 'Planed Opco3 (kWh)',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -338,10 +338,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   opco4kwh: {
-    userIndex: 19,
+    userIndex: 8.6,
     fieldName: 'opco4kwh',
-    colDisplayName: 'Opco_4 (kWh)',
-    title: 'Opco_4 (kWh)',
+    colDisplayName: 'Opco4 (kWh)',
+    title: 'Opco4 (kWh)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -356,7 +356,7 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   opco4runhrs: {
-    userIndex: 20,
+    userIndex: 8.7,
     fieldName: 'opco4runhrs',
     colDisplayName: 'Opco4 Runhrs',
     title: 'Opco4 Runhrs',
@@ -376,8 +376,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedOpco4kwh: {
     userIndex: 21,
     fieldName: 'planedOpco4kwh',
-    colDisplayName: 'Planed Opco_4 (kWh)',
-    title: 'Planed Opco_4 (kWh)',
+    colDisplayName: 'Planed Opco4 (kWh)',
+    title: 'Planed Opco4 (kWh)',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -411,10 +411,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   },
 
   teleEnergykwh: {
-    userIndex: 23,
+    userIndex: 6.5,
     fieldName: 'teleEnergykwh',
-    colDisplayName: 'TeleEnergy (kWh)',
-    title: 'TeleEnergy (kWh)',
+    colDisplayName: 'Tele Energy (kWh)',
+    title: 'Tele Energy (kWh)',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -429,10 +429,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   telerunhrs: {
-    userIndex: 24,
+    userIndex: 8.1,
     fieldName: 'telerunhrs',
-    colDisplayName: 'Tele_Runhrs',
-    title: 'Tele_Runhrs',
+    colDisplayName: 'Tele Run Hours',
+    title: 'Tele Run Hours',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -449,8 +449,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedTeleEnergy: {
     userIndex: 25,
     fieldName: 'planedTeleEnergy',
-    colDisplayName: 'Planed TeleEnergy (kWh)',
-    title: 'Planed TeleEnergy (kWh)',
+    colDisplayName: 'Planed Tele Energy (kWh)',
+    title: 'Planed Tele Energy (kWh)',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -467,8 +467,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedTeleRunHrs: {
     userIndex: 26,
     fieldName: 'planedTeleRunHrs',
-    colDisplayName: 'Planed Tele_Runhrs',
-    title: 'Planed Tele_Runhrs',
+    colDisplayName: 'Planed Tele Run Hours',
+    title: 'Planed Tele Run Hours',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -483,10 +483,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battDisEnergykwh: {
-    userIndex: 27,
+    userIndex: 6.3,
     fieldName: 'battDisEnergykwh',
-    colDisplayName: 'Batt_DisEnergy (kWh)',
-    title: 'Batt_DisEnergy (kWh)',
+    colDisplayName: 'Batt DisEnergy (kWh)',
+    title: 'Batt DisEnergy (kWh)',
     widthOfColumn: 175,
     colType: 'text',
     isAvailTooltip: true,
@@ -501,10 +501,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battDisRunHrs: {
-    userIndex: 28,
+    userIndex: 6.4,
     fieldName: 'battDisRunHrs',
-    colDisplayName: 'Batt_Dis_RunHrs',
-    title: 'Batt_Dis_RunHrs',
+    colDisplayName: 'Batt Dis Run Hours',
+    title: 'Batt Dis Run Hours',
     widthOfColumn: 150,
     colType: 'text',
     isAvailTooltip: true,
@@ -521,8 +521,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedBattDisEnergykwh: {
     userIndex: 29,
     fieldName: 'planedBattDisEnergykwh',
-    colDisplayName: 'Planed Batt_DisEnergy (kWh)',
-    title: 'Planed Batt_DisEnergy (kWh)',
+    colDisplayName: 'Planed Batt DisEnergy (kWh)',
+    title: 'Planed Batt DisEnergy (kWh)',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -539,8 +539,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedBattDisRunHrs: {
     userIndex: 30,
     fieldName: 'planedBattDisRunHrs',
-    colDisplayName: 'Planed Batt_Dis_RunHrs',
-    title: 'Planed Batt_Dis_RunHrs',
+    colDisplayName: 'Planed Batt Dis RunHrs',
+    title: 'Planed Batt Dis RunHrs',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -555,10 +555,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battChargingEnergykwh: {
-    userIndex: 31,
+    userIndex: 6.1,
     fieldName: 'battChargingEnergykwh',
-    colDisplayName: 'Batt_ChargingEnergy (kWh)',
-    title: 'Batt_ChargingEnergy (kWh)',
+    colDisplayName: 'Batt Charging Energy (kWh)',
+    title: 'Batt Charging Energy (kWh)',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,
@@ -573,10 +573,10 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
     isCustomAttributeColumn: false
   },
   battChargingRunHrs: {
-    userIndex: 32,
+    userIndex: 6.2,
     fieldName: 'battChargingRunHrs',
-    colDisplayName: 'Batt_ChargingRunHrs',
-    title: 'Batt_ChargingRunHrs',
+    colDisplayName: 'Batt Charging RunHrs',
+    title: 'Batt Charging RunHrs',
     widthOfColumn: 200,
     colType: 'text',
     isAvailTooltip: true,
@@ -593,8 +593,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedBattChargingEnergykwh: {
     userIndex: 33,
     fieldName: 'planedBattChargingEnergykwh',
-    colDisplayName: 'Planed Batt_ChargingEnergy (kWh)',
-    title: 'Planed Batt_ChargingEnergy (kWh)',
+    colDisplayName: 'Planed Batt Charging Energy (kWh)',
+    title: 'Planed Batt Charging Energy (kWh)',
     widthOfColumn: 275,
     colType: 'text',
     isAvailTooltip: true,
@@ -611,8 +611,8 @@ export const TEE_ENERGY_RUN_HOURS_COLUMN_HEADER = {
   planedBattChargingEnergyrunhrs: {
     userIndex: 34,
     fieldName: 'planedBattChargingEnergyrunhrs',
-    colDisplayName: 'Planed Batt_ChargingRunHrs',
-    title: 'Planed Batt_ChargingRunHrs',
+    colDisplayName: 'Planed Batt Charging RunHrs',
+    title: 'Planed Batt Charging RunHrs',
     widthOfColumn: 250,
     colType: 'text',
     isAvailTooltip: true,

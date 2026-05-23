@@ -64,7 +64,8 @@ export const ALARM_CATEGORY_COLUMN_HEADER = {
     function: '',
     funParams: '',
     wrapData: '',
-    isSortSupported: false,
+    isSortSupported: true,
+    order: 'desc',
     isCustomAttributeColumn: false
   },
   closeitem: {

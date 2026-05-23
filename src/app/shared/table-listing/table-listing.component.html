@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="table-grid scroller-outer" [ngClass]="{'no-records': !listingData.allItem.length}" *ngIf="activeViewType === ViewType.LIST">
-    <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : '-webkit-inline-box'">
+    <div class="ghead" [style.display]="!listingData.allItem.length ? 'none' : ''">
       <ul>
         <li *ngIf="listingData.itemHeader.length && listingData.itemHeader[0].colType === 'checkbox'"
           [style.width.px]="listingData.itemHeader[0].widthColumn || 35" class="text-center">
@@ -32,7 +32,7 @@
         </ng-container>
       </ul>
     </div>
-    <div class="gbody scroller">
+    <div class="gbody scroller" [ngStyle]="{'height': alram ? '93%' : '100%'}">
       <div class="list-item-container scroller-inner"></div>
       <p *ngIf="((!listingData.allItem.length && !listingData.noRecordMsg) || (!inifiniteScroll && !lazyLoadCompleted) || (listingData.allItem.length && listingData.itemBody.length !== listingData.allItem.length))"
         class="text-center loading-text">Loading...</p>
@@ -41,7 +41,7 @@
       </p>
     </div>
   </div>
-  <div class="gfooter clearfix">
+  <div class="gfooter clearfix" [ngStyle]="{'bottom': alram ? '45px' : '0px'}">
     <div class="pagerDom pull-left" *ngIf="listingData.itemBody.length && pager">
       <ul class="pagination justify-content-center">
         <li class="page-item" [ngClass]="{'disabled': listingData.currentPage === 1}">

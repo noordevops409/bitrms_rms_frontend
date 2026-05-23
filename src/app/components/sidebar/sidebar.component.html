@@ -4,7 +4,7 @@
             <ul class="menu-items">
                 <li *ngFor="let item of menu;let i = index" class="menu-item"
                     [ngClass]="{'expanded': item.isExpanded, 'active': item.isActive}">
-                    <a href="javascript:void(0);" (click)="menuClick($event, item);">
+                    <a [routerLink]="['/pages', item.href]" [attr.href]="'/pages/' + item.href" (click)="menuClick($event, item)">
                         <img [src]="item.logo" alt="{{ item.value }} Logo" class="menu-logo" />
 						<span class="menu-title">{{item.value}}</span>
                         <span class="pull-right-container" *ngIf="item.subMenu"
@@ -14,11 +14,12 @@
                     </a>
                     <ng-container *ngIf="item.subMenu && item.subMenu.length">
                         <ul class="treeview-menu">
-                            <li *ngFor="let sItem of item.subMenu;let j=index" class="sub-menu-item">
-                                <a href="javascript:void(0);" (click)="subMenuClick($event, item, sItem);">
-                                    {{sItem.value}}
+                            <li *ngFor="let subItem of item.subMenu" class="sub-menu-item">
+                                <a [routerLink]="['/pages', item.href, subItem.href]" [attr.href]="'/pages/' + item.href + '/' + subItem.href" (click)="subMenuClick($event, item, subItem)">
+                                  {{ subItem.value }}
                                 </a>
-                            </li>
+                              </li>
+                      
                         </ul>
                     </ng-container>
                 </li>

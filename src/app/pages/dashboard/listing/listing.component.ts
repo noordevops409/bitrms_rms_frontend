@@ -322,11 +322,11 @@ export class ListingComponent implements OnInit, OnDestroy {
     // if (this._interval) {
     //   this._interval.clearInterval();
     // }
-
-    this._interval = setInterval(() => {
-      this.init();
-    }, AppConstant.REFRESH_ALARM_LISTING_INTERVAL)
-
+    if (window.location.href.includes("dashboard/type")) {
+      this._interval = setInterval(() => {
+          this.init();
+      }, AppConstant.REFRESH_ALARM_LISTING_INTERVAL);
+  }
   }
 
   refresh(evt?: any) {
@@ -349,15 +349,35 @@ export class ListingComponent implements OnInit, OnDestroy {
   }
 
   loadTowerLatestData() {
-    if (this.isLoading) {
-      return;
-    }
+    // if (this.isLoading) {
+    //   return;
+    // }
+    const currentURL = window.location.href;
+    const lastPartOfURL = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+   // console.log('Last part of the URL:', lastPartOfURL);
+
+    
     this.isLoading = true;
-    const url = ApiConstant.getLatestData;
-    this.httpClient.get(url).subscribe((res: any) => {
+    const url = ApiConstant.getLatestData1;
+    this.httpClient.post(url, this.filterParam).subscribe((res: any) => {
       this.isLoading = false;
       if (res && res.data) {
-        this.manipulate(res.data);
+        let filteredData;
+        if (lastPartOfURL === '2') {
+          // Filter items where item.isOffline === 1
+          filteredData = res.data.filter(item => item.isOffline === 1);
+        } else if (lastPartOfURL === '1') {
+          // Filter items where item.isOffline === 0
+          filteredData = res.data.filter(item => item.isOffline === 0);
+        }
+        else
+        {
+          filteredData = res.data;
+
+        }
+    
+        this.manipulate(filteredData);
+    
         setTimeout(() => {
           this.tableListingComponent.init();
         });
@@ -368,8 +388,9 @@ export class ListingComponent implements OnInit, OnDestroy {
       this.util.notification.error({
         title: 'Error',
         msg: 'Error while loading Tower Latest Details!'
-      })
+      });
     });
+    
   }
 
   loadFilterTowerStatusData() {

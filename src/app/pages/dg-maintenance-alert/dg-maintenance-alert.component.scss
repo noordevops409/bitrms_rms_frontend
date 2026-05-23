@@ -1,14 +1,15 @@
 .parent-container {
     height: 100%;
-    position: relative;
+    position: sticky;
     overflow: hidden;
   }
   
-  .header {
+  .headers {
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* Add other styles for the header if needed */
+    
   }
   
   .left-side {

@@ -31,6 +31,9 @@ export class TableListingComponent implements OnInit, OnDestroy {
 
   @Input('pager') pager: any = true;
 
+  @Input('alram') alram: any ;
+
+
   @Input('rpp') rpp: any = true;
 
   @Input('breadcrumb') breadcrumb: boolean = true;
@@ -656,7 +659,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.inifiniteScrollLocal = this.inifiniteScroll;
     this.onRowSelectionChangedDebouncer = debounce(this.onRowSelectionChanged, 100);
     this.listingData.recordBatchSize = this.listingApi.retainNoOfShow = (window as any)['retainNoOfShow'] || 100;
-
+    
     this.setLazyLoadBatchSize();
     this.uniqueId;
     this.timestamp = (new Date()).getTime();
@@ -735,12 +738,14 @@ export class TableListingComponent implements OnInit, OnDestroy {
    */
   init() {
     if (!this.listData || !this.listData.columnHeader) {
+
       return;
     }
+    
 
     this.lazyLoadCompleted = false;
     this.selectedData.length = 0;
-    const data = this.listData;
+    let data = this.listData;
 
     const type = data.listingType;
     if (this.curListingType !== type) {
@@ -751,6 +756,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
 
     this.rpp = (this.listData.editable) ? this.rpp : false;
+
     this.draggable = (this.listData.editable) ? this.draggable : false;
 
     this.removeStatusTooltip();
@@ -838,6 +844,8 @@ export class TableListingComponent implements OnInit, OnDestroy {
       path: this.folderPath,
       noRecordMsg: data.data && data.data.length ? '' : (this.noRecordMsg || 'No record available')
     });
+   // console.log("903",this.listingData);
+
 
     this.freezeDnD = false;
     this.loadColumnFilterData();
@@ -896,6 +904,7 @@ export class TableListingComponent implements OnInit, OnDestroy {
     });
 
     this.$(this.$element.nativeElement).find('.thumbnail-item-container').append(fragment);
+  
   }
 
   /**
@@ -2325,25 +2334,21 @@ export class TableListingComponent implements OnInit, OnDestroy {
   //   this.sortColumnData(itemH);
   // }
   headerCellClick(e: any, itemH: any) {
-    console.log('headerCellClick called');
     
     if (!this.enableSorting || itemH.quickSearchFreezed) {
-      console.log('Sorting disabled or quick search frozen');
       return;
     }
   
     if (this.resizing) {
-      console.log('Resizing in progress');
+     // console.log('Resizing in progress');
       this.resizing = false;
       return;
     }
   
     if (itemH.fieldName === 'removeAssocflag') {
-      console.log('Field name is removeAssocflag');
       const fn = (this.listingApi as any)[itemH['function']];
       if (fn) {
         fn.call(this.listingApi, this.listingData.itemBody, 'all', null, (array: any, el: any, index: any) => {
-          console.log('Calling onDeleteAll.emit');
           this.onDeleteAll.emit({ e: e, array: array, type: this.listingData.listingType });
         });
       }
@@ -2352,12 +2357,13 @@ export class TableListingComponent implements OnInit, OnDestroy {
     }
   
     if (!itemH.isSortSupported) {
-      console.log('Sort not supported');
       return;
     }
+   
+    
   
     if (itemH.fieldName === 'actions#actionTime') {
-      console.log('Field name is actions#actionTime');
+   //   console.log('Field name is actions#actionTime');
       this.pendingSortingColumn = itemH;
       this.$(this.$element.nativeElement).find('#taskTimeSortConfirmation').modal('show');
       return;
@@ -2366,6 +2372,20 @@ export class TableListingComponent implements OnInit, OnDestroy {
     this.sortColumnData(itemH);
   }
   
+   isDeleteColumnVisible() {
+    let authToken = null;
+    if (window.localStorage.getItem('authToken')) {
+        authToken =  JSON.parse((window as any).localStorage.getItem('authToken'));
+        console.log("237888888",authToken);
+        // Check if authToken and umDashboardLevelIds exist and umDashboardLevelIds is equal to 1
+        // if (authToken && authToken.umDashboardLevelIds && authToken.umDashboardLevelIds === 1) {
+        //     return true;
+        // }
+    }
+    return false; // Return false by default if conditions are not met
+}
+
+
   sortColumnData(itemH: any) {
     if (!itemH || !itemH.isSortSupported) {
       return;

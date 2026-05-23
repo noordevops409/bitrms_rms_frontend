@@ -26,7 +26,7 @@
             <div class="box-body">
                 <div class="list-wrap">
                     <div class="view-holder">
-                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing.list && activeListing.list.data">
+                        <div class="export-container" [ngClass]="{'show': isExporting}" *ngIf="activeListing1.list && activeListing1.list">
                             <table id="export-data">
                                 <thead>
                                     <tr>
@@ -39,55 +39,67 @@
                                         <th>Email</th>
                                         <th>Region</th>
                                         <th>Zone</th>
-                                        <th>ERP Location</th>
+                                        <!-- <th>ERP Location</th> -->
                                         <th>Employee Location</th>
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                         <th>Entry Date</th>
                                         <th>Exit Date</th>
                                         <th>Escalation Mode</th>
-                                        <th>Acsys Employee ID</th>
+                                        <!-- <th>Acsys Employee ID</th>
                                         <th>Acsys Employee Sync status</th>
                                         <th>Acsys Employee Updated Date</th>
                                         <th>ke ID</th>
                                         <th>Employee Notification</th>
-                                        <th>AccID Name</th>
+                                        <th>AccID Name</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of activeListing.list.data">
+                                    <tr *ngFor="let item of activeListing1.list.data">
                                         <td>{{item.srno}}</td>
                                         <td>{{item.emEmployeeID}}</td>
                                         <td>{{item.empRoleName}}</td>
                                         <td>{{item.emFirstName}}</td>
                                         <td>{{item.emLastName}}</td>
+                                        <td>{{item.emContactNo}}</td>
                                         <td>{{item.emEmail}}</td>
                                         <td>{{item.regionName}}</td>
                                         <td>{{item.zoneName}}</td>
-                                        <td>{{item.emERPLocation}}</td>
-                                        <td>{{item.emEmployeeID}}</td>
+                                        <!-- <td>{{item.emERPLocation}}</td> -->
+                                        <td>{{item.emLocationName}}</td>
                                         <td>{{item.emLatitude}}</td>
                                         <td>{{item.emLongitude}}</td>
                                         <td>{{item.emEntryDate}}</td>
                                         <td>{{item.emExitDate}}</td>
                                         <td>{{item.emEscalationMode}}</td>
-                                        <td>{{item.emAcsysEmployeeID}}</td>
+                                        <!-- <td>{{item.emAcsysEmployeeID}}</td>
                                         <td>{{item.emAcsysEmployeeSyncstatus}}</td>
                                         <td>{{item.emAcsysEmployeeUpdatedDt}}</td>
                                         <td>{{item.keID}}</td>
                                         <td>{{item.emNotification}}</td>
-                                        <td>{{item.accID}}</td>
+                                        <td>{{item.accID}}</td> -->
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                        <div class="list-wrap">
+                            <div class="view-holder">
+                                <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
+                                    <app-table-listing  [listData]="activeListing.list"
+                                        [appType]="appType" [template]="listingTemplate" [pager]=true
+                                        (onRowSelectionChange)="onRowSelectionChanged($event)"
+                                        (onSelectionChange)="loadListing($event)">
+                                    </app-table-listing>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="listing-container" [ngClass]="{'aLoader': isLoading, 'failed': isListServerError}">
                             <app-table-listing [listData]="activeListing.list" [appType]="appType"
                                 [template]="listingTemplate" [inifiniteScroll]=true [pager]=false
                                 (onRowSelectionChange)="onRowSelectionChanged($event)"
                                 (onSelectionChange)="loadListing($event)">
                             </app-table-listing>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

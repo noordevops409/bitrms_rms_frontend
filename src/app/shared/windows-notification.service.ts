@@ -69,14 +69,14 @@ export class WindowsNotificationService {
           smsiteCode: item[5],
           deviceType: item[6],
           alarmCat: item[11],
-          alName: item[12],
-          alStatus: item[13]
+          alName: item[13],
+          alStatus: item[14]
         };
         list.push(obj);
         setTimeout(() => {
           let title = "Critical Alarm " + obj.smsiteCode;
           // let icon = 'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'; //this is a large image may take more time to show notifiction, replace with small size icon
-          let icon = 'http://18.140.172.75:8080/digitrinity/resources/assets/images/yoma_logo.png'; //this is a large image may take more time to show notifiction, replace with small size icon
+          let icon = 'assets/images/bit_logo2.jpg'; //this is a large image may take more time to show notifiction, replace with small size icon
           let body = `${obj.alName}, ${obj.alStatus}, ${obj.alarmCat} \n ${obj.region}, ${obj.zone}`;
 
           let notification = new Notification(title, { body, icon });

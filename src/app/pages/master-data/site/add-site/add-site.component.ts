@@ -92,15 +92,18 @@ export class AddSiteComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.loadSiteType();
+    this.isSaving = true;
     this.loadCluster();
     this.loadEmployee();
     this.loadDeviceType();
     this.loadSim();
     this.loadCustomer();
     setTimeout(() => {
+      
       this.getData();
-    }, 1000);
+      this.isSaving = false;
+    }, 6000);
+    this.loadSiteType();
   }
 
   initForm() {
@@ -154,6 +157,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['longitude'].setValue(this.selSite.smLongitude);
     this.masterForm.controls['dvUniqueId'].setValue(this.selSite.dvuniqueid);
     this.masterForm.controls['accIdName'].setValue(this.selSite.accID);
+   // console.log("this.selSite.smSitetypeid",this.selSite.smSitetypeid);
+    
+    //this.masterForm.controls['selSiteType'].setValue(this.selSite.smSitetypeid);
     this.masterForm.controls['dgBrandName'].setValue(this.selSite.dgBrand);
     this.masterForm.controls['dgTankCapacity'].setValue(this.selSite.dgTankCapacity);
     this.masterForm.controls['dcStartBattVolValue'].setValue(this.selSite.dcStartBattVol);
@@ -163,20 +169,25 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.masterForm.controls['settableLoadValue'].setValue(this.selSite.settableLoad);
 
 
-    this.setSiteType(this.selSite);
+    //this.setSiteType(this.selSite);
+    this.loadSiteTypeUpdate();
     this.setCluster(this.selSite);
     this.setEmployeeId(this.selSite);
     this.setDeviceType(this.selSite);
     this.setSim(this.selSite);
     this.setCustomer(this.selSite);
     this.setSiteClassification(this.selSite);
+    this.setSiteStatus(this.selSite);
   }
+
 
   loadSiteType() {
     const url = ApiConstant.getSiteType;
     this.httpClient.get(url).subscribe((res: any) => {
       this.siteTypeList = res.data;
       this.masterForm.controls['selSiteType'].setValue(res.data[0]);
+     
+     
     }, (err) => {
       this.util.notification.error({
         title: 'Error',
@@ -185,8 +196,35 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  loadSiteTypeUpdate()
+  {
+  const url = ApiConstant.getSiteType;
+  this.httpClient.get(url).subscribe((res: any) => {
+    this.siteTypeList = res.data;
+    
+   if(this.selSite.smSitetypeid==1)
+   {
+    this.masterForm.controls['selSiteType'].setValue(res.data[0]);
+   }
+   
+  else{
+    this.masterForm.controls['selSiteType'].setValue(res.data[1]);
+  }
+  
+   });
+  }
+
   loadCluster() {
-    const url = ApiConstant.getClusterMasterData;
+    let url = ApiConstant.getClusterMasterData;
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        const userData = JSON.parse(userDataString); // Parse the userData JSON string from localStorage
+        if (userData && userData.countryID) {
+            url += `?countryId=${userData.countryID}`; 
+        }
+    }
+    
     this.httpClient.post(url, null).subscribe((data: any) => {
       if (data && data.clusterMasterList && data.clusterMasterList.length) {
         this.clusterList = data.clusterMasterList;
@@ -227,6 +265,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
           item.id = counter;
         }
         this.deviceTypeList = res.data;
+        //console.log("0000000258",this.deviceTypeList);
         this.masterForm.controls['selDeviceType'].setValue(res.data[0]);
       }
     }, (err) => {
@@ -254,17 +293,42 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     });
   }
 
+  // loadCustomer() {
+  //   const url = ApiConstant.getSiteCustomerMaster;
+  //   this.httpClient.get(url).subscribe((res: any) => {
+  //     if (res && res.data && res.data.length) {
+  //       let counter = 0;
+  //       for (let item of res.data) {
+  //         console.log("line 294",res.data);
+
+  //         counter += 1;
+  //         item.id = counter;
+  //       }
+  //       this.customerList = res.data;
+  //       console.log("customerList",this.customerList);
+
+  //       this.masterForm.controls['selCustomer'].setValue(res.data[0]);
+  //     }
+  //   }, (err) => {
+  //     this.util.notification.error({
+  //       title: 'Error',
+  //       msg: 'Error while loading customer list!'
+  //     });
+  //   });
+  // }
   loadCustomer() {
-    const url = ApiConstant.getCustomerMaster;
+    const url = ApiConstant.getSiteCustomerMaster;
     this.httpClient.get(url).subscribe((res: any) => {
       if (res && res.data && res.data.length) {
-        let counter = 0;
-        for (let item of res.data) {
-          counter += 1;
-          item.id = counter;
-        }
-        this.customerList = res.data;
-        this.masterForm.controls['selCustomer'].setValue(res.data[0]);
+        const customerData = res.data.map((item: any) => {
+          return { value: item.customer_id, name: item.customer_name };
+        });
+        
+       // console.log(customerData[0]);
+        this.customerList=customerData;
+        console.log("line 321",this.customerList);
+        this.masterForm.controls['selCustomer'].setValue(this.customerList[0]);
+
       }
     }, (err) => {
       this.util.notification.error({
@@ -273,9 +337,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       });
     });
   }
+  
 
   setSiteType(req?: any) {
     for (let item of this.siteTypeList) {
+     
       if (item.id === req.smSitetypeid) {
         req.siteType = item.type;
         this.masterForm.controls['selSiteType'].setValue(item);
@@ -306,8 +372,9 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setDeviceType(req?: any) {
     for (let item of this.deviceTypeList) {
-      if (item.id == req.devicetype) {
-        req.deviceType = item.deviceType;
+//console.log("367",item);
+      if (item.deviceType == req.deviceTypeName) {
+        req.deviceTypeName = item.deviceType;
         this.masterForm.controls['selDeviceType'].setValue(item);
         break;
       }
@@ -326,7 +393,8 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setCustomer(req?: any) {
     for (let item of this.customerList) {
-      if (item.id == req.smCustomerId) {
+      //console.log("363 line",this.customerList)
+      if (item.name == req.customerName) {
         req.customerName = item.name;
         this.masterForm.controls['selCustomer'].setValue(item);
         break;
@@ -336,11 +404,25 @@ export class AddSiteComponent implements OnInit, OnDestroy {
 
   setSiteClassification(req?: any) {
     for (let item of this.siteClassificationList) {
-      if (item.value == req.smscid) {
-        req.siteClassification = item.label;
+    
+
+      if (item.label == req.smSiteClassifications) {
+        req.siteClassifications= item.label;
+        
         this.masterForm.controls['selSiteClassification'].setValue(item);
         break;
       }
+    }
+    
+  }
+  setSiteStatus(req?: any)
+    {
+      for (let item of this.siteStatusList) {
+        if (item.label == req.siteStatusName) {
+          req.siteClassifications= item.label;
+          this.masterForm.controls['selSiteStatus'].setValue(item);
+          break;
+        }
     }
   }
 
@@ -359,7 +441,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     const formData = this.masterForm.value;
     const url = ApiConstant.saveSiteMasterData;
-
+//console.log("line 434",formData.selCustomer.value);
     let params: any = {
       smSitecode: formData.siteCode,
       smSitename: formData.siteName,
@@ -375,7 +457,7 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       simID: formData.selSim.simID,
       dvuniqueid: formData.dvUniqueId,
       smSiteactivestatus: formData.selSiteStatus.value,
-      smCustomerId: formData.selCustomer.id,
+      smCustomerId: formData.selCustomer.value,
       smscid: formData.selSiteClassification.value,
       accID: formData.accIdName,
       dgBrand: formData.dgBrandName,
@@ -385,6 +467,11 @@ export class AddSiteComponent implements OnInit, OnDestroy {
       battLifeCycle: formData.battLifeCycleValue,
       dgRunHour: formData.dgRunHourValue,
       settableLoad:formData.settableLoadValue,
+      deviceTypeName:formData.selDeviceType.deviceType,
+      customerName:formData.selCustomer.name,
+      smCustomerName:formData.selCustomer.name,
+      siteStatusName:formData.selSiteStatus.label,
+      smSiteClassifications:formData.selSiteClassification.label,
       username: 'harish'
     };
 

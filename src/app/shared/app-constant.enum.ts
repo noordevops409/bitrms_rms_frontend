@@ -30,6 +30,7 @@ export const AppConstant = {
   VIEW_REMOTE_SITE_LISTING_TYPE: 21,
   ENERGY_BILLING_REPORT_LISTING_TYPE: 22,
   USER_LISTING_TYPE: 23,
+  BATT_LIFE_LISTING_TYPE:24,
 
   FILE_TRANSMITTAL_LISTING: 0,
   APPS_TRANSMITTAL_LISTING: 0,
@@ -54,9 +55,12 @@ export const AppConstant = {
   },
 
   REFRESH_ALARM_LISTING_INTERVAL: 120000, // 2 mins,
-  ROUTE_ROLE_ID: {
-    ADMIN_ROLE: '1',
-    TEE_ROLE:'2',
-    USER_ROLE: '9'
+
+  ROUTE_ACCESS_ID: {
+    ADMIN_ROLE:'1',
+    NOC1:'2',
+    NOC2:'3',
+    CUSTOMER:'4',
+    PHP:'5'
   }
 };

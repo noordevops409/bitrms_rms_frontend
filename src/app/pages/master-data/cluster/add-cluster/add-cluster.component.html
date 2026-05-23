@@ -25,33 +25,35 @@
                             </mat-form-field>
                         </div>
         
-                        <div class="form-field col-6">
+                        <div class="form-field col-6" style="display: none;">
                             <mat-form-field>
                                 <mat-label>Enter Cluster Definition</mat-label>
-                                <input formControlName="clusterDefinition" required matInput />
-                                <mat-error *ngIf="mf.clusterDefinition.touched && mf.clusterDefinition.invalid">
+                                <input formControlName="clusterDefinition"  matInput />
+                                <!-- <mat-error *ngIf="mf.clusterDefinition.touched && mf.clusterDefinition.invalid">
                                     <div *ngIf="mf.clusterDefinition.errors?.required" class="italicAlign">Cluster Definition is
                                         required.</div>
-                                </mat-error>
+                                </mat-error> -->
                             </mat-form-field>
                         </div>
                     </div>
         
                     <div class="form-group row" style="margin-bottom: 0px;">
                         <div class="form-field col-6">
+                            <p style="height: 20px;color: white;">Employee Id</p>
                             <select formControlName="selEmployee" name="selEmployee" class="input-element mini">
                                 <option *ngFor="let item of employeeList" [ngValue]="item">{{item.emEmployeeID}}</option>
                             </select>
                         </div>
         
                         <div class="form-field col-6">
+                            <p style="height: 20px;color: white;">Zone</p>
                             <select formControlName="selZone" name="selZone" class="input-element mini">
                                 <option *ngFor="let item of zoneList" [ngValue]="item">{{item.znZone}}</option>
                             </select>
                         </div>
                     </div>
         
-                    <div class="form-group row" style="margin-bottom: 0px;">
+                    <div class="form-group row" style="margin-bottom: 0px;display: none;">
                         <div class="form-field col-4">
                             <mat-form-field>
                                 <mat-label>Enter Acsys Sync Status Name</mat-label>

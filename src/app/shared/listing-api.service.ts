@@ -58,11 +58,11 @@ export class ListingApiService {
   }
 
   viewAlarmCategory(data: any) {
-    this.router.navigate(['pages', 'dashboard', 'alarm-status', data.smSiteCode]);
+    this.router.navigate(['pages', 'dashboard', 'alarm-status', data.smSiteCode,]);
   }
 
   viewHourlyReport(data: any) {
-    this.router.navigate(['pages', 'dashboard', 'hourly-report', data.smSiteCode]);
+    this.router.navigate(['pages', 'dashboard', 'raw-data-report', data.smSiteCode]);
   }
 
   viewImagePath(data?: any) {
@@ -148,7 +148,7 @@ export class ListingApiService {
   }
 
   openClusterDataForEdit(data: any) {
-    this.broadcast.broadcast('OPEN_USER_MASTER_FOR_DELETE', data);
+    this.broadcast.broadcast('OPEN_CLUSTER_FOR_EDIT', data);
   }
 
   openClusterDataForDelete(data: any) {

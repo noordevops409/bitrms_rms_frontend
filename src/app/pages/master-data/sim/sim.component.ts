@@ -17,6 +17,7 @@ import { SIM_COLUMN_HEADER } from './sim-column.enum';
 import { TableListingComponent } from '../../../shared/table-listing/table-listing.component';
 
 import { AddSimComponent } from './add-sim/add-sim.component';
+import { ExportDialogComponentComponent } from 'src/app/shared/export-dialog-component/export-dialog-component.component';
 
 @Component({
   selector: 'app-sim',
@@ -301,6 +302,7 @@ export class SimComponent implements OnInit {
         })
       });
     }
+  
+  
   }
-
 }

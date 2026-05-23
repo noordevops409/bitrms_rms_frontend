@@ -258,6 +258,9 @@ export class OutageCategoryComponent implements OnInit, OnDestroy {
       width: '1000px',
       height: 'auto'
     });
+    dialogRef.componentInstance.saveEvent.subscribe(() => {
+      this.init(); 
+    });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         if (data.outageCategoryMasterList && data.outageCategoryMasterList.length) {
@@ -275,6 +278,9 @@ export class OutageCategoryComponent implements OnInit, OnDestroy {
       width: '1000px',
       height: 'auto',
       data: item
+    });
+    dialogRef.componentInstance.saveEvent.subscribe(() => {
+      this.init(); 
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {

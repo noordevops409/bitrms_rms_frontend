@@ -233,11 +233,11 @@
         <div class="body" [ngClass]="{'aLoader': isListingLoading}">
             <ul>
                 <li>#</li>
-                <li>{{listData?.daily}}</li>
-                <li>{{listData?.weekly}}</li>
-                <li>{{listData?.monthly}}</li>
-                <li>{{listData?.yearly}}</li>
-                <li>{{listData?.lifetime}}</li>
+                <li>{{listData?.daily || '-'}}</li>
+                <li>{{listData?.weekly || '-'}}</li>
+                <li>{{listData?.monthly || '-'}}</li>
+                <li>{{listData?.yearly || '-'}}</li>
+                <li>{{listData?.lifetime || '-'}}</li>
             </ul>
         </div>
 

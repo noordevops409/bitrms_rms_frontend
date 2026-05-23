@@ -256,6 +256,9 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
       width: '1000px',
       height: 'auto'
     });
+
+  
+    
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         if (data.faultCategoryMasterList && data.faultCategoryMasterList.length) {
@@ -274,6 +277,10 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
       height: 'auto',
       data: item
     });
+
+    dialogRef.componentInstance.saveEvent.subscribe(() => {
+      this.init(); 
+    });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         if (data.faultCategoryMasterList && data.faultCategoryMasterList.length) {
@@ -284,6 +291,7 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   delete(item?: any, i?: any) {
     var r = confirm("Are you sure you want to delete selected record");
@@ -302,5 +310,6 @@ export class FaultCategoryComponent implements OnInit, OnDestroy {
       });
     }
   }
+  
 
 }

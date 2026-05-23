@@ -12,7 +12,8 @@ export class TowerFilterWrapperComponent implements OnInit {
 
   @Input() filterType: number = 1;
   @Input() isTimerAvail: boolean = false;
-
+  @Input() hide: any;
+  @Input() hide1: any;
   @Input() isReqToOpenFilter: boolean = false;
   @Input() isOpenTabularFilter: boolean = false;
   @Input() defaultFilterList: any;
@@ -134,8 +135,8 @@ export class TowerFilterWrapperComponent implements OnInit {
         this.range.controls['end'].setValue(this.reqSiteIdObj.endDate);
       }
     } else {
-      this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
-      this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
+      this.range.controls['start'].setValue(moment().add(-1, 'days').toDate());
+      this.range.controls['end'].setValue(moment().toDate());
     }
   }
 
@@ -212,8 +213,8 @@ export class TowerFilterWrapperComponent implements OnInit {
   reset(evt?: any) {
     this.isReqToOpenFilter = false;
     this.isOpenTabularFilter = false;
-    this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
-    this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
+    this.range.controls['start'].setValue(moment().add(-1, 'days').toDate());
+    this.range.controls['end'].setValue(moment().toDate());
     this.clearSelection();
     this.onFilter.emit(null);
   }

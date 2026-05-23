@@ -42,8 +42,10 @@ export class HybridEnergyFilterComponent implements OnInit {
   });
 
   private reqSiteIdObj: any = {
-    startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
-    endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
+     startDate: moment().add(-2, 'days').format('YYYY-MM-DD'),
+     endDate: moment().add(-1, 'days').format('YYYY-MM-DD')
+    // startDate:"",
+    // endDate:""
   };
 
   constructor() { }
@@ -86,8 +88,19 @@ export class HybridEnergyFilterComponent implements OnInit {
   }
 
   reset(evt?: any) {
+    var closeButton = document.querySelector('.mat-icon.notranslate.grp-btn.fa.fa-close.fa-times.material-icons.mat-ligature-font.mat-icon-no-color.ng-star-inserted') as HTMLButtonElement;    if (closeButton) {
+      closeButton.click();
+    } else {
+     //('Button not found');
+    }
     this.range.controls['start'].setValue(moment().add(-2, 'days').toDate());
     this.range.controls['end'].setValue(moment().add(-1, 'days').toDate());
+
+    const formattedStartDate = moment(this.range.controls['start'].value).format('YYYY/MM/DD');
+    const formattedEndDate = moment(this.range.controls['end'].value).format('YYYY/MM/DD');
+    this.reqSiteIdObj.startDate = formattedStartDate;
+    this.reqSiteIdObj.endDate = formattedEndDate;
+
     if (this.filterType === 1) {
       this.isReqToOpenFilter = false;
       this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
@@ -95,20 +108,27 @@ export class HybridEnergyFilterComponent implements OnInit {
       this.isOpenTabularFilter = false;
       this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
     }
-    this.onFilter.emit(null);
+    this.siteType.forEach(item => {
+      item.isChecked = item.text === '';
+    });
+   // this.defaultFilterList.push(this.siteType);
+    this.defaultFilterList.push(this.reqSiteIdObj);
+    this.onFilter.emit(this.defaultFilterList);
   }
 
   applyFilter(evt?: any) {
-    if (this.filterType === 1) {
-      this.isReqToOpenFilter = false;
-      this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
-    } else if (this.filterType === 2) {
-      this.isOpenTabularFilter = false;
-      this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
-    }
-    this.defaultFilterList.push(this.siteType);
-    this.defaultFilterList.push(this.reqSiteIdObj);
-    this.onFilter.emit(this.defaultFilterList);
+    setTimeout(() => {
+      if (this.filterType === 1) {
+        this.isReqToOpenFilter = false;
+        this.isReqToOpenFilterChange.emit(this.isReqToOpenFilter);
+      } else if (this.filterType === 2) {
+        this.isOpenTabularFilter = false;
+        this.isOpenTabularFilterChange.emit(this.isOpenTabularFilter);
+      }
+      this.defaultFilterList.push(this.siteType);
+      this.defaultFilterList.push(this.reqSiteIdObj);
+      this.onFilter.emit(this.defaultFilterList);
+    }, 500);
   }
 
   applyTabularFilter(evt?: any) {
