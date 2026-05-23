@@ -46,8 +46,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
             docker stop bitrms-frontend || true
             docker rm bitrms-frontend || true
-            docker run -d \
-              --name bitrms-frontend \
-              --restart always \
-              -p 4200:4200 \ \
-              ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+            docker run -d --name bitrms-frontend --restart always -p 4200:4200 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
