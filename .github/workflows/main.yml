@@ -49,5 +49,5 @@ jobs:
             docker run -d \
               --name bitrms-frontend \
               --restart always \
-              -p 80:80 \
+              -p 4200:4200 \ \
               ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
