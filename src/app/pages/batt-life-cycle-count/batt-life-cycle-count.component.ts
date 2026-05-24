@@ -66,11 +66,11 @@ export class BattLifeCycleCountComponent implements OnInit {
     { label: 'Yearly', value: 'yearly' }
   ];
   defaultFilterList: any = [
-    {
+    {	
       id: 'FMF01',
       fieldName: 'regions',
       indexField: 'regions',
-      labelName: 'Region',
+      labelName: 'Cluster',
       dataType: 'Dropdown',
       popupTo: {
         recordBatchSize: 25,
