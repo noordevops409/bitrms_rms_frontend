@@ -31,10 +31,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker image
+      - name: Build and Push TEST Docker image (main branch)
+        if: github.ref == 'refs/heads/main'
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test .
+          docker push ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test
+
+      - name: Build and Push PROD Docker image (production branch)
+        if: github.ref == 'refs/heads/production'
+        run: |
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod .
+          docker push ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
 
       - name: Deploy to TEST server (main branch)
         if: github.ref == 'refs/heads/main'
@@ -44,10 +51,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test
             docker stop bitrms-frontend || true
             docker rm bitrms-frontend || true
-            docker run -d --name bitrms-frontend --restart always -p 4200:4200 -v /home/ubuntu/default.conf:/etc/nginx/conf.d/default.conf ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+            docker run -d --name bitrms-frontend --restart always -p 4200:4200 -v /home/ubuntu/default.conf:/etc/nginx/conf.d/default.conf ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test
 
       - name: Deploy to PRODUCTION server (production branch)
         if: github.ref == 'refs/heads/production'
@@ -57,7 +64,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY_PROD }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
             docker stop bitrms-frontend || true
             docker rm bitrms-frontend || true
-            docker run -d --name bitrms-frontend --restart always -p 80:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:latest
+            docker run -d --name bitrms-frontend --restart always -p 80:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
