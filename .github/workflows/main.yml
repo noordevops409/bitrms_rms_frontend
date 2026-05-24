@@ -65,4 +65,4 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
           docker stop bitrms-frontend || true
           docker rm bitrms-frontend || true
-          docker run -d --name bitrms-frontend --restart always -p 80:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
+          docker run -d --name bitrms-frontend --restart always -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
