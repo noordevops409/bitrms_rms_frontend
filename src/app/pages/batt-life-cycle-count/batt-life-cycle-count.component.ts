@@ -70,7 +70,7 @@ export class BattLifeCycleCountComponent implements OnInit {
       id: 'FMF01',
       fieldName: 'regions',
       indexField: 'regions',
-      labelName: 'Cluster',
+      labelName: 'Region',
       dataType: 'Dropdown',
       popupTo: {
         recordBatchSize: 25,
