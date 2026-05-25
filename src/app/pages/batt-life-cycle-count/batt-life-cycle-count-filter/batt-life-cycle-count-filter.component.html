@@ -10,7 +10,7 @@
         <!-- Dropdown filters in 2-column grid -->
         <div class="filters-grid">
             <ng-container *ngFor="let filter of defaultFilterList">
-                <div class="grid-item" *ngIf="filter?.dataType === 'Dropdown' && filter?.fieldName !== 'regions'">
+                <div class="grid-item" *ngIf="filter?.dataType === 'Dropdown' && filter?.fieldName !== 'clusters'">
                     <app-custom-select-dd [isOpen]="filter.isOpen" [ddData]="filter" 
                         (onDropdownClose)="closeFilterDropdown($event)" 
                         (onSelectionChange)="onFilterChange($event)">
