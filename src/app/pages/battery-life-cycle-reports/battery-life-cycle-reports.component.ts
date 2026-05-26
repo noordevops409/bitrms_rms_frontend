@@ -97,59 +97,58 @@ export class BatteryLifeCycleReportsComponent implements OnInit {
         value: 'code'
       }
     },
-    {
-      id: 'FMF05',
-      fieldName: 'regions',
-      indexField: 'regions',
-      labelName: 'Region',
-      dataType: 'Dropdown',
-      popupTo: {
-        recordBatchSize: 25,
-        data: []
-      },
-      listingColumnFieldName: 'regions',
-      data: [],
-      isDataLoaded: false,
-      isDynamic: true,
-      isOpen: false,
-      isReqRemove: false,
-      xhrMethod: 'GET',
-      xhrUrl: ApiConstant.getRegionMaster,
-      xhrParam: [],
-      isReqManipulate: true,
-      isAllDataLoaded: true,
-      maniObj: {
-        id: 'rgRegion',
-        value: 'rgRegion'
-      }
-    }
-    // ,
     // {
-    //   id: 'FMF06',
-    //   fieldName: 'clusters',
-    //   indexField: 'clusters',
-    //   labelName: 'Cluster',
+    //   id: 'FMF05',
+    //   fieldName: 'regions',
+    //   indexField: 'regions',
+    //   labelName: 'Region',
     //   dataType: 'Dropdown',
     //   popupTo: {
     //     recordBatchSize: 25,
     //     data: []
     //   },
-    //   listingColumnFieldName: 'clusters',
+    //   listingColumnFieldName: 'regions',
     //   data: [],
     //   isDataLoaded: false,
     //   isDynamic: true,
     //   isOpen: false,
     //   isReqRemove: false,
     //   xhrMethod: 'GET',
-    //   xhrUrl: ApiConstant.getClusterMaster,
+    //   xhrUrl: ApiConstant.getRegionMaster,
     //   xhrParam: [],
     //   isReqManipulate: true,
     //   isAllDataLoaded: true,
     //   maniObj: {
-    //     id: 'crName',
-    //     value: 'crName'
+    //     id: 'rgRegion',
+    //     value: 'rgRegion'
     //   }
-    // }
+    // },
+    {
+      id: 'FMF06',
+      fieldName: 'clusters',
+      indexField: 'clusters',
+      labelName: 'Cluster',
+      dataType: 'Dropdown',
+      popupTo: {
+        recordBatchSize: 25,
+        data: []
+      },
+      listingColumnFieldName: 'clusters',
+      data: [],
+      isDataLoaded: false,
+      isDynamic: true,
+      isOpen: false,
+      isReqRemove: false,
+      xhrMethod: 'GET',
+      xhrUrl: ApiConstant.getClusterMaster,
+      xhrParam: [],
+      isReqManipulate: true,
+      isAllDataLoaded: true,
+      maniObj: {
+        id: 'crName',
+        value: 'crName'
+      }
+    }
   ];
 
   constructor(
@@ -295,7 +294,7 @@ export class BatteryLifeCycleReportsComponent implements OnInit {
     if (colData.length) {
       const rowData = colData[0];
       for (let key in rowData) {
-        if (key !== 'srno' && BATT_LIFE_REPORTS_COLUMN_HEADER[key]) {
+        if (key !== 'srno' && key !== 'region' && key !== 'regionName' && BATT_LIFE_REPORTS_COLUMN_HEADER[key]) {
           this.sampleData.columnHeader.push(BATT_LIFE_REPORTS_COLUMN_HEADER[key]);
         }
       }

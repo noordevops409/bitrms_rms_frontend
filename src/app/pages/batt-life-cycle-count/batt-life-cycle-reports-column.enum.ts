@@ -17,11 +17,28 @@ export const BATT_LIFE_REPORTS_COLUMN_HEADER = {
       isSortSupported: false,
       isCustomAttributeColumn: false
     },
-    region: {
+    // region: {
+    //   userIndex: 2,
+    //   fieldName: 'region',
+    //   colDisplayName: 'Region',
+    //   title: 'Region',
+    //   widthOfColumn: 150,
+    //   colType: 'text',
+    //   dataType: 'text',
+    //   id: '2',
+    //   imgName: '',
+    //   tooltipSrc: '',
+    //   function: '',
+    //   funParams: '',
+    //   wrapData: '',
+    //   isSortSupported: false,
+    //   isCustomAttributeColumn: false
+    // },
+    cluster: {
       userIndex: 2,
-      fieldName: 'region',
-      colDisplayName: 'Region',
-      title: 'Region',
+      fieldName: 'cluster',
+      colDisplayName: 'Cluster',
+      title: 'Cluster',
       widthOfColumn: 150,
       colType: 'text',
       dataType: 'text',
@@ -34,23 +51,6 @@ export const BATT_LIFE_REPORTS_COLUMN_HEADER = {
       isSortSupported: false,
       isCustomAttributeColumn: false
     },
-    // cluster: {
-    //   userIndex: 3,
-    //   fieldName: 'cluster',
-    //   colDisplayName: 'Cluster',
-    //   title: 'Cluster',
-    //   widthOfColumn: 150,
-    //   colType: 'text',
-    //   dataType: 'text',
-    //   id: '3',
-    //   imgName: '',
-    //   tooltipSrc: '',
-    //   function: '',
-    //   funParams: '',
-    //   wrapData: '',
-    //   isSortSupported: false,
-    //   isCustomAttributeColumn: false
-    // },
     siteCode: {
       userIndex: 3,
       fieldName: 'siteCode',
