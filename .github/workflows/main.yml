@@ -67,7 +67,7 @@ jobs:
           docker rm bitrms-frontend || true
           docker run -d --name bitrms-frontend --restart always -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
 
-  deploy-test(main):
+  deploy-test:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: self-hosted
