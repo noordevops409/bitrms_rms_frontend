@@ -444,7 +444,7 @@ export class BattLifeCycleCountComponent implements OnInit {
       const rowData = colData[0];
       
       // Add other columns in order, skipping srno and reportDate (already added)
-      const orderedKeys = ['region', 'siteCode', 'initialBatteryLifeCycleCount', 'finalBatteryLifeCycleCount', 'totalBatteryCycleLifeCount'];
+      const orderedKeys = ['cluster', 'siteCode', 'initialBatteryLifeCycleCount', 'finalBatteryLifeCycleCount', 'totalBatteryCycleLifeCount'];
       
       for (let key of orderedKeys) {
         if (BATT_LIFE_REPORTS_COLUMN_HEADER[key]) {
@@ -704,7 +704,7 @@ export class BattLifeCycleCountComponent implements OnInit {
     const totalCols = 6;
 
     const headers = [
-      this.getDefaultColumnName(), 'Region',
+      this.getDefaultColumnName(), 'Cluster',
       'Site Code', 'Initial Battery Life Cycle Count',
       'Final Battery Life Cycle Count', 'Total Battery Cycle Life Count'
     ];
@@ -735,7 +735,7 @@ export class BattLifeCycleCountComponent implements OnInit {
 
         dataRows += `<tr>
           <td style="border:1px solid #ccc;padding:5px;">${firstColumnValue || '0'}</td>
-          <td style="border:1px solid #ccc;padding:5px;">${item.region || '0'}</td>
+          <td style="border:1px solid #ccc;padding:5px;">${item.cluster || '0'}</td>
           <td style="border:1px solid #ccc;padding:5px;">${item.siteCode || '0'}</td>
           <td style="border:1px solid #ccc;padding:5px;">${item.initialBatteryLifeCycleCount || '0'}</td>
           <td style="border:1px solid #ccc;padding:5px;">${item.finalBatteryLifeCycleCount || '0'}</td>
