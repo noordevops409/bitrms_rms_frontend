@@ -66,3 +66,15 @@ jobs:
           docker stop bitrms-frontend || true
           docker rm bitrms-frontend || true
           docker run -d --name bitrms-frontend --restart always -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:prod
+
+  deploy-test:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Deploy TEST image
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test
+          docker stop bitrms-frontend || true
+          docker rm bitrms-frontend || true
+          docker run -d --name bitrms-frontend --restart always -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/bitrms-frontend:test
